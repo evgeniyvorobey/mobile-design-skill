@@ -2,8 +2,6 @@
 
 A production-ready reusable AI skill for Claude Code / Codex that helps users generate, review, structure, and justify mobile UI/UX design decisions for iOS, Android, and cross-platform products.
 
-This repository is now packaged as a GitHub-ready skill project:
-
 - canonical Codex entrypoint: [`SKILL.md`](SKILL.md)
 - Codex UI metadata: [`agents/openai.yaml`](agents/openai.yaml)
 - extended prompt/reference set: [`skill/`](skill) and [`docs/`](docs)
