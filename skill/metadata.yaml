@@ -1,0 +1,98 @@
+name: mobile-design-skill
+title: Mobile App Design Skill
+version: 1.1.0
+status: production-ready
+owner: repository-maintained
+entrypoint: SKILL.md
+description: >
+  A reusable AI skill for designing, reviewing, structuring, and justifying
+  mobile UI/UX decisions for iOS, Android, and cross-platform products.
+compatible_with:
+  - claude-code
+  - codex
+  - prompt-registry
+domain:
+  primary: mobile-ui-ux
+  secondary:
+    - product-design
+    - accessibility
+    - design-systems
+    - ux-review
+modes:
+  - id: generate-screen
+    title: Generate mobile screen concept
+  - id: design-flow
+    title: Design mobile user flow
+  - id: ui-spec
+    title: Create platform-aware UI spec
+  - id: review-screen
+    title: Review screen for usability/accessibility
+  - id: typography-spacing
+    title: Create typography and spacing system
+  - id: rationale-handoff
+    title: Prepare design rationale / handoff
+accepted_inputs:
+  - app idea
+  - feature description
+  - user goal
+  - target audience
+  - platform
+  - screen type
+  - wireframe description
+  - flow description
+  - constraints
+platforms:
+  - ios
+  - android
+  - cross-platform
+response_contract:
+  classify_mode_first: true
+  choose_exactly_one_primary_mode: true
+  determine_platform_scope: true
+  require_minimal_labeled_assumptions: true
+  include_accessibility_by_default: true
+  include_platform_notes_when_relevant: true
+  distinguish_facts_from_recommendations: true
+guardrails:
+  - do not invent official platform rules
+  - do not invent research findings or usability test results
+  - do not claim accessibility compliance unless explicitly verified
+  - do not give aesthetic advice without usability reasoning
+  - do not ignore typography spacing navigation or touch behavior
+  - do not blur ios and android when conventions differ
+  - do not invent missing flows or states unless labeled as assumptions
+source_priority:
+  - official platform guidance and standards
+  - accessibility and usability standards
+  - public-sector and enterprise-grade design systems
+  - established research and case-study sources
+  - workflow and tooling references
+primary_sources:
+  - Apple Human Interface Guidelines
+  - Material Design 3
+  - Android Developers Navigation
+  - WCAG 2.2
+  - W3C Applying WCAG 2.2 to Mobile Applications
+  - ISO 9241-210
+  - ISO 9241-11
+  - GOV.UK Design System patterns
+  - NHS Design System typography
+  - Fluent 2 typography and accessibility
+  - Figma Variables guidance
+  - Material Partner Studies
+tags:
+  - mobile
+  - ios
+  - android
+  - cross-platform
+  - ux
+  - ui
+  - accessibility
+  - design-system
+  - typography
+  - handoff
+quality_bar:
+  concise_operational_guidance: true
+  implementation_ready_outputs: true
+  structured_responses: true
+  evidence_first_reasoning: true

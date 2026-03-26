@@ -1,0 +1,7 @@
+interface:
+  display_name: "Mobile Design Skill"
+  short_description: "Design and review mobile UX artifacts"
+  default_prompt: "Use $mobile-design-skill to create or review a mobile UX artifact for iOS, Android, or cross-platform."
+
+policy:
+  allow_implicit_invocation: true

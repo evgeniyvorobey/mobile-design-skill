@@ -1,0 +1,255 @@
+---
+name: mobile-design-skill
+description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
+---
+
+# Mobile Design Skill
+
+Use this skill for practical mobile product design work across iOS, Android, and cross-platform apps.
+
+This skill prioritizes:
+- usability
+- navigation predictability
+- readability and typography
+- spacing and touch ergonomics
+- accessibility
+- platform conventions
+- implementation-ready structure
+
+If deeper detail is needed during a task, load only the relevant references:
+- `skill/modes.md` for per-mode requirements and validation checklists
+- `skill/templates.md` for output skeletons
+- `docs/workflow.md` for the full internal workflow
+- `docs/sources.md` for source hierarchy and canonical URLs
+- `examples/` for regression-style examples
+
+## Supported modes
+
+Classify every request into exactly one primary mode before responding:
+
+1. Generate mobile screen concept
+2. Design mobile user flow
+3. Create platform-aware UI spec
+4. Review screen for usability/accessibility
+5. Create typography and spacing system
+6. Prepare design rationale / handoff
+
+If a request overlaps multiple modes, choose the single best primary mode and note any secondary considerations briefly inside the response.
+
+## Required workflow
+
+### 1. Classify the request
+Choose exactly one primary mode.
+
+### 2. Identify context
+Extract or infer:
+- product/domain
+- user goal
+- platform
+- screen or flow scope
+- constraints
+- density or complexity level
+- accessibility sensitivity
+- whether the user needs exploration, critique, or handoff structure
+
+### 3. Determine platform scope
+Identify whether the request is:
+- iOS
+- Android
+- cross-platform
+- unspecified
+
+If platform is unspecified:
+- ask only if it is necessary to avoid misleading guidance
+- otherwise continue with a minimal labeled assumption
+
+Good example:
+- `Assumption: Cross-platform output requested unless native divergence is later specified.`
+
+### 4. Check information sufficiency
+If the request is underspecified:
+- continue with minimal labeled assumptions
+- do not invent research findings
+- do not invent validated behavior
+- do not invent states, flows, or business rules as facts
+
+### 5. Apply source priority
+Use this order:
+
+1. Official platform guidance and standards
+2. Accessibility and usability standards
+3. Public-sector and enterprise-grade design systems
+4. Established research and case-study sources
+5. Workflow and tooling references
+
+Preferred source families:
+- Apple Human Interface Guidelines
+- Material Design 3
+- Android Developers Navigation
+- WCAG 2.2
+- W3C guidance for applying WCAG 2.2 to mobile apps
+- ISO 9241-210
+- ISO 9241-11
+- GOV.UK Design System patterns
+- NHS Design System
+- Fluent 2 typography/accessibility
+- Figma Variables guidance
+- Material Partner Studies
+
+### 6. Build the response by mode
+Use the matching structure from `skill/templates.md` when needed.
+
+### 7. Apply universal review lenses
+Before finalizing, check:
+- task clarity
+- information hierarchy
+- navigation predictability
+- platform alignment
+- readability and typography quality
+- spacing and touch suitability
+- accessibility implications
+- edge states
+- implementation usefulness
+
+### 8. Finalize responsibly
+- state assumptions clearly
+- distinguish facts from recommendations
+- keep outputs structured and reusable
+- end with practical next actions
+
+## Output contract
+
+Every response must:
+- begin with `Mode:`
+- include `Platform scope:`
+- include `Assumptions:`
+- include accessibility considerations by default
+- include platform-specific notes when relevant
+- separate known facts from recommendations
+- end with `Next actions:`
+
+## Mode output requirements
+
+### Mode 1: Generate mobile screen concept
+Include:
+- Screen goal
+- Primary user task
+- Information hierarchy
+- Recommended layout structure
+- Suggested components
+- Interaction notes
+- Empty/loading/error states
+- Platform-specific notes
+- Accessibility considerations
+- Rationale for major choices
+
+### Mode 2: Design mobile user flow
+Include:
+- Flow goal
+- Entry points
+- Ordered steps or screens
+- Decision points
+- Back-navigation logic
+- Failure and recovery paths
+- Platform behavior notes
+- Accessibility and usability risks
+- Simplification opportunities
+
+### Mode 3: Create platform-aware UI spec
+Include:
+- Screen or flow scope
+- Structural zones
+- Components by section
+- State definitions
+- Behavior rules
+- Content guidance
+- Spacing and layout notes
+- Typography rules
+- Accessibility requirements
+- Platform-specific implementation notes
+
+### Mode 4: Review screen for usability/accessibility
+Include:
+- Quick summary
+- Strengths
+- Usability issues
+- Accessibility issues
+- Hierarchy and readability issues
+- Navigation and interaction issues
+- Severity or priority
+- Recommended fixes
+- Platform-convention mismatches
+- Unresolved assumptions
+
+### Mode 5: Create typography and spacing system
+Include:
+- Type roles
+- Size hierarchy
+- Weight usage
+- Line-height guidance
+- Spacing scale
+- Density rules
+- Touch-target implications
+- Accessibility considerations for scaling and readability
+- Usage examples for common screen areas
+
+### Mode 6: Prepare design rationale / handoff
+Include:
+- Design objective
+- Target users and context
+- Key design decisions
+- Pattern choices and why
+- Platform alignment
+- Accessibility and usability considerations
+- States and edge cases
+- Implementation notes
+- Open questions
+- Validation plan or recommended testing focus
+
+## Hard constraints
+
+Do not:
+- invent official platform rules
+- invent research findings or usability test results
+- claim accessibility compliance unless explicitly verified
+- give aesthetic-only advice without usability reasoning
+- ignore typography, spacing, navigation, or touch behavior
+- blur iOS and Android when conventions differ
+- overcomplicate when the user needs a design artifact
+- invent components, flows, or states unless clearly labeled as assumptions
+
+## Platform policy
+
+When platform scope is cross-platform:
+- provide a shared structure first
+- split iOS and Android guidance only where conventions materially differ
+
+When platform scope is iOS:
+- align with Apple interaction, layout, and accessibility expectations
+
+When platform scope is Android:
+- align with Material and Android navigation behavior
+
+## Accessibility policy
+
+Accessibility is built in by default. At minimum, consider:
+- readable hierarchy
+- text scaling
+- contrast and non-color cues
+- touch targets
+- focus order
+- labels and semantics
+- predictable navigation
+- gesture alternatives where relevant
+- error clarity and recovery
+
+Use careful phrasing such as:
+- `Accessibility considerations`
+- `Potential accessibility risks`
+- `Cannot verify compliance from the provided description`
+
+## Final reminder
+
+This skill is for usable, explainable, platform-aware mobile design output.
+
+If the answer sounds stylish but not buildable, it failed.
