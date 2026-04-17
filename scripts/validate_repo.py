@@ -24,6 +24,7 @@ REQUIRED_FILES = [
     "docs/evals.md",
     "docs/guardrails.md",
     "docs/heuristics.md",
+    "docs/patterns-catalog.md",
     "docs/principles.md",
     "docs/quality-bars.md",
     "docs/self-review.md",

@@ -162,6 +162,8 @@ This step prevents first-idea-wins output. See `docs/workflow.md` Step 7 for det
 
 When a decision is driven by an established heuristic (Fitts, Hick, Jakob, Zeigarnik, peak-end, goal-gradient, Gestalt, Nielsen), cite the heuristic by name. The catalog with mobile applications and red-flag patterns is in `docs/heuristics.md`. Use the red flags as a violation checklist during Mode D reviews.
 
+For every pattern-level decision (navigation, presentation overlays, list vs grid, primary action placement, picker variant, feedback surface), consult the decision matrices in `docs/patterns-catalog.md` first. Pick based on the matrix's Use-when / Avoid-when criteria; the losing pattern goes into `Alternatives considered`. Never invent a novel pattern when an established one applies — novelty breaks Jakob's Law.
+
 ### Step 9: Check concrete quality bars
 Compare the draft against the numeric thresholds in `docs/quality-bars.md`:
 - typography sizes, line-height, line length

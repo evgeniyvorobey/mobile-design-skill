@@ -231,6 +231,17 @@ When two heuristics point to different solutions:
 - Pick one based on the active context (see `docs/context-defaults.md`).
 - Explain the tradeoff in the output, do not hide it.
 
+### Choose from known patterns, do not invent
+
+For every pattern-level decision (navigation, presentation overlay, list vs grid, primary action placement, picker variant, feedback surface, search scope, etc.), consult the decision matrices in `docs/patterns-catalog.md` first.
+
+- Use the matching Use-when / Avoid-when criteria to pick a pattern, not aesthetic preference.
+- Cite the pattern choice in the `Pattern choices and why` block.
+- The losing pattern goes into `Alternatives considered` with the reason it lost.
+- During Mode D reviews, use the pattern entries' red flags as a violation check.
+
+Never invent a novel pattern when an established one covers the case. Novelty breaks Jakob's Law. Invent only when no established pattern applies, and document the deviation with reasons.
+
 ---
 
 ## Step 8: Check concrete quality bars

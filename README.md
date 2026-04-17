@@ -1,10 +1,10 @@
 # Mobile App Design Skill
 
-![version](https://img.shields.io/badge/version-1.4.0-blue) ![license](https://img.shields.io/badge/license-MIT-green)
+![version](https://img.shields.io/badge/version-1.5.0-blue) ![license](https://img.shields.io/badge/license-MIT-green)
 
 A production-ready reusable AI skill for Claude Code / Codex that helps users generate, review, structure, and justify mobile UI/UX design decisions for iOS, Android, and cross-platform products.
 
-Current version: **1.4.0** — see [`CHANGELOG.md`](CHANGELOG.md) for details and [`docs/versioning.md`](docs/versioning.md) for the versioning policy.
+Current version: **1.5.0** — see [`CHANGELOG.md`](CHANGELOG.md) for details and [`docs/versioning.md`](docs/versioning.md) for the versioning policy.
 
 - canonical Codex entrypoint: [`SKILL.md`](SKILL.md)
 - Codex UI metadata: [`agents/openai.yaml`](agents/openai.yaml)
@@ -152,6 +152,7 @@ mobile-design-skill/
 │   ├── github-publishing.md
 │   ├── guardrails.md
 │   ├── heuristics.md
+│   ├── patterns-catalog.md
 │   ├── principles.md
 │   ├── quality-bars.md
 │   ├── self-review.md
@@ -324,6 +325,7 @@ The skill must not:
 - Quality bars (numeric thresholds): [`docs/quality-bars.md`](docs/quality-bars.md)
 - Context-aware defaults (audience × domain × platform × use-context): [`docs/context-defaults.md`](docs/context-defaults.md)
 - Heuristics catalog (Fitts, Hick, Jakob, Nielsen, Gestalt with mobile applications): [`docs/heuristics.md`](docs/heuristics.md)
+- Patterns catalog (navigation, overlays, lists, pickers, feedback, forms, search, auth with decision matrices): [`docs/patterns-catalog.md`](docs/patterns-catalog.md)
 - Self-review pass: [`docs/self-review.md`](docs/self-review.md)
 - Versioning policy: [`docs/versioning.md`](docs/versioning.md)
 - Anti-patterns: [`examples/anti-patterns.md`](examples/anti-patterns.md)

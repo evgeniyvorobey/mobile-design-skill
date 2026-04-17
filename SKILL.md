@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.4.0
+version: 1.5.0
 ---
 
 # Mobile Design Skill
@@ -25,6 +25,7 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
 - `docs/context-defaults.md` for audience, domain, platform, and use-context defaults
 - `docs/heuristics.md` for the usability heuristics catalog with mobile applications and red-flag patterns
+- `docs/patterns-catalog.md` for mobile pattern decision matrices (navigation, overlays, lists, inputs, feedback, forms, search, auth)
 - `docs/self-review.md` for the mandatory self-review pass run before any response is returned
 - `examples/` for regression-style examples
 - `examples/anti-patterns.md` for calibration on ambiguous or hallucination-inviting inputs
@@ -125,6 +126,7 @@ For every major design decision:
 - name at least one alternative that was considered
 - give a reason the chosen option wins, tied to user goal, task, platform, accessibility, or implementation
 - when a heuristic drives the decision (Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen), cite it by name from `docs/heuristics.md`
+- for pattern-level decisions (navigation, overlays, list/grid, picker, feedback, search), use the decision matrices in `docs/patterns-catalog.md` — never invent a novel pattern when an established one applies
 
 If a decision has no alternative, it was not a decision — it was a default. Flag defaults as such.
 

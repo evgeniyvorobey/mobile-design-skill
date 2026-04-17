@@ -48,6 +48,12 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - If I cited a heuristic, is the citation doing work, or is it decorative? Remove decorative citations.
 - Did I miss a red flag from `docs/heuristics.md` that applies to this screen or flow?
 
+### Pattern selection
+- Did I pick each pattern (navigation, overlay, list/grid, picker, feedback surface) using the decision matrix in `docs/patterns-catalog.md`, or did I default to my first instinct?
+- Did I cite the losing alternative for every pattern-level choice?
+- Am I inventing a novel pattern where an established one fits? If yes, revert to the established pattern unless the input truly has no fit.
+- For Mode D reviews: did I check every pattern the design uses against the matching entry's red flags?
+
 ### Completeness
 - Are all three edge states addressed (empty, loading, error) where the mode requires them?
 - Does the `Next actions` section contain specific, testable actions — not "test it", "iterate", "validate"?
