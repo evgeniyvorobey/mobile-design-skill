@@ -1,364 +1,556 @@
 # Mobile App Design Skill
 
-![version](https://img.shields.io/badge/version-1.5.0-blue) ![license](https://img.shields.io/badge/license-MIT-green)
+![version](https://img.shields.io/badge/version-1.6.0-blue) ![license](https://img.shields.io/badge/license-MIT-green)
 
-A production-ready reusable AI skill for Claude Code / Codex that helps users generate, review, structure, and justify mobile UI/UX design decisions for iOS, Android, and cross-platform products.
+A production-ready reusable AI skill that helps generate, review, structure, and justify mobile UI/UX design decisions for iOS, Android, and cross-platform products.
 
-Current version: **1.5.0** — see [`CHANGELOG.md`](CHANGELOG.md) for details and [`docs/versioning.md`](docs/versioning.md) for the versioning policy.
+Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-- canonical Codex entrypoint: [`SKILL.md`](SKILL.md)
-- Codex UI metadata: [`agents/openai.yaml`](agents/openai.yaml)
-- extended prompt/reference set: [`skill/`](skill) and [`docs/`](docs)
-- output previews instead of screenshots: [`examples/`](examples)
-
-This skill is built for practical product work, not decorative nonsense. It treats mobile design as a combination of:
-
-- usability
-- navigation predictability
-- readability and typography
-- accessibility
-- hierarchy and interaction clarity
-- platform-aware behavior
-- implementation-ready structure
-
-It supports six primary modes:
-
-1. Generate mobile screen concept
-2. Design mobile user flow
-3. Create platform-aware UI spec
-4. Review screen for usability/accessibility
-5. Create typography and spacing system
-6. Prepare design rationale / handoff
+Current version: **1.6.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
-## What this skill is for
+## Table of contents
 
-Use this skill when you need help with:
-
-- mobile screen concepts
-- information hierarchy
-- component recommendations
-- layout guidance
-- user flows and navigation
-- platform-specific behavior notes
-- typography and spacing systems
-- accessibility-aware critique
-- handoff-ready rationale and implementation notes
-
-It is designed to prefer durable official guidance over trend-driven aesthetic advice.
-
----
-
-## Design philosophy
-
-This skill enforces the following principles:
-
-- Mobile UI design is not only visual styling. It includes usability, navigation, readability, accessibility, hierarchy, and interaction predictability.
-- Accessibility is a built-in design requirement, not a final compliance pass.
-- Typography is part of usability and interaction quality.
-- Platform conventions matter. iOS and Android should not be blended when platform-specific behavior is relevant.
-- Strong design output must be explainable through user goals, context, platform norms, and evidence-backed principles.
-- Recommendations should prefer durable official guidance over trend-driven aesthetic advice.
-- Outputs should be practical, structured, and implementation-friendly.
+- [Quickstart](#quickstart)
+- [What this skill does](#what-this-skill-does)
+- [Install](#install)
+  - [Claude Code — terminal (recommended)](#claude-code--terminal-recommended)
+  - [Claude Code — manual](#claude-code--manual)
+  - [Codex / OpenAI](#codex--openai)
+  - [Claude API (Python)](#claude-api-python)
+  - [Claude API (TypeScript)](#claude-api-typescript)
+  - [Cursor and other IDEs](#cursor-and-other-ides)
+- [Usage](#usage)
+- [Supported modes](#supported-modes)
+- [Architecture](#architecture)
+- [Updating](#updating)
+- [Uninstalling](#uninstalling)
+- [Customization](#customization)
+- [Versioning](#versioning)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## Source hierarchy
+## Quickstart
 
-The skill uses this source priority:
+One-liner terminal install for Claude Code:
 
-1. Official platform guidance and standards
-2. Accessibility and usability standards
-3. Public-sector and enterprise-grade design systems
-4. Established research and case-study sources
-5. Workflow and tooling references
-
-Primary source families built into the skill:
-
-- Apple Human Interface Guidelines
-- Material Design 3
-- Android Navigation guidance
-- WCAG 2.2
-- W3C guidance for applying WCAG to mobile apps
-- ISO 9241-210
-- ISO 9241-11
-- GOV.UK Design System patterns
-- NHS Design System typography
-- Fluent 2 typography/accessibility
-- Figma Variables guidance
-- case-study based learning and system thinking
-
-See [`docs/sources.md`](docs/sources.md) for the full hierarchy.
-
----
-
-## Source provenance
-
-The canonical source appendix in [`docs/sources.md`](docs/sources.md) was consolidated from an external curation document used during repository preparation:
-
-- `Design thinking.pdf` (`Curated Learning Map for Mobile UI/UX Design Using US and European Sources`)
-
-The PDF itself is not bundled in this repository, but the normalized public URLs and grouped source map are now preserved in the repo.
-
----
-
-## Screenshots
-
-Screenshots are intentionally not included in this repository.
-
-To show the expected quality and structure of outputs, the repository uses worked examples instead:
-
-- [`examples/generate-screen.md`](examples/generate-screen.md)
-- [`examples/design-flow.md`](examples/design-flow.md)
-- [`examples/ui-spec.md`](examples/ui-spec.md)
-- [`examples/review-screen.md`](examples/review-screen.md)
-- [`examples/typography-spacing.md`](examples/typography-spacing.md)
-- [`examples/rationale-handoff.md`](examples/rationale-handoff.md)
-- [`examples/anti-patterns.md`](examples/anti-patterns.md) — calibration examples showing how the skill should behave when input is ambiguous or invites a hallucination
-
----
-
-## Repository structure
-
-```text
-mobile-design-skill/
-├── SKILL.md
-├── README.md
-├── CHANGELOG.md
-├── LICENSE
-├── .gitignore
-├── .claude/
-│   └── skills/
-│       └── mobile-design-skill/
-│           └── SKILL.md
-├── agents/
-│   └── openai.yaml
-├── .github/
-│   └── workflows/
-│       └── validate.yml
-├── scripts/
-│   └── validate_repo.py
-├── skill/
-│   ├── skill.md
-│   ├── metadata.yaml
-│   ├── modes.md
-│   ├── templates.md
-│   └── usage.md
-├── docs/
-│   ├── commands.md
-│   ├── context-defaults.md
-│   ├── evals.md
-│   ├── github-publishing.md
-│   ├── guardrails.md
-│   ├── heuristics.md
-│   ├── patterns-catalog.md
-│   ├── principles.md
-│   ├── quality-bars.md
-│   ├── self-review.md
-│   ├── sources.md
-│   ├── versioning.md
-│   └── workflow.md
-└── examples/
-    ├── anti-patterns.md
-    ├── generate-screen.md
-    ├── design-flow.md
-    ├── ui-spec.md
-    ├── review-screen.md
-    ├── typography-spacing.md
-    └── rationale-handoff.md
+```bash
+git clone https://github.com/evgeniyvorobey/mobile-design-skill.git ~/mobile-design-skill
+cd ~/mobile-design-skill
+./scripts/install.sh
 ```
 
----
-
-## Installation / setup
-
-No package installation is required.
-
-Copy this repository into your prompts, skills, or internal AI-skills directory, then load the skill entrypoint:
-
-- primary skill entrypoint for Codex: `SKILL.md`
-- Codex UI metadata: `agents/openai.yaml`
-- extended prompt source: `skill/skill.md`
-- legacy metadata: `skill/metadata.yaml`
-
-Suggested repository name:
-
-`mobile-design-skill`
-
----
-
-## How to use in Claude Code
-
-### Option 1: Native slash invocation
-
-This repository now includes a Claude Code project skill at:
-
-- `.claude/skills/mobile-design-skill/SKILL.md`
-
-When the repository is opened as a Claude Code project, you can invoke it directly with:
-
-```text
-/mobile-design-skill
-```
-
-Or pass a task inline:
+Then open Claude Code and invoke:
 
 ```text
 /mobile-design-skill review this Android settings screen for usability and accessibility
 ```
 
-### Option 2: Manual skill loading
-Provide the contents of `SKILL.md` as the primary skill prompt.
+That's it. The rest of this README covers other integration paths and what the skill actually does.
 
-If you want the expanded prompt pack available during use, keep these references alongside it:
+---
+
+## What this skill does
+
+This skill enforces a practical framework for mobile design decisions. It is built for product work, not decorative advice.
+
+It is structured around:
+
+- **Six primary modes** — every request is classified into exactly one: screen concept, user flow, platform-aware UI spec, usability/accessibility review, typography/spacing system, or handoff rationale.
+- **Guardrails** — no invented platform rules, no fabricated research findings, no aesthetic-only advice without usability reasoning.
+- **Quality bars** — concrete numeric thresholds (touch 44pt iOS / 48dp Android, WCAG 2.2 AA contrast, line-height 1.4–1.6, motion 200–300ms).
+- **Context-aware defaults** — adjusts output for audience (older adults, children, power users), domain (finance, health, government, enterprise, social), platform, and use-context (one-handed, outdoor, in-vehicle, emergency).
+- **Heuristic grounding** — decisions cite Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen rather than being presented as preference.
+- **Pattern catalog** — decision matrices for navigation, overlays, lists, pickers, feedback surfaces, forms, search, and authentication. No inventing novel patterns where established ones fit.
+- **Mandatory self-review** — the skill runs a silent quality pass before returning any response.
+
+See [`docs/`](docs) for the full framework.
+
+---
+
+## Install
+
+### Claude Code — terminal (recommended)
+
+**Prerequisites**: git, bash, Claude Code installed.
+
+Clone this repository to a stable location and run the install script:
+
+```bash
+git clone https://github.com/evgeniyvorobey/mobile-design-skill.git ~/mobile-design-skill
+cd ~/mobile-design-skill
+./scripts/install.sh
+```
+
+This creates a symlink from `~/.claude/skills/mobile-design-skill` to the cloned repo, making the skill available globally in every Claude Code session.
+
+**Alternatives**:
+
+```bash
+# Install only inside the current project (not global)
+./scripts/install.sh --scope project
+
+# Install inside a specific project
+./scripts/install.sh --scope project --project-path /absolute/path/to/project
+
+# Use a self-contained copy instead of a symlink (for filesystems without symlink support)
+./scripts/install.sh --method copy
+
+# Check where the skill is installed
+./scripts/install.sh --status
+
+# Remove the install
+./scripts/install.sh --uninstall
+./scripts/install.sh --uninstall --scope project
+```
+
+**Verify**:
+
+```bash
+./scripts/install.sh --status
+```
+
+Output should show `symlink -> /path/to/mobile-design-skill/.claude/skills/mobile-design-skill` for your chosen scope.
+
+Open Claude Code and try:
+
+```text
+/mobile-design-skill
+```
+
+---
+
+### Claude Code — manual
+
+If you prefer to bypass the install script:
+
+```bash
+# Global install (any Claude Code session)
+mkdir -p ~/.claude/skills
+ln -s /absolute/path/to/mobile-design-skill/.claude/skills/mobile-design-skill \
+      ~/.claude/skills/mobile-design-skill
+
+# Or project-local install (only for one project)
+mkdir -p /path/to/project/.claude/skills
+ln -s /absolute/path/to/mobile-design-skill/.claude/skills/mobile-design-skill \
+      /path/to/project/.claude/skills/mobile-design-skill
+```
+
+The symlink must point to the `.claude/skills/mobile-design-skill` subdirectory of the cloned repo, not to the repo root.
+
+If you cannot use symlinks, run `./scripts/install.sh --method copy`, which builds a self-contained copy with paths rewritten to stay within the installed directory.
+
+---
+
+### Codex / OpenAI
+
+This repository ships a Codex-compatible entrypoint at [`SKILL.md`](SKILL.md) and UI metadata at [`agents/openai.yaml`](agents/openai.yaml).
+
+**Option A — attach as system prompt**:
+
+```bash
+# Read the canonical skill prompt
+cat ~/mobile-design-skill/SKILL.md
+```
+
+Paste the contents as the system prompt for your Codex session, or inject it via the API:
+
+```python
+from openai import OpenAI
+
+with open("SKILL.md") as f:
+    system_prompt = f.read()
+
+client = OpenAI()
+response = client.chat.completions.create(
+    model="gpt-4.1",
+    messages=[
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": "Design a payment screen for an iOS banking app."}
+    ],
+)
+print(response.choices[0].message.content)
+```
+
+**Option B — register as a managed skill**:
+
+If your Codex setup supports skill registries, register:
+
+- **name**: `mobile-design-skill`
+- **entrypoint**: `SKILL.md`
+- **metadata**: `skill/metadata.yaml`
+- **UI descriptor**: `agents/openai.yaml`
+
+Keep these files loaded alongside the active prompt for full skill behavior:
 
 - `skill/modes.md`
 - `skill/templates.md`
-- `docs/sources.md`
 - `docs/workflow.md`
+- `docs/sources.md`
+- `docs/quality-bars.md`
+- `docs/patterns-catalog.md`
 
-### Option 2: Skill registry pattern
-If your Claude Code setup supports skill registries, register:
+---
 
-- name: `mobile-design-skill`
-- entrypoint: `SKILL.md`
-- metadata: `skill/metadata.yaml`
+### Claude API (Python)
 
-### Typical invocation
+Direct Claude API integration using the `anthropic` SDK:
+
+```bash
+pip install anthropic
+git clone https://github.com/evgeniyvorobey/mobile-design-skill.git
+```
+
+```python
+import anthropic
+from pathlib import Path
+
+SKILL_ROOT = Path("mobile-design-skill")
+system_prompt = (SKILL_ROOT / "SKILL.md").read_text()
+
+# Optionally inline the expanded reference set for deeper behavior:
+for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
+            "docs/quality-bars.md", "docs/patterns-catalog.md"]:
+    system_prompt += f"\n\n# {ref}\n\n" + (SKILL_ROOT / ref).read_text()
+
+client = anthropic.Anthropic()
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=4000,
+    system=system_prompt,
+    messages=[{
+        "role": "user",
+        "content": "Create a platform-aware UI spec for a medication refill screen. "
+                   "Audience: older adults. Cross-platform. Accessibility-sensitive."
+    }],
+)
+print(response.content[0].text)
+```
+
+For production, use prompt caching on the system prompt (it rarely changes):
+
+```python
+response = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=4000,
+    system=[{
+        "type": "text",
+        "text": system_prompt,
+        "cache_control": {"type": "ephemeral"}
+    }],
+    messages=[{"role": "user", "content": "..."}],
+)
+```
+
+---
+
+### Claude API (TypeScript)
+
+```bash
+npm install @anthropic-ai/sdk
+git clone https://github.com/evgeniyvorobey/mobile-design-skill.git
+```
+
+```ts
+import Anthropic from "@anthropic-ai/sdk";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+const SKILL_ROOT = "./mobile-design-skill";
+const read = (p: string) => readFileSync(join(SKILL_ROOT, p), "utf8");
+
+let systemPrompt = read("SKILL.md");
+for (const ref of [
+  "skill/modes.md",
+  "skill/templates.md",
+  "docs/workflow.md",
+  "docs/quality-bars.md",
+  "docs/patterns-catalog.md",
+]) {
+  systemPrompt += `\n\n# ${ref}\n\n` + read(ref);
+}
+
+const client = new Anthropic();
+
+const response = await client.messages.create({
+  model: "claude-opus-4-7",
+  max_tokens: 4000,
+  system: [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
+  messages: [{
+    role: "user",
+    content: "Review this Android settings screen for usability and accessibility.",
+  }],
+});
+
+console.log(response.content[0].type === "text" ? response.content[0].text : "");
+```
+
+---
+
+### Cursor and other IDEs
+
+Any editor that supports a system prompt, rules file, or AI-instruction attachment can use this skill.
+
+**Cursor** — save `SKILL.md` as a rule:
+
+```bash
+mkdir -p ~/your-project/.cursor/rules
+cp mobile-design-skill/SKILL.md ~/your-project/.cursor/rules/mobile-design-skill.mdc
+```
+
+**Continue.dev** — add to your `~/.continue/config.json` context:
+
+```json
+{
+  "contextProviders": [
+    {
+      "name": "file",
+      "params": { "path": "/path/to/mobile-design-skill/SKILL.md" }
+    }
+  ]
+}
+```
+
+**Generic** — paste the contents of `SKILL.md` as the system prompt or "custom instructions" of any AI tool you use.
+
+---
+
+## Usage
+
+Invocation patterns once installed:
+
+### In Claude Code
+
+```text
+/mobile-design-skill                                    # the skill will ask for a task
+/mobile-design-skill generate a home screen for a fitness app, iOS, general audience
+/mobile-design-skill review my checkout form, Android, older users, description only
+/mobile-design-skill design a user flow for password reset with email verification
+/mobile-design-skill create a UI spec for a medication refill screen, cross-platform
+/mobile-design-skill create a typography system for a finance app
+/mobile-design-skill prepare a handoff rationale for the attached checkout redesign
+```
+
+### In Codex / API
+
+Prepend `Use the mobile-design-skill.` to your user message, then describe the task:
+
 ```text
 Use the mobile-design-skill.
 
-Create a platform-aware UI spec for a medication refill screen in a cross-platform healthcare app.
+Create a platform-aware UI spec for a medication refill screen in a cross-platform
+healthcare app.
+
 Audience: older adults
 Primary goal: request refill quickly and safely
 Constraints: accessibility-sensitive, high trust, existing design system, dense medical content
 ```
 
+### Minimal context is fine
+
+If the task description is short, the skill will state its assumptions, narrow the scope, and surface the information it needs next. See [`examples/anti-patterns.md`](examples/anti-patterns.md) for how it handles underspecified input.
+
 ---
 
-## How to use in Codex
+## Supported modes
 
-Attach or inject `SKILL.md` as the governing instruction for the assistant instance handling product design tasks.
+Every request is classified into exactly one primary mode:
 
-Recommended pattern:
+| # | Mode | Use when |
+|---|------|----------|
+| 1 | **Generate mobile screen concept** | You need a first-pass concept with structure, hierarchy, components, and states. |
+| 2 | **Design mobile user flow** | You need ordered steps, decision points, back-navigation logic, and recovery paths. |
+| 3 | **Create platform-aware UI spec** | You need an implementation-ready structure with states, behaviors, spacing, typography. |
+| 4 | **Review screen for usability/accessibility** | You have a screen and need critique with severity-tiered issues and fixes. Sub-cases D1–D4 handle visual vs description-only vs problem-statement vs context-change reviews. |
+| 5 | **Create typography and spacing system** | You need type roles, size hierarchy, line-height, spacing scale, density rules, touch implications. |
+| 6 | **Prepare design rationale / handoff** | You need a rationale and handoff package with decisions, tradeoffs, validation plan. |
 
-1. Load `SKILL.md` as the active design skill prompt
-2. Keep `skill/modes.md`, `skill/templates.md`, and `docs/sources.md` available as supporting references
-3. Use `examples/` for regression checks and prompt QA
+Full mode definitions, required/optional inputs, validation checklists, and fallback behavior: [`skill/modes.md`](skill/modes.md).
 
-Example:
+Output skeletons per mode: [`skill/templates.md`](skill/templates.md).
+
+---
+
+## Architecture
+
 ```text
-Use the mobile-design-skill.
-Task: review a settings screen for usability and accessibility.
-Platform: Android
-Screen description: ...
-Constraints: enterprise, high density, one-handed use
+mobile-design-skill/
+├── SKILL.md                              Canonical entrypoint (Codex + Claude API)
+├── README.md                             This file
+├── CHANGELOG.md                          Release history (semver)
+├── LICENSE                               MIT
+├── .claude/
+│   └── skills/
+│       └── mobile-design-skill/
+│           └── SKILL.md                  Claude Code wrapper for /mobile-design-skill
+├── agents/
+│   └── openai.yaml                       Codex UI metadata
+├── .github/
+│   └── workflows/
+│       └── validate.yml                  CI: structure + link validation
+├── scripts/
+│   ├── install.sh                        Install script (symlink or copy)
+│   ├── bump_version.py                   Version bumper (synchronizes all version references)
+│   └── validate_repo.py                  Repository structure and link validator
+├── skill/
+│   ├── skill.md                          Expanded prompt source
+│   ├── modes.md                          Per-mode inputs, outputs, validation, fallback
+│   ├── templates.md                      Output skeletons for each mode
+│   ├── usage.md                          Usage guide
+│   └── metadata.yaml                     Machine-readable skill metadata
+├── docs/
+│   ├── workflow.md                       11-step internal workflow
+│   ├── principles.md                     11 design principles
+│   ├── guardrails.md                     Hard constraints (do not invent, do not claim compliance, etc.)
+│   ├── sources.md                        Source hierarchy (Apple HIG, Material 3, WCAG, ISO, GOV.UK)
+│   ├── quality-bars.md                   Concrete numeric thresholds
+│   ├── context-defaults.md               Audience / domain / platform / use-context defaults
+│   ├── heuristics.md                     Fitts, Hick, Jakob, Zeigarnik, Nielsen, Gestalt — with mobile applications
+│   ├── patterns-catalog.md               Mobile pattern decision matrices
+│   ├── self-review.md                    Mandatory pre-response quality pass
+│   ├── evals.md                          Structural + content + fail-condition evaluation criteria
+│   ├── versioning.md                     Semver policy
+│   ├── commands.md                       Invocation reference
+│   └── github-publishing.md              Publishing kit
+└── examples/
+    ├── generate-screen.md                Worked example for Mode 1
+    ├── design-flow.md                    Worked example for Mode 2
+    ├── ui-spec.md                        Worked example for Mode 3
+    ├── review-screen.md                  Worked example for Mode 4
+    ├── typography-spacing.md             Worked example for Mode 5
+    ├── rationale-handoff.md              Worked example for Mode 6
+    └── anti-patterns.md                  Bad/Good pairs — how the skill should behave under ambiguous input
 ```
 
 ---
 
-## Input the skill accepts
+## Updating
 
-The skill is designed to accept any combination of:
+The skill is a git repository. Updates are pulled like any other repo:
 
-- app idea
-- feature description
-- user goal
-- target audience
-- platform: iOS / Android / cross-platform
-- screen type
-- current wireframe or screen description
-- flow description
-- constraints such as brand, accessibility, enterprise context, content density, or time pressure
+```bash
+cd ~/mobile-design-skill
+git pull
+```
 
-If information is missing, the skill makes only minimal clearly labeled assumptions.
+If the install uses the default symlink method, the new version is active immediately — no reinstall needed.
 
----
+If the install uses `--method copy`, re-run the install script to sync the copy:
 
-## Output behavior
+```bash
+./scripts/install.sh --method copy
+# or for a project-local install
+./scripts/install.sh --method copy --scope project --project-path /path/to/project
+```
 
-The skill always:
+Check your installed version:
 
-- classifies the request into exactly one primary mode
-- determines platform scope
-- checks whether enough information exists
-- labels assumptions clearly
-- includes usability and accessibility considerations by default
-- includes platform-aware notes whenever platform choice matters
-- prefers operational guidance over theory dumps
-- distinguishes facts from recommendations
-- ends with practical next actions
+```bash
+python3 scripts/bump_version.py --show
+```
+
+Compare to the latest release on [GitHub](https://github.com/evgeniyvorobey/mobile-design-skill/releases).
 
 ---
 
-## Hard constraints enforced
+## Uninstalling
 
-The skill must not:
+```bash
+# Global uninstall
+./scripts/install.sh --uninstall
 
-- invent official platform rules
-- invent research findings or usability test results
-- claim accessibility compliance unless explicitly verified
-- give purely aesthetic advice without usability reasoning
-- ignore typography, spacing, navigation, or touch behavior
-- output vague advice like “make it cleaner” without concrete interpretation
-- collapse iOS and Android guidance into one answer when conventions differ
-- overcomplicate with unnecessary theory when the user needs a design artifact
-- invent components, flows, or states unless they are explicitly framed as assumptions
+# Project-local uninstall
+./scripts/install.sh --uninstall --scope project --project-path /path/to/project
 
----
+# Manual removal
+rm ~/.claude/skills/mobile-design-skill
+```
 
-## Files to start with
+Then you can delete the cloned repo if no longer needed:
 
-- Start here: [`SKILL.md`](SKILL.md)
-- Claude Code slash wrapper: [`.claude/skills/mobile-design-skill/SKILL.md`](.claude/skills/mobile-design-skill/SKILL.md)
-- Codex UI metadata: [`agents/openai.yaml`](agents/openai.yaml)
-- Expanded prompt source: [`skill/skill.md`](skill/skill.md)
-- Mode definitions: [`skill/modes.md`](skill/modes.md)
-- Output templates: [`skill/templates.md`](skill/templates.md)
-- Usage guide: [`skill/usage.md`](skill/usage.md)
-- Command reference: [`docs/commands.md`](docs/commands.md)
-- GitHub publishing kit: [`docs/github-publishing.md`](docs/github-publishing.md)
-- Source hierarchy: [`docs/sources.md`](docs/sources.md)
-- Guardrails: [`docs/guardrails.md`](docs/guardrails.md)
-- Evaluation criteria: [`docs/evals.md`](docs/evals.md)
-- Quality bars (numeric thresholds): [`docs/quality-bars.md`](docs/quality-bars.md)
-- Context-aware defaults (audience × domain × platform × use-context): [`docs/context-defaults.md`](docs/context-defaults.md)
-- Heuristics catalog (Fitts, Hick, Jakob, Nielsen, Gestalt with mobile applications): [`docs/heuristics.md`](docs/heuristics.md)
-- Patterns catalog (navigation, overlays, lists, pickers, feedback, forms, search, auth with decision matrices): [`docs/patterns-catalog.md`](docs/patterns-catalog.md)
-- Self-review pass: [`docs/self-review.md`](docs/self-review.md)
-- Versioning policy: [`docs/versioning.md`](docs/versioning.md)
-- Anti-patterns: [`examples/anti-patterns.md`](examples/anti-patterns.md)
+```bash
+rm -rf ~/mobile-design-skill
+```
 
 ---
 
-## Worked examples
+## Customization
 
-Each mode includes a full example prompt and example output:
+Fork the repository, edit the files that govern skill behavior, and run the install script against your fork. Files most commonly customized:
 
-- [`examples/generate-screen.md`](examples/generate-screen.md)
-- [`examples/design-flow.md`](examples/design-flow.md)
-- [`examples/ui-spec.md`](examples/ui-spec.md)
-- [`examples/review-screen.md`](examples/review-screen.md)
-- [`examples/typography-spacing.md`](examples/typography-spacing.md)
-- [`examples/rationale-handoff.md`](examples/rationale-handoff.md)
+- [`docs/context-defaults.md`](docs/context-defaults.md) — add domain-specific defaults for your product
+- [`docs/quality-bars.md`](docs/quality-bars.md) — tighten numeric thresholds for your design system
+- [`docs/patterns-catalog.md`](docs/patterns-catalog.md) — add patterns unique to your product area
+- [`skill/templates.md`](skill/templates.md) — adjust output structure for your team's handoff format
+- [`docs/guardrails.md`](docs/guardrails.md) — add organization-specific constraints
+
+After editing:
+
+```bash
+python3 scripts/validate_repo.py             # check structure and links
+python3 scripts/bump_version.py minor        # bump version
+# fill in the generated CHANGELOG placeholder
+git commit -am "customize for <product>"
+```
 
 ---
 
-## Maintenance
+## Versioning
 
-When updating this skill:
+This project uses [Semantic Versioning 2.0.0](https://semver.org/) with policy adapted for a prompt-and-documentation skill. See [`docs/versioning.md`](docs/versioning.md) for the full bump rules.
 
-1. update `CHANGELOG.md`
-2. keep `SKILL.md`, `skill/skill.md`, and `agents/openai.yaml` aligned
-3. keep source priority aligned with `docs/sources.md`
-4. preserve the six-mode classification model
-5. keep platform-aware distinctions intact
-6. do not relax the evidence and accessibility guardrails just because somebody wants prettier nonsense faster
-7. run `python3 scripts/validate_repo.py` before publishing changes
+| Bump | Reason |
+|------|--------|
+| MAJOR | Breaking contract change (mode removed, output format changes, SKILL.md schema breaks) |
+| MINOR | Additive enhancement (new guardrail, new document, new sub-case, new quality bar) |
+| PATCH | Non-behavioral fix (typo, link repair, script fix, docs polish) |
+
+Version is stored in `skill/metadata.yaml` (canonical), mirrored into `SKILL.md` frontmatters and the README badge. Use `scripts/bump_version.py` to keep them in sync.
+
+---
+
+## Contributing
+
+Contributions are welcome via pull request. Before submitting:
+
+1. Run `python3 scripts/validate_repo.py` — must print `[OK] Repository structure and relative links are valid.`
+2. If you added a new document under `docs/`, add it to `REQUIRED_FILES` in `scripts/validate_repo.py` and to the skill's SKILL.md reference list.
+3. If you changed the mode set or output contract, bump MAJOR.
+4. If you added a new capability, bump MINOR and fill in the CHANGELOG.
+5. If you only touched docs or scripts, bump PATCH.
+6. Keep PRs focused — one logical change per PR.
+
+---
+
+## Source hierarchy
+
+The skill uses this source priority for any claim or recommendation:
+
+1. Official platform guidance and standards — **Apple Human Interface Guidelines**, **Material Design 3**, **Android Navigation guidance**
+2. Accessibility and usability standards — **WCAG 2.2**, **W3C Mobile**, **ISO 9241-210**, **ISO 9241-11**
+3. Public-sector and enterprise-grade design systems — **GOV.UK Design System**, **NHS Design System**, **Fluent 2**
+4. Established research and case-study sources
+5. Workflow and tooling references — **Figma Variables**, platform implementation guides
+
+Full list with canonical URLs: [`docs/sources.md`](docs/sources.md).
+
+### Source provenance
+
+The canonical URL appendix in [`docs/sources.md`](docs/sources.md) was consolidated from an external curation document used during repository preparation:
+
+- `Design thinking.pdf` (`Curated Learning Map for Mobile UI/UX Design Using US and European Sources`)
+
+The PDF itself is not bundled; the normalized public URLs and grouped source map are preserved in the repo.
+
+### Screenshots
+
+Screenshots are intentionally not bundled. The repository uses worked examples instead — each of the six modes has a corresponding file in [`examples/`](examples). These double as regression targets.
 
 ---
 
 ## License
 
-See [`LICENSE`](LICENSE).
+MIT — see [`LICENSE`](LICENSE).

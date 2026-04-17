@@ -33,6 +33,7 @@ REQUIRED_FILES = [
     "docs/workflow.md",
     "examples/anti-patterns.md",
     "scripts/bump_version.py",
+    "scripts/install.sh",
 ]
 
 MARKDOWN_GLOBS = [
