@@ -160,13 +160,16 @@ Before finalizing, check the draft against these lenses:
 ### Readability and typography
 - Are type roles and reading structure appropriate?
 - Is density manageable?
+- Do the numbers match `docs/quality-bars.md` (body size, line-height, line length)?
 
 ### Spacing and touch suitability
 - Are interaction zones separated clearly?
 - Is touch behavior plausible?
+- Do touch targets meet the platform minimums in `docs/quality-bars.md` (44pt iOS / 48dp Android)?
 
 ### Accessibility implications
 - Does the output address scaling, semantics, focus, labels, and predictable interaction?
+- Does contrast meet WCAG 2.2 AA as defined in `docs/quality-bars.md`?
 
 ### Edge states
 - Are empty, loading, error, and recovery states included where relevant?
@@ -176,7 +179,65 @@ Before finalizing, check the draft against these lenses:
 
 ---
 
-## Step 7: Finalize responsibly
+## Step 7: Apply design reasoning
+
+Every major design decision in the response must have:
+
+- an explicit choice (not "use a button" but "use a filled primary button at the bottom edge")
+- at least one alternative that was considered
+- a reason the chosen option wins over the alternative, tied to user goal, task, platform, accessibility, or implementation
+
+If a decision has no alternative, it was not a decision — it was a default, and defaults should be flagged as such.
+
+This step exists to prevent first-idea-wins output, which is the most common failure mode in LLM-generated design.
+
+### Applies to
+
+- Mode A: layout choice, component choice, hierarchy order
+- Mode B: step ordering, recovery strategy, decision-point design
+- Mode C: structural zone choice, state definition granularity, platform divergence choices
+- Mode D: fix recommendations (why this fix, not another)
+- Mode E: role scale ratio, weight strategy, density preset
+- Mode F: every "Key design decision" must pair with an alternative and a reason
+
+### How to surface
+
+- In Mode A, C, and F: populate the `Alternatives considered` block in the template.
+- In other modes: fold the alternative inline into the rationale, not as a separate section.
+
+---
+
+## Step 8: Check concrete quality bars
+
+Compare the draft against the numeric thresholds in `docs/quality-bars.md`.
+
+At minimum, confirm:
+
+- Typography roles cover the needed hierarchy and every role has a size and line-height within the stated ranges.
+- Touch targets meet platform minimums and have sufficient gaps.
+- Contrast recommendations meet WCAG 2.2 AA.
+- Motion durations fall within the recommended ranges and respect reduced-motion settings.
+- States include at minimum default, loading, empty, error.
+- Spacing values come from the canonical scale, not ad-hoc numbers.
+
+When the mode does not produce concrete values (Mode B flow, Mode F rationale), this check is lighter — confirm that the output does not contradict any bar.
+
+---
+
+## Step 9: Self-review against the quality bar
+
+Run the self-review pass defined in `docs/self-review.md`.
+
+- Silently answer every prompt in the universal section.
+- Silently answer every prompt in the mode-specific section.
+- If any answer is "no" or "not sure", revise and re-run.
+- Never return a response that fails self-review with a disclaimer. Fix it or narrow the scope.
+
+Self-review is not optional. It is the single highest-impact quality mechanism in this skill.
+
+---
+
+## Step 10: Finalize responsibly
 
 Make sure the final answer:
 

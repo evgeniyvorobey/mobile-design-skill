@@ -60,6 +60,10 @@ Assumptions:
 - [decision] because [reason]
 - [decision] because [reason]
 
+## Alternatives considered
+- [alternative] — rejected because [reason tied to user goal, task, platform, accessibility, or implementation]
+- [alternative] — rejected because [reason]
+
 ## Next actions
 - [action]
 - [action]
@@ -186,6 +190,10 @@ Assumptions:
 ### Android
 - [note]
 
+## Key decision tradeoffs
+- [decision] chosen over [alternative] because [reason]
+- [decision] chosen over [alternative] because [reason]
+
 ## Next actions
 - [action]
 - [action]
@@ -198,12 +206,13 @@ Assumptions:
 ```md
 Mode: Review screen for usability/accessibility
 Platform scope: [iOS / Android / Cross-platform / Assumed]
+Sub-case: [D1 visual provided / D2 description only / D3 problem statement / D4 context change]
 Assumptions:
 - [assumption 1]
 - [assumption 2]
 
 ## Quick summary
-[one-paragraph assessment]
+[one-paragraph assessment; for D3, lead with diagnosis hypothesis]
 
 ## Strengths
 - [strength]
@@ -331,12 +340,12 @@ Assumptions:
 [users and context]
 
 ## Key design decisions
-- [decision]
-- [decision]
+- [decision] — alternative considered: [alternative] — chosen because [reason tied to user goal, task, platform, accessibility, or implementation]
+- [decision] — alternative considered: [alternative] — chosen because [reason]
 
 ## Pattern choices and why
-- [pattern] because [reason]
-- [pattern] because [reason]
+- [pattern] over [alternative pattern] because [reason]
+- [pattern] over [alternative pattern] because [reason]
 
 ## Platform alignment
 ### iOS

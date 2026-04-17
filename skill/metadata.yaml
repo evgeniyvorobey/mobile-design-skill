@@ -1,6 +1,6 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
-version: 1.1.0
+version: 1.3.0
 status: production-ready
 owner: repository-maintained
 entrypoint: SKILL.md
@@ -27,6 +27,15 @@ modes:
     title: Create platform-aware UI spec
   - id: review-screen
     title: Review screen for usability/accessibility
+    sub_cases:
+      - id: D1
+        title: Review with visual design provided
+      - id: D2
+        title: Review with text description only
+      - id: D3
+        title: Review with problem statement
+      - id: D4
+        title: Review with context change
   - id: typography-spacing
     title: Create typography and spacing system
   - id: rationale-handoff
@@ -96,3 +105,6 @@ quality_bar:
   implementation_ready_outputs: true
   structured_responses: true
   evidence_first_reasoning: true
+  mandatory_self_review: true
+  concrete_numeric_thresholds: true
+  design_reasoning_with_alternatives: true

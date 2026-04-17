@@ -20,10 +20,16 @@ REQUIRED_FILES = [
     "skill/modes.md",
     "skill/templates.md",
     "skill/usage.md",
+    "docs/evals.md",
     "docs/guardrails.md",
     "docs/principles.md",
+    "docs/quality-bars.md",
+    "docs/self-review.md",
     "docs/sources.md",
+    "docs/versioning.md",
     "docs/workflow.md",
+    "examples/anti-patterns.md",
+    "scripts/bump_version.py",
 ]
 
 MARKDOWN_GLOBS = [

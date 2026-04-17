@@ -148,7 +148,33 @@ Before finalizing, check:
 - edge states
 - implementation usefulness
 
-### Step 8: Finalize responsibly
+### Step 8: Apply design reasoning
+For every major design decision in the response:
+- state the chosen option explicitly
+- name at least one alternative that was considered
+- give a concrete reason the chosen option wins, tied to user goal, task, platform, accessibility, or implementation
+
+If a decision has no alternative, it was not a decision. It was a default; flag defaults as such rather than presenting them as choices.
+
+This step prevents first-idea-wins output. See `docs/workflow.md` Step 7 for detail.
+
+### Step 9: Check concrete quality bars
+Compare the draft against the numeric thresholds in `docs/quality-bars.md`:
+- typography sizes, line-height, line length
+- touch targets (44pt iOS / 48dp Android minimums) and gaps
+- WCAG 2.2 AA contrast ratios
+- motion durations and reduced-motion respect
+- state coverage (default, loading, empty, error)
+- spacing from a canonical 4- or 8-based scale
+
+For modes that do not produce concrete values (Mode B flow, Mode F rationale), confirm the output does not contradict any bar.
+
+### Step 10: Run mandatory self-review
+Run the pass defined in `docs/self-review.md`. Silently answer every prompt in the universal section and the mode-specific section. If any answer is "no" or "not sure", revise and re-run. Never return a response that fails self-review with a disclaimer.
+
+Self-review is the single highest-impact quality mechanism in this skill.
+
+### Step 11: Finalize responsibly
 - state assumptions clearly
 - distinguish facts from recommendations
 - keep outputs structured and reusable

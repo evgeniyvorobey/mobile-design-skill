@@ -1,6 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
+version: 1.3.0
 ---
 
 # Mobile Design Skill
@@ -21,7 +22,10 @@ If deeper detail is needed during a task, load only the relevant references:
 - `skill/templates.md` for output skeletons
 - `docs/workflow.md` for the full internal workflow
 - `docs/sources.md` for source hierarchy and canonical URLs
+- `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
+- `docs/self-review.md` for the mandatory self-review pass run before any response is returned
 - `examples/` for regression-style examples
+- `examples/anti-patterns.md` for calibration on ambiguous or hallucination-inviting inputs
 
 ## Supported modes
 
@@ -111,7 +115,27 @@ Before finalizing, check:
 - edge states
 - implementation usefulness
 
-### 8. Finalize responsibly
+### 8. Apply design reasoning
+For every major design decision:
+- state the choice explicitly
+- name at least one alternative that was considered
+- give a reason the chosen option wins, tied to user goal, task, platform, accessibility, or implementation
+
+If a decision has no alternative, it was not a decision — it was a default. Flag defaults as such.
+
+### 9. Check concrete quality bars
+Compare against `docs/quality-bars.md`:
+- typography sizes, line-height, line length
+- touch targets and gaps (44pt iOS / 48dp Android minimums)
+- WCAG 2.2 AA contrast
+- motion durations and reduced-motion respect
+- state coverage (default, loading, empty, error)
+- spacing from the canonical 4- or 8-based scale
+
+### 10. Run mandatory self-review
+Run the pass defined in `docs/self-review.md`. Silently answer every prompt. If any answer is "no" or "not sure", revise and re-run. Never return a response that fails self-review with a disclaimer.
+
+### 11. Finalize responsibly
 - state assumptions clearly
 - distinguish facts from recommendations
 - keep outputs structured and reusable

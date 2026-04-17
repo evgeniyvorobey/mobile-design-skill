@@ -1,6 +1,10 @@
 # Mobile App Design Skill
 
+![version](https://img.shields.io/badge/version-1.3.0-blue) ![license](https://img.shields.io/badge/license-MIT-green)
+
 A production-ready reusable AI skill for Claude Code / Codex that helps users generate, review, structure, and justify mobile UI/UX design decisions for iOS, Android, and cross-platform products.
+
+Current version: **1.3.0** — see [`CHANGELOG.md`](CHANGELOG.md) for details and [`docs/versioning.md`](docs/versioning.md) for the versioning policy.
 
 - canonical Codex entrypoint: [`SKILL.md`](SKILL.md)
 - Codex UI metadata: [`agents/openai.yaml`](agents/openai.yaml)
@@ -111,6 +115,7 @@ To show the expected quality and structure of outputs, the repository uses worke
 - [`examples/review-screen.md`](examples/review-screen.md)
 - [`examples/typography-spacing.md`](examples/typography-spacing.md)
 - [`examples/rationale-handoff.md`](examples/rationale-handoff.md)
+- [`examples/anti-patterns.md`](examples/anti-patterns.md) — calibration examples showing how the skill should behave when input is ambiguous or invites a hallucination
 
 ---
 
@@ -142,12 +147,17 @@ mobile-design-skill/
 │   └── usage.md
 ├── docs/
 │   ├── commands.md
+│   ├── evals.md
 │   ├── github-publishing.md
-│   ├── principles.md
-│   ├── sources.md
 │   ├── guardrails.md
+│   ├── principles.md
+│   ├── quality-bars.md
+│   ├── self-review.md
+│   ├── sources.md
+│   ├── versioning.md
 │   └── workflow.md
 └── examples/
+    ├── anti-patterns.md
     ├── generate-screen.md
     ├── design-flow.md
     ├── ui-spec.md
@@ -308,6 +318,11 @@ The skill must not:
 - GitHub publishing kit: [`docs/github-publishing.md`](docs/github-publishing.md)
 - Source hierarchy: [`docs/sources.md`](docs/sources.md)
 - Guardrails: [`docs/guardrails.md`](docs/guardrails.md)
+- Evaluation criteria: [`docs/evals.md`](docs/evals.md)
+- Quality bars (numeric thresholds): [`docs/quality-bars.md`](docs/quality-bars.md)
+- Self-review pass: [`docs/self-review.md`](docs/self-review.md)
+- Versioning policy: [`docs/versioning.md`](docs/versioning.md)
+- Anti-patterns: [`examples/anti-patterns.md`](examples/anti-patterns.md)
 
 ---
 

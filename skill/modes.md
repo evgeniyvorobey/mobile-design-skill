@@ -185,6 +185,41 @@ If the request lacks detail:
 ### Purpose
 Critique a screen or screen description through usability, accessibility, hierarchy, and platform lenses.
 
+### Sub-cases
+
+Mode D behaves differently depending on what the user provides. Classify the request into exactly one sub-case at the start of the response, and adjust scope accordingly.
+
+#### D1: Review with visual design provided
+The user shares a screenshot, Figma link, or detailed visual description that includes layout, spacing, typography treatment, and color.
+
+- Full assessment is possible across visual hierarchy, spacing, typography, colors, and contrast.
+- Accessibility checks can address visual properties (contrast, focus appearance, touch-target visibility) as well as structural ones.
+- Use this sub-case label at the top of the response.
+
+#### D2: Review with text description only
+The user describes layout structure (fields, sections, actions, content) but no visual treatment.
+
+- Assess structure, logic, information order, state coverage, and interaction behavior.
+- Do not assert visual properties (contrast, spacing in pixels, visual weight) without qualifiers. Flag them under `Unresolved assumptions`.
+- Accessibility assessment is limited to properties that can be reasoned from structure: label strategy, state semantics, input affordances. Mark visual accessibility (contrast, focus visibility) as unverifiable.
+- Use this sub-case label at the top of the response.
+
+#### D3: Review with problem statement
+The user reports a symptom without a clear root cause ("users complain", "analytics show drop-off at step 3", "something feels off").
+
+- Lead with diagnosis: what likely causes the reported symptom, based on the described context.
+- Differentiate diagnosis from assessment. Diagnosis is a hypothesis; assessment reports observable problems.
+- Suggest targeted investigation steps (specific events to check, specific user actions to observe), not a full redesign.
+- Use this sub-case label at the top of the response.
+
+#### D4: Review with context change
+The user asks whether an existing design still holds under a changed context (new audience, new regulatory framing, new platform, new accessibility requirement).
+
+- Re-evaluate the existing design through the new lens; do not re-review from scratch.
+- Call out which prior-acceptable choices now fail under the new context, and which remain fine.
+- If the context change invalidates assumptions baked into the original design, state that the design likely needs re-structuring, not just adjustment.
+- Use this sub-case label at the top of the response.
+
 ### Required input
 At least one of:
 - screen description
@@ -206,6 +241,7 @@ At least one of:
 ### Output structure
 - Mode
 - Platform scope
+- Sub-case (D1 / D2 / D3 / D4)
 - Assumptions
 - Quick summary
 - Strengths
@@ -220,12 +256,16 @@ At least one of:
 - Next actions
 
 ### Validation checklist
+- Is the sub-case (D1 / D2 / D3 / D4) classified explicitly?
 - Does the review distinguish strengths from problems?
 - Are issues concrete rather than aesthetic opinions?
+- For D2: are visual claims qualified as unverifiable, or restricted to structure?
+- For D3: is diagnosis separated from assessment?
+- For D4: is the review framed as a delta against the changed context, not a full re-review?
 - Are severity levels useful?
 - Are fixes practical?
 - Are platform mismatches called out?
-- Are typography and spacing reviewed, not ignored?
+- Are typography and spacing reviewed (where verifiable), not ignored?
 - Is compliance language avoided unless verified?
 - Are unresolved assumptions stated?
 
@@ -233,6 +273,7 @@ At least one of:
 If evidence is limited:
 - frame findings as probable issues, not proven defects
 - state what cannot be verified from the provided material
+- for D2 in particular, never assert visual properties without a qualifier; move them to `Unresolved assumptions`
 
 ---
 
