@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.3.0
+version: 1.4.0
 ---
 
 # Mobile Design Skill
@@ -23,6 +23,8 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/workflow.md` for the full internal workflow
 - `docs/sources.md` for source hierarchy and canonical URLs
 - `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
+- `docs/context-defaults.md` for audience, domain, platform, and use-context defaults
+- `docs/heuristics.md` for the usability heuristics catalog with mobile applications and red-flag patterns
 - `docs/self-review.md` for the mandatory self-review pass run before any response is returned
 - `examples/` for regression-style examples
 - `examples/anti-patterns.md` for calibration on ambiguous or hallucination-inviting inputs
@@ -55,6 +57,8 @@ Extract or infer:
 - density or complexity level
 - accessibility sensitivity
 - whether the user needs exploration, critique, or handoff structure
+
+Apply the context-aware defaults in `docs/context-defaults.md`. Precedence when signals conflict: safety/accessibility > regulated domain > use-context > audience > platform. State the resolution in `Assumptions`.
 
 ### 3. Determine platform scope
 Identify whether the request is:
@@ -120,6 +124,7 @@ For every major design decision:
 - state the choice explicitly
 - name at least one alternative that was considered
 - give a reason the chosen option wins, tied to user goal, task, platform, accessibility, or implementation
+- when a heuristic drives the decision (Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen), cite it by name from `docs/heuristics.md`
 
 If a decision has no alternative, it was not a decision — it was a default. Flag defaults as such.
 

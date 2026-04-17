@@ -84,6 +84,20 @@ Extract or infer:
 - Is readability or density a major concern?
 - Is the user asking for concept generation, critique, or structured documentation?
 
+### Apply context-aware defaults
+
+Once the context is classified, consult `docs/context-defaults.md` for the defaults tuned to that context (audience × domain × platform × use-context). Apply those defaults as starting points for typography, touch, density, confirmation, motion, and related decisions.
+
+Conflict resolution order (when signals disagree):
+
+1. Safety and accessibility constraints
+2. Regulated domain constraints (finance, health, government)
+3. Use-context constraints (driving, outdoor, emergency)
+4. Audience constraints
+5. Platform defaults
+
+When multiple contexts apply, state the resolution in `Assumptions` so the user can correct a misclassification.
+
 ---
 
 ## Step 3: Check information sufficiency
@@ -204,6 +218,18 @@ This step exists to prevent first-idea-wins output, which is the most common fai
 
 - In Mode A, C, and F: populate the `Alternatives considered` block in the template.
 - In other modes: fold the alternative inline into the rationale, not as a separate section.
+
+### Ground reasoning in established heuristics
+
+When a decision is driven by a known usability heuristic, cite the heuristic by name (Fitts' Law, Hick's Law, Jakob's Law, Zeigarnik Effect, etc.). This anchors the reasoning in established practice rather than preference.
+
+See `docs/heuristics.md` for the catalog with mobile applications and red-flag patterns. Use the red flags during Mode D reviews as a concrete violation checklist.
+
+When two heuristics point to different solutions:
+
+- Name both.
+- Pick one based on the active context (see `docs/context-defaults.md`).
+- Explain the tradeoff in the output, do not hide it.
 
 ---
 

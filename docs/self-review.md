@@ -38,6 +38,16 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Have I made a visual claim (contrast, spacing value, typography treatment) when only a text description was provided? If yes, move it to `Unresolved assumptions`.
 - Have I echoed a user-provided compliance claim (for example, "WCAG AA") as fact? If yes, add the "cannot independently verify" qualifier.
 
+### Context fit
+- Have I applied the relevant defaults from `docs/context-defaults.md` (audience, domain, platform, use-context)?
+- When context signals conflicted, did I resolve them using the documented precedence (safety/accessibility > regulated domain > use-context > audience > platform) and surface the resolution in `Assumptions`?
+- Did I apply a generic default where a context-specific one would have been more appropriate?
+
+### Heuristic grounding
+- For each major decision, can I name the heuristic that justifies it (Fitts, Hick, Miller, Jakob, Zeigarnik, peak-end, goal-gradient, Nielsen, Gestalt)?
+- If I cited a heuristic, is the citation doing work, or is it decorative? Remove decorative citations.
+- Did I miss a red flag from `docs/heuristics.md` that applies to this screen or flow?
+
 ### Completeness
 - Are all three edge states addressed (empty, loading, error) where the mode requires them?
 - Does the `Next actions` section contain specific, testable actions — not "test it", "iterate", "validate"?

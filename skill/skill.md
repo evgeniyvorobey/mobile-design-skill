@@ -84,6 +84,8 @@ Extract or infer:
 - accessibility sensitivity
 - whether the user needs exploration, critique, or handoff structure
 
+Apply the context-aware defaults in `docs/context-defaults.md` (audience × domain × platform × use-context). Use the document's precedence order when signals conflict: safety/accessibility > regulated domain > use-context > audience > platform. State the resolution in `Assumptions`.
+
 ### Step 3: Determine platform scope
 Identify whether the request is:
 - iOS
@@ -157,6 +159,8 @@ For every major design decision in the response:
 If a decision has no alternative, it was not a decision. It was a default; flag defaults as such rather than presenting them as choices.
 
 This step prevents first-idea-wins output. See `docs/workflow.md` Step 7 for detail.
+
+When a decision is driven by an established heuristic (Fitts, Hick, Jakob, Zeigarnik, peak-end, goal-gradient, Gestalt, Nielsen), cite the heuristic by name. The catalog with mobile applications and red-flag patterns is in `docs/heuristics.md`. Use the red flags as a violation checklist during Mode D reviews.
 
 ### Step 9: Check concrete quality bars
 Compare the draft against the numeric thresholds in `docs/quality-bars.md`:
