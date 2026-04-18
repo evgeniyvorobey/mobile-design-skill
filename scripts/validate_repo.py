@@ -34,7 +34,8 @@ REQUIRED_FILES = [
     "examples/anti-patterns.md",
     "scripts/bump_version.py",
     "scripts/install.sh",
-    "assets/logo.svg",
+    "assets/logo-light.svg",
+    "assets/logo-dark.svg",
 ]
 
 MARKDOWN_GLOBS = [

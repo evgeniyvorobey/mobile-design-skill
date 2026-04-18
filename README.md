@@ -1,5 +1,8 @@
 <p align="center">
-  <img src="assets/logo.svg" alt="Mobile Design Skill" width="640">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+    <img src="assets/logo-light.svg" alt="Mobile Design Skill" width="640">
+  </picture>
 </p>
 
 <p align="center">
@@ -397,7 +400,8 @@ mobile-design-skill/
 ├── agents/
 │   └── openai.yaml                       Codex UI metadata
 ├── assets/
-│   └── logo.svg                          Project logo (used in README)
+│   ├── logo-light.svg                    Project logo — light theme variant
+│   └── logo-dark.svg                     Project logo — dark theme variant
 ├── .github/
 │   └── workflows/
 │       └── validate.yml                  CI: structure + link validation

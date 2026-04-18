@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif">
+  <title>mobile-design-skill · horizontal lockup · dark variant</title>
+  <!-- Mark at y=40, 240×240 · inverted: light canvas, dark Ls for max presence on dark page -->
+  <svg x="40" y="40" width="240" height="240" viewBox="0 0 120 120">
+    <rect width="120" height="120" rx="26" fill="#FAFAF9"/>
+    <polygon points="18,18 50,18 50,27 27,27 27,50 18,50" fill="#0F0F10"/>
+    <polygon points="102,102 70,102 70,93 93,93 93,70 102,70" fill="#0F0F10"/>
+  </svg>
+  <!-- Wordmark · white on dark page -->
+  <text x="340" y="172" font-size="76" font-weight="600" fill="#FAFAF9" letter-spacing="-2">mobile-design-skill</text>
+  <!-- Metadata · brighter emerald (WCAG AA on dark) -->
+  <text x="340" y="214" font-size="22" font-family="'SF Mono', Menlo, Monaco, monospace" fill="#34D399" letter-spacing="3">⌐⌐  REGISTRATION · SPECIFICATION · MOBILE</text>
+</svg>
