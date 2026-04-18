@@ -1,14 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif">
-  <title>mobile-design-skill · T2 horizontal lockup · mark + wordmark + metadata</title>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320">
+  <title>mobile-design-skill · horizontal lockup · theme-adaptive (light + dark)</title>
+  <style>
+    .canvas { fill: #0F0F10; }
+    .inner  { fill: #FAFAF9; }
+    .word {
+      fill: #0F0F10;
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Inter, system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 76px;
+      letter-spacing: -2px;
+    }
+    .meta {
+      fill: #059669;
+      font-family: 'SF Mono', Menlo, Monaco, monospace;
+      font-size: 22px;
+      letter-spacing: 3px;
+    }
+    @media (prefers-color-scheme: dark) {
+      .canvas { fill: #FAFAF9; }
+      .inner  { fill: #0F0F10; }
+      .word   { fill: #FAFAF9; }
+      .meta   { fill: #34D399; }
+    }
+  </style>
   <!-- Mark at y=40, 240×240 -->
   <svg x="40" y="40" width="240" height="240" viewBox="0 0 120 120">
-    <rect width="120" height="120" rx="26" fill="#0F0F10"/>
-    <polygon points="18,18 50,18 50,27 27,27 27,50 18,50" fill="#FAFAF9"/>
-    <polygon points="102,102 70,102 70,93 93,93 93,70 102,70" fill="#FAFAF9"/>
+    <rect class="canvas" width="120" height="120" rx="26"/>
+    <polygon class="inner" points="18,18 50,18 50,27 27,27 27,50 18,50"/>
+    <polygon class="inner" points="102,102 70,102 70,93 93,93 93,70 102,70"/>
   </svg>
-  <!-- Gap = cap-height (≈ 52 at this scale) -->
   <!-- Wordmark -->
-  <text x="340" y="172" font-size="76" font-weight="600" fill="#0F0F10" letter-spacing="-2">mobile-design-skill</text>
+  <text class="word" x="340" y="172">mobile-design-skill</text>
   <!-- Metadata in mono -->
-  <text x="340" y="214" font-size="22" font-family="'SF Mono', Menlo, Monaco, monospace" fill="#059669" letter-spacing="3">⌐⌐  REGISTRATION · SPECIFICATION · MOBILE</text>
+  <text class="meta" x="340" y="214">⌐⌐  REGISTRATION · SPECIFICATION · MOBILE</text>
 </svg>
