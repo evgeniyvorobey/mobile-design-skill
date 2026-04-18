@@ -40,6 +40,14 @@ FRONTMATTER_VERSION_RE = re.compile(r"^version:\s*(\d+\.\d+\.\d+)\s*$", re.MULTI
 README_BADGE_RE = re.compile(
     r"(!\[version\]\(https://img\.shields\.io/badge/version-)(\d+\.\d+\.\d+)(-[a-zA-Z]+\))"
 )
+# Also match the HTML <img> form so the script stays in sync when the README
+# uses HTML for layout (centered hero block).
+README_HTML_BADGE_RE = re.compile(
+    r'(<img\s+alt="version"\s+src="https://img\.shields\.io/badge/version-)(\d+\.\d+\.\d+)(-[a-zA-Z]+">)'
+)
+README_CURRENT_VERSION_RE = re.compile(
+    r"(Current version:\s*\*\*)(\d+\.\d+\.\d+)(\*\*)"
+)
 
 
 def fail(message: str) -> None:
@@ -106,13 +114,18 @@ def update_frontmatter_version(path: Path, new_version: str) -> bool:
 
 
 def update_readme_badge(new_version: str) -> bool:
+    """Update every version reference in the README: markdown badge, HTML badge, and the
+    'Current version: **X.Y.Z**' line. Returns True if at least one reference was updated."""
     if not README_PATH.exists():
         return False
     text = README_PATH.read_text(encoding="utf-8")
-    updated, count = README_BADGE_RE.subn(rf"\g<1>{new_version}\g<3>", text, count=1)
-    if count == 0:
+    total = 0
+    for pattern in (README_BADGE_RE, README_HTML_BADGE_RE, README_CURRENT_VERSION_RE):
+        text, count = pattern.subn(rf"\g<1>{new_version}\g<3>", text, count=1)
+        total += count
+    if total == 0:
         return False
-    README_PATH.write_text(updated, encoding="utf-8")
+    README_PATH.write_text(text, encoding="utf-8")
     return True
 
 

@@ -1,12 +1,19 @@
-# Mobile App Design Skill
+<p align="center">
+  <img src="assets/logo.svg" alt="Mobile Design Skill" width="640">
+</p>
 
-![version](https://img.shields.io/badge/version-1.6.0-blue) ![license](https://img.shields.io/badge/license-MIT-green)
+<p align="center">
+  <img alt="version" src="https://img.shields.io/badge/version-1.6.1-blue">
+  <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
+</p>
+
+# Mobile App Design Skill
 
 A production-ready reusable AI skill that helps generate, review, structure, and justify mobile UI/UX design decisions for iOS, Android, and cross-platform products.
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.6.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.6.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -385,9 +392,12 @@ mobile-design-skill/
 ├── .claude/
 │   └── skills/
 │       └── mobile-design-skill/
-│           └── SKILL.md                  Claude Code wrapper for /mobile-design-skill
+│           ├── SKILL.md                  Claude Code wrapper for /mobile-design-skill
+│           └── logo.svg                  Skill wrapper icon
 ├── agents/
 │   └── openai.yaml                       Codex UI metadata
+├── assets/
+│   └── logo.svg                          Project logo (used in README)
 ├── .github/
 │   └── workflows/
 │       └── validate.yml                  CI: structure + link validation

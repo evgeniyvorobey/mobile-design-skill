@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.1] - 2026-04-18
+
+### Added
+- Project logo at `assets/logo.svg` (horizontal lockup: mark + wordmark). Logo also mirrored at `.claude/skills/mobile-design-skill/logo.svg` for the Claude Code skill wrapper.
+- Centered hero block in `README.md` displays the logo above the version / license badges.
+
+### Changed
+- `README.md` repository tree now lists `assets/` and the logo file in the wrapper directory.
+- `scripts/bump_version.py` now recognizes the HTML `<img>` form of the version badge and the `Current version: **X.Y.Z**` line, in addition to the markdown-image badge. Previously only the markdown badge was updated; the HTML hero layout introduced in this release would have drifted.
+- `scripts/validate_repo.py` requires `assets/logo.svg`.
+
 ## [1.6.0] - 2026-04-18
 
 ### Added
