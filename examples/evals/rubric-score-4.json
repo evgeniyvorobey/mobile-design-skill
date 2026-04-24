@@ -1,0 +1,27 @@
+{
+  "id": "rubric-score-4-strong-leave-request",
+  "rubric_version": "1.0",
+  "mode": "Generate mobile screen concept",
+  "prompt": "Design a cross-platform leave request screen for an enterprise HR app used by employees with mixed technical comfort.",
+  "response_excerpt": "Quality target: 4/5. First glance: leave type and date range; second glance: balance and policy impact; final action: Submit request. Use 16pt/16dp screen padding, 12-16pt/12-16dp between related form fields, and 24pt/24dp before the balance block. Include empty, loading, policy-error, offline balance, and unsaved-change states. Validate Dynamic Type/font-scale and sticky CTA safe-area spacing.",
+  "expected_score": 4,
+  "expected_verdict": "strong and shippable",
+  "expected_cap": "No cap",
+  "hard_limits": [],
+  "dimension_scores": {
+    "attention_path_and_hierarchy": 4,
+    "composition_and_spacing": 4,
+    "typography_craft": 4,
+    "color_state_and_contrast": 4,
+    "density_and_rhythm": 4,
+    "interaction_polish_and_motion": 4,
+    "context_and_brand_fit": 4,
+    "production_readiness": 4
+  },
+  "expected_failed_dimensions": [],
+  "expected_rationale": "The response is specific, buildable, state-aware, accessibility-aware, and tied to the enterprise HR context. Remaining validation is about real policy edge cases rather than core design quality.",
+  "improvement_suggestions": [
+    "Confirm exact HR policy rules and localization needs.",
+    "Validate platform-specific date picker behavior with the chosen design system."
+  ]
+}

@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.10.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.11.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.10.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.11.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -74,6 +74,7 @@ It is structured around:
 - **Quality bars** — concrete numeric thresholds (touch 44pt iOS / 48dp Android, WCAG 2.2 AA contrast, line-height 1.4–1.6, motion 200–300ms).
 - **Design quality calibration** — visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production-readiness checks.
 - **Design quality rubric** — 1–5 scoring that targets 4/5 for generated artifacts and exposes current quality score in reviews.
+- **Rubric eval pack** — score-calibrated fixtures for `1/5` through `5/5` plus a before/after upgrade example.
 - **Known weakness prevention** — internal failure-mode preflight for generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff.
 - **Context-aware defaults** — adjusts output for audience (older adults, children, power users), domain (finance, health, government, enterprise, social), platform, and use-context (one-handed, outdoor, in-vehicle, emergency).
 - **Heuristic grounding** — decisions cite Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen rather than being presented as preference.
@@ -456,7 +457,14 @@ mobile-design-skill/
     ├── review-screen.md                  Worked example for Mode 4
     ├── typography-spacing.md             Worked example for Mode 5
     ├── rationale-handoff.md              Worked example for Mode 6
-    └── anti-patterns.md                  Bad/Good pairs — how the skill should behave under ambiguous input
+    ├── rubric-before-after.md            2/5 → 4/5 rubric upgrade example
+    ├── anti-patterns.md                  Bad/Good pairs — how the skill should behave under ambiguous input
+    └── evals/
+        ├── rubric-score-1.json           Rubric fixture: broken or misleading
+        ├── rubric-score-2.json           Rubric fixture: structurally weak
+        ├── rubric-score-3.json           Rubric fixture: acceptable baseline
+        ├── rubric-score-4.json           Rubric fixture: strong and shippable
+        └── rubric-score-5.json           Rubric fixture: excellent and resilient
 ```
 
 ---

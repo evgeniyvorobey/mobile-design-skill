@@ -1,0 +1,32 @@
+{
+  "id": "rubric-score-3-acceptable-baseline-delivery-status",
+  "rubric_version": "1.0",
+  "mode": "Generate mobile screen concept",
+  "prompt": "Design a delivery status screen for an Android shopping app.",
+  "response_excerpt": "Show delivery status and ETA first, then order details, address, and timeline. Include refresh and contact support actions. Add loading, delayed, and error states. Use Material components and keep labels readable.",
+  "expected_score": 3,
+  "expected_verdict": "acceptable baseline",
+  "expected_cap": "No hard cap, but not enough concrete mechanisms for 4/5",
+  "hard_limits": [],
+  "dimension_scores": {
+    "attention_path_and_hierarchy": 4,
+    "composition_and_spacing": 3,
+    "typography_craft": 3,
+    "color_state_and_contrast": 3,
+    "density_and_rhythm": 3,
+    "interaction_polish_and_motion": 3,
+    "context_and_brand_fit": 3,
+    "production_readiness": 3
+  },
+  "expected_failed_dimensions": [
+    "production readiness",
+    "color/state specificity",
+    "typography craft"
+  ],
+  "expected_rationale": "The concept can work and covers the main task, but it lacks concrete spacing, type roles, semantic status rules, QA checks, and alternatives.",
+  "improvement_suggestions": [
+    "Add status-first spacing and typography values.",
+    "Define semantic delayed/failed status treatment with non-color cues.",
+    "Add tradeoffs such as status-first over timeline-first."
+  ]
+}

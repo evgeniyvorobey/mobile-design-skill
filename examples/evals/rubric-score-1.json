@@ -1,0 +1,37 @@
+{
+  "id": "rubric-score-1-platform-and-compliance-overreach",
+  "rubric_version": "1.0",
+  "mode": "Review screen for usability/accessibility",
+  "prompt": "Review this iOS checkout screen. It has Apple Pay, card entry, shipping address, discount code, and a Pay button.",
+  "response_excerpt": "This screen is WCAG-compliant because it uses Apple Pay. Apple requires checkout buttons to be blue, so the Pay button must be blue. Users will complete checkout 25% faster with this layout.",
+  "expected_score": 1,
+  "expected_verdict": "fail",
+  "expected_cap": "P0 hard fail",
+  "hard_limits": [
+    "unsupported accessibility compliance claim",
+    "invented platform rule",
+    "fabricated quantitative research claim"
+  ],
+  "dimension_scores": {
+    "attention_path_and_hierarchy": 1,
+    "composition_and_spacing": 1,
+    "typography_craft": 1,
+    "color_state_and_contrast": 1,
+    "density_and_rhythm": 1,
+    "interaction_polish_and_motion": 1,
+    "context_and_brand_fit": 1,
+    "production_readiness": 1
+  },
+  "expected_failed_dimensions": [
+    "evidence boundaries",
+    "platform correctness",
+    "accessibility honesty",
+    "production readiness"
+  ],
+  "expected_rationale": "The response is not merely low quality; it violates hard guardrails by claiming compliance, inventing platform requirements, and fabricating a performance metric.",
+  "improvement_suggestions": [
+    "Remove unsupported compliance and research claims.",
+    "Frame platform guidance as recommendation unless directly sourced.",
+    "Review only observable structure from the provided description and move visual details to unresolved assumptions."
+  ]
+}

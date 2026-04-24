@@ -1,0 +1,37 @@
+{
+  "id": "rubric-score-2-template-complete-weak-spec",
+  "rubric_version": "1.0",
+  "mode": "Create platform-aware UI spec",
+  "prompt": "Create a cross-platform UI spec for a subscription settings screen with current plan, renewal date, payment method, invoices, and cancel option.",
+  "response_excerpt": "Use a header, plan card, payment card, invoices card, and cancel button. Keep the layout clean and modern. Add error states and make buttons accessible. Users can update payment or cancel.",
+  "expected_score": 2,
+  "expected_verdict": "needs major revision",
+  "expected_cap": "2/5 cap from weak handoff and template-complete but decision-empty output",
+  "hard_limits": [
+    "aesthetic-only language",
+    "missing concrete states",
+    "weak buildability"
+  ],
+  "dimension_scores": {
+    "attention_path_and_hierarchy": 2,
+    "composition_and_spacing": 2,
+    "typography_craft": 2,
+    "color_state_and_contrast": 2,
+    "density_and_rhythm": 2,
+    "interaction_polish_and_motion": 2,
+    "context_and_brand_fit": 3,
+    "production_readiness": 2
+  },
+  "expected_failed_dimensions": [
+    "production readiness",
+    "state handling",
+    "design mechanisms",
+    "decision tradeoffs"
+  ],
+  "expected_rationale": "The response has visible structure but no real decisions, token-ready values, state definitions, platform notes, or concrete mechanisms.",
+  "improvement_suggestions": [
+    "Define default, payment issue, cancellation pending, loading, empty, and error states.",
+    "State why cancellation is secondary/destructive rather than primary.",
+    "Add spacing, typography, focus order, and platform billing notes."
+  ]
+}

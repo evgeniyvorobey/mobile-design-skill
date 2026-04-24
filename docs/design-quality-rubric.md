@@ -8,6 +8,8 @@ The rubric complements:
 - `docs/weaknesses.md` for recurring failure modes
 - `docs/quality-bars.md` for numeric thresholds
 - `docs/evals.md` for external response evaluation
+- `examples/evals/` for score-calibrated rubric fixtures
+- `examples/rubric-before-after.md` for a weak-to-strong upgrade example
 
 ---
 
@@ -128,3 +130,30 @@ Before returning a design artifact, silently answer:
 - Did I avoid using the score as a substitute for concrete design mechanisms?
 
 If the draft is below 4/5 and can be improved without inventing facts, revise it before returning.
+
+---
+
+## Eval calibration pack
+
+The repository includes score-calibrated fixtures in `examples/evals/`:
+
+- `rubric-score-1.json` — broken or misleading response
+- `rubric-score-2.json` — structurally weak response
+- `rubric-score-3.json` — acceptable baseline response
+- `rubric-score-4.json` — strong and shippable response
+- `rubric-score-5.json` — excellent and resilient response
+
+Each fixture defines:
+
+- prompt
+- response excerpt
+- expected score
+- verdict
+- cap or hard limit
+- dimension scores
+- failed dimensions
+- improvement suggestions
+
+Use these fixtures when tuning prompts, judging generated responses, or adding LLM-as-judge tests.
+
+For human calibration, use `examples/rubric-before-after.md`. It shows the upgrade path from a 2/5 template-complete UI spec to a 4/5 shippable spec.

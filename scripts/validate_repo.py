@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -39,9 +40,15 @@ REQUIRED_FILES = [
     "examples/generate-screen.md",
     "examples/rationale-handoff.md",
     "examples/review-screen.md",
+    "examples/rubric-before-after.md",
     "examples/typography-spacing.md",
     "examples/ui-spec.md",
     "examples/anti-patterns.md",
+    "examples/evals/rubric-score-1.json",
+    "examples/evals/rubric-score-2.json",
+    "examples/evals/rubric-score-3.json",
+    "examples/evals/rubric-score-4.json",
+    "examples/evals/rubric-score-5.json",
     "scripts/bump_version.py",
     "scripts/install.sh",
     "assets/logo-light.svg",
@@ -55,6 +62,7 @@ MARKDOWN_GLOBS = [
     "docs/*.md",
     "skill/*.md",
     "examples/*.md",
+    "examples/**/*.md",
 ]
 
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -75,6 +83,41 @@ EXAMPLE_RESPONSE_FILES = [
     "examples/typography-spacing.md",
     "examples/rationale-handoff.md",
 ]
+
+RUBRIC_EVAL_FIXTURES = [
+    "examples/evals/rubric-score-1.json",
+    "examples/evals/rubric-score-2.json",
+    "examples/evals/rubric-score-3.json",
+    "examples/evals/rubric-score-4.json",
+    "examples/evals/rubric-score-5.json",
+]
+
+RUBRIC_DIMENSIONS = {
+    "attention_path_and_hierarchy",
+    "composition_and_spacing",
+    "typography_craft",
+    "color_state_and_contrast",
+    "density_and_rhythm",
+    "interaction_polish_and_motion",
+    "context_and_brand_fit",
+    "production_readiness",
+}
+
+RUBRIC_FIXTURE_REQUIRED_FIELDS = {
+    "id",
+    "rubric_version",
+    "mode",
+    "prompt",
+    "response_excerpt",
+    "expected_score",
+    "expected_verdict",
+    "expected_cap",
+    "hard_limits",
+    "dimension_scores",
+    "expected_failed_dimensions",
+    "expected_rationale",
+    "improvement_suggestions",
+}
 
 MODE_REQUIREMENTS = {
     "Generate mobile screen concept": {
@@ -279,6 +322,12 @@ DESIGN_QUALITY_RUBRIC_REQUIRED_PATTERNS = [
     "Improvement ladder",
 ]
 
+RUBRIC_EVAL_REFERENCE_FILES = [
+    "README.md",
+    "docs/design-quality-rubric.md",
+    "docs/evals.md",
+]
+
 
 def fail(message: str) -> None:
     print(f"[FAIL] {message}")
@@ -354,6 +403,94 @@ def validate_design_quality_rubric_layer() -> None:
             "Design-quality rubric layer is not referenced by required files: "
             + ", ".join(missing_references)
         )
+
+
+def validate_rubric_eval_pack() -> None:
+    seen_scores: set[int] = set()
+    errors: list[str] = []
+
+    for relative_path in RUBRIC_EVAL_FIXTURES:
+        fixture_path = ROOT / relative_path
+        try:
+            fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            errors.append(f"{relative_path}: invalid JSON ({exc})")
+            continue
+
+        missing_fields = RUBRIC_FIXTURE_REQUIRED_FIELDS - fixture.keys()
+        if missing_fields:
+            errors.append(
+                f"{relative_path}: missing fields {', '.join(sorted(missing_fields))}"
+            )
+            continue
+
+        score = fixture["expected_score"]
+        if not isinstance(score, int) or score < 1 or score > 5:
+            errors.append(f"{relative_path}: expected_score must be an integer 1..5")
+        else:
+            seen_scores.add(score)
+            expected_filename_marker = f"score-{score}"
+            if expected_filename_marker not in fixture_path.name:
+                errors.append(
+                    f"{relative_path}: filename must contain `{expected_filename_marker}`"
+                )
+
+        dimensions = fixture["dimension_scores"]
+        if not isinstance(dimensions, dict):
+            errors.append(f"{relative_path}: dimension_scores must be an object")
+        else:
+            missing_dimensions = RUBRIC_DIMENSIONS - dimensions.keys()
+            extra_dimensions = dimensions.keys() - RUBRIC_DIMENSIONS
+            if missing_dimensions:
+                errors.append(
+                    f"{relative_path}: missing dimension scores {', '.join(sorted(missing_dimensions))}"
+                )
+            if extra_dimensions:
+                errors.append(
+                    f"{relative_path}: unknown dimension scores {', '.join(sorted(extra_dimensions))}"
+                )
+            for dimension, value in dimensions.items():
+                if not isinstance(value, int) or value < 1 or value > 5:
+                    errors.append(
+                        f"{relative_path}: dimension `{dimension}` must be an integer 1..5"
+                    )
+
+        if not isinstance(fixture["hard_limits"], list):
+            errors.append(f"{relative_path}: hard_limits must be a list")
+        if not isinstance(fixture["expected_failed_dimensions"], list):
+            errors.append(f"{relative_path}: expected_failed_dimensions must be a list")
+        if not isinstance(fixture["improvement_suggestions"], list) or len(fixture["improvement_suggestions"]) < 2:
+            errors.append(
+                f"{relative_path}: improvement_suggestions must contain at least 2 items"
+            )
+        if not re.search(r"\S", fixture["expected_rationale"]):
+            errors.append(f"{relative_path}: expected_rationale must not be empty")
+
+    expected_scores = {1, 2, 3, 4, 5}
+    if seen_scores != expected_scores:
+        errors.append(
+            "Rubric eval fixtures must cover scores 1..5; found "
+            + ", ".join(str(score) for score in sorted(seen_scores))
+        )
+
+    before_after = (ROOT / "examples/rubric-before-after.md").read_text(encoding="utf-8")
+    for pattern in [
+        "## Weak response",
+        "## Improved response",
+        "2/5",
+        "4/5",
+        "What would make it 5/5",
+    ]:
+        if pattern not in before_after:
+            errors.append(f"examples/rubric-before-after.md: missing `{pattern}`")
+
+    for relative_path in RUBRIC_EVAL_REFERENCE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "examples/evals" not in text and "rubric-before-after.md" not in text:
+            errors.append(f"{relative_path}: missing rubric eval pack reference")
+
+    if errors:
+        fail("Rubric eval pack validation failed:\n" + "\n".join(errors))
 
 
 def validate_links() -> None:
@@ -476,6 +613,7 @@ def main() -> None:
     validate_skill_frontmatter()
     validate_weakness_layer()
     validate_design_quality_rubric_layer()
+    validate_rubric_eval_pack()
     validate_links()
     validate_example_responses()
     print("[OK] Repository structure, relative links, and example responses are valid.")

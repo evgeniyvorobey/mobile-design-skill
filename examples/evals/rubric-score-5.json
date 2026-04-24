@@ -1,0 +1,27 @@
+{
+  "id": "rubric-score-5-resilient-medication-refill",
+  "rubric_version": "1.0",
+  "mode": "Create platform-aware UI spec",
+  "prompt": "Create a cross-platform UI spec for a medication refill screen used by older adults. High trust, accessibility-sensitive, supports multiple medications and pharmacy pickup or delivery.",
+  "response_excerpt": "Quality target: 5/5. The first glance is medication name, refill eligibility, and safety status; second glance is quantity, pharmacy, and pickup/delivery choice; final action is Request refill. Use 20-24sp/pt title, 17sp/pt body, 15-16sp/pt metadata, 24dp/pt section separation, 48dp/44pt minimum controls, semantic warning/error states with icon + text, and large-text layouts that keep dosage and contraindication warnings visible. Define default, too-early, requires doctor approval, interaction-warning, pharmacy-unavailable, offline, partial-success, submitted, and cancelled states. Include iOS and Android notes for back behavior, system date/time pickers, TalkBack/VoiceOver order, token names, analytics events, and QA across 200% text, dark mode, increased contrast, and localization.",
+  "expected_score": 5,
+  "expected_verdict": "excellent and resilient",
+  "expected_cap": "No cap",
+  "hard_limits": [],
+  "dimension_scores": {
+    "attention_path_and_hierarchy": 5,
+    "composition_and_spacing": 5,
+    "typography_craft": 5,
+    "color_state_and_contrast": 5,
+    "density_and_rhythm": 5,
+    "interaction_polish_and_motion": 5,
+    "context_and_brand_fit": 5,
+    "production_readiness": 5
+  },
+  "expected_failed_dimensions": [],
+  "expected_rationale": "The response goes beyond shippable by anticipating high-trust healthcare edge cases, older-adult accessibility, platform behavior, localization, analytics, and design-system handoff.",
+  "improvement_suggestions": [
+    "Validate clinical content and regulatory copy with the product/legal team.",
+    "Run task-based usability testing with older adults before release."
+  ]
+}

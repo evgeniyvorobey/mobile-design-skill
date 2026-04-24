@@ -29,8 +29,9 @@ The skill will:
 6. include accessibility and usability by default
 7. include design-quality calibration for visual hierarchy, rhythm, craft, and production readiness when producing design artifacts
 8. apply a 1-5 design-quality rubric, targeting 4/5 for generated artifacts and exposing current score in reviews
-9. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
-10. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
+9. use `examples/evals/` and `examples/rubric-before-after.md` as calibration references when tuning rubric scoring
+10. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
+11. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
 
 ---
 

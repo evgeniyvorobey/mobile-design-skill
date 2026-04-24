@@ -1,6 +1,6 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
-version: 1.10.0
+version: 1.11.0
 status: production-ready
 owner: repository-maintained
 entrypoint: SKILL.md
@@ -94,6 +94,14 @@ design_quality_rubric:
   default_generated_target: "4/5"
   expose_review_score: true
   expose_generated_target_when_useful: true
+  eval_pack:
+    before_after_example: examples/rubric-before-after.md
+    fixtures:
+      - examples/evals/rubric-score-1.json
+      - examples/evals/rubric-score-2.json
+      - examples/evals/rubric-score-3.json
+      - examples/evals/rubric-score-4.json
+      - examples/evals/rubric-score-5.json
   levels:
     "1": broken or misleading
     "2": structurally weak
@@ -179,6 +187,7 @@ quality_bar:
   concrete_numeric_thresholds: true
   design_quality_calibration: true
   design_quality_rubric_1_to_5: true
+  design_quality_rubric_eval_pack: true
   known_weakness_preflight: true
   design_reasoning_with_alternatives: true
   context_aware_defaults: true

@@ -252,6 +252,20 @@ For reviews:
 - [ ] Text-only reviews label the score as structural/provisional when visual evidence is missing.
 - [ ] Score rationale references concrete dimensions: hierarchy, spacing, typography, color/state, interaction polish, brand/context fit, or production readiness.
 
+### Rubric eval fixtures
+
+The score-calibrated fixtures live in `../examples/evals/`.
+
+Use them as regression targets for human review or future LLM-as-judge scoring:
+
+- `rubric-score-1.json` — should fail or score 1/5 because of hard guardrail violations
+- `rubric-score-2.json` — should score 2/5 because it is structurally weak and not buildable
+- `rubric-score-3.json` — should score 3/5 because it is acceptable but lacks stronger mechanisms
+- `rubric-score-4.json` — should score 4/5 because it is shippable with validation notes
+- `rubric-score-5.json` — should score 5/5 because it is resilient across states, accessibility, platform behavior, and handoff
+
+The upgrade example in [`../examples/rubric-before-after.md`](../examples/rubric-before-after.md) shows how a 2/5 response becomes a 4/5 response.
+
 ---
 
 ## How to run evals

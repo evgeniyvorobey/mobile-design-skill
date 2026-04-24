@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.10.0
+version: 1.11.0
 ---
 
 # Mobile Design Skill
@@ -32,6 +32,7 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/inspiration-sources.md` for visual inspiration and production reference sources, used only after UX/platform/accessibility reasoning is grounded
 - `docs/self-review.md` for the mandatory self-review pass run before any response is returned
 - `examples/` for regression-style examples
+- `examples/evals/` and `examples/rubric-before-after.md` for design-quality rubric score calibration
 - `examples/anti-patterns.md` for calibration on ambiguous or hallucination-inviting inputs
 
 ## Supported modes
