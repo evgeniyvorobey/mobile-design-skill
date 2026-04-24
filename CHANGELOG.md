@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.13.0] - 2026-04-25
+
+### Added
+- Clarification policy at `docs/clarification-policy.md`, defining when the skill should ask blocking questions vs proceed with labeled assumptions.
+- Clarification examples at `examples/clarification-policy.md`, covering blocking visual review, non-blocking concept generation, and policy-sensitive healthcare specs.
+- Machine-readable `clarification_policy` metadata and response contract fields for max questions, blocking criteria, fast path, and assumptions.
+
+### Changed
+- `SKILL.md`, `skill/skill.md`, `docs/workflow.md`, `docs/self-review.md`, `docs/guardrails.md`, `docs/evals.md`, `docs/sources.md`, `skill/modes.md`, `skill/templates.md`, and `skill/usage.md` now apply the ask-vs-assume policy.
+- `scripts/validate_repo.py` now requires and validates the clarification policy layer, examples, and required references.
+- `README.md`, the Claude Code wrapper, and `docs/commands.md` now surface the clarification behavior and examples.
+
 ## [1.12.0] - 2026-04-25
 
 ### Added

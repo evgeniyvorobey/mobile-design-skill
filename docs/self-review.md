@@ -28,6 +28,13 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Have I replaced every instance of vague language ("modern", "clean", "intuitive", "appropriate spacing", "good contrast") with a concrete claim?
 - If I removed the `Mode:` and `Platform scope:` headers, would a reader still be able to tell which mode this is? If not, structure is weak.
 
+### Clarification policy
+- Did I apply `docs/clarification-policy.md` before deciding to ask questions or proceed?
+- If I asked questions, are there three or fewer and are they genuinely blocking?
+- If I proceeded with assumptions, are they minimal, labeled, and safe?
+- Did I avoid asking cosmetic or preference questions before task, platform, safety, accessibility, or implementation blockers?
+- If clarification blocks a reliable artifact, did I offer a fast path when a provisional draft would still be useful?
+
 ### Known weakness prevention
 - Which weakness pattern from `docs/weaknesses.md` is most likely in this task, and did I actively prevent it?
 - Does the draft resemble template completion without real decisions? If yes, add choices, rejected alternatives, and reasons.

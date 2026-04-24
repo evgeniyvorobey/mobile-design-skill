@@ -1,6 +1,6 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
-version: 1.12.0
+version: 1.13.0
 status: production-ready
 owner: repository-maintained
 entrypoint: SKILL.md
@@ -58,7 +58,10 @@ response_contract:
   classify_mode_first: true
   choose_exactly_one_primary_mode: true
   determine_platform_scope: true
+  apply_clarification_policy: true
   require_minimal_labeled_assumptions: true
+  ask_only_blocking_clarifying_questions: true
+  max_clarifying_questions: 3
   include_accessibility_by_default: true
   include_platform_notes_when_relevant: true
   distinguish_facts_from_recommendations: true
@@ -78,6 +81,26 @@ source_priority:
   - public-sector and enterprise-grade design systems
   - established research and case-study sources
   - workflow and tooling references
+clarification_policy:
+  role: decide when to ask clarifying questions vs proceed with assumptions
+  max_questions: 3
+  ask_when_missing_info_changes:
+    - platform behavior
+    - primary user task
+    - safety accessibility or compliance risk
+    - regulated domain state handling
+    - visual evidence for visual review
+    - production implementation behavior
+  proceed_with_assumptions_when:
+    - conservative cross-platform default is safe
+    - general audience default is safe
+    - brand direction is not central to the task
+    - policy can be labeled as assumption
+    - review can be limited to structure and behavior
+  response_sections_when_blocking:
+    - Clarifying questions
+    - Why this blocks
+    - Fast path
 design_quality:
   role: visual hierarchy composition density typography color motion brand and production-readiness calibration
   dimensions:
@@ -208,6 +231,7 @@ quality_bar:
   design_quality_rubric_1_to_5: true
   design_quality_rubric_eval_pack: true
   llm_as_judge_runner: true
+  clarification_policy: true
   known_weakness_preflight: true
   design_reasoning_with_alternatives: true
   context_aware_defaults: true

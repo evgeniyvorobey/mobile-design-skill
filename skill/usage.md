@@ -15,6 +15,7 @@ If you want the expanded reference pack available during use, keep these files n
 - `skill/templates.md`
 - `docs/sources.md`
 - `docs/workflow.md`
+- `docs/clarification-policy.md`
 - `docs/design-quality.md`
 - `docs/design-quality-rubric.md`
 - `docs/weaknesses.md`
@@ -24,15 +25,16 @@ The skill will:
 1. classify the request into one mode
 2. determine platform scope
 3. identify missing information
-4. make only minimal labeled assumptions
-5. return a structured mode-specific output
-6. include accessibility and usability by default
-7. include design-quality calibration for visual hierarchy, rhythm, craft, and production readiness when producing design artifacts
-8. apply a 1-5 design-quality rubric, targeting 4/5 for generated artifacts and exposing current score in reviews
-9. use `examples/evals/` and `examples/rubric-before-after.md` as calibration references when tuning rubric scoring
-10. use `scripts/run_rubric_judge.py` for provider-agnostic LLM-as-judge calibration of rubric fixtures
-11. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
-12. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
+4. apply clarification policy: ask only blocking questions, otherwise proceed with assumptions
+5. make only minimal labeled assumptions
+6. return a structured mode-specific output
+7. include accessibility and usability by default
+8. include design-quality calibration for visual hierarchy, rhythm, craft, and production readiness when producing design artifacts
+9. apply a 1-5 design-quality rubric, targeting 4/5 for generated artifacts and exposing current score in reviews
+10. use `examples/evals/` and `examples/rubric-before-after.md` as calibration references when tuning rubric scoring
+11. use `scripts/run_rubric_judge.py` for provider-agnostic LLM-as-judge calibration of rubric fixtures
+12. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
+13. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
 
 ---
 
@@ -214,6 +216,7 @@ The skill will not:
 - invent official platform guidance
 - invent validated research findings
 - claim verified accessibility compliance without sufficient evidence
+- block useful output with nonessential questions
 - provide aesthetic-only advice detached from task clarity or usability
 - return a section-complete response with no real decisions, tradeoffs, or buildable mechanisms
 - ignore typography, spacing, navigation, touch behavior, or states

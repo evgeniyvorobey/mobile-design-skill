@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.12.0
+version: 1.13.0
 ---
 
 # Mobile Design Skill
@@ -21,6 +21,7 @@ If deeper detail is needed during a task, load only the relevant references:
 - `skill/modes.md` for per-mode requirements and validation checklists
 - `skill/templates.md` for output skeletons
 - `docs/workflow.md` for the full internal workflow
+- `docs/clarification-policy.md` for deciding when to ask questions vs proceed with assumptions
 - `docs/sources.md` for source hierarchy and canonical URLs
 - `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
 - `docs/design-quality.md` for visual hierarchy, composition, density, typography craft, color semantics, interaction polish, and production-readiness calibration
@@ -81,12 +82,19 @@ If platform is unspecified:
 Good example:
 - `Assumption: Cross-platform output requested unless native divergence is later specified.`
 
-### 4. Check information sufficiency
-If the request is underspecified:
+### 4. Check information sufficiency and clarification need
+Apply `docs/clarification-policy.md`.
+
+If the request is underspecified but safe to answer:
 - continue with minimal labeled assumptions
 - do not invent research findings
 - do not invent validated behavior
 - do not invent states, flows, or business rules as facts
+
+If missing information would materially change the recommendation:
+- ask at most three clarifying questions
+- explain why they block reliable output
+- offer a fast path with the smallest safe assumption when useful
 
 ### 5. Apply source priority
 Use this order:
@@ -115,6 +123,8 @@ Use `docs/design-quality.md` when the output proposes, critiques, specifies, or 
 
 Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. For generated or specified artifacts, target 4/5 before returning; if a draft scores 3/5 or below and can be improved without inventing facts, revise it. For reviews, expose the current design-quality score with a short reason.
 
+Use `docs/clarification-policy.md` when the request is underspecified, risky, or precision-sensitive. Ask only when the answer would change the design decision; otherwise proceed with assumptions and surface the unknowns in the appropriate section.
+
 If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction and comparison examples, but they must not justify usability, accessibility, platform, or compliance claims.
 
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
@@ -125,6 +135,7 @@ Use the matching structure from `skill/templates.md` when needed.
 ### 7. Apply universal review lenses
 Before finalizing, check:
 - task clarity
+- clarification need
 - known weakness prevention
 - information hierarchy
 - design quality and visual craft
@@ -180,6 +191,7 @@ Every response must:
 - include accessibility considerations by default
 - include platform-specific notes when relevant
 - separate known facts from recommendations
+- ask clarifying questions only when missing information would materially change the recommendation; otherwise proceed with labeled assumptions
 - include design quality calibration when the response proposes, specifies, reviews, or rationalizes a design artifact
 - apply the 1-5 design-quality rubric internally; expose the score in reviews and expose the target only when useful for generated artifacts
 - apply known weakness prevention before returning; do not expose it as a separate section unless the user asks for a failure-mode analysis
@@ -283,6 +295,7 @@ Do not:
 - blur iOS and Android when conventions differ
 - overcomplicate when the user needs a design artifact
 - invent components, flows, or states unless clearly labeled as assumptions
+- block useful output with nonessential questions
 
 ## Platform policy
 

@@ -14,6 +14,8 @@ All modes also use `docs/weaknesses.md` as a failure-mode preflight. The goal is
 
 Modes that propose, specify, review, or rationalize a design artifact also use `docs/design-quality-rubric.md`. Generated/specification outputs should internally target 4/5; reviews should expose the current score with evidence limits.
 
+All modes use `docs/clarification-policy.md` before drafting. Ask clarifying questions only when missing information would materially change the recommendation; otherwise proceed with minimal labeled assumptions.
+
 ---
 
 ## Mode A: Generate mobile screen concept

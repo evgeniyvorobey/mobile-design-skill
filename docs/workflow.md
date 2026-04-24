@@ -104,11 +104,28 @@ When multiple contexts apply, state the resolution in `Assumptions` so the user 
 
 Determine whether the request includes enough information for the chosen mode.
 
+Use `docs/clarification-policy.md` to decide whether to ask questions or proceed with assumptions.
+
 ### If sufficient
 Proceed directly.
 
 ### If partially sufficient
 Continue with minimal labeled assumptions.
+
+### If clarification is required
+Ask at most three clarifying questions when a missing answer would materially change the recommendation.
+
+The response should include:
+
+- best inferred mode
+- platform scope
+- assumptions
+- `Clarifying questions`
+- `Why this blocks`
+- optional `Fast path`
+- `Next actions`
+
+Do not ask non-blocking questions before producing useful work.
 
 ### If severely underspecified
 Still provide a useful structure, but:
@@ -130,6 +147,7 @@ Use the source hierarchy in this order:
 
 ### Decision rules
 - Use Apple HIG for iOS-specific interaction, layout, and typography interpretation.
+- Use `docs/clarification-policy.md` when missing input could materially change platform, task, accessibility, safety, compliance, or implementation guidance.
 - Use Material Design 3 and Android Navigation for Android and cross-platform mobile structure where Android behavior matters.
 - Use WCAG 2.2 and W3C mobile guidance for accessibility framing.
 - Use ISO usability and HCD framing when decisions need justification through context of use and lifecycle reasoning.
@@ -165,6 +183,11 @@ Before finalizing, check the draft against these lenses:
 
 ### Task clarity
 - Can the user’s main task be identified immediately?
+
+### Clarification need
+- Would any missing answer materially change the recommendation?
+- If yes, did the response ask no more than three high-impact clarifying questions?
+- If no, did the response proceed with minimal labeled assumptions?
 
 ### Known weakness prevention
 - Which weakness pattern from `docs/weaknesses.md` is most likely for this task?

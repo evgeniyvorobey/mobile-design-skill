@@ -99,7 +99,7 @@ If unspecified, do not pretend certainty. Use one of these approaches:
   - `Assumption: Cross-platform output requested unless platform-specific behavior is later specified.`
 
 ### Step 4: Determine whether enough information exists
-Check whether the input is sufficient for the chosen mode.
+Check whether the input is sufficient for the chosen mode using `docs/clarification-policy.md`.
 
 If enough information exists:
 - proceed directly
@@ -109,6 +109,11 @@ If information is missing:
 - do not invent research findings
 - do not invent validated behaviors
 - do not invent exact states or flows unless explicitly framed as assumptions
+
+If missing information would materially change the recommendation:
+- ask at most three clarifying questions
+- explain why the answers block reliable output
+- offer a fast path with the smallest safe assumption when useful
 
 ### Step 5: Select source priority
 Use this order of precedence:
@@ -139,6 +144,8 @@ Use `docs/design-quality.md` when the output proposes, critiques, specifies, or 
 
 Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. For generated or specified artifacts, target 4/5 before returning; if a draft scores 3/5 or below and can be improved without inventing facts, revise it. For reviews, expose the current design-quality score with a short reason.
 
+Use `docs/clarification-policy.md` when the request is underspecified, risky, or precision-sensitive. Ask only when the answer would change the design decision; otherwise proceed with assumptions and surface the unknowns in the appropriate section.
+
 If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction, comparable surfaces, and exploration breadth, but they must not justify usability, accessibility, platform, or compliance claims.
 
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
@@ -149,6 +156,7 @@ Use the mode-specific output structures defined below.
 ### Step 7: Apply universal review lenses
 Before finalizing, check:
 - clarity of user task
+- clarification need
 - known weakness prevention
 - hierarchy of information
 - design quality and visual craft
@@ -199,6 +207,7 @@ Self-review is the single highest-impact quality mechanism in this skill.
 
 ### Step 11: Finalize responsibly
 - state assumptions clearly
+- ask clarifying questions only when missing information would materially change the recommendation; otherwise proceed with labeled assumptions
 - distinguish facts from recommendations
 - keep outputs structured and reusable
 - end with practical next actions, not generic inspiration
@@ -330,6 +339,7 @@ You must not:
 - collapse iOS and Android guidance into one answer when conventions differ
 - overcomplicate with unnecessary theory when the user needs a design artifact
 - invent components, flows, or states unless framed as assumptions
+- block useful output with nonessential questions
 
 ---
 

@@ -33,6 +33,7 @@ Every response must satisfy the following, regardless of mode:
 - [ ] Contains a `## Next actions` section with at least 2 specific, testable items
 - [ ] Does not contain the compliance-claim tokens: `compliant`, `WCAG-compliant`, `passes accessibility` unless the user provided verified evidence
 - [ ] Does not contain fabricated quantitative research claims (regex: `\d+%`, `users completed`, `testing proved`, `research shows`) unless sourced
+- [ ] If the response asks clarifying questions, it contains at most 3 questions and explains why the answers block reliable output
 
 ## Shared fail conditions (all modes)
 
@@ -47,6 +48,18 @@ Any of the following invalidates the response:
 - Compliance claim echoed from user input without "cannot independently verify" qualifier
 - Inspiration source used as evidence for usability, accessibility, platform correctness, compliance, or user preference
 - Template-complete but decision-empty output: required sections exist, but recommendations have no choices, rejected alternatives, context-specific reasons, or buildable mechanisms
+- Non-blocking clarification: response asks questions instead of producing a useful artifact when safe assumptions would have worked
+- More than three clarifying questions in one response
+
+## Clarification validation
+
+Use [`clarification-policy.md`](clarification-policy.md) when a response asks questions or proceeds with underspecified input.
+
+- [ ] Blocking questions are tied to platform, primary task, safety/accessibility, compliance, visual evidence, or implementation.
+- [ ] Non-blocking gaps are handled through labeled assumptions, unresolved assumptions, open questions, or next actions.
+- [ ] A clarification-only response still includes Mode, Platform scope, Assumptions, Clarifying questions, Why this blocks, optional Fast path, and Next actions.
+- [ ] The response does not ask cosmetic/style questions before structural blockers.
+- [ ] The response offers a fast path when a provisional draft would still be useful.
 
 ## Known weakness validation
 

@@ -21,6 +21,7 @@ REQUIRED_FILES = [
     "skill/modes.md",
     "skill/templates.md",
     "skill/usage.md",
+    "docs/clarification-policy.md",
     "docs/context-defaults.md",
     "docs/design-quality.md",
     "docs/design-quality-rubric.md",
@@ -38,6 +39,7 @@ REQUIRED_FILES = [
     "docs/weaknesses.md",
     "docs/workflow.md",
     "examples/design-flow.md",
+    "examples/clarification-policy.md",
     "examples/generate-screen.md",
     "examples/rationale-handoff.md",
     "examples/review-screen.md",
@@ -340,6 +342,31 @@ LLM_JUDGE_RUNNER_REFERENCE_FILES = [
     "skill/metadata.yaml",
 ]
 
+CLARIFICATION_POLICY_REFERENCE_FILES = [
+    "SKILL.md",
+    ".claude/skills/mobile-design-skill/SKILL.md",
+    "README.md",
+    "skill/skill.md",
+    "skill/metadata.yaml",
+    "skill/modes.md",
+    "skill/templates.md",
+    "skill/usage.md",
+    "docs/evals.md",
+    "docs/guardrails.md",
+    "docs/self-review.md",
+    "docs/sources.md",
+    "docs/workflow.md",
+]
+
+CLARIFICATION_POLICY_REQUIRED_PATTERNS = [
+    "Ask only when",
+    "at most **three**",
+    "Clarifying questions",
+    "Why this blocks",
+    "Fast path",
+    "Proceed-with-assumptions",
+]
+
 
 def fail(message: str) -> None:
     print(f"[FAIL] {message}")
@@ -537,6 +564,33 @@ def validate_llm_judge_runner_contract() -> None:
         fail("LLM judge runner contract validation failed:\n" + "\n".join(errors))
 
 
+def validate_clarification_policy_layer() -> None:
+    policy = (ROOT / "docs/clarification-policy.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+    for pattern in CLARIFICATION_POLICY_REQUIRED_PATTERNS:
+        if pattern not in policy:
+            errors.append(f"docs/clarification-policy.md: missing `{pattern}`")
+
+    example = (ROOT / "examples/clarification-policy.md").read_text(encoding="utf-8")
+    for pattern in [
+        "## Example 1: Blocking visual review",
+        "## Example 2: Non-blocking concept request",
+        "## Example 3: Policy-sensitive spec",
+        "## Clarifying questions",
+        "## Fast path",
+    ]:
+        if pattern not in example:
+            errors.append(f"examples/clarification-policy.md: missing `{pattern}`")
+
+    for relative_path in CLARIFICATION_POLICY_REFERENCE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "clarification-policy.md" not in text and "clarification_policy" not in text:
+            errors.append(f"{relative_path}: missing clarification policy reference")
+
+    if errors:
+        fail("Clarification policy validation failed:\n" + "\n".join(errors))
+
+
 def validate_links() -> None:
     markdown_files: list[Path] = []
     for pattern in MARKDOWN_GLOBS:
@@ -659,6 +713,7 @@ def main() -> None:
     validate_design_quality_rubric_layer()
     validate_rubric_eval_pack()
     validate_llm_judge_runner_contract()
+    validate_clarification_policy_layer()
     validate_links()
     validate_example_responses()
     print("[OK] Repository structure, relative links, and example responses are valid.")

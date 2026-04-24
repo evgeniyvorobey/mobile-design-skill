@@ -6,6 +6,35 @@ Templates are structure, not quality. Before returning any filled template, run 
 
 ---
 
+## Clarification-only template
+
+Use this only when `docs/clarification-policy.md` says missing information blocks a reliable artifact.
+
+```md
+Mode: [best inferred mode]
+Platform scope: [known / unspecified / assumed]
+Assumptions:
+- [known fact or minimal assumption]
+- [what cannot be safely assumed]
+
+## Clarifying questions
+1. [blocking question]
+2. [blocking question if needed]
+3. [blocking question if needed]
+
+## Why this blocks
+- [reason tied to task/platform/accessibility/safety/implementation]
+
+## Fast path
+- [smallest safe assumption for a provisional draft]
+
+## Next actions
+- [answer questions or confirm fast path]
+- [share missing artifact/context if needed]
+```
+
+---
+
 ## Template A: Generate mobile screen concept
 
 ```md

@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.12.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.13.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.12.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.13.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -70,6 +70,7 @@ This skill enforces a practical framework for mobile design decisions. It is bui
 It is structured around:
 
 - **Six primary modes** — every request is classified into exactly one: screen concept, user flow, platform-aware UI spec, usability/accessibility review, typography/spacing system, or handoff rationale.
+- **Clarification policy** — asks only blocking questions, otherwise proceeds with minimal labeled assumptions.
 - **Guardrails** — no invented platform rules, no fabricated research findings, no aesthetic-only advice without usability reasoning.
 - **Quality bars** — concrete numeric thresholds (touch 44pt iOS / 48dp Android, WCAG 2.2 AA contrast, line-height 1.4–1.6, motion 200–300ms).
 - **Design quality calibration** — visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production-readiness checks.
@@ -205,6 +206,7 @@ Keep these files loaded alongside the active prompt for full skill behavior:
 - `skill/modes.md`
 - `skill/templates.md`
 - `docs/workflow.md`
+- `docs/clarification-policy.md`
 - `docs/sources.md`
 - `docs/quality-bars.md`
 - `docs/design-quality.md`
@@ -233,6 +235,7 @@ system_prompt = (SKILL_ROOT / "SKILL.md").read_text()
 
 # Optionally inline the expanded reference set for deeper behavior:
 for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
+            "docs/clarification-policy.md",
             "docs/quality-bars.md", "docs/design-quality.md",
             "docs/design-quality-rubric.md",
             "docs/weaknesses.md",
@@ -291,6 +294,7 @@ for (const ref of [
   "skill/modes.md",
   "skill/templates.md",
   "docs/workflow.md",
+  "docs/clarification-policy.md",
   "docs/quality-bars.md",
   "docs/design-quality.md",
   "docs/design-quality-rubric.md",
@@ -381,6 +385,8 @@ Constraints: accessibility-sensitive, high trust, existing design system, dense 
 
 If the task description is short, the skill will state its assumptions, narrow the scope, and surface the information it needs next. See [`examples/anti-patterns.md`](examples/anti-patterns.md) for how it handles underspecified input.
 
+If missing information would materially change the recommendation, the skill asks up to three blocking clarifying questions and offers a fast path when a provisional draft is still useful. See [`docs/clarification-policy.md`](docs/clarification-policy.md) and [`examples/clarification-policy.md`](examples/clarification-policy.md).
+
 ---
 
 ## Supported modes
@@ -436,6 +442,7 @@ mobile-design-skill/
 │   └── metadata.yaml                     Machine-readable skill metadata
 ├── docs/
 │   ├── workflow.md                       11-step internal workflow
+│   ├── clarification-policy.md           Ask-vs-assume rules for underspecified input
 │   ├── principles.md                     11 design principles
 │   ├── guardrails.md                     Hard constraints (do not invent, do not claim compliance, etc.)
 │   ├── sources.md                        Source hierarchy (Apple HIG, Material 3, WCAG, ISO, GOV.UK)
@@ -455,6 +462,7 @@ mobile-design-skill/
 │   └── github-publishing.md              Publishing kit
 └── examples/
     ├── generate-screen.md                Worked example for Mode 1
+    ├── clarification-policy.md           Ask-vs-assume examples for blocking and non-blocking gaps
     ├── design-flow.md                    Worked example for Mode 2
     ├── ui-spec.md                        Worked example for Mode 3
     ├── review-screen.md                  Worked example for Mode 4
@@ -527,6 +535,7 @@ rm -rf ~/mobile-design-skill
 Fork the repository, edit the files that govern skill behavior, and run the install script against your fork. Files most commonly customized:
 
 - [`docs/context-defaults.md`](docs/context-defaults.md) — add domain-specific defaults for your product
+- [`docs/clarification-policy.md`](docs/clarification-policy.md) — tune when the skill asks questions vs proceeds with assumptions
 - [`docs/quality-bars.md`](docs/quality-bars.md) — tighten numeric thresholds for your design system
 - [`docs/design-quality.md`](docs/design-quality.md) — tune design-quality calibration for hierarchy, rhythm, visual craft, and production readiness
 - [`docs/design-quality-rubric.md`](docs/design-quality-rubric.md) — tune 1-5 design-quality scoring, caps, and improvement ladder

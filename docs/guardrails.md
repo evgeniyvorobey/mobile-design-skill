@@ -229,3 +229,21 @@ Better:
 - score the weak dimension explicitly
 - revise generated artifacts below 4/5 when the context supports improvement
 - for reviews, attach the score to a short evidence-based reason
+
+---
+
+## 15. Do not ask unnecessary questions
+
+Clarifying questions are useful only when the answer changes the recommendation.
+
+Do not:
+- ask a discovery questionnaire before producing a simple artifact
+- ask brand/style questions before task, platform, safety, accessibility, or implementation blockers
+- ask more than three questions at once
+- block a provisional draft when a safe assumption would work
+
+Better:
+- apply `docs/clarification-policy.md`
+- proceed with the smallest labeled assumption when the gap is not blocking
+- ask one to three high-impact questions when the gap changes the design decision
+- offer a fast path when the user can accept a provisional draft

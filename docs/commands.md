@@ -307,6 +307,8 @@ The skill works best when your prompt includes:
 
 If some of that is missing, the skill will proceed with minimal labeled assumptions.
 
+If the missing information would materially change the recommendation, the skill follows `docs/clarification-policy.md`: it asks at most three blocking clarifying questions, explains why they matter, and offers a fast path when a provisional draft is still useful.
+
 ---
 
 ## What not to expect

@@ -138,6 +138,21 @@ This layer interprets the source hierarchy above into practical quality checks. 
 
 ---
 
+## Clarification policy layer
+
+Clarification behavior is defined separately in [`clarification-policy.md`](clarification-policy.md).
+
+Use it when task inputs are underspecified, risky, or precision-sensitive. This layer decides whether to:
+
+- proceed with minimal labeled assumptions
+- ask one to three blocking questions
+- offer a provisional fast path
+- move uncertainty to `Unresolved assumptions`, `Open questions`, or `Next actions`
+
+The policy protects both speed and accuracy. It prevents the skill from blocking useful output with nonessential questions, and it prevents overconfident recommendations when missing context would materially change the design.
+
+---
+
 ## Design quality rubric layer
 
 The 1-5 design-quality scoring rubric is defined separately in [`design-quality-rubric.md`](design-quality-rubric.md).
