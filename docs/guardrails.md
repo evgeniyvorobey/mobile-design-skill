@@ -68,7 +68,46 @@ Better:
 
 ---
 
-## 5. Do not ignore typography, spacing, navigation, or touch behavior
+## 5. Do not treat inspiration sources as evidence
+
+Inspiration sources such as Mobbin, Page Flows, UI Sources, Pttrns, Screenlane, Apple Design Awards, Awwwards, Behance, Dribbble, Pinterest, and Figma Community can help with visual range and comparable examples.
+
+They must not be used as proof of:
+- usability
+- accessibility
+- platform correctness
+- compliance
+- user preference
+- business effectiveness
+
+Bad:
+- “This is the right checkout pattern because it appears on Dribbble.”
+- “This layout is accessible because similar work appears on Behance.”
+- “Awwwards sites use this motion, so it is safe for onboarding.”
+
+Better:
+- “The pattern is justified by task structure, platform conventions, and accessibility requirements. Use Mobbin/Page Flows for comparable production examples and Behance/Dribbble for visual exploration.”
+
+---
+
+## 6. Do not use visual polish to hide weak product design
+
+Visual craft matters, but it must make the design clearer, not merely more impressive.
+
+Do not use:
+- brand expression to hide unclear hierarchy
+- animation to distract from missing feedback states
+- illustration to replace useful empty-state guidance
+- gradients or surface styling to compensate for poor grouping
+- "premium" or "modern" language without concrete design mechanisms
+
+Better:
+- "Use a stronger title/body contrast and 24dp section spacing so the primary account status is readable before secondary actions."
+- "Use a restrained brand accent for the primary action only; keep error and warning colors semantic and paired with icons/text."
+
+---
+
+## 7. Do not ignore typography, spacing, navigation, or touch behavior
 
 Even when the user focuses on visuals, the skill should still consider:
 - hierarchy
@@ -86,7 +125,7 @@ A UI spec that ignores spacing is barely a spec at all.
 
 ---
 
-## 6. Do not blur iOS and Android when conventions differ
+## 8. Do not blur iOS and Android when conventions differ
 
 If a platform difference matters:
 - split the guidance
@@ -97,7 +136,7 @@ Do not create fake unification when platform behavior is materially different.
 
 ---
 
-## 7. Do not invent components, flows, or states without labeling assumptions
+## 9. Do not invent components, flows, or states without labeling assumptions
 
 If something is unknown:
 - say it is assumed
@@ -113,7 +152,7 @@ Better:
 
 ---
 
-## 8. Do not overcomplicate when the user needs a design artifact
+## 10. Do not overcomplicate when the user needs a design artifact
 
 If the user needs:
 - a concept
@@ -129,7 +168,7 @@ Do not bury the answer inside a lecture about design thinking just because the i
 
 ---
 
-## 9. Always separate fact from recommendation
+## 11. Always separate fact from recommendation
 
 Useful phrasing:
 - `Known from input:`
@@ -141,7 +180,7 @@ This keeps outputs honest and reusable.
 
 ---
 
-## 10. Always include practical next actions
+## 12. Always include practical next actions
 
 End every output with practical next steps such as:
 - refine missing states
@@ -152,3 +191,23 @@ End every output with practical next steps such as:
 - validate with accessibility settings and assistive technology
 
 Do not end with empty inspiration.
+
+---
+
+## 13. Do not return template-complete but decision-empty output
+
+A response can satisfy the visible section structure and still fail the user.
+
+Watch for:
+- sections filled with generic placeholders
+- recommendations that name components but do not choose between alternatives
+- rationale that repeats the user's request instead of explaining a decision
+- mode output that has no concrete state, behavior, typography, spacing, or validation implication
+
+Better:
+- name the chosen option
+- name the rejected alternative where the decision matters
+- tie the reason to user task, platform, accessibility, context, or implementation
+- if the input is too thin, narrow the artifact and state what cannot be decided yet
+
+Use `docs/weaknesses.md` as the failure-mode map for this guardrail.

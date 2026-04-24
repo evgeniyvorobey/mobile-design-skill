@@ -17,5 +17,5 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Validate repository structure and links
+      - name: Validate repository structure, links, and examples
         run: python3 scripts/validate_repo.py

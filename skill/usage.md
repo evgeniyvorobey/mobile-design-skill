@@ -15,6 +15,8 @@ If you want the expanded reference pack available during use, keep these files n
 - `skill/templates.md`
 - `docs/sources.md`
 - `docs/workflow.md`
+- `docs/design-quality.md`
+- `docs/weaknesses.md`
 
 The skill will:
 
@@ -24,6 +26,9 @@ The skill will:
 4. make only minimal labeled assumptions
 5. return a structured mode-specific output
 6. include accessibility and usability by default
+7. include design-quality calibration for visual hierarchy, rhythm, craft, and production readiness when producing design artifacts
+8. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
+9. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
 
 ---
 
@@ -186,6 +191,16 @@ Screen description:
 Constraints: accessibility-sensitive
 ```
 
+### Example 4
+```text
+Use the mobile-design-skill.
+
+Generate a mobile screen concept for a premium habit tracker and include inspiration references.
+Platform: iOS
+Audience: general consumer
+Constraints: calm visual direction, accessibility-sensitive, no gamification overload
+```
+
 ---
 
 ## What the skill will not do
@@ -196,6 +211,7 @@ The skill will not:
 - invent validated research findings
 - claim verified accessibility compliance without sufficient evidence
 - provide aesthetic-only advice detached from task clarity or usability
+- return a section-complete response with no real decisions, tradeoffs, or buildable mechanisms
 - ignore typography, spacing, navigation, touch behavior, or states
 
 ---

@@ -311,9 +311,63 @@ Users can go back between steps.
 
 ---
 
+## Anti-pattern 7: Template-complete but decision-empty output
+
+### Prompt
+```text
+Use the mobile-design-skill.
+Create a UI spec for a cross-platform subscription settings screen.
+Users need to see current plan, renewal date, payment method, and cancel option.
+```
+
+### Bad response (fragment)
+```md
+## Structural zones
+- Top area: plan information
+- Main content area: subscription details
+- Bottom area: actions
+
+## Behavior rules
+- Show the current plan.
+- Let the user update payment.
+- Let the user cancel.
+
+## Key decision tradeoffs
+- Use a clear layout because it is better for users.
+```
+
+### Why it fails
+- The visible sections are present, but no real design decisions were made.
+- "Clear layout" is not a tradeoff and has no rejected alternative.
+- The spec omits state and risk details: renewal failed, payment expired, cancellation confirmation, refund policy unknown, restore purchase, and platform billing differences.
+- An engineer cannot implement the behavior without guessing.
+
+### Good response (fragment)
+```md
+## Structural zones
+- Summary zone: current plan name, price, renewal date, and status badge in one grouped block so the user's first glance answers "what am I paying for?"
+- Payment zone: payment method row with masked details, status, and "Update" action; keep it separate from cancellation to avoid accidental destructive intent.
+- Support zone: invoices, terms, and contact support as secondary rows.
+- Bottom action zone: cancel subscription as a secondary/destructive text action, not the primary CTA.
+
+## State definitions
+- Default: active subscription with renewal date.
+- Payment issue: warning banner above payment zone, "Update payment" becomes the recommended action.
+- Cancel pending: show end-of-access date and restore/reactivate option if allowed.
+- Loading: skeleton for plan summary and payment row; do not show cancellation action until status is known.
+- Error: keep last known subscription state visible and provide retry.
+
+## Key decision tradeoffs
+- Group plan summary above payment details, chosen over a flat list because subscription confidence depends on seeing plan + renewal before payment maintenance.
+- Keep cancellation visually secondary, chosen over bottom primary destructive CTA because cancel is important but not the routine task on settings entry.
+```
+
+---
+
 ## How to use these anti-patterns
 
 - During skill output review, compare against the Bad/Good pairs. If the output resembles a Bad response, treat it as a failure even if it scores well on structural checks.
 - When training or tuning the skill, use the Good responses as positive examples.
+- Use `docs/weaknesses.md` to decide whether a new field failure deserves a new anti-pattern.
 - When a new anti-pattern is observed in the field, add it here with prompt, bad response, failure reason, and corrected response.
 - Anti-patterns should pair one-to-one with a guardrail when possible. If a new anti-pattern does not map to an existing guardrail, that is a signal the guardrails need to be extended.

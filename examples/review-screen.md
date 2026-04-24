@@ -28,6 +28,7 @@ Constraints:
 ```md
 Mode: Review screen for usability/accessibility
 Platform scope: Cross-platform
+Sub-case: D2 description only (text description provided, no visual asset)
 Assumptions:
 - This is a phone-first screen.
 - Email may be read-only in some account states, but that is not shown here.
@@ -57,6 +58,12 @@ The screen appears functionally complete but structurally overloaded. The main r
 - All fields appear to have near-equal visual priority.
 - No sectional hierarchy means users must parse the entire form as one block.
 - Dense profile fields such as address and company info should be grouped or progressively disclosed where appropriate.
+
+## Design quality issues
+- Description-only limitation: visual balance, exact spacing, contrast, and color quality cannot be verified without a screenshot or layout spec.
+- Probable quality risk: equal field priority and no grouping will make the form feel less crafted even if individual fields are visually polished.
+- The save action needs stronger discoverability through placement and persistence, not just visual styling.
+- Any visual refinement should first reinforce section grouping, required/optional distinction, error recovery, and unsaved-change behavior.
 
 ## Navigation and interaction issues
 - Back arrow behavior is unclear when changes are unsaved.

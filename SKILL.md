@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.6.1
+version: 1.9.0
 ---
 
 # Mobile Design Skill
@@ -23,9 +23,12 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/workflow.md` for the full internal workflow
 - `docs/sources.md` for source hierarchy and canonical URLs
 - `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
+- `docs/design-quality.md` for visual hierarchy, composition, density, typography craft, color semantics, interaction polish, and production-readiness calibration
+- `docs/weaknesses.md` for known failure modes and prevention checks that keep outputs from becoming generic, overconfident, aesthetic-only, or weakly buildable
 - `docs/context-defaults.md` for audience, domain, platform, and use-context defaults
 - `docs/heuristics.md` for the usability heuristics catalog with mobile applications and red-flag patterns
 - `docs/patterns-catalog.md` for mobile pattern decision matrices (navigation, overlays, lists, inputs, feedback, forms, search, auth)
+- `docs/inspiration-sources.md` for visual inspiration and production reference sources, used only after UX/platform/accessibility reasoning is grounded
 - `docs/self-review.md` for the mandatory self-review pass run before any response is returned
 - `examples/` for regression-style examples
 - `examples/anti-patterns.md` for calibration on ambiguous or hallucination-inviting inputs
@@ -105,13 +108,21 @@ Preferred source families:
 - Figma Variables guidance
 - Material Partner Studies
 
+Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes the quality of a design artifact. This layer improves visual hierarchy, composition, density, typography, color semantics, motion/feedback, brand expression, and production readiness without replacing usability and accessibility reasoning.
+
+If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction and comparison examples, but they must not justify usability, accessibility, platform, or compliance claims.
+
+Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
+
 ### 6. Build the response by mode
 Use the matching structure from `skill/templates.md` when needed.
 
 ### 7. Apply universal review lenses
 Before finalizing, check:
 - task clarity
+- known weakness prevention
 - information hierarchy
+- design quality and visual craft
 - navigation predictability
 - platform alignment
 - readability and typography quality
@@ -130,6 +141,10 @@ For every major design decision:
 
 If a decision has no alternative, it was not a decision — it was a default. Flag defaults as such.
 
+For design-quality decisions, state the concrete mechanism: size, spacing, alignment, contrast, density, color role, motion duration, state treatment, or token. Avoid taste words unless they are translated into implementation guidance.
+
+When inspiration sources are used, keep them in a distinct `Inspiration references` section or clearly labeled note. Do not let portfolio or award examples replace the reasoning above.
+
 ### 9. Check concrete quality bars
 Compare against `docs/quality-bars.md`:
 - typography sizes, line-height, line length
@@ -138,6 +153,8 @@ Compare against `docs/quality-bars.md`:
 - motion durations and reduced-motion respect
 - state coverage (default, loading, empty, error)
 - spacing from the canonical 4- or 8-based scale
+- design quality calibration from `docs/design-quality.md` when the response proposes or packages a design artifact
+- likely weakness patterns from `docs/weaknesses.md`, especially generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
 
 ### 10. Run mandatory self-review
 Run the pass defined in `docs/self-review.md`. Silently answer every prompt. If any answer is "no" or "not sure", revise and re-run. Never return a response that fails self-review with a disclaimer.
@@ -157,6 +174,9 @@ Every response must:
 - include accessibility considerations by default
 - include platform-specific notes when relevant
 - separate known facts from recommendations
+- include design quality calibration when the response proposes, specifies, reviews, or rationalizes a design artifact
+- apply known weakness prevention before returning; do not expose it as a separate section unless the user asks for a failure-mode analysis
+- separate inspiration references from UX, accessibility, and platform rationale when inspiration is used
 - end with `Next actions:`
 
 ## Mode output requirements
@@ -172,6 +192,7 @@ Include:
 - Empty/loading/error states
 - Platform-specific notes
 - Accessibility considerations
+- Design quality calibration
 - Rationale for major choices
 
 ### Mode 2: Design mobile user flow
@@ -197,6 +218,7 @@ Include:
 - Spacing and layout notes
 - Typography rules
 - Accessibility requirements
+- Design quality requirements
 - Platform-specific implementation notes
 
 ### Mode 4: Review screen for usability/accessibility
@@ -206,6 +228,7 @@ Include:
 - Usability issues
 - Accessibility issues
 - Hierarchy and readability issues
+- Design quality issues
 - Navigation and interaction issues
 - Severity or priority
 - Recommended fixes
@@ -220,6 +243,7 @@ Include:
 - Line-height guidance
 - Spacing scale
 - Density rules
+- Visual rhythm rules
 - Touch-target implications
 - Accessibility considerations for scaling and readability
 - Usage examples for common screen areas
@@ -230,6 +254,7 @@ Include:
 - Target users and context
 - Key design decisions
 - Pattern choices and why
+- Design quality rationale
 - Platform alignment
 - Accessibility and usability considerations
 - States and edge cases
@@ -243,7 +268,10 @@ Do not:
 - invent official platform rules
 - invent research findings or usability test results
 - claim accessibility compliance unless explicitly verified
+- treat inspiration galleries, award sites, portfolios, or moodboards as proof of usability, accessibility, platform correctness, or compliance
 - give aesthetic-only advice without usability reasoning
+- use visual polish, brand expression, motion, or illustration to hide weak hierarchy, missing states, or inaccessible interaction
+- return template-complete but decision-empty output
 - ignore typography, spacing, navigation, or touch behavior
 - blur iOS and Android when conventions differ
 - overcomplicate when the user needs a design artifact

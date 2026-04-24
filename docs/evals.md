@@ -24,7 +24,12 @@ Every response must satisfy the following, regardless of mode:
 - [ ] Starts with `Mode: [exact mode name]`
 - [ ] Contains `Platform scope: [iOS | Android | Cross-platform | Assumed: <description>]`
 - [ ] Contains `Assumptions:` section with at least 2 items
-- [ ] Contains a `## Accessibility considerations` section (not embedded in other sections) with at least 3 concrete items
+- [ ] Contains the mode-specific accessibility section with at least 3 concrete items:
+  - Mode A / E: `## Accessibility considerations`
+  - Mode B: `## Accessibility and usability risks`
+  - Mode C: `## Accessibility requirements`
+  - Mode D: `## Accessibility issues`
+  - Mode F: `## Accessibility and usability considerations`
 - [ ] Contains a `## Next actions` section with at least 2 specific, testable items
 - [ ] Does not contain the compliance-claim tokens: `compliant`, `WCAG-compliant`, `passes accessibility` unless the user provided verified evidence
 - [ ] Does not contain fabricated quantitative research claims (regex: `\d+%`, `users completed`, `testing proved`, `research shows`) unless sourced
@@ -33,12 +38,29 @@ Every response must satisfy the following, regardless of mode:
 
 Any of the following invalidates the response:
 
-- Missing `Accessibility considerations` section
+- Missing the mode-specific accessibility section
 - `Next actions` are generic (examples: "test it", "validate", "iterate", "improve")
 - Hallucinated platform rule (example: "iOS requires X" without source or "recommendation" framing)
 - Blended iOS and Android guidance where conventions materially differ
 - Aesthetic-only recommendation without usability, readability, accessibility, or implementation justification
+- Visual polish, brand expression, motion, or illustration used to hide weak hierarchy, missing states, or inaccessible interaction
 - Compliance claim echoed from user input without "cannot independently verify" qualifier
+- Inspiration source used as evidence for usability, accessibility, platform correctness, compliance, or user preference
+- Template-complete but decision-empty output: required sections exist, but recommendations have no choices, rejected alternatives, context-specific reasons, or buildable mechanisms
+
+## Known weakness validation
+
+Use [`weaknesses.md`](weaknesses.md) as the regression map for content review.
+
+For every evaluated response:
+
+- [ ] The likely weakness pattern is prevented by the response, not merely absent from wording.
+- [ ] The output is specific to the user's product, task, audience, platform, or constraints.
+- [ ] Major decisions include a chosen option, a rejected alternative where relevant, and a concrete reason.
+- [ ] Evidence boundaries are clear: facts, assumptions, recommendations, and unverifiable items are separated where risk exists.
+- [ ] The response is buildable enough for the requested mode: states, behaviors, values, tokens, QA checks, or validation focus are present as appropriate.
+
+Hard-fail the response if it matches a P0 or P1 weakness in `docs/weaknesses.md`.
 
 ---
 
@@ -46,7 +68,8 @@ Any of the following invalidates the response:
 
 ### Structural validation
 - [ ] Response begins with `Mode: Generate mobile screen concept`
-- [ ] Contains sections: `Screen goal`, `Primary user task`, `Information hierarchy`, `Recommended layout structure`, `Suggested components`, `Empty / loading / error states`
+- [ ] Contains sections: `Screen goal`, `Primary user task`, `Information hierarchy`, `Recommended layout structure`, `Suggested components`, `Empty / loading / error states`, `Design quality calibration`
+- [ ] Contains `Alternatives considered` with at least one rejected alternative and reason
 - [ ] Information hierarchy is ordered (numbered or bulleted with priority)
 - [ ] All three edge states (empty, loading, error) are explicitly addressed
 - [ ] If platform-specific notes are included, they are split per platform (not merged)
@@ -56,6 +79,7 @@ Any of the following invalidates the response:
 - [ ] Hierarchy is task-driven (by user need), not visual-first (by prominence)
 - [ ] Suggested components are buildable on the named platform (native or common UI kit)
 - [ ] Rationale connects each major choice to user goal, accessibility, or implementation
+- [ ] Design quality calibration defines attention path, composition/spacing, typography, color/state, interaction polish, and production checks where relevant
 - [ ] Accessibility considerations are specific to the screen (not generic "use labels")
 - [ ] No invented research findings; no quantitative claims without source
 
@@ -96,7 +120,7 @@ Any of the following invalidates the response:
 
 ### Structural validation
 - [ ] Response begins with `Mode: Create platform-aware UI spec`
-- [ ] Contains sections: `Structural zones`, `Components by section`, `State definitions`, `Behavior rules`, `Spacing and layout notes`, `Typography rules`, `Accessibility requirements`
+- [ ] Contains sections: `Structural zones`, `Components by section`, `State definitions`, `Behavior rules`, `Spacing and layout notes`, `Typography rules`, `Accessibility requirements`, `Design quality requirements`, `Key decision tradeoffs`
 - [ ] For cross-platform specs: contains `iOS-specific implementation notes` AND `Android-specific implementation notes` OR an explicit statement that conventions align
 - [ ] State definitions cover at minimum: default, loading, empty, error
 - [ ] Spacing values are concrete (example: "16 dp" or "space-4 token"), not relative ("more spacing")
@@ -107,6 +131,7 @@ Any of the following invalidates the response:
 - [ ] Behaviors are described as rules ("If X, then Y"), not narrative
 - [ ] Typography rules specify role-to-size mapping (not just a list of sizes)
 - [ ] Accessibility requirements include specific targets: touch size, label behavior, focus order, contrast
+- [ ] Design quality requirements include concrete attention path, composition/spacing, typography, color/state, interaction polish, and production checks
 - [ ] Platform-specific notes reflect actual platform behavior, not stereotypes
 
 ### Fail conditions
@@ -121,7 +146,7 @@ Any of the following invalidates the response:
 
 ### Structural validation
 - [ ] Response begins with `Mode: Review screen for usability/accessibility`
-- [ ] Contains sections: `Quick summary`, `Strengths`, `Usability issues`, `Accessibility issues`, `Hierarchy and readability issues`, `Navigation and interaction issues`, `Severity or priority`, `Recommended fixes`, `Unresolved assumptions`
+- [ ] Contains sections: `Quick summary`, `Strengths`, `Usability issues`, `Accessibility issues`, `Hierarchy and readability issues`, `Design quality issues`, `Navigation and interaction issues`, `Severity or priority`, `Recommended fixes`, `Unresolved assumptions`
 - [ ] Sub-case is classified in the opening (visual / description-only / problem-statement / context-change)
 - [ ] Severity uses consistent tiers (High/Medium/Low or equivalent)
 - [ ] At least one strength is identified (not only negatives)
@@ -131,6 +156,7 @@ Any of the following invalidates the response:
 - [ ] Every severity-High issue has a recommended fix
 - [ ] Unresolved assumptions list what cannot be verified from the provided material
 - [ ] For description-only reviews: visual/aesthetic claims are qualified ("cannot verify from description")
+- [ ] Design quality issues do not assert color, spacing, balance, contrast, or visual weight from text-only input without qualifier
 - [ ] For problem-statement reviews: diagnosis is differentiated from assessment
 - [ ] Compliance language avoided (see shared fail conditions)
 
@@ -147,8 +173,10 @@ Any of the following invalidates the response:
 
 ### Structural validation
 - [ ] Response begins with `Mode: Create typography and spacing system`
-- [ ] Contains sections: `Type roles`, `Size hierarchy`, `Weight usage`, `Line-height guidance`, `Spacing scale`, `Density rules`, `Touch-target implications`
+- [ ] Contains sections: `Type roles`, `Size hierarchy`, `Weight usage`, `Line-height guidance`, `Spacing scale`, `Density rules`, `Visual rhythm rules`, `Touch-target implications`
 - [ ] Type roles are named (not just sizes): Display, Title, Body, Caption, Label, etc.
+- [ ] Size hierarchy includes concrete sizes (`pt` / `sp` / token-equivalent)
+- [ ] Line-height guidance includes concrete ratios or values
 - [ ] Spacing scale is systematic (powers of 2, 4-based, or named token scale)
 - [ ] Touch-target minimum is stated (44 pt iOS / 48 dp Android or equivalent)
 
@@ -156,6 +184,7 @@ Any of the following invalidates the response:
 - [ ] Roles map to use cases, not just to components
 - [ ] Line-height values are specified per role, not one-size-fits-all
 - [ ] Density rules explain when to use tighter vs looser spacing based on task
+- [ ] Visual rhythm rules explain how spacing, type roles, and grouping should repeat across screens
 - [ ] Accessibility considerations include dynamic type / large-text scaling behavior
 - [ ] If multilingual support was requested, script-specific adjustments (CJK, Arabic, Devanagari) are called out
 - [ ] Examples show roles applied to common screen areas (header, body, form, list)
@@ -172,13 +201,14 @@ Any of the following invalidates the response:
 
 ### Structural validation
 - [ ] Response begins with `Mode: Prepare design rationale / handoff`
-- [ ] Contains sections: `Design objective`, `Target users and context`, `Key design decisions`, `Pattern choices and why`, `Platform alignment`, `States and edge cases`, `Implementation notes`, `Open questions`, `Validation plan or recommended testing focus`
+- [ ] Contains sections: `Design objective`, `Target users and context`, `Key design decisions`, `Pattern choices and why`, `Design quality rationale`, `Platform alignment`, `States and edge cases`, `Implementation notes`, `Open questions`, `Validation plan or recommended testing focus`
 - [ ] Each key decision is separated from its justification
 - [ ] Open questions list at least one genuinely open item (not filler)
 
 ### Content validation
 - [ ] Rationale connects decisions to user goals, context, or constraints, not to aesthetic preference
 - [ ] Pattern choices reference official guidance or established convention
+- [ ] Design quality rationale connects visual hierarchy, composition, density, brand expression, or motion to the product context with concrete mechanisms
 - [ ] Platform alignment is substantive, not "follows platform best practices"
 - [ ] Validation plan specifies WHAT to test and HOW (method, metric, or acceptance criterion)
 - [ ] Implementation notes address at least one concern engineering actually faces (state management, accessibility semantics, analytics, performance)
@@ -209,7 +239,15 @@ A response that fails any hard fail condition receives an overall score of **Fai
 
 ### Automated structural checks
 
-Extend `scripts/validate_repo.py` with a response-validation subcommand, or run a standalone script that parses a response file and checks each structural bullet in this document. All structural checks are designed to be expressible as regex or section-presence tests.
+Run:
+
+```bash
+python3 scripts/validate_repo.py
+```
+
+The repository validator checks required files, relative links, root skill frontmatter, and the committed example outputs in `examples/`. It extracts each `## Example output` fenced block and verifies the mode-specific structural contract, including assumptions, required sections, accessibility sections, concrete numeric values where required, decision tradeoffs, and non-generic next actions.
+
+These checks are intentionally structural. They catch contract drift and missing sections, but they do not replace human or LLM-as-judge content review.
 
 ### Human or LLM-as-judge content checks
 

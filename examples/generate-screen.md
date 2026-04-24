@@ -95,11 +95,30 @@ Choose dates, review request impact, and submit with confidence.
 - Preserve logical focus order from leave type to dates to summary to submit.
 - Ensure touch targets remain comfortable around date selection and toggles.
 
+## Design quality calibration
+- Attention path:
+  - First glance: date range and leave type; second glance: balance/policy impact; final action: Submit request.
+- Composition and spacing:
+  - Use 16pt/16dp screen padding, 12-16pt/12-16dp between related form fields, and 24pt/24dp before the balance/policy impact block.
+- Typography:
+  - Use a clear screen title, 16-17pt/16sp body text for form values, and 13-14pt/14sp labels so policy details do not become fragile at larger text sizes.
+- Color and state:
+  - Reserve semantic color for warnings and errors; pair every warning with text and an icon, not color alone.
+- Interaction polish:
+  - Recalculate balance with inline feedback rather than a blocking spinner so the form remains stable.
+- Production checks:
+  - Verify Dynamic Type/font-scale, sticky CTA safe-area spacing, offline balance failure, and unsaved-change back behavior.
+
 ## Rationale for major choices
 - Dates and leave type come first because the system cannot provide meaningful balance or policy feedback until they are chosen.
 - Balance and policy impact sit directly below the core inputs because they influence the decision to submit.
 - Policy detail is summarized inline and linked out secondarily because the main task is submission, not reading a policy essay on a phone.
 - Sticky action treatment is recommended because enterprise forms often become vertically long.
+
+## Alternatives considered
+- Policy-first layout — rejected because employees need to enter dates before the policy guidance can become specific and actionable.
+- Full multi-step wizard — rejected because this is an occasional enterprise task, but the field count is still small enough to keep visible in one structured screen.
+- Hiding balance and policy impact behind a details link — rejected because those details directly affect whether the request can be submitted.
 
 ## Next actions
 - Confirm whether partial-day requests, attachments, or delegate coverage are in scope.

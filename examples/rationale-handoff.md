@@ -37,16 +37,23 @@ Help patients leave the booking flow with clear confidence about what they booke
 This screen serves patients immediately after booking an appointment. Many users may be stressed, distracted, or reading quickly on a phone. Some users may also have larger text settings or reduced confidence with digital healthcare flows.
 
 ## Key design decisions
-- Elevated the appointment summary above secondary actions
-- Grouped preparation instructions into a dedicated section
-- Reduced visual competition around non-essential controls
-- Kept next-step guidance explicit instead of relying on users to infer what happens after booking
+- Elevated the appointment summary above secondary actions — alternative considered: action-first confirmation — chosen because patients need to verify time, location, and provider before choosing optional follow-up actions.
+- Grouped preparation instructions into a dedicated section — alternative considered: mixing instructions into the summary block — chosen because healthcare preparation details need clear scanning and should not compete with the confirmed appointment facts.
+- Reduced visual competition around non-essential controls — alternative considered: equal-weight action row near the top — chosen because anxious and older users benefit from a calmer hierarchy after completing a booking.
+- Kept next-step guidance explicit — alternative considered: relying on a generic success message — chosen because the screen must answer what happens next without requiring inference.
 
 ## Pattern choices and why
-- Summary-first layout because users need confirmation before optional follow-up actions
-- Sectioned content because healthcare details are easier to parse when grouped by meaning
-- Secondary actions placed lower because reschedule/contact/calendar are important but not equal to the confirmation task
-- Clear instructional text because confirmation screens in high-trust contexts must reduce uncertainty, not merely announce success
+- Summary-first layout over action-first layout because users need confirmation before optional follow-up actions.
+- Sectioned content over a single stacked paragraph because healthcare details are easier to parse when grouped by meaning.
+- Secondary actions lower on the screen over equal-weight top actions because reschedule/contact/calendar are important but not equal to the confirmation task.
+- Clear instructional text over icon-led hints because confirmation screens in high-trust contexts must reduce uncertainty, not merely announce success.
+
+## Design quality rationale
+- Confirmation summary prominence — mechanism: larger title/body contrast, top placement, and 24dp/24pt separation from secondary actions — fits the high-trust healthcare context because patients need fast confirmation before exploring options.
+- Calm section rhythm — mechanism: repeated section headers, 16dp/16pt internal spacing, and 24dp/24pt section gaps — supports anxious and older users by making the screen predictable.
+- Reduced secondary-action weight — mechanism: lower placement and secondary button styling — keeps optional actions available without competing with the completed booking state.
+- Restrained brand expression — mechanism: brand accent reserved for confirmation/success and primary next step, not every heading — preserves trust and avoids confusing status semantics.
+- Handoff resilience — mechanism: explicit state list and large-text QA checks — helps engineering preserve the visual hierarchy under dynamic content and accessibility settings.
 
 ## Platform alignment
 ### iOS

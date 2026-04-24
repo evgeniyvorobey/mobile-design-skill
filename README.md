@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.6.1-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.9.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.6.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.9.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -72,9 +72,12 @@ It is structured around:
 - **Six primary modes** — every request is classified into exactly one: screen concept, user flow, platform-aware UI spec, usability/accessibility review, typography/spacing system, or handoff rationale.
 - **Guardrails** — no invented platform rules, no fabricated research findings, no aesthetic-only advice without usability reasoning.
 - **Quality bars** — concrete numeric thresholds (touch 44pt iOS / 48dp Android, WCAG 2.2 AA contrast, line-height 1.4–1.6, motion 200–300ms).
+- **Design quality calibration** — visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production-readiness checks.
+- **Known weakness prevention** — internal failure-mode preflight for generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff.
 - **Context-aware defaults** — adjusts output for audience (older adults, children, power users), domain (finance, health, government, enterprise, social), platform, and use-context (one-handed, outdoor, in-vehicle, emergency).
 - **Heuristic grounding** — decisions cite Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen rather than being presented as preference.
 - **Pattern catalog** — decision matrices for navigation, overlays, lists, pickers, feedback surfaces, forms, search, and authentication. No inventing novel patterns where established ones fit.
+- **Inspiration layer** — Mobbin, Page Flows, UI Sources, Pttrns, Screenlane, Apple Design Awards, Awwwards, Behance, Dribbble, Pinterest, and Figma Community are available for visual inspiration and benchmarking, but kept separate from UX/accessibility evidence.
 - **Mandatory self-review** — the skill runs a silent quality pass before returning any response.
 
 See [`docs/`](docs) for the full framework.
@@ -201,7 +204,10 @@ Keep these files loaded alongside the active prompt for full skill behavior:
 - `docs/workflow.md`
 - `docs/sources.md`
 - `docs/quality-bars.md`
+- `docs/design-quality.md`
+- `docs/weaknesses.md`
 - `docs/patterns-catalog.md`
+- `docs/inspiration-sources.md`
 
 ---
 
@@ -223,7 +229,10 @@ system_prompt = (SKILL_ROOT / "SKILL.md").read_text()
 
 # Optionally inline the expanded reference set for deeper behavior:
 for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
-            "docs/quality-bars.md", "docs/patterns-catalog.md"]:
+            "docs/quality-bars.md", "docs/design-quality.md",
+            "docs/weaknesses.md",
+            "docs/patterns-catalog.md",
+            "docs/inspiration-sources.md"]:
     system_prompt += f"\n\n# {ref}\n\n" + (SKILL_ROOT / ref).read_text()
 
 client = anthropic.Anthropic()
@@ -278,7 +287,10 @@ for (const ref of [
   "skill/templates.md",
   "docs/workflow.md",
   "docs/quality-bars.md",
+  "docs/design-quality.md",
+  "docs/weaknesses.md",
   "docs/patterns-catalog.md",
+  "docs/inspiration-sources.md",
 ]) {
   systemPrompt += `\n\n# ${ref}\n\n` + read(ref);
 }
@@ -408,7 +420,7 @@ mobile-design-skill/
 ├── scripts/
 │   ├── install.sh                        Install script (symlink or copy)
 │   ├── bump_version.py                   Version bumper (synchronizes all version references)
-│   └── validate_repo.py                  Repository structure and link validator
+│   └── validate_repo.py                  Repository structure, link, and example-response validator
 ├── skill/
 │   ├── skill.md                          Expanded prompt source
 │   ├── modes.md                          Per-mode inputs, outputs, validation, fallback
@@ -421,9 +433,12 @@ mobile-design-skill/
 │   ├── guardrails.md                     Hard constraints (do not invent, do not claim compliance, etc.)
 │   ├── sources.md                        Source hierarchy (Apple HIG, Material 3, WCAG, ISO, GOV.UK)
 │   ├── quality-bars.md                   Concrete numeric thresholds
+│   ├── design-quality.md                 Visual hierarchy, composition, density, and craft calibration
+│   ├── weaknesses.md                     Known failure modes and prevention checks
 │   ├── context-defaults.md               Audience / domain / platform / use-context defaults
 │   ├── heuristics.md                     Fitts, Hick, Jakob, Zeigarnik, Nielsen, Gestalt — with mobile applications
 │   ├── patterns-catalog.md               Mobile pattern decision matrices
+│   ├── inspiration-sources.md            Non-authoritative inspiration and reference layer
 │   ├── self-review.md                    Mandatory pre-response quality pass
 │   ├── evals.md                          Structural + content + fail-condition evaluation criteria
 │   ├── versioning.md                     Semver policy
@@ -497,14 +512,17 @@ Fork the repository, edit the files that govern skill behavior, and run the inst
 
 - [`docs/context-defaults.md`](docs/context-defaults.md) — add domain-specific defaults for your product
 - [`docs/quality-bars.md`](docs/quality-bars.md) — tighten numeric thresholds for your design system
+- [`docs/design-quality.md`](docs/design-quality.md) — tune design-quality calibration for hierarchy, rhythm, visual craft, and production readiness
+- [`docs/weaknesses.md`](docs/weaknesses.md) — tune known weakness patterns and prevention checks for recurring output regressions
 - [`docs/patterns-catalog.md`](docs/patterns-catalog.md) — add patterns unique to your product area
+- [`docs/inspiration-sources.md`](docs/inspiration-sources.md) — tune visual inspiration, production reference, and moodboard sources
 - [`skill/templates.md`](skill/templates.md) — adjust output structure for your team's handoff format
 - [`docs/guardrails.md`](docs/guardrails.md) — add organization-specific constraints
 
 After editing:
 
 ```bash
-python3 scripts/validate_repo.py             # check structure and links
+python3 scripts/validate_repo.py             # check structure, links, and example outputs
 python3 scripts/bump_version.py minor        # bump version
 # fill in the generated CHANGELOG placeholder
 git commit -am "customize for <product>"
@@ -530,7 +548,7 @@ Version is stored in `skill/metadata.yaml` (canonical), mirrored into `SKILL.md`
 
 Contributions are welcome via pull request. Before submitting:
 
-1. Run `python3 scripts/validate_repo.py` — must print `[OK] Repository structure and relative links are valid.`
+1. Run `python3 scripts/validate_repo.py` — must print `[OK] Repository structure, relative links, and example responses are valid.`
 2. If you added a new document under `docs/`, add it to `REQUIRED_FILES` in `scripts/validate_repo.py` and to the skill's SKILL.md reference list.
 3. If you changed the mode set or output contract, bump MAJOR.
 4. If you added a new capability, bump MINOR and fill in the CHANGELOG.

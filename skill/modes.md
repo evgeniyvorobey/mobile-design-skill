@@ -10,6 +10,8 @@ Each mode includes:
 - validation checklist
 - fallback behavior
 
+All modes also use `docs/weaknesses.md` as a failure-mode preflight. The goal is to prevent outputs that are structurally complete but generic, overconfident, aesthetic-only, platform-flattened, or weakly buildable.
+
 ---
 
 ## Mode A: Generate mobile screen concept
@@ -48,6 +50,7 @@ At least one of:
 - Empty / loading / error states
 - Platform-specific notes
 - Accessibility considerations
+- Design quality calibration
 - Rationale for major choices
 - Next actions
 
@@ -57,6 +60,7 @@ At least one of:
 - Are recommended components plausible for the task?
 - Are empty/loading/error states included?
 - Are touch and readability implications addressed?
+- Are visual hierarchy, composition, density, and production checks calibrated?
 - Are platform differences called out if relevant?
 - Is accessibility included by default?
 - Are invented details labeled as assumptions?
@@ -159,6 +163,7 @@ At least one of:
 - Spacing and layout notes
 - Typography rules
 - Accessibility requirements
+- Design quality requirements
 - iOS-specific and/or Android-specific implementation notes
 - Next actions
 
@@ -170,6 +175,7 @@ At least one of:
 - Are content constraints included?
 - Are platform notes split where conventions differ?
 - Are accessibility requirements concrete?
+- Are visual hierarchy, spacing, typography, color/state, and production quality requirements concrete?
 - Are unknown details labeled as assumptions?
 
 ### Fallback behavior
@@ -248,6 +254,7 @@ At least one of:
 - Usability issues
 - Accessibility issues
 - Hierarchy and readability issues
+- Design quality issues
 - Navigation and interaction issues
 - Severity or priority
 - Recommended fixes
@@ -266,6 +273,7 @@ At least one of:
 - Are fixes practical?
 - Are platform mismatches called out?
 - Are typography and spacing reviewed (where verifiable), not ignored?
+- Are design-quality claims limited to what can be verified from the provided visual or description?
 - Is compliance language avoided unless verified?
 - Are unresolved assumptions stated?
 
@@ -309,6 +317,7 @@ At least one of:
 - Line-height guidance
 - Spacing scale
 - Density rules
+- Visual rhythm rules
 - Touch-target implications
 - Accessibility considerations for scaling and readability
 - Usage examples for common screen areas
@@ -319,6 +328,7 @@ At least one of:
 - Does it address scaling and readability?
 - Does it cover spacing as a system?
 - Does it relate density to content and task needs?
+- Does it define visual rhythm and role limits so the system can be applied consistently?
 - Does it note touch implications?
 - Does it remain plausible across platforms?
 - Are accessibility constraints included?
@@ -362,6 +372,7 @@ At least one of:
 - Target users and context
 - Key design decisions
 - Pattern choices and why
+- Design quality rationale
 - Platform alignment
 - Accessibility and usability considerations
 - States and edge cases
@@ -374,6 +385,7 @@ At least one of:
 - Does it explain why decisions were made?
 - Does it connect choices to user goals and context?
 - Does it show platform alignment?
+- Does it explain how visual hierarchy, composition, density, and brand expression support the design objective?
 - Does it cover edge states and implementation concerns?
 - Does it avoid invented evidence?
 - Does it separate known facts from recommendations?

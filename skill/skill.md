@@ -135,13 +135,21 @@ Preferred source families:
 
 When platform and accessibility guidance conflict with trend-based aesthetics, prefer platform and accessibility guidance.
 
+Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes the quality of a design artifact. This layer improves visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production readiness without replacing usability and accessibility reasoning.
+
+If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction, comparable surfaces, and exploration breadth, but they must not justify usability, accessibility, platform, or compliance claims.
+
+Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
+
 ### Step 6: Build the response according to mode
 Use the mode-specific output structures defined below.
 
 ### Step 7: Apply universal review lenses
 Before finalizing, check:
 - clarity of user task
+- known weakness prevention
 - hierarchy of information
+- design quality and visual craft
 - navigation predictability
 - consistency with platform expectations
 - readability and typography quality
@@ -160,9 +168,13 @@ If a decision has no alternative, it was not a decision. It was a default; flag 
 
 This step prevents first-idea-wins output. See `docs/workflow.md` Step 7 for detail.
 
+For design-quality decisions, state the concrete mechanism: size, spacing, alignment, contrast, density, color role, motion duration, state treatment, or token. Avoid taste words unless they are translated into implementation guidance.
+
 When a decision is driven by an established heuristic (Fitts, Hick, Jakob, Zeigarnik, peak-end, goal-gradient, Gestalt, Nielsen), cite the heuristic by name. The catalog with mobile applications and red-flag patterns is in `docs/heuristics.md`. Use the red flags as a violation checklist during Mode D reviews.
 
 For every pattern-level decision (navigation, presentation overlays, list vs grid, primary action placement, picker variant, feedback surface), consult the decision matrices in `docs/patterns-catalog.md` first. Pick based on the matrix's Use-when / Avoid-when criteria; the losing pattern goes into `Alternatives considered`. Never invent a novel pattern when an established one applies — novelty breaks Jakob's Law.
+
+When inspiration sources are used, keep them in a distinct `Inspiration references` section or clearly labeled note. Do not let portfolio, moodboard, or award examples replace the reasoning above.
 
 ### Step 9: Check concrete quality bars
 Compare the draft against the numeric thresholds in `docs/quality-bars.md`:
@@ -172,6 +184,8 @@ Compare the draft against the numeric thresholds in `docs/quality-bars.md`:
 - motion durations and reduced-motion respect
 - state coverage (default, loading, empty, error)
 - spacing from a canonical 4- or 8-based scale
+- design quality calibration from `docs/design-quality.md` when the response proposes or packages a design artifact
+- likely weakness patterns from `docs/weaknesses.md`, especially generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
 
 For modes that do not produce concrete values (Mode B flow, Mode F rationale), confirm the output does not contradict any bar.
 
@@ -204,6 +218,7 @@ Output:
 - Empty / loading / error states
 - Platform-specific notes
 - Accessibility considerations
+- Design quality calibration
 - Rationale for major choices
 - Practical next actions
 
@@ -237,6 +252,7 @@ Output:
 - Spacing and layout notes
 - Typography rules
 - Accessibility requirements
+- Design quality requirements
 - iOS-specific and/or Android-specific implementation notes
 - Practical next actions
 
@@ -250,6 +266,7 @@ Output:
 - Usability issues
 - Accessibility issues
 - Hierarchy and readability issues
+- Design quality issues
 - Navigation and interaction issues
 - Severity or priority
 - Recommended fixes
@@ -268,6 +285,7 @@ Output:
 - Line-height guidance
 - Spacing scale
 - Density rules
+- Visual rhythm rules
 - Touch-target implications
 - Accessibility considerations for scaling and readability
 - Usage examples for common screen areas
@@ -282,6 +300,7 @@ Output:
 - Target users and context
 - Key design decisions
 - Pattern choices and why
+- Design quality rationale
 - Platform alignment
 - Accessibility and usability considerations
 - States and edge cases
@@ -299,7 +318,10 @@ You must not:
 - invent official platform rules
 - invent research findings or usability test results
 - claim accessibility compliance unless explicitly verified
+- treat inspiration galleries, award sites, portfolios, or moodboards as proof of usability, accessibility, platform correctness, or compliance
 - give purely aesthetic recommendations without usability reasoning
+- use visual polish, brand expression, motion, or illustration to hide weak hierarchy, missing states, or inaccessible interaction
+- return template-complete but decision-empty output
 - ignore typography, spacing, navigation, or touch behavior
 - output vague advice such as “make it modern,” “make it premium,” or “make it cleaner” without concrete interpretation
 - collapse iOS and Android guidance into one answer when conventions differ

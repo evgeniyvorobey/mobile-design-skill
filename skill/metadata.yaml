@@ -1,6 +1,6 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
-version: 1.6.1
+version: 1.9.0
 status: production-ready
 owner: repository-maintained
 entrypoint: SKILL.md
@@ -62,10 +62,12 @@ response_contract:
   include_accessibility_by_default: true
   include_platform_notes_when_relevant: true
   distinguish_facts_from_recommendations: true
+  separate_inspiration_from_evidence: true
 guardrails:
   - do not invent official platform rules
   - do not invent research findings or usability test results
   - do not claim accessibility compliance unless explicitly verified
+  - do not treat inspiration sources as evidence for usability accessibility platform correctness or compliance
   - do not give aesthetic advice without usability reasoning
   - do not ignore typography spacing navigation or touch behavior
   - do not blur ios and android when conventions differ
@@ -76,6 +78,54 @@ source_priority:
   - public-sector and enterprise-grade design systems
   - established research and case-study sources
   - workflow and tooling references
+design_quality:
+  role: visual hierarchy composition density typography color motion brand and production-readiness calibration
+  dimensions:
+    - attention path and hierarchy
+    - composition spacing and grouping
+    - typography craft
+    - color contrast and semantic meaning
+    - density and rhythm
+    - interaction polish and motion
+    - brand expression and visual character
+    - production readiness
+weakness_prevention:
+  role: internal failure-mode preflight for preventing shallow or misleading design output
+  severity_levels:
+    - P0 harmful or misleading
+    - P1 product-breaking
+    - P2 quality regression
+    - P3 craft issue
+  patterns:
+    - generic artifact disguised as a design answer
+    - template completion without real decisions
+    - first-idea bias
+    - aesthetic laundering
+    - evidence overreach
+    - platform flattening
+    - context blindness
+    - happy-path-only design
+    - weak design-quality calibration
+    - visual overclaim in reviews
+    - weak handoff and buildability
+    - overlong process theater
+inspiration_sources:
+  role: non-authoritative visual inspiration and production reference layer
+  production_references:
+    - Mobbin
+    - Page Flows
+    - UI Sources
+    - Pttrns
+    - Screenlane
+  platform_and_awards:
+    - Apple Design Awards
+    - Material Design blog and case studies
+    - Awwwards
+  visual_portfolios_and_moodboards:
+    - Behance
+    - Dribbble
+    - Pinterest
+    - Figma Community
 primary_sources:
   - Apple Human Interface Guidelines
   - Material Design 3
@@ -107,7 +157,10 @@ quality_bar:
   evidence_first_reasoning: true
   mandatory_self_review: true
   concrete_numeric_thresholds: true
+  design_quality_calibration: true
+  known_weakness_preflight: true
   design_reasoning_with_alternatives: true
   context_aware_defaults: true
   heuristic_grounded_reasoning: true
   pattern_catalog_grounded: true
+  inspiration_sources_separated_from_evidence: true

@@ -106,17 +106,18 @@ Single detail screen for one tracked package, optimized for status comprehension
 - Avoid showing raw operational codes.
 
 ## Spacing and layout notes
-- Use stronger separation between the status zone and the detail zone than between items within a zone.
-- Keep the action zone visually distinct from informational rows.
-- Allow enough vertical space for large-text expansion in the progress tracker and address block.
+- Use 16dp horizontal screen padding on phone layouts.
+- Use 24dp between the status zone and the detail zone; use 12-16dp between related rows inside a zone.
+- Keep support actions at a minimum 48dp touch height with 8dp minimum separation between independent targets.
+- Allow enough vertical space for large-text expansion in the progress tracker and address block; avoid fixed-height containers for status text.
 - Avoid multi-column compression on phone layouts.
 
 ## Typography rules
-- Status headline: strongest emphasis on screen
-- ETA/supporting time: secondary emphasis
-- Section labels: compact but clearly distinct
-- Event rows: readable body style with lower-emphasis timestamp
-- Action labels: medium emphasis and short phrasing
+- Status headline: 22-24sp, 28-32sp line height, strongest emphasis on screen
+- ETA/supporting time: 16sp body style with 24sp line height
+- Section labels: 14sp medium label style, clearly distinct from body text
+- Event rows: 16sp body for event text, 12-14sp lower-emphasis timestamp
+- Action labels: 16sp medium emphasis with short phrasing
 
 ## Accessibility requirements
 - Status changes must not rely on color alone.
@@ -125,11 +126,30 @@ Single detail screen for one tracked package, optimized for status comprehension
 - Focus order should move from screen title to status summary to details to actions to timeline.
 - Interactive controls need comfortable touch targets and clear labels.
 
+## Design quality requirements
+- Attention path:
+  - First glance must land on current status and ETA; second glance moves to exception/support actions; timeline is tertiary.
+- Composition and spacing:
+  - Use a status summary block with 24dp separation from detail rows and 12dp row rhythm inside metadata groups.
+- Typography:
+  - Keep the status headline at 22-24sp and timeline body at 16sp so the status does not compete with historical events.
+- Color and state:
+  - Use semantic status color only with a text label and icon; delayed/failed states should not rely on red or amber alone.
+- Interaction polish:
+  - Refresh and support actions need pressed, loading, success, and error states; background refresh should preserve the last known status.
+- Production checks:
+  - QA large text at 200%, dark theme, delayed-status exception, offline retry, and TalkBack focus order.
+
 ## Platform-specific implementation notes
 ### Android
 - Respect predictable system back behavior from detail screen to shipment list or originating context.
 - Keep the top app bar behavior stable during scroll; avoid hiding key orientation information too aggressively.
 - Use Material-aligned status and action hierarchy rather than a custom ornamental tracker.
+
+## Key decision tradeoffs
+- Status-first structure chosen over timeline-first structure because users check current delivery progress before reading historical events.
+- Inline support actions chosen over overflow-only support because exception states require quick recovery and should not hide help behind a secondary menu.
+- Labeled progress tracker chosen over icon-only steps because delivery states must remain understandable without relying on color or icon interpretation.
 
 ## Next actions
 - Confirm whether proof-of-delivery, map preview, or courier contact are in scope.

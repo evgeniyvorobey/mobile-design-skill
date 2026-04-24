@@ -119,6 +119,70 @@ Tooling should support design quality, not substitute for it.
 
 ---
 
+## Design quality calibration layer
+
+Design quality calibration is defined separately in [`design-quality.md`](design-quality.md).
+
+Use it when an output proposes, critiques, specifies, or rationalizes:
+
+- visual hierarchy
+- composition and spacing
+- typography craft
+- color semantics
+- density and rhythm
+- interaction polish and motion
+- brand expression
+- production readiness
+
+This layer interprets the source hierarchy above into practical quality checks. It does not supersede platform guidance, accessibility standards, or quality bars.
+
+---
+
+## Known weaknesses prevention layer
+
+Known weakness patterns are defined separately in [`weaknesses.md`](weaknesses.md).
+
+Use this layer as internal preflight and regression memory when a task is likely to trigger:
+
+- generic output on underspecified input
+- template completion without real decisions
+- first-idea bias
+- aesthetic laundering
+- evidence overreach
+- platform flattening
+- context blindness
+- happy-path-only design
+- visual overclaim in reviews
+- weak handoff and buildability
+
+This layer does not add new evidence. It protects the source hierarchy by forcing the response to stay specific, honest, context-aware, and buildable.
+
+---
+
+## Non-authoritative inspiration layer
+
+The inspiration layer is defined separately in [`inspiration-sources.md`](inspiration-sources.md).
+
+Use it only when the user asks for visual inspiration, moodboards, competitive references, production examples, or "best-in-class" examples.
+
+Inspiration sources are not part of the evidence hierarchy above. They can help with:
+
+- visual range
+- comparable production surfaces
+- moodboard direction
+- interaction examples
+- pattern benchmarking
+
+They must not be used for:
+
+- official platform behavior
+- accessibility claims
+- compliance claims
+- usability proof
+- fabricated trend or popularity claims
+
+---
+
 ## Core 15 reference set
 
 The skill is anchored to the following core set:

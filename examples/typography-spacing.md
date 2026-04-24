@@ -42,12 +42,12 @@ Assumptions:
   - CTAs and secondary action text
 
 ## Size hierarchy
-- Display → use sparingly and only where the task is not dense
-- Screen title → one clear level above section titles
-- Section title → distinct from body, but not oversized
-- Body → stable default reading size across lists, forms, and details
-- Secondary body → one step below body, but still comfortably readable
-- Label / helper → compact without becoming fragile at scale settings
+- Display → 28-32pt iOS / 28-32sp Android; use sparingly and only where the task is not dense
+- Screen title → 24-28pt / 22-24sp; one clear level above section titles
+- Section title → 17-20pt / 16-18sp; distinct from body, but not oversized
+- Body → 17pt iOS / 16sp Android for readable transactional content
+- Secondary body → 15pt / 14sp; one step below body, but still comfortably readable
+- Label / helper → 13-14pt / 12-14sp; compact without becoming fragile at scale settings
 
 ## Weight usage
 - Regular weight for most body reading
@@ -56,8 +56,8 @@ Assumptions:
 - Reserve stronger emphasis for true priority signals such as balance totals or error headings
 
 ## Line-height guidance
-- Keep body copy comfortably open enough for scanability on small screens.
-- Use slightly tighter line height for short labels and slightly more generous line height for paragraphs, helper text, and explanatory content.
+- Keep body copy at 1.45-1.6 line-height for scanability on small screens.
+- Use 1.25-1.35 line-height for short labels and 1.4-1.55 for paragraphs, helper text, and explanatory content.
 - Do not compress line height to make dense content “fit” if it reduces comprehension.
 
 ## Spacing scale
@@ -75,9 +75,15 @@ Assumptions:
 - Dense financial content should be grouped and chunked, not merely compressed.
 - When in doubt, reduce concurrent information before shrinking typography.
 
+## Visual rhythm rules
+- Use a 4/8-based rhythm: 8 between label and value pairs, 16 inside cards or form groups, 24 between sections, and 32 for major screen transitions.
+- Keep transaction rows visually repeatable: merchant, metadata, and amount should align consistently across every row.
+- Use spacing before borders: add containers only when proximity and alignment are not enough to show grouping.
+- Limit a routine transactional screen to 3-4 visible type styles so hierarchy stays stable across large-text settings.
+
 ## Touch-target implications
-- Action rows and tap areas should remain comfortable even when text scales.
-- Tight vertical spacing must not collapse interactive row height.
+- Action rows and tap areas should remain at least 44pt on iOS / 48dp on Android even when text scales.
+- Tight vertical spacing must not collapse interactive row height below platform minimums.
 - Compact labels should not create tiny control areas around segmented actions or inline links.
 
 ## Accessibility considerations

@@ -2,6 +2,8 @@
 
 Use these templates as the response skeleton for each mode.
 
+Templates are structure, not quality. Before returning any filled template, run the known-weakness preflight from `docs/weaknesses.md`; do not expose the preflight as a separate output section unless the user explicitly asks for failure-mode analysis.
+
 ---
 
 ## Template A: Generate mobile screen concept
@@ -55,6 +57,14 @@ Assumptions:
 - [consideration]
 - [consideration]
 - [consideration]
+
+## Design quality calibration
+- Attention path:
+- Composition and spacing:
+- Typography:
+- Color and state:
+- Interaction polish:
+- Production checks:
 
 ## Rationale for major choices
 - [decision] because [reason]
@@ -183,6 +193,14 @@ Assumptions:
 - [requirement]
 - [requirement]
 
+## Design quality requirements
+- Attention path:
+- Composition and spacing:
+- Typography:
+- Color and state:
+- Interaction polish:
+- Production checks:
+
 ## Platform-specific implementation notes
 ### iOS
 - [note]
@@ -227,6 +245,10 @@ Assumptions:
 - [issue]
 
 ## Hierarchy and readability issues
+- [issue]
+- [issue]
+
+## Design quality issues
 - [issue]
 - [issue]
 
@@ -302,6 +324,10 @@ Assumptions:
 - [rule]
 - [rule]
 
+## Visual rhythm rules
+- [rule]
+- [rule]
+
 ## Touch-target implications
 - [implication]
 - [implication]
@@ -346,6 +372,10 @@ Assumptions:
 ## Pattern choices and why
 - [pattern] over [alternative pattern] because [reason]
 - [pattern] over [alternative pattern] because [reason]
+
+## Design quality rationale
+- [quality decision] — [mechanism: size/spacing/alignment/color/density/motion/token] — [why it fits context]
+- [quality decision] — [mechanism] — [why]
 
 ## Platform alignment
 ### iOS

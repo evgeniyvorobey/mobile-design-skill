@@ -28,6 +28,12 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Have I replaced every instance of vague language ("modern", "clean", "intuitive", "appropriate spacing", "good contrast") with a concrete claim?
 - If I removed the `Mode:` and `Platform scope:` headers, would a reader still be able to tell which mode this is? If not, structure is weak.
 
+### Known weakness prevention
+- Which weakness pattern from `docs/weaknesses.md` is most likely in this task, and did I actively prevent it?
+- Does the draft resemble template completion without real decisions? If yes, add choices, rejected alternatives, and reasons.
+- Did I avoid the common regression trio: generic output, first-idea bias, and happy-path-only design?
+- If the task involves review or handoff, did I prevent visual overclaim and weak buildability?
+
 ### Substance
 - Does every recommendation have a reason tied to user goal, task, accessibility, readability, or implementation — not aesthetic preference?
 - For each major design decision, have I named at least one alternative and said why it was rejected? If not, the decision was not actually made.
@@ -53,6 +59,19 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Did I cite the losing alternative for every pattern-level choice?
 - Am I inventing a novel pattern where an established one fits? If yes, revert to the established pattern unless the input truly has no fit.
 - For Mode D reviews: did I check every pattern the design uses against the matching entry's red flags?
+
+### Design quality calibration
+- If the response proposes, specifies, reviews, or rationalizes a design artifact, did I apply the relevant lenses from `docs/design-quality.md`?
+- Did I define the intended attention path rather than only listing components?
+- Did I translate visual quality into concrete mechanisms such as size, spacing, alignment, color role, density, motion, state treatment, or tokens?
+- Did I avoid using "premium", "clean", "modern", "delightful", or "polished" as unexplained taste words?
+- Did visual expression support task clarity and accessibility rather than hide missing states, weak hierarchy, or inaccessible interactions?
+
+### Inspiration handling
+- If I used inspiration sources, are they clearly separated from UX rationale, platform guidance, accessibility requirements, and compliance language?
+- Did I use production references (Mobbin, Page Flows, UI Sources, Pttrns, Screenlane) for pattern benchmarking before portfolio or moodboard references?
+- Did I avoid presenting Behance, Dribbble, Pinterest, Awwwards, awards, or gallery examples as proof that a design is usable, accessible, or platform-correct?
+- If the user did not ask for inspiration and it does not materially help, did I leave it out?
 
 ### Completeness
 - Are all three edge states addressed (empty, loading, error) where the mode requires them?
@@ -137,6 +156,7 @@ Self-review complements, but does not replace:
 - **Evals** (`docs/evals.md`): external scoring criteria for regression tests.
 - **Mode validation checklists** (`skill/modes.md`): structural contracts per mode.
 - **Quality bars** (`docs/quality-bars.md`): concrete thresholds self-review checks against.
+- **Known weaknesses** (`docs/weaknesses.md`): recurring failure modes and prevention checks.
 
 The flow is: draft → self-review (internal) → response returned → evals (external, automated or manual).
 

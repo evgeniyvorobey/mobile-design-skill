@@ -136,6 +136,9 @@ Use the source hierarchy in this order:
 - Use GOV.UK and NHS when clarity, service design, task completion, readability, and high-trust patterns matter.
 - Use Fluent 2 and related guidance when cross-platform type hierarchy needs coherence.
 - Use Figma Variables guidance when outputs need token-friendly structure.
+- Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes a design artifact's hierarchy, composition, density, typography craft, color semantics, interaction polish, brand expression, or production readiness.
+- Use `docs/inspiration-sources.md` only when the user asks for visual inspiration, moodboards, benchmarks, or "best-in-class" examples. Treat it as a non-authoritative layer for visual range and production references, not as evidence for usability, accessibility, platform behavior, or compliance.
+- Use `docs/weaknesses.md` as an internal preflight when the task could invite generic output, unsupported claims, first-idea bias, platform flattening, happy-path-only flow design, or weak handoff.
 
 ---
 
@@ -162,8 +165,18 @@ Before finalizing, check the draft against these lenses:
 ### Task clarity
 - Can the user’s main task be identified immediately?
 
+### Known weakness prevention
+- Which weakness pattern from `docs/weaknesses.md` is most likely for this task?
+- Has the draft actively prevented that weakness rather than only avoiding banned words?
+- Would the response still be useful if a designer or engineer removed all generic design language?
+
 ### Information hierarchy
 - Is priority ordered by user need and decision timing?
+
+### Design quality and visual craft
+- Does the proposal define the intended attention path?
+- Are composition, spacing, typography, color, and density translated into concrete mechanisms rather than taste words?
+- Does visual expression support the task and platform instead of hiding weak structure?
 
 ### Navigation predictability
 - Can the user understand where they are, where they can go, and how to recover?
@@ -205,6 +218,8 @@ If a decision has no alternative, it was not a decision — it was a default, an
 
 This step exists to prevent first-idea-wins output, which is the most common failure mode in LLM-generated design.
 
+For design-quality decisions, state the mechanism that makes the quality happen: size, spacing, alignment, contrast, density, color role, motion duration, state treatment, or token. Avoid saying "premium", "clean", "modern", "delightful", or "polished" unless the response translates the word into concrete UI decisions.
+
 ### Applies to
 
 - Mode A: layout choice, component choice, hierarchy order
@@ -242,6 +257,28 @@ For every pattern-level decision (navigation, presentation overlay, list vs grid
 
 Never invent a novel pattern when an established one covers the case. Novelty breaks Jakob's Law. Invent only when no established pattern applies, and document the deviation with reasons.
 
+### Calibrate design quality
+
+When the mode proposes or packages a design artifact, consult `docs/design-quality.md` and include the relevant calibration:
+
+- Attention path: what the user sees first, second, and then acts on
+- Composition and spacing: how grouping, alignment, and rhythm reveal relationships
+- Typography: concrete role, size, weight, line-height, and scaling rules
+- Color and state: semantic roles, contrast, dark/increased-contrast implications, non-color cues
+- Interaction polish: feedback, motion, loading/saving/success/error behavior
+- Production checks: token, component, state, and QA implications
+
+Keep this calibration concise. It should make the design more buildable, not turn the answer into a visual-design essay.
+
+### Keep inspiration separate from rationale
+
+When the response uses inspiration sources:
+
+- keep them in an `Inspiration references` section or clearly labeled note
+- separate production references (Mobbin, Page Flows, UI Sources, Pttrns, Screenlane) from portfolio or moodboard references (Behance, Dribbble, Pinterest)
+- never use inspiration as the reason a UX pattern is correct
+- return to the normal decision criteria before choosing: task clarity, platform conventions, accessibility, quality bars, pattern matrices, and implementation constraints
+
 ---
 
 ## Step 8: Check concrete quality bars
@@ -256,6 +293,8 @@ At minimum, confirm:
 - Motion durations fall within the recommended ranges and respect reduced-motion settings.
 - States include at minimum default, loading, empty, error.
 - Spacing values come from the canonical scale, not ad-hoc numbers.
+- Design-quality calibration does not contradict task clarity, accessibility, quality bars, or platform conventions.
+- Known weakness patterns from `docs/weaknesses.md` are addressed before self-review.
 
 When the mode does not produce concrete values (Mode B flow, Mode F rationale), this check is lighter — confirm that the output does not contradict any bar.
 
