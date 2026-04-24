@@ -28,6 +28,7 @@ REQUIRED_FILES = [
     "docs/guardrails.md",
     "docs/heuristics.md",
     "docs/inspiration-sources.md",
+    "docs/llm-judge-runner.md",
     "docs/patterns-catalog.md",
     "docs/principles.md",
     "docs/quality-bars.md",
@@ -51,6 +52,7 @@ REQUIRED_FILES = [
     "examples/evals/rubric-score-5.json",
     "scripts/bump_version.py",
     "scripts/install.sh",
+    "scripts/run_rubric_judge.py",
     "assets/logo-light.svg",
     "assets/logo-dark.svg",
 ]
@@ -326,6 +328,16 @@ RUBRIC_EVAL_REFERENCE_FILES = [
     "README.md",
     "docs/design-quality-rubric.md",
     "docs/evals.md",
+    "docs/llm-judge-runner.md",
+    "skill/metadata.yaml",
+]
+
+LLM_JUDGE_RUNNER_REFERENCE_FILES = [
+    "README.md",
+    ".github/workflows/validate.yml",
+    "docs/evals.md",
+    "docs/llm-judge-runner.md",
+    "skill/metadata.yaml",
 ]
 
 
@@ -493,6 +505,38 @@ def validate_rubric_eval_pack() -> None:
         fail("Rubric eval pack validation failed:\n" + "\n".join(errors))
 
 
+def validate_llm_judge_runner_contract() -> None:
+    runner = (ROOT / "scripts/run_rubric_judge.py").read_text(encoding="utf-8")
+    errors: list[str] = []
+    for pattern in [
+        "--dry-run",
+        "--export-jsonl",
+        "--export-expected-output",
+        "--judge-output",
+        "dimension_scores",
+        "improvement_suggestions",
+    ]:
+        if pattern not in runner:
+            errors.append(f"scripts/run_rubric_judge.py: missing `{pattern}`")
+
+    docs = (ROOT / "docs/llm-judge-runner.md").read_text(encoding="utf-8")
+    for pattern in [
+        "python3 scripts/run_rubric_judge.py --dry-run",
+        "Judge output contract",
+        "Pass criteria",
+    ]:
+        if pattern not in docs:
+            errors.append(f"docs/llm-judge-runner.md: missing `{pattern}`")
+
+    for relative_path in LLM_JUDGE_RUNNER_REFERENCE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "run_rubric_judge.py" not in text and "llm_judge_runner" not in text:
+            errors.append(f"{relative_path}: missing LLM judge runner reference")
+
+    if errors:
+        fail("LLM judge runner contract validation failed:\n" + "\n".join(errors))
+
+
 def validate_links() -> None:
     markdown_files: list[Path] = []
     for pattern in MARKDOWN_GLOBS:
@@ -614,6 +658,7 @@ def main() -> None:
     validate_weakness_layer()
     validate_design_quality_rubric_layer()
     validate_rubric_eval_pack()
+    validate_llm_judge_runner_contract()
     validate_links()
     validate_example_responses()
     print("[OK] Repository structure, relative links, and example responses are valid.")

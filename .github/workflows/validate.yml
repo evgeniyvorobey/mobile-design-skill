@@ -19,3 +19,9 @@ jobs:
 
       - name: Validate repository structure, links, and examples
         run: python3 scripts/validate_repo.py
+
+      - name: Validate rubric judge runner fixtures
+        run: python3 scripts/run_rubric_judge.py --dry-run
+
+      - name: Validate rubric judge runner parser
+        run: python3 scripts/run_rubric_judge.py --export-expected-output /tmp/rubric-judge-expected.jsonl --judge-output /tmp/rubric-judge-expected.jsonl

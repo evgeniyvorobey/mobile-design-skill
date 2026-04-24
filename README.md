@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.11.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.12.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.11.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.12.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -75,6 +75,7 @@ It is structured around:
 - **Design quality calibration** — visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production-readiness checks.
 - **Design quality rubric** — 1–5 scoring that targets 4/5 for generated artifacts and exposes current quality score in reviews.
 - **Rubric eval pack** — score-calibrated fixtures for `1/5` through `5/5` plus a before/after upgrade example.
+- **LLM-as-judge runner** — provider-agnostic JSONL runner for semantic rubric calibration.
 - **Known weakness prevention** — internal failure-mode preflight for generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff.
 - **Context-aware defaults** — adjusts output for audience (older adults, children, power users), domain (finance, health, government, enterprise, social), platform, and use-context (one-handed, outdoor, in-vehicle, emergency).
 - **Heuristic grounding** — decisions cite Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen rather than being presented as preference.
@@ -425,7 +426,8 @@ mobile-design-skill/
 ├── scripts/
 │   ├── install.sh                        Install script (symlink or copy)
 │   ├── bump_version.py                   Version bumper (synchronizes all version references)
-│   └── validate_repo.py                  Repository structure, link, and example-response validator
+│   ├── validate_repo.py                  Repository structure, link, and example-response validator
+│   └── run_rubric_judge.py               Provider-agnostic LLM-as-judge runner for rubric fixtures
 ├── skill/
 │   ├── skill.md                          Expanded prompt source
 │   ├── modes.md                          Per-mode inputs, outputs, validation, fallback
@@ -445,6 +447,7 @@ mobile-design-skill/
 │   ├── heuristics.md                     Fitts, Hick, Jakob, Zeigarnik, Nielsen, Gestalt — with mobile applications
 │   ├── patterns-catalog.md               Mobile pattern decision matrices
 │   ├── inspiration-sources.md            Non-authoritative inspiration and reference layer
+│   ├── llm-judge-runner.md               JSONL contract for semantic rubric judge runs
 │   ├── self-review.md                    Mandatory pre-response quality pass
 │   ├── evals.md                          Structural + content + fail-condition evaluation criteria
 │   ├── versioning.md                     Semver policy
@@ -528,6 +531,7 @@ Fork the repository, edit the files that govern skill behavior, and run the inst
 - [`docs/design-quality.md`](docs/design-quality.md) — tune design-quality calibration for hierarchy, rhythm, visual craft, and production readiness
 - [`docs/design-quality-rubric.md`](docs/design-quality-rubric.md) — tune 1-5 design-quality scoring, caps, and improvement ladder
 - [`docs/weaknesses.md`](docs/weaknesses.md) — tune known weakness patterns and prevention checks for recurring output regressions
+- [`docs/llm-judge-runner.md`](docs/llm-judge-runner.md) — tune semantic judge runner contract and pass criteria
 - [`docs/patterns-catalog.md`](docs/patterns-catalog.md) — add patterns unique to your product area
 - [`docs/inspiration-sources.md`](docs/inspiration-sources.md) — tune visual inspiration, production reference, and moodboard sources
 - [`skill/templates.md`](skill/templates.md) — adjust output structure for your team's handoff format

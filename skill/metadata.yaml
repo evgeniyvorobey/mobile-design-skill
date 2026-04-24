@@ -1,6 +1,6 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
-version: 1.11.0
+version: 1.12.0
 status: production-ready
 owner: repository-maintained
 entrypoint: SKILL.md
@@ -117,6 +117,25 @@ design_quality_rubric:
     - interaction polish and motion
     - context and brand fit
     - production readiness
+llm_judge_runner:
+  role: provider-agnostic semantic rubric calibration runner
+  script: scripts/run_rubric_judge.py
+  documentation: docs/llm-judge-runner.md
+  fixture_source: examples/evals
+  supports:
+    - dry-run fixture coverage checks
+    - JSONL judge request export
+    - oracle JSONL output export for runner self-tests
+    - JSONL judge output validation
+  output_contract:
+    - score
+    - verdict
+    - cap
+    - hard_limits
+    - dimension_scores
+    - failed_dimensions
+    - rationale
+    - improvement_suggestions
 weakness_prevention:
   role: internal failure-mode preflight for preventing shallow or misleading design output
   severity_levels:
@@ -188,6 +207,7 @@ quality_bar:
   design_quality_calibration: true
   design_quality_rubric_1_to_5: true
   design_quality_rubric_eval_pack: true
+  llm_as_judge_runner: true
   known_weakness_preflight: true
   design_reasoning_with_alternatives: true
   context_aware_defaults: true

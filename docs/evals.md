@@ -266,6 +266,34 @@ Use them as regression targets for human review or future LLM-as-judge scoring:
 
 The upgrade example in [`../examples/rubric-before-after.md`](../examples/rubric-before-after.md) shows how a 2/5 response becomes a 4/5 response.
 
+### LLM-as-judge runner
+
+Use [`llm-judge-runner.md`](llm-judge-runner.md) and `../scripts/run_rubric_judge.py` to run semantic rubric calibration.
+
+Minimum local check:
+
+```bash
+python3 scripts/run_rubric_judge.py --dry-run
+```
+
+Export judge requests:
+
+```bash
+python3 scripts/run_rubric_judge.py --export-jsonl tmp/rubric-judge-requests.jsonl
+```
+
+Validate judge outputs:
+
+```bash
+python3 scripts/run_rubric_judge.py --judge-output tmp/rubric-judge-results.jsonl
+```
+
+Self-test the runner without an LLM:
+
+```bash
+python3 scripts/run_rubric_judge.py --export-expected-output tmp/rubric-judge-expected.jsonl --judge-output tmp/rubric-judge-expected.jsonl
+```
+
 ---
 
 ## How to run evals

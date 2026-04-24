@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.12.0] - 2026-04-25
+
+### Added
+- Provider-agnostic LLM-as-judge runner at `scripts/run_rubric_judge.py` for exporting rubric judge JSONL requests and validating JSONL judge outputs against expected fixture scores.
+- Runner documentation at `docs/llm-judge-runner.md`, including judge output contract, pass criteria, dry-run usage, JSONL export, and self-test flow.
+- Machine-readable `llm_judge_runner` metadata and `llm_as_judge_runner` quality flag in `skill/metadata.yaml`.
+
+### Changed
+- `docs/evals.md` and `docs/design-quality-rubric.md` now document semantic judge calibration using `scripts/run_rubric_judge.py`.
+- `scripts/validate_repo.py` now requires the runner and documentation, verifies the runner contract, and checks that CI/docs/metadata reference it.
+- GitHub Actions now runs the judge runner dry-run and oracle-output parser self-test in addition to repository validation.
+- `README.md`, `SKILL.md`, and `skill/usage.md` now surface the LLM-as-judge runner as a maintenance and calibration tool.
+
 ## [1.11.0] - 2026-04-25
 
 ### Added

@@ -10,6 +10,7 @@ The rubric complements:
 - `docs/evals.md` for external response evaluation
 - `examples/evals/` for score-calibrated rubric fixtures
 - `examples/rubric-before-after.md` for a weak-to-strong upgrade example
+- `scripts/run_rubric_judge.py` and `docs/llm-judge-runner.md` for semantic judge calibration
 
 ---
 
@@ -157,3 +158,11 @@ Each fixture defines:
 Use these fixtures when tuning prompts, judging generated responses, or adding LLM-as-judge tests.
 
 For human calibration, use `examples/rubric-before-after.md`. It shows the upgrade path from a 2/5 template-complete UI spec to a 4/5 shippable spec.
+
+For semantic runner calibration, use:
+
+```bash
+python3 scripts/run_rubric_judge.py --dry-run
+```
+
+See `docs/llm-judge-runner.md` for the provider-agnostic JSONL contract.
