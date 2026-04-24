@@ -12,6 +12,8 @@ Each mode includes:
 
 All modes also use `docs/weaknesses.md` as a failure-mode preflight. The goal is to prevent outputs that are structurally complete but generic, overconfident, aesthetic-only, platform-flattened, or weakly buildable.
 
+Modes that propose, specify, review, or rationalize a design artifact also use `docs/design-quality-rubric.md`. Generated/specification outputs should internally target 4/5; reviews should expose the current score with evidence limits.
+
 ---
 
 ## Mode A: Generate mobile screen concept
@@ -61,6 +63,7 @@ At least one of:
 - Are empty/loading/error states included?
 - Are touch and readability implications addressed?
 - Are visual hierarchy, composition, density, and production checks calibrated?
+- Does the proposal target at least 4/5 design quality, or explain what missing context blocks that target?
 - Are platform differences called out if relevant?
 - Is accessibility included by default?
 - Are invented details labeled as assumptions?
@@ -176,6 +179,7 @@ At least one of:
 - Are platform notes split where conventions differ?
 - Are accessibility requirements concrete?
 - Are visual hierarchy, spacing, typography, color/state, and production quality requirements concrete?
+- Does the spec target at least 4/5 design quality with buildable requirements?
 - Are unknown details labeled as assumptions?
 
 ### Fallback behavior
@@ -274,6 +278,7 @@ At least one of:
 - Are platform mismatches called out?
 - Are typography and spacing reviewed (where verifiable), not ignored?
 - Are design-quality claims limited to what can be verified from the provided visual or description?
+- Does the review expose a current design-quality score and qualify it when evidence is limited?
 - Is compliance language avoided unless verified?
 - Are unresolved assumptions stated?
 
@@ -329,6 +334,7 @@ At least one of:
 - Does it cover spacing as a system?
 - Does it relate density to content and task needs?
 - Does it define visual rhythm and role limits so the system can be applied consistently?
+- Does it target at least 4/5 design quality through rhythm, density, scaling, and production-ready values?
 - Does it note touch implications?
 - Does it remain plausible across platforms?
 - Are accessibility constraints included?
@@ -386,6 +392,7 @@ At least one of:
 - Does it connect choices to user goals and context?
 - Does it show platform alignment?
 - Does it explain how visual hierarchy, composition, density, and brand expression support the design objective?
+- Does the rationale state the quality target or current score using the 1-5 rubric?
 - Does it cover edge states and implementation concerns?
 - Does it avoid invented evidence?
 - Does it separate known facts from recommendations?

@@ -137,6 +137,7 @@ Use the source hierarchy in this order:
 - Use Fluent 2 and related guidance when cross-platform type hierarchy needs coherence.
 - Use Figma Variables guidance when outputs need token-friendly structure.
 - Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes a design artifact's hierarchy, composition, density, typography craft, color semantics, interaction polish, brand expression, or production readiness.
+- Use `docs/design-quality-rubric.md` when the output needs a 1-5 quality target or review score. Generated/specification outputs should internally target 4/5; Mode D reviews should expose the current score.
 - Use `docs/inspiration-sources.md` only when the user asks for visual inspiration, moodboards, benchmarks, or "best-in-class" examples. Treat it as a non-authoritative layer for visual range and production references, not as evidence for usability, accessibility, platform behavior, or compliance.
 - Use `docs/weaknesses.md` as an internal preflight when the task could invite generic output, unsupported claims, first-idea bias, platform flattening, happy-path-only flow design, or weak handoff.
 
@@ -177,6 +178,7 @@ Before finalizing, check the draft against these lenses:
 - Does the proposal define the intended attention path?
 - Are composition, spacing, typography, color, and density translated into concrete mechanisms rather than taste words?
 - Does visual expression support the task and platform instead of hiding weak structure?
+- What is the design-quality target or score from `docs/design-quality-rubric.md`, and what prevents it from reaching the next level?
 
 ### Navigation predictability
 - Can the user understand where they are, where they can go, and how to recover?
@@ -270,6 +272,16 @@ When the mode proposes or packages a design artifact, consult `docs/design-quali
 
 Keep this calibration concise. It should make the design more buildable, not turn the answer into a visual-design essay.
 
+### Score design quality
+
+Use `docs/design-quality-rubric.md` after calibration:
+
+- For generated concepts, UI specs, typography systems, and handoff: internally target 4/5 before returning.
+- If the draft scores 3/5 or below and context is sufficient, revise the weak dimension before returning.
+- If context prevents a 4/5 recommendation, state the missing input under `Assumptions`, `Unresolved assumptions`, or `Open questions`.
+- For Mode D reviews: expose `Current design quality score: [1-5]/5 — [reason]` inside `Design quality issues`.
+- Do not let a high visual score hide P0/P1 weaknesses, missing states, accessibility risks, or unsupported claims.
+
 ### Keep inspiration separate from rationale
 
 When the response uses inspiration sources:
@@ -294,6 +306,7 @@ At minimum, confirm:
 - States include at minimum default, loading, empty, error.
 - Spacing values come from the canonical scale, not ad-hoc numbers.
 - Design-quality calibration does not contradict task clarity, accessibility, quality bars, or platform conventions.
+- Design-quality rubric target or score is applied when relevant; generated artifacts below 4/5 are revised unless missing input blocks improvement.
 - Known weakness patterns from `docs/weaknesses.md` are addressed before self-review.
 
 When the mode does not produce concrete values (Mode B flow, Mode F rationale), this check is lighter — confirm that the output does not contradict any bar.

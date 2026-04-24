@@ -3,7 +3,7 @@ name: mobile-design-skill
 description: Generate, review, and structure mobile UI/UX decisions for iOS, Android, and cross-platform products. Use when you want to invoke the mobile design workflow directly in Claude Code with /mobile-design-skill.
 argument-hint: "[task / screen / flow]"
 disable-model-invocation: true
-version: 1.9.0
+version: 1.10.0
 ---
 
 # Mobile Design Skill
@@ -19,6 +19,7 @@ When invoked:
    - `${CLAUDE_SKILL_DIR}/../../../docs/workflow.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/sources.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/design-quality.md`
+   - `${CLAUDE_SKILL_DIR}/../../../docs/design-quality-rubric.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/weaknesses.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/inspiration-sources.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/commands.md`

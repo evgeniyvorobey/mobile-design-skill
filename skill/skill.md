@@ -137,6 +137,8 @@ When platform and accessibility guidance conflict with trend-based aesthetics, p
 
 Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes the quality of a design artifact. This layer improves visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production readiness without replacing usability and accessibility reasoning.
 
+Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. For generated or specified artifacts, target 4/5 before returning; if a draft scores 3/5 or below and can be improved without inventing facts, revise it. For reviews, expose the current design-quality score with a short reason.
+
 If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction, comparable surfaces, and exploration breadth, but they must not justify usability, accessibility, platform, or compliance claims.
 
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
@@ -185,6 +187,7 @@ Compare the draft against the numeric thresholds in `docs/quality-bars.md`:
 - state coverage (default, loading, empty, error)
 - spacing from a canonical 4- or 8-based scale
 - design quality calibration from `docs/design-quality.md` when the response proposes or packages a design artifact
+- design quality score or target from `docs/design-quality-rubric.md` when the response reviews, proposes, specifies, or rationalizes a design artifact
 - likely weakness patterns from `docs/weaknesses.md`, especially generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
 
 For modes that do not produce concrete values (Mode B flow, Mode F rationale), confirm the output does not contradict any bar.

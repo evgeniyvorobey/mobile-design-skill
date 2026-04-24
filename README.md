@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.9.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.10.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.9.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.10.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -73,6 +73,7 @@ It is structured around:
 - **Guardrails** — no invented platform rules, no fabricated research findings, no aesthetic-only advice without usability reasoning.
 - **Quality bars** — concrete numeric thresholds (touch 44pt iOS / 48dp Android, WCAG 2.2 AA contrast, line-height 1.4–1.6, motion 200–300ms).
 - **Design quality calibration** — visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production-readiness checks.
+- **Design quality rubric** — 1–5 scoring that targets 4/5 for generated artifacts and exposes current quality score in reviews.
 - **Known weakness prevention** — internal failure-mode preflight for generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff.
 - **Context-aware defaults** — adjusts output for audience (older adults, children, power users), domain (finance, health, government, enterprise, social), platform, and use-context (one-handed, outdoor, in-vehicle, emergency).
 - **Heuristic grounding** — decisions cite Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen rather than being presented as preference.
@@ -205,6 +206,7 @@ Keep these files loaded alongside the active prompt for full skill behavior:
 - `docs/sources.md`
 - `docs/quality-bars.md`
 - `docs/design-quality.md`
+- `docs/design-quality-rubric.md`
 - `docs/weaknesses.md`
 - `docs/patterns-catalog.md`
 - `docs/inspiration-sources.md`
@@ -230,6 +232,7 @@ system_prompt = (SKILL_ROOT / "SKILL.md").read_text()
 # Optionally inline the expanded reference set for deeper behavior:
 for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
             "docs/quality-bars.md", "docs/design-quality.md",
+            "docs/design-quality-rubric.md",
             "docs/weaknesses.md",
             "docs/patterns-catalog.md",
             "docs/inspiration-sources.md"]:
@@ -288,6 +291,7 @@ for (const ref of [
   "docs/workflow.md",
   "docs/quality-bars.md",
   "docs/design-quality.md",
+  "docs/design-quality-rubric.md",
   "docs/weaknesses.md",
   "docs/patterns-catalog.md",
   "docs/inspiration-sources.md",
@@ -434,6 +438,7 @@ mobile-design-skill/
 │   ├── sources.md                        Source hierarchy (Apple HIG, Material 3, WCAG, ISO, GOV.UK)
 │   ├── quality-bars.md                   Concrete numeric thresholds
 │   ├── design-quality.md                 Visual hierarchy, composition, density, and craft calibration
+│   ├── design-quality-rubric.md          1-5 design quality scoring and improvement ladder
 │   ├── weaknesses.md                     Known failure modes and prevention checks
 │   ├── context-defaults.md               Audience / domain / platform / use-context defaults
 │   ├── heuristics.md                     Fitts, Hick, Jakob, Zeigarnik, Nielsen, Gestalt — with mobile applications
@@ -513,6 +518,7 @@ Fork the repository, edit the files that govern skill behavior, and run the inst
 - [`docs/context-defaults.md`](docs/context-defaults.md) — add domain-specific defaults for your product
 - [`docs/quality-bars.md`](docs/quality-bars.md) — tighten numeric thresholds for your design system
 - [`docs/design-quality.md`](docs/design-quality.md) — tune design-quality calibration for hierarchy, rhythm, visual craft, and production readiness
+- [`docs/design-quality-rubric.md`](docs/design-quality-rubric.md) — tune 1-5 design-quality scoring, caps, and improvement ladder
 - [`docs/weaknesses.md`](docs/weaknesses.md) — tune known weakness patterns and prevention checks for recurring output regressions
 - [`docs/patterns-catalog.md`](docs/patterns-catalog.md) — add patterns unique to your product area
 - [`docs/inspiration-sources.md`](docs/inspiration-sources.md) — tune visual inspiration, production reference, and moodboard sources

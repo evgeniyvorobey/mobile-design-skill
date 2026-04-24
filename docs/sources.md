@@ -138,6 +138,21 @@ This layer interprets the source hierarchy above into practical quality checks. 
 
 ---
 
+## Design quality rubric layer
+
+The 1-5 design-quality scoring rubric is defined separately in [`design-quality-rubric.md`](design-quality-rubric.md).
+
+Use it to:
+
+- target 4/5 quality before returning generated design artifacts
+- expose current quality score in design reviews
+- prevent serious weaknesses from being averaged away by visual polish
+- define the improvement ladder from baseline to strong and resilient
+
+The rubric is a synthesis tool. It does not create evidence by itself and must still defer to platform guidance, accessibility standards, quality bars, and known weakness prevention.
+
+---
+
 ## Known weaknesses prevention layer
 
 Known weakness patterns are defined separately in [`weaknesses.md`](weaknesses.md).

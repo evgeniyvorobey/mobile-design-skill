@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.9.0
+version: 1.10.0
 ---
 
 # Mobile Design Skill
@@ -24,6 +24,7 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/sources.md` for source hierarchy and canonical URLs
 - `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
 - `docs/design-quality.md` for visual hierarchy, composition, density, typography craft, color semantics, interaction polish, and production-readiness calibration
+- `docs/design-quality-rubric.md` for 1-5 quality scoring, target levels, caps, and improvement ladder
 - `docs/weaknesses.md` for known failure modes and prevention checks that keep outputs from becoming generic, overconfident, aesthetic-only, or weakly buildable
 - `docs/context-defaults.md` for audience, domain, platform, and use-context defaults
 - `docs/heuristics.md` for the usability heuristics catalog with mobile applications and red-flag patterns
@@ -110,6 +111,8 @@ Preferred source families:
 
 Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes the quality of a design artifact. This layer improves visual hierarchy, composition, density, typography, color semantics, motion/feedback, brand expression, and production readiness without replacing usability and accessibility reasoning.
 
+Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. For generated or specified artifacts, target 4/5 before returning; if a draft scores 3/5 or below and can be improved without inventing facts, revise it. For reviews, expose the current design-quality score with a short reason.
+
 If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction and comparison examples, but they must not justify usability, accessibility, platform, or compliance claims.
 
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
@@ -154,6 +157,7 @@ Compare against `docs/quality-bars.md`:
 - state coverage (default, loading, empty, error)
 - spacing from the canonical 4- or 8-based scale
 - design quality calibration from `docs/design-quality.md` when the response proposes or packages a design artifact
+- design quality score or target from `docs/design-quality-rubric.md` when the response reviews, proposes, specifies, or rationalizes a design artifact
 - likely weakness patterns from `docs/weaknesses.md`, especially generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
 
 ### 10. Run mandatory self-review
@@ -175,6 +179,7 @@ Every response must:
 - include platform-specific notes when relevant
 - separate known facts from recommendations
 - include design quality calibration when the response proposes, specifies, reviews, or rationalizes a design artifact
+- apply the 1-5 design-quality rubric internally; expose the score in reviews and expose the target only when useful for generated artifacts
 - apply known weakness prevention before returning; do not expose it as a separate section unless the user asks for a failure-mode analysis
 - separate inspiration references from UX, accessibility, and platform rationale when inspiration is used
 - end with `Next actions:`

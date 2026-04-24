@@ -22,6 +22,7 @@ REQUIRED_FILES = [
     "skill/usage.md",
     "docs/context-defaults.md",
     "docs/design-quality.md",
+    "docs/design-quality-rubric.md",
     "docs/evals.md",
     "docs/guardrails.md",
     "docs/heuristics.md",
@@ -97,6 +98,7 @@ MODE_REQUIREMENTS = {
             ("Design quality calibration", r"Attention path:"),
             ("Design quality calibration", r"Composition and spacing:"),
             ("Design quality calibration", r"Production checks:"),
+            ("Design quality calibration", r"\b[1-5]/5\b"),
         ],
     },
     "Design mobile user flow": {
@@ -136,6 +138,7 @@ MODE_REQUIREMENTS = {
             ("Typography rules", r"\b\d+\s?(sp|pt|px)\b|body|title|label|caption"),
             ("Design quality requirements", r"Attention path:"),
             ("Design quality requirements", r"Production checks:"),
+            ("Design quality requirements", r"\b[1-5]/5\b"),
         ],
     },
     "Review screen for usability/accessibility": {
@@ -155,6 +158,9 @@ MODE_REQUIREMENTS = {
         ],
         "accessibility_sections": ["Accessibility issues"],
         "requires_sub_case": True,
+        "must_contain": [
+            ("Design quality issues", r"Current design quality score:.*\b[1-5]/5\b"),
+        ],
     },
     "Create typography and spacing system": {
         "sections": [
@@ -176,6 +182,7 @@ MODE_REQUIREMENTS = {
             ("Line-height guidance", r"\b1\.[0-9]\b|\b\d+\s?(sp|pt|px)\b"),
             ("Touch-target implications", r"44\s?pt.*48\s?dp|48\s?dp.*44\s?pt"),
             ("Visual rhythm rules", r"\b(4|8|12|16|24|32|40)\b"),
+            ("Visual rhythm rules", r"\b[1-5]/5\b"),
         ],
     },
     "Prepare design rationale / handoff": {
@@ -198,6 +205,7 @@ MODE_REQUIREMENTS = {
             ("Key design decisions", r"alternative considered:"),
             ("Pattern choices and why", r"\bover\b"),
             ("Design quality rationale", r"mechanism:"),
+            ("Design quality rationale", r"\b[1-5]/5\b"),
         ],
     },
 }
@@ -241,6 +249,34 @@ WEAKNESS_REQUIRED_PATTERNS = [
     "platform flattening",
     "happy-path-only design",
     "weak handoff",
+]
+
+DESIGN_QUALITY_RUBRIC_REFERENCE_FILES = [
+    "SKILL.md",
+    ".claude/skills/mobile-design-skill/SKILL.md",
+    "README.md",
+    "skill/skill.md",
+    "skill/metadata.yaml",
+    "skill/modes.md",
+    "skill/templates.md",
+    "skill/usage.md",
+    "docs/design-quality.md",
+    "docs/evals.md",
+    "docs/guardrails.md",
+    "docs/self-review.md",
+    "docs/sources.md",
+    "docs/workflow.md",
+]
+
+DESIGN_QUALITY_RUBRIC_REQUIRED_PATTERNS = [
+    "1/5",
+    "2/5",
+    "3/5",
+    "4/5",
+    "5/5",
+    "Attention path",
+    "Production readiness",
+    "Improvement ladder",
 ]
 
 
@@ -287,6 +323,35 @@ def validate_weakness_layer() -> None:
     if missing_references:
         fail(
             "Weakness layer is not referenced by required files: "
+            + ", ".join(missing_references)
+        )
+
+
+def validate_design_quality_rubric_layer() -> None:
+    rubric_doc = (ROOT / "docs/design-quality-rubric.md").read_text(encoding="utf-8")
+    missing_patterns = [
+        pattern
+        for pattern in DESIGN_QUALITY_RUBRIC_REQUIRED_PATTERNS
+        if pattern not in rubric_doc
+    ]
+    if missing_patterns:
+        fail(
+            "docs/design-quality-rubric.md is missing required rubric patterns: "
+            + ", ".join(missing_patterns)
+        )
+
+    missing_references = []
+    for relative_path in DESIGN_QUALITY_RUBRIC_REFERENCE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if (
+            "design-quality-rubric.md" not in text
+            and "design_quality_rubric" not in text
+        ):
+            missing_references.append(relative_path)
+
+    if missing_references:
+        fail(
+            "Design-quality rubric layer is not referenced by required files: "
             + ", ".join(missing_references)
         )
 
@@ -410,6 +475,7 @@ def main() -> None:
     validate_required_files()
     validate_skill_frontmatter()
     validate_weakness_layer()
+    validate_design_quality_rubric_layer()
     validate_links()
     validate_example_responses()
     print("[OK] Repository structure, relative links, and example responses are valid.")

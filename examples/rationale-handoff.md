@@ -49,6 +49,7 @@ This screen serves patients immediately after booking an appointment. Many users
 - Clear instructional text over icon-led hints because confirmation screens in high-trust contexts must reduce uncertainty, not merely announce success.
 
 ## Design quality rationale
+- Quality target: 4/5 — strong handoff quality with final score dependent on validating real appointment-data variability and large-text behavior.
 - Confirmation summary prominence — mechanism: larger title/body contrast, top placement, and 24dp/24pt separation from secondary actions — fits the high-trust healthcare context because patients need fast confirmation before exploring options.
 - Calm section rhythm — mechanism: repeated section headers, 16dp/16pt internal spacing, and 24dp/24pt section gaps — supports anxious and older users by making the screen predictable.
 - Reduced secondary-action weight — mechanism: lower placement and secondary button styling — keeps optional actions available without competing with the completed booking state.

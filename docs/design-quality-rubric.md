@@ -1,0 +1,130 @@
+# Design Quality Rubric
+
+This document turns design quality into a 1-5 scoring system. Use it to raise the quality of proposed designs, not only to critique existing ones.
+
+The rubric complements:
+
+- `docs/design-quality.md` for quality dimensions and mechanisms
+- `docs/weaknesses.md` for recurring failure modes
+- `docs/quality-bars.md` for numeric thresholds
+- `docs/evals.md` for external response evaluation
+
+---
+
+## When to score
+
+Score design quality when the response:
+
+- proposes a screen concept
+- creates a UI spec
+- reviews a screen or screen description
+- creates a typography and spacing system
+- prepares a rationale or handoff
+
+Mode B user flows normally do not need a visual quality score unless screen pacing, progress feedback, or transition quality materially affects the flow.
+
+---
+
+## Output rule
+
+For generated or specified design artifacts, the score is primarily internal:
+
+- target **4/5** before returning the answer
+- if the draft scores **3/5 or below** and the missing context is not blocking, revise the design before returning
+- if missing input prevents a 4/5 recommendation, state the limitation in `Assumptions` or `Unresolved assumptions`
+
+For reviews, expose the score:
+
+```md
+- Current design quality score: [1-5]/5 — [short reason]
+```
+
+For generation, specs, typography systems, and handoff, expose the target only when useful:
+
+```md
+- Quality target: 4/5 — production-ready direction with remaining validation notes.
+```
+
+Do not let the score replace the reasoning. The score is a compression of the critique, not the critique itself.
+
+---
+
+## 1-5 score levels
+
+| Score | Label | Meaning |
+|-------|-------|---------|
+| 1/5 | Broken or misleading | The design obscures the primary task, invents unsupported claims, violates hard guardrails, or creates serious accessibility/usability risk. |
+| 2/5 | Structurally weak | The screen or recommendation has visible structure, but hierarchy, state handling, platform fit, or evidence boundaries are weak enough that users or implementers will struggle. |
+| 3/5 | Acceptable baseline | The design can work, but it is mostly competent rather than strong. It handles the main task and basics, but lacks sharper hierarchy, stronger state coverage, or production-ready details. |
+| 4/5 | Strong and shippable | The design is specific to the task and context, has clear hierarchy, usable density, concrete states, accessibility-aware decisions, platform alignment, and buildable mechanisms. |
+| 5/5 | Excellent and resilient | The design is not just shippable; it anticipates edge cases, adapts across platform/context/accessibility settings, preserves brand without weakening semantics, and is ready for design-system scaling. |
+
+---
+
+## Dimension scoring
+
+Score each relevant dimension from 1-5.
+
+| Dimension | 1-2 signals | 3 signals | 4-5 signals |
+|-----------|-------------|-----------|-------------|
+| Attention path and hierarchy | unclear first glance; competing focal points | main task visible but secondary hierarchy is rough | first glance, second glance, and action path are deliberate and visible |
+| Composition and spacing | grouping depends on decoration or breaks with large text | spacing mostly works but lacks rhythm | spacing, grouping, alignment, and safe-area behavior communicate structure |
+| Typography craft | ad-hoc sizes, weak readability, too many styles | basic roles exist | role-based type, line-height, scaling, truncation, and emphasis rules are clear |
+| Color, state, and contrast | color carries meaning alone or weakens contrast | semantic colors are mostly present | color roles, non-color cues, dark/increased-contrast implications, and state treatments are defined |
+| Density and rhythm | density fights the task | density is acceptable | density matches context and repeats predictably across groups/screens |
+| Interaction polish and motion | missing feedback or motion hides problems | basic feedback exists | pressed/loading/saving/success/error feedback is clear, fast, and reduced-motion-aware |
+| Context and brand fit | visual language contradicts trust, domain, or platform | broadly appropriate | brand supports task, trust, and platform conventions without overriding semantics |
+| Production readiness | vague handoff; no tokens/states/QA | enough to discuss | token-ready values, component/state mapping, platform notes, and QA checks are present |
+
+---
+
+## Caps and hard limits
+
+Apply these caps before calculating the final score:
+
+- Any P0 weakness from `docs/weaknesses.md` makes the response **Fail**, not a score.
+- Any P1 weakness caps score at **2/5** until fixed.
+- Missing empty/loading/error states where relevant caps generated concepts and UI specs at **3/5**.
+- Unsupported accessibility compliance claims make the response **Fail**.
+- Visual assertions from text-only review input cap Mode D score confidence; label the score as provisional or restrict it to structural quality.
+- Aesthetic-only recommendations cap the design-quality score at **2/5** until translated into task, accessibility, or implementation mechanisms.
+- Platform flattening in materially different iOS/Android behavior caps cross-platform outputs at **3/5**.
+
+---
+
+## Final scoring method
+
+1. Score all relevant dimensions.
+2. Apply caps and hard limits.
+3. Use the median dimension score as the starting point.
+4. Lower the final score if one critical dimension is weaker than the median and affects the primary task.
+5. Raise to 5/5 only when resilience is demonstrated across states, accessibility settings, platform behavior, and implementation handoff.
+
+Do not average away a serious flaw. A beautiful 5/5 visual direction with 2/5 state handling is not a 4/5 design; it is a risky design with polish.
+
+---
+
+## Improvement ladder
+
+Use this ladder when a draft is below the target:
+
+- 1 → 2: remove misleading claims, fix hard guardrails, define the actual user task
+- 2 → 3: clarify hierarchy, add states, qualify assumptions, remove aesthetic-only advice
+- 3 → 4: add concrete mechanisms, alternatives, platform notes, accessibility behavior, and production checks
+- 4 → 5: add resilience across edge cases, tokenization, dark/large-text behavior, localization, and design-system scaling
+
+For most skill outputs, **4/5 is the default target**. Use 5/5 as a stretch target when the user provides enough context for strong system-level guidance.
+
+---
+
+## Self-review prompt
+
+Before returning a design artifact, silently answer:
+
+- What score would I give this draft before revision?
+- Which dimension prevents it from reaching 4/5?
+- Can I raise that dimension with the information already available?
+- If not, did I state the missing input clearly?
+- Did I avoid using the score as a substitute for concrete design mechanisms?
+
+If the draft is below 4/5 and can be improved without inventing facts, revise it before returning.

@@ -96,6 +96,7 @@ Choose dates, review request impact, and submit with confidence.
 - Ensure touch targets remain comfortable around date selection and toggles.
 
 ## Design quality calibration
+- Quality target: 4/5 — production-ready screen structure with remaining validation around policy edge cases and platform-specific date controls.
 - Attention path:
   - First glance: date range and leave type; second glance: balance/policy impact; final action: Submit request.
 - Composition and spacing:

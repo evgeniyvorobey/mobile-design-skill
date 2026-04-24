@@ -60,6 +60,7 @@ The screen appears functionally complete but structurally overloaded. The main r
 - Dense profile fields such as address and company info should be grouped or progressively disclosed where appropriate.
 
 ## Design quality issues
+- Current design quality score: 2/5 — provisional structural score from text-only input; the screen has recognizable form structure, but grouping, hierarchy, save affordance, and state coverage are too weak to treat as shippable.
 - Description-only limitation: visual balance, exact spacing, contrast, and color quality cannot be verified without a screenshot or layout spec.
 - Probable quality risk: equal field priority and no grouping will make the form feel less crafted even if individual fields are visually polished.
 - The save action needs stronger discoverability through placement and persistence, not just visual styling.

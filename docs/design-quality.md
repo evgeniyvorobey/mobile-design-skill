@@ -2,6 +2,8 @@
 
 This document defines the skill's design-quality layer: the part that turns a structurally correct mobile design into a clearer, more polished, more production-ready design proposal.
 
+Use `docs/design-quality-rubric.md` when this qualitative calibration needs a 1-5 score, target level, cap, or improvement ladder.
+
 Design quality is not decoration. For this skill, design quality means:
 
 - the user's attention is guided in the right order
@@ -195,6 +197,7 @@ Use this structure:
 
 ```md
 ## Design quality calibration
+- Quality target: 4/5 — production-ready direction with remaining validation notes.
 - Attention path:
 - Composition and spacing:
 - Typography:
@@ -207,6 +210,7 @@ For short responses, compress it:
 
 ```md
 ## Design quality calibration
+- Quality target: 4/5 — [short reason]
 - Prioritize [first thing] visually through [size/position/contrast].
 - Use [spacing/type/color rule] to make [relationship/state] clear.
 - Validate [large text/dark mode/state/touch target] before handoff.

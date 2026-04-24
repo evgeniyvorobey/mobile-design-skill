@@ -59,6 +59,7 @@ For every evaluated response:
 - [ ] Major decisions include a chosen option, a rejected alternative where relevant, and a concrete reason.
 - [ ] Evidence boundaries are clear: facts, assumptions, recommendations, and unverifiable items are separated where risk exists.
 - [ ] The response is buildable enough for the requested mode: states, behaviors, values, tokens, QA checks, or validation focus are present as appropriate.
+- [ ] The 1-5 design-quality rubric from [`design-quality-rubric.md`](design-quality-rubric.md) is applied when the response proposes, specifies, reviews, or rationalizes a design artifact.
 
 Hard-fail the response if it matches a P0 or P1 weakness in `docs/weaknesses.md`.
 
@@ -232,6 +233,24 @@ For evals, score each response across three dimensions:
 | Hallucination & safety | 20% | Binary pass/fail on shared fail conditions + mode fail conditions |
 
 A response that fails any hard fail condition receives an overall score of **Fail** regardless of the weighted score.
+
+## Design quality rubric
+
+Use [`design-quality-rubric.md`](design-quality-rubric.md) for the design-quality score.
+
+Structural/content evals answer "does the response satisfy the skill contract?" The design-quality rubric answers "how strong is the design artifact itself?"
+
+For generated concepts, UI specs, typography systems, and handoff:
+
+- [ ] Internal target is 4/5 or higher.
+- [ ] Any dimension below 4/5 is either revised or clearly blocked by missing input.
+- [ ] The output does not average away a serious flaw such as missing states, weak accessibility behavior, or platform flattening.
+
+For reviews:
+
+- [ ] `Design quality issues` includes a current score such as `Current design quality score: 2/5 — ...`.
+- [ ] Text-only reviews label the score as structural/provisional when visual evidence is missing.
+- [ ] Score rationale references concrete dimensions: hierarchy, spacing, typography, color/state, interaction polish, brand/context fit, or production readiness.
 
 ---
 

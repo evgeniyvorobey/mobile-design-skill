@@ -1,6 +1,6 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
-version: 1.9.0
+version: 1.10.0
 status: production-ready
 owner: repository-maintained
 entrypoint: SKILL.md
@@ -89,6 +89,26 @@ design_quality:
     - interaction polish and motion
     - brand expression and visual character
     - production readiness
+design_quality_rubric:
+  role: 1-5 scoring system for raising proposed design quality and reviewing existing design quality
+  default_generated_target: "4/5"
+  expose_review_score: true
+  expose_generated_target_when_useful: true
+  levels:
+    "1": broken or misleading
+    "2": structurally weak
+    "3": acceptable baseline
+    "4": strong and shippable
+    "5": excellent and resilient
+  dimensions:
+    - attention path and hierarchy
+    - composition and spacing
+    - typography craft
+    - color state and contrast
+    - density and rhythm
+    - interaction polish and motion
+    - context and brand fit
+    - production readiness
 weakness_prevention:
   role: internal failure-mode preflight for preventing shallow or misleading design output
   severity_levels:
@@ -158,6 +178,7 @@ quality_bar:
   mandatory_self_review: true
   concrete_numeric_thresholds: true
   design_quality_calibration: true
+  design_quality_rubric_1_to_5: true
   known_weakness_preflight: true
   design_reasoning_with_alternatives: true
   context_aware_defaults: true

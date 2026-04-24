@@ -76,6 +76,7 @@ Assumptions:
 - When in doubt, reduce concurrent information before shrinking typography.
 
 ## Visual rhythm rules
+- Quality target: 4/5 — token-ready rhythm that remains usable at larger text sizes and across dense finance screens.
 - Use a 4/8-based rhythm: 8 between label and value pairs, 16 inside cards or form groups, 24 between sections, and 32 for major screen transitions.
 - Keep transaction rows visually repeatable: merchant, metadata, and amount should align consistently across every row.
 - Use spacing before borders: add containers only when proximity and alignment are not enough to show grouping.

@@ -211,3 +211,21 @@ Better:
 - if the input is too thin, narrow the artifact and state what cannot be decided yet
 
 Use `docs/weaknesses.md` as the failure-mode map for this guardrail.
+
+---
+
+## 14. Do not let scores hide design risk
+
+The 1-5 rubric in `docs/design-quality-rubric.md` is a quality tool, not a laundering mechanism.
+
+Do not:
+- average a serious accessibility, state, platform, or evidence flaw into an acceptable-looking score
+- give a 4/5 or 5/5 score to a design with unresolved P0/P1 weakness
+- expose a precise visual quality score from text-only input without labeling evidence limits
+- use the score instead of explaining the concrete mechanism
+
+Better:
+- apply caps from the rubric
+- score the weak dimension explicitly
+- revise generated artifacts below 4/5 when the context supports improvement
+- for reviews, attach the score to a short evidence-based reason

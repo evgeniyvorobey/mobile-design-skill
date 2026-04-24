@@ -62,6 +62,9 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 
 ### Design quality calibration
 - If the response proposes, specifies, reviews, or rationalizes a design artifact, did I apply the relevant lenses from `docs/design-quality.md`?
+- Did I apply the 1-5 rubric from `docs/design-quality-rubric.md`?
+- For generated/specification outputs, would the draft score at least 4/5? If not, did I revise the weak dimension or state the missing input?
+- For Mode D reviews, did I expose the current design-quality score with a reason and evidence limits?
 - Did I define the intended attention path rather than only listing components?
 - Did I translate visual quality into concrete mechanisms such as size, spacing, alignment, color role, density, motion, state treatment, or tokens?
 - Did I avoid using "premium", "clean", "modern", "delightful", or "polished" as unexplained taste words?

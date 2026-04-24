@@ -2,7 +2,7 @@
 
 Use these templates as the response skeleton for each mode.
 
-Templates are structure, not quality. Before returning any filled template, run the known-weakness preflight from `docs/weaknesses.md`; do not expose the preflight as a separate output section unless the user explicitly asks for failure-mode analysis.
+Templates are structure, not quality. Before returning any filled template, run the known-weakness preflight from `docs/weaknesses.md` and the 1-5 design-quality rubric from `docs/design-quality-rubric.md`; do not expose the preflight as a separate output section unless the user explicitly asks for failure-mode analysis.
 
 ---
 
@@ -59,6 +59,7 @@ Assumptions:
 - [consideration]
 
 ## Design quality calibration
+- Quality target: [4/5 by default unless context blocks it]
 - Attention path:
 - Composition and spacing:
 - Typography:
@@ -194,6 +195,7 @@ Assumptions:
 - [requirement]
 
 ## Design quality requirements
+- Quality target: [4/5 by default unless context blocks it]
 - Attention path:
 - Composition and spacing:
 - Typography:
@@ -249,6 +251,7 @@ Assumptions:
 - [issue]
 
 ## Design quality issues
+- Current design quality score: [1-5]/5 — [short evidence-based reason; label as provisional if visual evidence is limited]
 - [issue]
 - [issue]
 
@@ -325,6 +328,7 @@ Assumptions:
 - [rule]
 
 ## Visual rhythm rules
+- Quality target: [4/5 by default unless context blocks it]
 - [rule]
 - [rule]
 
@@ -374,6 +378,7 @@ Assumptions:
 - [pattern] over [alternative pattern] because [reason]
 
 ## Design quality rationale
+- Quality target: [4/5 by default unless context blocks it]
 - [quality decision] — [mechanism: size/spacing/alignment/color/density/motion/token] — [why it fits context]
 - [quality decision] — [mechanism] — [why]
 

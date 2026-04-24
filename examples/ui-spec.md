@@ -127,6 +127,7 @@ Single detail screen for one tracked package, optimized for status comprehension
 - Interactive controls need comfortable touch targets and clear labels.
 
 ## Design quality requirements
+- Quality target: 4/5 — shippable Android detail screen once live shipment exceptions and carrier data limits are validated.
 - Attention path:
   - First glance must land on current status and ETA; second glance moves to exception/support actions; timeline is tertiary.
 - Composition and spacing:

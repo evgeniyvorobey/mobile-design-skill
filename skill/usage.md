@@ -16,6 +16,7 @@ If you want the expanded reference pack available during use, keep these files n
 - `docs/sources.md`
 - `docs/workflow.md`
 - `docs/design-quality.md`
+- `docs/design-quality-rubric.md`
 - `docs/weaknesses.md`
 
 The skill will:
@@ -27,8 +28,9 @@ The skill will:
 5. return a structured mode-specific output
 6. include accessibility and usability by default
 7. include design-quality calibration for visual hierarchy, rhythm, craft, and production readiness when producing design artifacts
-8. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
-9. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
+8. apply a 1-5 design-quality rubric, targeting 4/5 for generated artifacts and exposing current score in reviews
+9. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
+10. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
 
 ---
 
