@@ -27,6 +27,14 @@ With inline arguments:
 /mobile-design-skill create a platform-aware UI spec for a package tracking screen
 ```
 
+With judged mode:
+
+```text
+/mobile-design-skill --judge create a platform-aware UI spec for a fitness tracker app
+```
+
+`--judge` asks the skill to draft privately, run an independent rubric judge pass in the same session when the host supports subagents, revise if needed, and return the final answer with a compact `Judge summary`. It should not require the user to run a separate script manually.
+
 This repository includes the Claude Code wrapper at:
 
 - [`.claude/skills/mobile-design-skill/SKILL.md`](../.claude/skills/mobile-design-skill/SKILL.md)
@@ -80,6 +88,8 @@ That means you can use it in two ways:
 2. describe the task and let the skill classify it automatically
 
 For public documentation, it is usually better to show explicit mode phrasing because it is easier for first-time users to understand.
+
+Use `--judge` for higher-confidence outputs when the extra latency of an independent judge pass is acceptable.
 
 ---
 

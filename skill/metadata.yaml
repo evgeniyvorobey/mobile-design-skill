@@ -1,6 +1,6 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
-version: 1.13.1
+version: 1.14.0
 status: production-ready
 owner: repository-maintained
 entrypoint: SKILL.md
@@ -59,6 +59,7 @@ response_contract:
   choose_exactly_one_primary_mode: true
   determine_platform_scope: true
   apply_clarification_policy: true
+  support_judged_mode_flag: true
   require_minimal_labeled_assumptions: true
   ask_only_blocking_clarifying_questions: true
   max_clarifying_questions: 3
@@ -101,6 +102,15 @@ clarification_policy:
     - Clarifying questions
     - Why this blocks
     - Fast path
+judged_mode:
+  trigger: "/mobile-design-skill --judge"
+  role: optional interactive orchestration for higher-confidence outputs
+  requires_manual_script_run: false
+  preferred_execution: independent judge agent in same host session
+  fallback: single-agent rubric self-review when subagents are unavailable
+  final_section: Judge summary
+  target_score: "4/5"
+  revision_rule: revise below target when issues can be fixed without inventing facts
 design_quality:
   role: visual hierarchy composition density typography color motion brand and production-readiness calibration
   dimensions:
@@ -119,6 +129,15 @@ design_quality_rubric:
   expose_generated_target_when_useful: true
   eval_pack:
     before_after_example: examples/rubric-before-after.md
+    golden_examples_index: docs/golden-examples.md
+    golden_examples:
+      - examples/golden/premium-ui.md
+      - examples/golden/enterprise-saas.md
+      - examples/golden/fintech.md
+      - examples/golden/health.md
+      - examples/golden/onboarding.md
+      - examples/golden/settings.md
+      - examples/golden/checkout.md
     fixtures:
       - examples/evals/rubric-score-1.json
       - examples/evals/rubric-score-2.json
@@ -141,7 +160,7 @@ design_quality_rubric:
     - context and brand fit
     - production readiness
 llm_judge_runner:
-  role: provider-agnostic semantic rubric calibration runner
+  role: LLM-agnostic semantic rubric calibration runner with external-agent command support
   script: scripts/run_rubric_judge.py
   documentation: docs/llm-judge-runner.md
   fixture_source: examples/evals
@@ -150,6 +169,9 @@ llm_judge_runner:
     - JSONL judge request export
     - oracle JSONL output export for runner self-tests
     - JSONL judge output validation
+    - external judge agent command over stdin/stdout
+    - deterministic oracle agent for command-adapter CI self-tests
+    - versioned request schema independent of provider or model family
   output_contract:
     - score
     - verdict
@@ -181,6 +203,7 @@ weakness_prevention:
     - overlong process theater
 inspiration_sources:
   role: non-authoritative visual inspiration and production reference layer
+  benchmark_playbooks: docs/visual-benchmark-playbooks.md
   production_references:
     - Mobbin
     - Page Flows
@@ -196,6 +219,16 @@ inspiration_sources:
     - Dribbble
     - Pinterest
     - Figma Community
+release_automation:
+  role: deterministic release validation without network or model credentials
+  workflow: .github/workflows/release-validate.yml
+  script: scripts/validate_release.py
+  checks:
+    - repository validation
+    - rubric judge dry-run
+    - judge parser self-test
+    - external command oracle self-test
+    - version and tag sanity
 primary_sources:
   - Apple Human Interface Guidelines
   - Material Design 3
@@ -230,7 +263,9 @@ quality_bar:
   design_quality_calibration: true
   design_quality_rubric_1_to_5: true
   design_quality_rubric_eval_pack: true
+  golden_examples: true
   llm_as_judge_runner: true
+  judged_mode_flag: true
   clarification_policy: true
   known_weakness_preflight: true
   design_reasoning_with_alternatives: true
@@ -238,3 +273,5 @@ quality_bar:
   heuristic_grounded_reasoning: true
   pattern_catalog_grounded: true
   inspiration_sources_separated_from_evidence: true
+  visual_benchmark_playbooks: true
+  release_validation: true

@@ -83,9 +83,10 @@ After running the script:
 
 1. Fill in the CHANGELOG placeholder with real `### Added`, `### Changed`, `### Fixed`, `### Removed` entries.
 2. Run `python3 scripts/validate_repo.py`.
-3. Commit the changes.
-4. Tag: `git tag vX.Y.Z`.
-5. Push: `git push && git push --tags`.
+3. Run `python3 scripts/validate_release.py --tag-or-ref vX.Y.Z`.
+4. Commit the changes.
+5. Tag: `git tag vX.Y.Z`.
+6. Push: `git push && git push --tags`.
 
 ---
 
@@ -96,6 +97,7 @@ Before tagging a release:
 - [ ] Version bumped via `scripts/bump_version.py`
 - [ ] CHANGELOG entry written with real content, not placeholder
 - [ ] `scripts/validate_repo.py` passes
+- [ ] `scripts/validate_release.py --tag-or-ref vX.Y.Z` passes before tagging
 - [ ] Examples regenerated against the new version if they reference version-bound behavior
 - [ ] Evals reviewed against the new version's structural checks if the output contract changed
 - [ ] No uncommitted changes outside the bump diff

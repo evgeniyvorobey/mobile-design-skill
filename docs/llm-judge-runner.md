@@ -28,6 +28,14 @@ Validate JSONL judge outputs:
 python3 scripts/run_rubric_judge.py --judge-output tmp/rubric-judge-results.jsonl
 ```
 
+Run semantic calibration through an external judge agent command:
+
+```bash
+python3 scripts/run_rubric_judge.py \
+  --judge-command "./scripts/local_judge_agent.sh" \
+  --judge-command-output tmp/rubric-judge-results.jsonl
+```
+
 Self-test the parser and comparison logic without calling an LLM:
 
 ```bash
@@ -36,7 +44,92 @@ python3 scripts/run_rubric_judge.py \
   --judge-output tmp/rubric-judge-expected.jsonl
 ```
 
-The runner intentionally does not call a specific LLM provider. It emits a stable JSONL contract that can be used with OpenAI, Anthropic, local models, or any internal evaluation harness.
+Self-test the external command adapter without calling an LLM:
+
+```bash
+python3 scripts/run_rubric_judge.py \
+  --judge-command "python3 scripts/rubric_judge_oracle_agent.py"
+```
+
+The runner intentionally does not call a specific LLM provider. It emits a stable JSONL contract that can be used with Codex, Claude Code, OpenAI, Anthropic, local models, or any internal evaluation harness.
+
+For public open-source use, prefer `--judge-command` over provider-specific adapters. The repository never needs API keys. The external command owns model selection, credentials, rate limits, and logging.
+
+---
+
+## LLM-agnostic contract
+
+The external judge command must work regardless of which LLM the user prefers.
+
+The runner only depends on process IO:
+
+- stdin: request JSONL
+- stdout: judge-output JSONL
+- stderr: optional logs
+- exit code: non-zero means failure
+
+The command may call any backend: Codex, Claude Code, OpenAI, Anthropic, local models, a company gateway, or a human-in-the-loop script. The command is responsible for translating the generic `messages` array into whatever prompt shape that backend expects.
+
+The request schema is versioned so adapters can stay stable:
+
+```json
+{
+  "schema_version": "rubric-judge-request/v1",
+  "id": "rubric-score-4-strong-leave-request",
+  "messages": [
+    {"role": "system", "content": "..."},
+    {"role": "user", "content": "..."}
+  ],
+  "expected": {
+    "score": 4,
+    "verdict": "strong and shippable"
+  }
+}
+```
+
+Adapters must not rely on a specific model family, token format, SDK, API key name, or hosted provider. If a backend cannot consume `system` / `user` messages natively, the adapter should flatten them into that backend's preferred prompt format.
+
+---
+
+## External judge command protocol
+
+`--judge-command` runs a separate executable agent process.
+
+The runner sends provider-agnostic judge request JSONL to the command's stdin. Each line has:
+
+- `schema_version`
+- `id`
+- `messages`
+- `expected`
+
+The command must write judge-output JSONL to stdout using the same contract as `--judge-output`.
+
+The command may write logs to stderr. Stdout must remain machine-readable JSONL.
+
+For commands with pipes, shell-specific setup, or secrets, put the logic in a wrapper script and pass the script path:
+
+```bash
+python3 scripts/run_rubric_judge.py \
+  --judge-command "./scripts/local_judge_agent.sh"
+```
+
+Save the raw stdout before validation when debugging:
+
+```bash
+python3 scripts/run_rubric_judge.py \
+  --judge-command "./scripts/local_judge_agent.sh" \
+  --judge-command-output tmp/rubric-judge-results.jsonl
+```
+
+Bound long-running judge agents:
+
+```bash
+python3 scripts/run_rubric_judge.py \
+  --judge-command "./scripts/local_judge_agent.sh" \
+  --judge-command-timeout 600
+```
+
+`scripts/rubric_judge_oracle_agent.py` is intentionally not a real judge. It echoes the expected fixture outcomes from stdin and exists only to prove that the external command protocol works in CI.
 
 ---
 
@@ -101,6 +194,8 @@ It does not replace human design judgment. It checks calibration: whether the ju
 
 It also does not make a weak generated response stronger by itself. It tells the skill maintainers when the scoring model drifts from the rubric.
 
+It does not store or require provider API keys. Authentication belongs to the external agent command or the environment that runs it.
+
 ---
 
 ## Maintenance
@@ -113,3 +208,5 @@ When adding a new rubric fixture:
 4. Add at least two improvement suggestions.
 5. Run `python3 scripts/validate_repo.py`.
 6. Run `python3 scripts/run_rubric_judge.py --dry-run`.
+7. Run `python3 scripts/run_rubric_judge.py --judge-command "python3 scripts/rubric_judge_oracle_agent.py"`.
+8. If you use a live judge agent, run `python3 scripts/run_rubric_judge.py --judge-command "<your-agent-command>"`.

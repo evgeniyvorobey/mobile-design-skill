@@ -16,6 +16,7 @@ If you want the expanded reference pack available during use, keep these files n
 - `docs/sources.md`
 - `docs/workflow.md`
 - `docs/clarification-policy.md`
+- `docs/judged-mode.md`
 - `docs/principles.md`
 - `docs/guardrails.md`
 - `docs/quality-bars.md`
@@ -24,8 +25,10 @@ If you want the expanded reference pack available during use, keep these files n
 - `docs/patterns-catalog.md`
 - `docs/design-quality.md`
 - `docs/design-quality-rubric.md`
+- `docs/golden-examples.md`
 - `docs/weaknesses.md`
 - `docs/inspiration-sources.md`
+- `docs/visual-benchmark-playbooks.md`
 - `docs/self-review.md`
 
 The skill will:
@@ -34,15 +37,17 @@ The skill will:
 2. determine platform scope
 3. identify missing information
 4. apply clarification policy: ask only blocking questions, otherwise proceed with assumptions
-5. make only minimal labeled assumptions
-6. return a structured mode-specific output
-7. include accessibility and usability by default
-8. include design-quality calibration for visual hierarchy, rhythm, craft, and production readiness when producing design artifacts
-9. apply a 1-5 design-quality rubric, targeting 4/5 for generated artifacts and exposing current score in reviews
-10. use `examples/evals/` and `examples/rubric-before-after.md` as calibration references when tuning rubric scoring
-11. use `scripts/run_rubric_judge.py` for provider-agnostic LLM-as-judge calibration of rubric fixtures
-12. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
-13. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
+5. apply judged mode when invoked with `--judge`
+6. make only minimal labeled assumptions
+7. return a structured mode-specific output
+8. include accessibility and usability by default
+9. include design-quality calibration for visual hierarchy, rhythm, craft, and production readiness when producing design artifacts
+10. apply a 1-5 design-quality rubric, targeting 4/5 for generated artifacts and exposing current score in reviews
+11. use `examples/evals/`, `examples/rubric-before-after.md`, and `examples/golden/` as calibration references when tuning quality and taste
+12. use visual benchmark playbooks to keep Mobbin, Page Flows, Apple Design Awards, and Awwwards separate from evidence claims
+13. use `scripts/run_rubric_judge.py` for provider-agnostic LLM-as-judge calibration, including external-agent command runs
+14. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
+15. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
 
 ---
 

@@ -8,6 +8,7 @@ The rubric complements:
 - `docs/weaknesses.md` for recurring failure modes
 - `docs/quality-bars.md` for numeric thresholds
 - `docs/evals.md` for external response evaluation
+- `docs/golden-examples.md` for compact taste and domain calibration examples
 - `examples/evals/` for score-calibrated rubric fixtures
 - `examples/rubric-before-after.md` for a weak-to-strong upgrade example
 - `scripts/run_rubric_judge.py` and `docs/llm-judge-runner.md` for semantic judge calibration
@@ -159,6 +160,8 @@ Use these fixtures when tuning prompts, judging generated responses, or adding L
 
 For human calibration, use `examples/rubric-before-after.md`. It shows the upgrade path from a 2/5 template-complete UI spec to a 4/5 shippable spec.
 
+For taste and domain calibration, use `docs/golden-examples.md` and `examples/golden/`. These examples show compact 4/5-style patterns for premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
+
 For semantic runner calibration, use:
 
 ```bash
@@ -166,3 +169,5 @@ python3 scripts/run_rubric_judge.py --dry-run
 ```
 
 See `docs/llm-judge-runner.md` for the provider-agnostic JSONL contract.
+
+For live semantic calibration, use the runner's external-agent command path instead of storing provider keys in the repository.

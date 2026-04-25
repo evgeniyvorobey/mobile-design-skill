@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.13.1
+version: 1.14.0
 ---
 
 # Mobile Design Skill
@@ -22,19 +22,22 @@ If deeper detail is needed during a task, load only the relevant references:
 - `skill/templates.md` for output skeletons
 - `docs/workflow.md` for the full internal workflow
 - `docs/clarification-policy.md` for deciding when to ask questions vs proceed with assumptions
+- `docs/judged-mode.md` for `/mobile-design-skill --judge` orchestration with an independent judge pass
 - `docs/principles.md` for durable mobile design principles
 - `docs/guardrails.md` for hard safety, evidence, accessibility, and platform constraints
 - `docs/sources.md` for source hierarchy and canonical URLs
 - `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
 - `docs/design-quality.md` for visual hierarchy, composition, density, typography craft, color semantics, interaction polish, and production-readiness calibration
 - `docs/design-quality-rubric.md` for 1-5 quality scoring, target levels, caps, and improvement ladder
+- `docs/golden-examples.md` and `examples/golden/` for taste and domain calibration across premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout
 - `docs/weaknesses.md` for known failure modes and prevention checks that keep outputs from becoming generic, overconfident, aesthetic-only, or weakly buildable
 - `docs/evals.md` for structural, content, and fail-condition evaluation criteria
-- `docs/llm-judge-runner.md` and `scripts/run_rubric_judge.py` for semantic rubric fixture calibration during maintenance
+- `docs/llm-judge-runner.md` and `scripts/run_rubric_judge.py` for semantic rubric fixture calibration, including external-agent command runs during maintenance
 - `docs/context-defaults.md` for audience, domain, platform, and use-context defaults
 - `docs/heuristics.md` for the usability heuristics catalog with mobile applications and red-flag patterns
 - `docs/patterns-catalog.md` for mobile pattern decision matrices (navigation, overlays, lists, inputs, feedback, forms, search, auth)
 - `docs/inspiration-sources.md` for visual inspiration and production reference sources, used only after UX/platform/accessibility reasoning is grounded
+- `docs/visual-benchmark-playbooks.md` for source-specific Mobbin, Page Flows, Apple Design Awards, and Awwwards benchmark checklists
 - `docs/self-review.md` for the mandatory self-review pass run before any response is returned
 - `examples/` for regression-style examples
 - `examples/evals/` and `examples/rubric-before-after.md` for design-quality rubric score calibration
@@ -52,6 +55,18 @@ Classify every request into exactly one primary mode before responding:
 6. Prepare design rationale / handoff
 
 If a request overlaps multiple modes, choose the single best primary mode and note any secondary considerations briefly inside the response.
+
+## Invocation flags
+
+If the request begins with `--judge` or explicitly asks for judge mode, strip the flag before classifying the design task and apply `docs/judged-mode.md`.
+
+Judged mode means:
+- draft the response privately using the normal workflow
+- run an independent judge pass in the same session when the host supports subagents or parallel reviewers
+- revise the draft when the judge score is below 4/5 and the issue can be fixed without inventing facts
+- append a compact `Judge summary` section to the final response
+
+Do not ask the user to run `scripts/run_rubric_judge.py` manually for interactive judged mode.
 
 ## Required workflow
 
@@ -129,6 +144,8 @@ Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. 
 Use `docs/clarification-policy.md` when the request is underspecified, risky, or precision-sensitive. Ask only when the answer would change the design decision; otherwise proceed with assumptions and surface the unknowns in the appropriate section.
 
 If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction and comparison examples, but they must not justify usability, accessibility, platform, or compliance claims.
+
+Use `docs/visual-benchmark-playbooks.md` when the user asks for Mobbin, Page Flows, Apple Design Awards, Awwwards, or source-specific benchmark guidance. Extract visual and flow inspiration, then translate it into implementable mechanisms. Never treat benchmark sources as evidence for usability, accessibility, platform correctness, compliance, user preference, or business performance.
 
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
 

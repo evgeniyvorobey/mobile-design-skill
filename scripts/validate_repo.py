@@ -14,7 +14,10 @@ REQUIRED_FILES = [
     "LICENSE",
     "CHANGELOG.md",
     "SKILL.md",
+    ".github/workflows/validate.yml",
+    ".github/workflows/release-validate.yml",
     ".claude/skills/mobile-design-skill/SKILL.md",
+    ".claude/agents/mobile-design-judge.md",
     "agents/openai.yaml",
     "skill/skill.md",
     "skill/metadata.yaml",
@@ -26,10 +29,12 @@ REQUIRED_FILES = [
     "docs/design-quality.md",
     "docs/design-quality-rubric.md",
     "docs/evals.md",
+    "docs/golden-examples.md",
     "docs/guardrails.md",
     "docs/github-publishing.md",
     "docs/heuristics.md",
     "docs/inspiration-sources.md",
+    "docs/judged-mode.md",
     "docs/llm-judge-runner.md",
     "docs/patterns-catalog.md",
     "docs/principles.md",
@@ -37,6 +42,7 @@ REQUIRED_FILES = [
     "docs/self-review.md",
     "docs/sources.md",
     "docs/versioning.md",
+    "docs/visual-benchmark-playbooks.md",
     "docs/weaknesses.md",
     "docs/workflow.md",
     "examples/design-flow.md",
@@ -48,6 +54,13 @@ REQUIRED_FILES = [
     "examples/typography-spacing.md",
     "examples/ui-spec.md",
     "examples/anti-patterns.md",
+    "examples/golden/premium-ui.md",
+    "examples/golden/enterprise-saas.md",
+    "examples/golden/fintech.md",
+    "examples/golden/health.md",
+    "examples/golden/onboarding.md",
+    "examples/golden/settings.md",
+    "examples/golden/checkout.md",
     "examples/evals/rubric-score-1.json",
     "examples/evals/rubric-score-2.json",
     "examples/evals/rubric-score-3.json",
@@ -55,7 +68,9 @@ REQUIRED_FILES = [
     "examples/evals/rubric-score-5.json",
     "scripts/bump_version.py",
     "scripts/install.sh",
+    "scripts/rubric_judge_oracle_agent.py",
     "scripts/run_rubric_judge.py",
+    "scripts/validate_release.py",
     "assets/logo-light.svg",
     "assets/logo-dark.svg",
 ]
@@ -64,6 +79,7 @@ MARKDOWN_GLOBS = [
     "README.md",
     "SKILL.md",
     ".claude/skills/*/SKILL.md",
+    ".claude/agents/*.md",
     "docs/*.md",
     "skill/*.md",
     "examples/*.md",
@@ -72,6 +88,7 @@ MARKDOWN_GLOBS = [
 
 DUPLICATE_HEADING_ALLOWED_FILES = {
     "docs/evals.md",
+    "docs/visual-benchmark-playbooks.md",
     "skill/modes.md",
     "examples/anti-patterns.md",
     "examples/clarification-policy.md",
@@ -342,6 +359,16 @@ RUBRIC_EVAL_REFERENCE_FILES = [
     "skill/metadata.yaml",
 ]
 
+GOLDEN_EXAMPLE_FILES = [
+    "examples/golden/premium-ui.md",
+    "examples/golden/enterprise-saas.md",
+    "examples/golden/fintech.md",
+    "examples/golden/health.md",
+    "examples/golden/onboarding.md",
+    "examples/golden/settings.md",
+    "examples/golden/checkout.md",
+]
+
 LLM_JUDGE_RUNNER_REFERENCE_FILES = [
     "README.md",
     ".github/workflows/validate.yml",
@@ -364,6 +391,80 @@ CLARIFICATION_POLICY_REFERENCE_FILES = [
     "docs/self-review.md",
     "docs/sources.md",
     "docs/workflow.md",
+]
+
+JUDGED_MODE_REFERENCE_FILES = [
+    "SKILL.md",
+    ".claude/skills/mobile-design-skill/SKILL.md",
+    ".claude/agents/mobile-design-judge.md",
+    "README.md",
+    "skill/skill.md",
+    "skill/metadata.yaml",
+    "skill/usage.md",
+    "docs/commands.md",
+    "docs/evals.md",
+]
+
+JUDGED_MODE_REQUIRED_PATTERNS = [
+    "--judge",
+    "Judge summary",
+    "independent judge",
+    "mobile-design-judge",
+    "Single-agent fallback",
+]
+
+VISUAL_BENCHMARK_REFERENCE_FILES = [
+    "SKILL.md",
+    "README.md",
+    "skill/skill.md",
+    "skill/metadata.yaml",
+    "skill/usage.md",
+    "docs/inspiration-sources.md",
+]
+
+VISUAL_BENCHMARK_REQUIRED_PATTERNS = [
+    "Mobbin",
+    "Page Flows",
+    "Apple Design Awards",
+    "Awwwards",
+    "Do not use benchmarks as evidence",
+    "Translate references into implementable mechanisms",
+]
+
+GOLDEN_EXAMPLE_REFERENCE_FILES = [
+    "SKILL.md",
+    ".claude/skills/mobile-design-skill/SKILL.md",
+    "README.md",
+    "skill/skill.md",
+    "skill/metadata.yaml",
+    "skill/usage.md",
+    "docs/design-quality-rubric.md",
+    "docs/evals.md",
+]
+
+GOLDEN_EXAMPLE_AREAS = {
+    "Premium UI": "examples/golden/premium-ui.md",
+    "Enterprise SaaS": "examples/golden/enterprise-saas.md",
+    "Fintech": "examples/golden/fintech.md",
+    "Health": "examples/golden/health.md",
+    "Onboarding": "examples/golden/onboarding.md",
+    "Settings": "examples/golden/settings.md",
+    "Checkout": "examples/golden/checkout.md",
+}
+
+RELEASE_AUTOMATION_REFERENCE_FILES = [
+    "README.md",
+    "docs/release-automation.md",
+    "docs/versioning.md",
+    "skill/metadata.yaml",
+]
+
+RELEASE_AUTOMATION_REQUIRED_PATTERNS = [
+    "validate_repo.py",
+    "run_rubric_judge.py",
+    "rubric_judge_oracle_agent.py",
+    "version/tag sanity",
+    "validate_release.py",
 ]
 
 CLARIFICATION_POLICY_REQUIRED_PATTERNS = [
@@ -548,6 +649,9 @@ def validate_llm_judge_runner_contract() -> None:
         "--export-jsonl",
         "--export-expected-output",
         "--judge-output",
+        "--judge-command",
+        "--judge-command-output",
+        "rubric-judge-request/v1",
         "dimension_scores",
         "improvement_suggestions",
     ]:
@@ -557,6 +661,12 @@ def validate_llm_judge_runner_contract() -> None:
     docs = (ROOT / "docs/llm-judge-runner.md").read_text(encoding="utf-8")
     for pattern in [
         "python3 scripts/run_rubric_judge.py --dry-run",
+        "--judge-command",
+        "LLM-agnostic contract",
+        "schema_version",
+        "stdin",
+        "stdout",
+        "rubric_judge_oracle_agent.py",
         "Judge output contract",
         "Pass criteria",
     ]:
@@ -597,6 +707,120 @@ def validate_clarification_policy_layer() -> None:
 
     if errors:
         fail("Clarification policy validation failed:\n" + "\n".join(errors))
+
+
+def validate_judged_mode_layer() -> None:
+    policy = (ROOT / "docs/judged-mode.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+    for pattern in JUDGED_MODE_REQUIRED_PATTERNS:
+        if pattern not in policy:
+            errors.append(f"docs/judged-mode.md: missing `{pattern}`")
+
+    for relative_path in JUDGED_MODE_REFERENCE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "judged-mode.md" not in text and "--judge" not in text:
+            errors.append(f"{relative_path}: missing judged mode reference")
+
+    if errors:
+        fail("Judged mode validation failed:\n" + "\n".join(errors))
+
+
+def validate_visual_benchmark_playbooks() -> None:
+    doc = (ROOT / "docs/visual-benchmark-playbooks.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    for pattern in VISUAL_BENCHMARK_REQUIRED_PATTERNS:
+        if pattern not in doc:
+            errors.append(f"docs/visual-benchmark-playbooks.md: missing `{pattern}`")
+
+    for source in ["Mobbin", "Page Flows", "Apple Design Awards", "Awwwards"]:
+        section = extract_section(doc, source)
+        if not section:
+            errors.append(f"docs/visual-benchmark-playbooks.md: missing `## {source}` section")
+            continue
+        for pattern in [
+            "### When to use",
+            "### What to extract as inspiration",
+            "### What NOT to treat as evidence",
+            "### Checklist",
+            "### Red flags",
+        ]:
+            if pattern not in section:
+                errors.append(
+                    f"docs/visual-benchmark-playbooks.md: `## {source}` missing `{pattern}`"
+                )
+
+    for relative_path in VISUAL_BENCHMARK_REFERENCE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if (
+            "visual-benchmark-playbooks.md" not in text
+            and "benchmark_playbooks" not in text
+        ):
+            errors.append(f"{relative_path}: missing visual benchmark playbooks reference")
+
+    if errors:
+        fail("Visual benchmark playbooks validation failed:\n" + "\n".join(errors))
+
+
+def validate_golden_examples() -> None:
+    index = (ROOT / "docs/golden-examples.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    for area, relative_path in GOLDEN_EXAMPLE_AREAS.items():
+        if relative_path not in index:
+            errors.append(f"docs/golden-examples.md: missing `{relative_path}`")
+        if area not in index:
+            errors.append(f"docs/golden-examples.md: missing `{area}`")
+
+    for relative_path in GOLDEN_EXAMPLE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        for pattern in [
+            "## Prompt",
+            "## Golden output",
+            "## Design-quality notes",
+        ]:
+            if pattern not in text:
+                errors.append(f"{relative_path}: missing `{pattern}`")
+        if "Quality target:" not in text and "Current design quality score:" not in text:
+            errors.append(
+                f"{relative_path}: missing `Quality target:` or `Current design quality score:`"
+            )
+
+    for relative_path in GOLDEN_EXAMPLE_REFERENCE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if (
+            "docs/golden-examples.md" not in text
+            and "examples/golden" not in text
+            and "golden_examples" not in text
+        ):
+            errors.append(f"{relative_path}: missing golden examples reference")
+
+    if errors:
+        fail("Golden examples validation failed:\n" + "\n".join(errors))
+
+
+def validate_release_automation() -> None:
+    script = (ROOT / "scripts/validate_release.py").read_text(encoding="utf-8")
+    workflow = (ROOT / ".github/workflows/release-validate.yml").read_text(
+        encoding="utf-8"
+    )
+    errors: list[str] = []
+
+    for pattern in RELEASE_AUTOMATION_REQUIRED_PATTERNS:
+        if pattern not in script and pattern not in workflow:
+            errors.append(f"release automation missing `{pattern}`")
+
+    for pattern in ["workflow_dispatch", "release_ref", "validate_release.py"]:
+        if pattern not in workflow:
+            errors.append(f".github/workflows/release-validate.yml: missing `{pattern}`")
+
+    for relative_path in RELEASE_AUTOMATION_REFERENCE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "validate_release.py" not in text and "release_automation" not in text:
+            errors.append(f"{relative_path}: missing release automation reference")
+
+    if errors:
+        fail("Release automation validation failed:\n" + "\n".join(errors))
 
 
 def iter_markdown_files() -> list[Path]:
@@ -765,6 +989,10 @@ def main() -> None:
     validate_rubric_eval_pack()
     validate_llm_judge_runner_contract()
     validate_clarification_policy_layer()
+    validate_judged_mode_layer()
+    validate_visual_benchmark_playbooks()
+    validate_golden_examples()
+    validate_release_automation()
     validate_documentation_hygiene()
     validate_links()
     validate_example_responses()

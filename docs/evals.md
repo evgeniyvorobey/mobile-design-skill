@@ -34,6 +34,7 @@ Every response must satisfy the following, regardless of mode:
 - [ ] Does not contain the compliance-claim tokens: `compliant`, `WCAG-compliant`, `passes accessibility` unless the user provided verified evidence
 - [ ] Does not contain fabricated quantitative research claims (regex: `\d+%`, `users completed`, `testing proved`, `research shows`) unless sourced
 - [ ] If the response asks clarifying questions, it contains at most 3 questions and explains why the answers block reliable output
+- [ ] If the request used `--judge` and produced a substantive artifact, the final response includes a compact `Judge summary`
 
 ## Shared fail conditions (all modes)
 
@@ -50,6 +51,7 @@ Any of the following invalidates the response:
 - Template-complete but decision-empty output: required sections exist, but recommendations have no choices, rejected alternatives, context-specific reasons, or buildable mechanisms
 - Non-blocking clarification: response asks questions instead of producing a useful artifact when safe assumptions would have worked
 - More than three clarifying questions in one response
+- `--judge` response asks the user to run `scripts/run_rubric_judge.py` manually instead of using the interactive judged-mode workflow
 
 ## Clarification validation
 
@@ -301,10 +303,26 @@ Validate judge outputs:
 python3 scripts/run_rubric_judge.py --judge-output tmp/rubric-judge-results.jsonl
 ```
 
+Run through an external judge agent without provider keys in the repository:
+
+```bash
+python3 scripts/run_rubric_judge.py \
+  --judge-command "./scripts/local_judge_agent.sh" \
+  --judge-command-output tmp/rubric-judge-results.jsonl
+```
+
+The external command is LLM-agnostic: it receives versioned request JSONL on stdin and returns judge-output JSONL on stdout. It may use any model or internal gateway as long as it preserves the output contract.
+
 Self-test the runner without an LLM:
 
 ```bash
 python3 scripts/run_rubric_judge.py --export-expected-output tmp/rubric-judge-expected.jsonl --judge-output tmp/rubric-judge-expected.jsonl
+```
+
+Self-test the external command adapter without an LLM:
+
+```bash
+python3 scripts/run_rubric_judge.py --judge-command "python3 scripts/rubric_judge_oracle_agent.py"
 ```
 
 ---
@@ -333,11 +351,14 @@ For content validation:
 
 ### Regression testing with examples
 
-The files in `examples/` are treated as regression targets. When the skill, `modes.md`, or `templates.md` changes:
+The files in `examples/` are treated as regression targets. The compact golden examples in [`../examples/golden/`](../examples/golden/) are taste and domain calibration targets, not full structural examples.
+
+When the skill, `modes.md`, or `templates.md` changes:
 
 1. Re-generate each example with the updated skill.
 2. Score the regenerated response against this file.
 3. Compare to the committed example; any content regression should block the change.
+4. Spot-check the golden examples for domain-specific regressions in premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
 
 ---
 

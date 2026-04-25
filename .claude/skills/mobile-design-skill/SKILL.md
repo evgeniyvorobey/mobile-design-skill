@@ -1,9 +1,9 @@
 ---
 name: mobile-design-skill
 description: Generate, review, and structure mobile UI/UX decisions for iOS, Android, and cross-platform products. Use when you want to invoke the mobile design workflow directly in Claude Code with /mobile-design-skill.
-argument-hint: "[task / screen / flow]"
+argument-hint: "[--judge] [task / screen / flow]"
 disable-model-invocation: true
-version: 1.13.1
+version: 1.14.0
 ---
 
 # Mobile Design Skill
@@ -18,6 +18,7 @@ When invoked:
    - `${CLAUDE_SKILL_DIR}/../../../skill/templates.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/workflow.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/clarification-policy.md`
+   - `${CLAUDE_SKILL_DIR}/../../../docs/judged-mode.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/principles.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/guardrails.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/sources.md`
@@ -27,11 +28,14 @@ When invoked:
    - `${CLAUDE_SKILL_DIR}/../../../docs/patterns-catalog.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/design-quality.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/design-quality-rubric.md`
+   - `${CLAUDE_SKILL_DIR}/../../../docs/golden-examples.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/weaknesses.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/inspiration-sources.md`
+   - `${CLAUDE_SKILL_DIR}/../../../docs/visual-benchmark-playbooks.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/self-review.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/commands.md`
-3. Apply the workflow to the current request.
+3. If `$ARGUMENTS` begins with `--judge`, strip that flag from the design task and apply `${CLAUDE_SKILL_DIR}/../../../docs/judged-mode.md`. Prefer the companion `mobile-design-judge` agent for the independent judge pass when available.
+4. Apply the workflow to the current request.
 
 Invocation payload:
 

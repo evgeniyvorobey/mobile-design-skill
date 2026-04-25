@@ -1,0 +1,39 @@
+name: Release Validate
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_ref:
+        description: "Optional tag/ref to validate, for example v1.14.0 or refs/tags/v1.14.0"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  release-validate:
+    name: Manual release validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout requested ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_ref || github.ref }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run release validation
+        env:
+          RELEASE_REF: ${{ inputs.release_ref }}
+        run: |
+          set -euo pipefail
+          args=()
+          if [ -n "$RELEASE_REF" ]; then
+            args+=(--tag-or-ref "$RELEASE_REF")
+          fi
+          python3 scripts/validate_release.py "${args[@]}"

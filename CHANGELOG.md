@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.14.0] - 2026-04-25
+
+### Added
+- External judge command adapter in `scripts/run_rubric_judge.py` via `--judge-command`, allowing a separate agent process to receive judge requests on stdin and return judge-output JSONL on stdout.
+- Interactive judged mode via `/mobile-design-skill --judge`, allowing the skill to draft, run an independent rubric judge pass in the same session when available, revise if needed, and return a compact `Judge summary`.
+- Companion Claude Code custom agent at `.claude/agents/mobile-design-judge.md` for independent judged-mode scoring.
+- Judged mode reference at `docs/judged-mode.md`, covering orchestration, judge prompt contract, fallback behavior, and final response shape.
+- `--judge-command-output` and `--judge-command-timeout` options for saving agent output and bounding live semantic judge runs without adding provider keys to the repository.
+- Deterministic oracle agent at `scripts/rubric_judge_oracle_agent.py` for CI-safe external command adapter self-tests.
+- Versioned request schema marker `rubric-judge-request/v1` so external judge agents can stay stable across any LLM backend.
+- Visual benchmark playbooks at `docs/visual-benchmark-playbooks.md` for Mobbin, Page Flows, Apple Design Awards, and Awwwards, with explicit inspiration-vs-evidence boundaries.
+- Golden example calibration pack under `examples/golden/` for premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
+- Golden example index at `docs/golden-examples.md` for taste calibration and review expectations.
+- Release validation command at `scripts/validate_release.py`, covering version/tag sanity, repository validation, judge dry-run, parser self-test, and external oracle self-test.
+- Manual GitHub Actions release gate at `.github/workflows/release-validate.yml`.
+- Release automation reference at `docs/release-automation.md`.
+
+### Changed
+- `docs/llm-judge-runner.md`, `docs/evals.md`, README, and metadata now document the LLM-agnostic external-agent judge workflow as the preferred open-source path.
+- `SKILL.md`, the Claude Code wrapper, `skill/skill.md`, `skill/usage.md`, `docs/commands.md`, and `docs/evals.md` now surface `/mobile-design-skill --judge`.
+- `SKILL.md`, the Claude Code wrapper, `skill/skill.md`, `skill/usage.md`, README, and metadata now surface visual benchmark playbooks and golden examples as quality calibration resources.
+- `scripts/install.sh` now installs, reports, and uninstalls the companion `mobile-design-judge` agent alongside the skill.
+- `scripts/validate_repo.py` now validates the external judge command contract, visual benchmark playbooks, golden examples, and release automation alongside JSONL export and output validation.
+- GitHub Actions now self-tests the external judge command adapter without requiring model credentials.
+
 ## [1.13.1] - 2026-04-25
 
 ### Added

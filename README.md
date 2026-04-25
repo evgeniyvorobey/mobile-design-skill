@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.13.1-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.14.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.13.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.14.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -71,12 +71,15 @@ It is structured around:
 
 - **Six primary modes** — every request is classified into exactly one: screen concept, user flow, platform-aware UI spec, usability/accessibility review, typography/spacing system, or handoff rationale.
 - **Clarification policy** — asks only blocking questions, otherwise proceeds with minimal labeled assumptions.
+- **Judged mode** — `/mobile-design-skill --judge` drafts, runs an independent rubric judge pass when the host supports subagents, revises if needed, and returns a compact score summary.
 - **Guardrails** — no invented platform rules, no fabricated research findings, no aesthetic-only advice without usability reasoning.
 - **Quality bars** — concrete numeric thresholds (touch 44pt iOS / 48dp Android, WCAG 2.2 AA contrast, line-height 1.4–1.6, motion 200–300ms).
 - **Design quality calibration** — visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production-readiness checks.
 - **Design quality rubric** — 1–5 scoring that targets 4/5 for generated artifacts and exposes current quality score in reviews.
 - **Rubric eval pack** — score-calibrated fixtures for `1/5` through `5/5` plus a before/after upgrade example.
-- **LLM-as-judge runner** — provider-agnostic JSONL runner for semantic rubric calibration.
+- **LLM-as-judge runner** — LLM-agnostic JSONL runner with an external-agent command adapter for semantic rubric calibration.
+- **Visual benchmark playbooks** — source-specific checklists for Mobbin, Page Flows, Apple Design Awards, and Awwwards that keep inspiration separate from evidence.
+- **Golden examples** — compact taste and domain calibration examples for premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
 - **Known weakness prevention** — internal failure-mode preflight for generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff.
 - **Context-aware defaults** — adjusts output for audience (older adults, children, power users), domain (finance, health, government, enterprise, social), platform, and use-context (one-handed, outdoor, in-vehicle, emergency).
 - **Heuristic grounding** — decisions cite Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen rather than being presented as preference.
@@ -207,6 +210,7 @@ Keep these files loaded alongside the active prompt for full skill behavior:
 - `skill/templates.md`
 - `docs/workflow.md`
 - `docs/clarification-policy.md`
+- `docs/judged-mode.md`
 - `docs/principles.md`
 - `docs/guardrails.md`
 - `docs/sources.md`
@@ -216,8 +220,10 @@ Keep these files loaded alongside the active prompt for full skill behavior:
 - `docs/patterns-catalog.md`
 - `docs/design-quality.md`
 - `docs/design-quality-rubric.md`
+- `docs/golden-examples.md`
 - `docs/weaknesses.md`
 - `docs/inspiration-sources.md`
+- `docs/visual-benchmark-playbooks.md`
 - `docs/self-review.md`
 
 ---
@@ -240,12 +246,14 @@ system_prompt = (SKILL_ROOT / "SKILL.md").read_text()
 
 # Optionally inline the expanded reference set for deeper behavior:
 for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
-            "docs/clarification-policy.md", "docs/principles.md",
-            "docs/guardrails.md", "docs/sources.md", "docs/quality-bars.md",
+            "docs/clarification-policy.md", "docs/judged-mode.md",
+            "docs/principles.md", "docs/guardrails.md",
+            "docs/sources.md", "docs/quality-bars.md",
             "docs/context-defaults.md", "docs/heuristics.md",
             "docs/patterns-catalog.md", "docs/design-quality.md",
-            "docs/design-quality-rubric.md", "docs/weaknesses.md",
-            "docs/inspiration-sources.md", "docs/self-review.md"]:
+            "docs/design-quality-rubric.md", "docs/golden-examples.md",
+            "docs/weaknesses.md", "docs/inspiration-sources.md",
+            "docs/visual-benchmark-playbooks.md", "docs/self-review.md"]:
     system_prompt += f"\n\n# {ref}\n\n" + (SKILL_ROOT / ref).read_text()
 
 client = anthropic.Anthropic()
@@ -300,6 +308,7 @@ for (const ref of [
   "skill/templates.md",
   "docs/workflow.md",
   "docs/clarification-policy.md",
+  "docs/judged-mode.md",
   "docs/principles.md",
   "docs/guardrails.md",
   "docs/sources.md",
@@ -309,8 +318,10 @@ for (const ref of [
   "docs/patterns-catalog.md",
   "docs/design-quality.md",
   "docs/design-quality-rubric.md",
+  "docs/golden-examples.md",
   "docs/weaknesses.md",
   "docs/inspiration-sources.md",
+  "docs/visual-benchmark-playbooks.md",
   "docs/self-review.md",
 ]) {
   systemPrompt += `\n\n# ${ref}\n\n` + read(ref);
@@ -369,6 +380,7 @@ Invocation patterns once installed:
 
 ```text
 /mobile-design-skill                                    # the skill will ask for a task
+/mobile-design-skill --judge create a fitness tracker dashboard, cross-platform
 /mobile-design-skill generate a home screen for a fitness app, iOS, general audience
 /mobile-design-skill review my checkout form, Android, older users, description only
 /mobile-design-skill design a user flow for password reset with email verification
@@ -397,6 +409,16 @@ Constraints: accessibility-sensitive, high trust, existing design system, dense 
 If the task description is short, the skill will state its assumptions, narrow the scope, and surface the information it needs next. See [`examples/anti-patterns.md`](examples/anti-patterns.md) for how it handles underspecified input.
 
 If missing information would materially change the recommendation, the skill asks up to three blocking clarifying questions and offers a fast path when a provisional draft is still useful. See [`docs/clarification-policy.md`](docs/clarification-policy.md) and [`examples/clarification-policy.md`](examples/clarification-policy.md).
+
+### Judged mode
+
+Use `--judge` when you want a second rubric pass in the same interactive session:
+
+```text
+/mobile-design-skill --judge create a platform-aware UI spec for a fitness tracker app, cross-platform
+```
+
+The skill drafts privately, asks an independent judge agent when the host supports subagents, revises if the result is below `4/5`, and returns the final answer with a compact `Judge summary`. See [`docs/judged-mode.md`](docs/judged-mode.md).
 
 ---
 
@@ -428,6 +450,8 @@ mobile-design-skill/
 ├── CHANGELOG.md                          Release history (semver)
 ├── LICENSE                               MIT
 ├── .claude/
+│   ├── agents/
+│   │   └── mobile-design-judge.md        Companion Claude Code agent for /mobile-design-skill --judge
 │   └── skills/
 │       └── mobile-design-skill/
 │           ├── SKILL.md                  Claude Code wrapper for /mobile-design-skill
@@ -439,12 +463,15 @@ mobile-design-skill/
 │   └── logo-dark.svg                     Project logo — dark theme variant
 ├── .github/
 │   └── workflows/
-│       └── validate.yml                  CI: structure + link validation
+│       ├── validate.yml                  CI: structure + link validation
+│       └── release-validate.yml          Manual release validation
 ├── scripts/
 │   ├── install.sh                        Install script (symlink or copy)
 │   ├── bump_version.py                   Version bumper (synchronizes all version references)
 │   ├── validate_repo.py                  Repository structure, docs hygiene, link, and example-response validator
-│   └── run_rubric_judge.py               Provider-agnostic LLM-as-judge runner for rubric fixtures
+│   ├── validate_release.py               Release validation and version/tag sanity checks
+│   ├── rubric_judge_oracle_agent.py      Deterministic stdin/stdout agent for judge-command CI self-tests
+│   └── run_rubric_judge.py               Provider-agnostic LLM-as-judge runner and external-agent adapter
 ├── skill/
 │   ├── skill.md                          Expanded prompt source
 │   ├── modes.md                          Per-mode inputs, outputs, validation, fallback
@@ -454,18 +481,22 @@ mobile-design-skill/
 ├── docs/
 │   ├── workflow.md                       11-step internal workflow
 │   ├── clarification-policy.md           Ask-vs-assume rules for underspecified input
+│   ├── judged-mode.md                    /mobile-design-skill --judge orchestration rules
 │   ├── principles.md                     11 design principles
 │   ├── guardrails.md                     Hard constraints (do not invent, do not claim compliance, etc.)
 │   ├── sources.md                        Source hierarchy (Apple HIG, Material 3, WCAG, ISO, GOV.UK)
 │   ├── quality-bars.md                   Concrete numeric thresholds
 │   ├── design-quality.md                 Visual hierarchy, composition, density, and craft calibration
 │   ├── design-quality-rubric.md          1-5 design quality scoring and improvement ladder
+│   ├── golden-examples.md                Golden example index and calibration guide
 │   ├── weaknesses.md                     Known failure modes and prevention checks
 │   ├── context-defaults.md               Audience / domain / platform / use-context defaults
 │   ├── heuristics.md                     Fitts, Hick, Jakob, Zeigarnik, Nielsen, Gestalt — with mobile applications
 │   ├── patterns-catalog.md               Mobile pattern decision matrices
 │   ├── inspiration-sources.md            Non-authoritative inspiration and reference layer
+│   ├── visual-benchmark-playbooks.md     Mobbin, Page Flows, Apple Design Awards, Awwwards benchmark playbooks
 │   ├── llm-judge-runner.md               JSONL contract for semantic rubric judge runs
+│   ├── release-automation.md             Release validation workflow and local command
 │   ├── self-review.md                    Mandatory pre-response quality pass
 │   ├── evals.md                          Structural + content + fail-condition evaluation criteria
 │   ├── versioning.md                     Semver policy
@@ -481,6 +512,14 @@ mobile-design-skill/
     ├── rationale-handoff.md              Worked example for Mode 6
     ├── rubric-before-after.md            2/5 → 4/5 rubric upgrade example
     ├── anti-patterns.md                  Bad/Good pairs — how the skill should behave under ambiguous input
+    ├── golden/                           Compact taste/domain calibration examples
+    │   ├── premium-ui.md                 Premium UI calibration
+    │   ├── enterprise-saas.md            Enterprise SaaS calibration
+    │   ├── fintech.md                    Fintech calibration
+    │   ├── health.md                     Health calibration
+    │   ├── onboarding.md                 Onboarding calibration
+    │   ├── settings.md                   Settings calibration
+    │   └── checkout.md                   Checkout calibration
     └── evals/
         ├── rubric-score-1.json           Rubric fixture: broken or misleading
         ├── rubric-score-2.json           Rubric fixture: structurally weak
@@ -547,13 +586,16 @@ Fork the repository, edit the files that govern skill behavior, and run the inst
 
 - [`docs/context-defaults.md`](docs/context-defaults.md) — add domain-specific defaults for your product
 - [`docs/clarification-policy.md`](docs/clarification-policy.md) — tune when the skill asks questions vs proceeds with assumptions
+- [`docs/judged-mode.md`](docs/judged-mode.md) — tune `/mobile-design-skill --judge` orchestration and fallback behavior
 - [`docs/quality-bars.md`](docs/quality-bars.md) — tighten numeric thresholds for your design system
 - [`docs/design-quality.md`](docs/design-quality.md) — tune design-quality calibration for hierarchy, rhythm, visual craft, and production readiness
 - [`docs/design-quality-rubric.md`](docs/design-quality-rubric.md) — tune 1-5 design-quality scoring, caps, and improvement ladder
+- [`docs/golden-examples.md`](docs/golden-examples.md) — tune compact taste and domain calibration examples
 - [`docs/weaknesses.md`](docs/weaknesses.md) — tune known weakness patterns and prevention checks for recurring output regressions
 - [`docs/llm-judge-runner.md`](docs/llm-judge-runner.md) — tune semantic judge runner contract and pass criteria
 - [`docs/patterns-catalog.md`](docs/patterns-catalog.md) — add patterns unique to your product area
 - [`docs/inspiration-sources.md`](docs/inspiration-sources.md) — tune visual inspiration, production reference, and moodboard sources
+- [`docs/visual-benchmark-playbooks.md`](docs/visual-benchmark-playbooks.md) — tune source-specific benchmark checklists
 - [`skill/templates.md`](skill/templates.md) — adjust output structure for your team's handoff format
 - [`docs/guardrails.md`](docs/guardrails.md) — add organization-specific constraints
 
@@ -561,6 +603,7 @@ After editing:
 
 ```bash
 python3 scripts/validate_repo.py             # check structure, docs hygiene, links, and example outputs
+python3 scripts/validate_release.py          # run deterministic release checks
 python3 scripts/bump_version.py minor        # bump version
 # fill in the generated CHANGELOG placeholder
 git commit -am "customize for <product>"
@@ -587,11 +630,12 @@ Version is stored in `skill/metadata.yaml` (canonical), mirrored into `SKILL.md`
 Contributions are welcome via pull request. Before submitting:
 
 1. Run `python3 scripts/validate_repo.py` — must print `[OK] Repository structure, documentation hygiene, relative links, and example responses are valid.`
-2. If you added a new document under `docs/`, add it to `REQUIRED_FILES` in `scripts/validate_repo.py` and to the skill's SKILL.md reference list.
-3. If you changed the mode set or output contract, bump MAJOR.
-4. If you added a new capability, bump MINOR and fill in the CHANGELOG.
-5. If you only touched docs or scripts, bump PATCH.
-6. Keep PRs focused — one logical change per PR.
+2. Run `python3 scripts/validate_release.py` before tagging a release.
+3. If you added a new document under `docs/`, add it to `REQUIRED_FILES` in `scripts/validate_repo.py` and to the skill's SKILL.md reference list when it affects runtime behavior.
+4. If you changed the mode set or output contract, bump MAJOR.
+5. If you added a new capability, bump MINOR and fill in the CHANGELOG.
+6. If you only touched docs or scripts, bump PATCH.
+7. Keep PRs focused — one logical change per PR.
 
 ---
 

@@ -4,6 +4,8 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shlex
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -24,6 +26,8 @@ DIMENSIONS = [
     "context_and_brand_fit",
     "production_readiness",
 ]
+
+REQUEST_SCHEMA_VERSION = "rubric-judge-request/v1"
 
 REQUIRED_JUDGE_FIELDS = {
     "score",
@@ -94,26 +98,35 @@ def build_user_prompt(fixture: dict[str, Any]) -> str:
     )
 
 
+def build_request_record(fixture: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "schema_version": REQUEST_SCHEMA_VERSION,
+        "id": fixture["id"],
+        "messages": [
+            {"role": "system", "content": build_system_prompt()},
+            {"role": "user", "content": build_user_prompt(fixture)},
+        ],
+        "expected": {
+            "score": fixture["expected_score"],
+            "verdict": fixture["expected_verdict"],
+            "cap": fixture["expected_cap"],
+            "hard_limits": fixture["hard_limits"],
+            "dimension_scores": fixture["dimension_scores"],
+            "failed_dimensions": fixture["expected_failed_dimensions"],
+        },
+    }
+
+
+def render_request_jsonl(fixtures: list[dict[str, Any]]) -> str:
+    return "\n".join(
+        json.dumps(build_request_record(fixture), ensure_ascii=False)
+        for fixture in fixtures
+    ) + "\n"
+
+
 def export_jsonl(fixtures: list[dict[str, Any]], output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    with output_path.open("w", encoding="utf-8") as handle:
-        for fixture in fixtures:
-            record = {
-                "id": fixture["id"],
-                "messages": [
-                    {"role": "system", "content": build_system_prompt()},
-                    {"role": "user", "content": build_user_prompt(fixture)},
-                ],
-                "expected": {
-                    "score": fixture["expected_score"],
-                    "verdict": fixture["expected_verdict"],
-                    "cap": fixture["expected_cap"],
-                    "hard_limits": fixture["hard_limits"],
-                    "dimension_scores": fixture["dimension_scores"],
-                    "failed_dimensions": fixture["expected_failed_dimensions"],
-                },
-            }
-            handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+    output_path.write_text(render_request_jsonl(fixtures), encoding="utf-8")
     print(f"[OK] Wrote judge requests: {output_path}")
 
 
@@ -223,18 +236,22 @@ def parse_judge_record(record: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     raise ValueError(f"{record_id}: could not find judge JSON")
 
 
-def load_judge_outputs(path: Path) -> dict[str, dict[str, Any]]:
+def parse_judge_outputs_text(text: str, source_label: str) -> dict[str, dict[str, Any]]:
     outputs: dict[str, dict[str, Any]] = {}
-    for lineno, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+    for lineno, line in enumerate(text.splitlines(), start=1):
         if not line.strip():
             continue
         try:
             record = json.loads(line)
             record_id, judgement = parse_judge_record(record)
         except Exception as exc:
-            fail(f"{path}:{lineno}: invalid judge output ({exc})")
+            fail(f"{source_label}:{lineno}: invalid judge output ({exc})")
         outputs[record_id] = judgement
     return outputs
+
+
+def load_judge_outputs(path: Path) -> dict[str, dict[str, Any]]:
+    return parse_judge_outputs_text(path.read_text(encoding="utf-8"), str(path))
 
 
 def validate_judgement_shape(fixture_id: str, judgement: dict[str, Any]) -> list[str]:
@@ -311,8 +328,9 @@ def compare_judgement(fixture: dict[str, Any], judgement: dict[str, Any]) -> lis
     return errors
 
 
-def validate_judge_outputs(fixtures: list[dict[str, Any]], judge_output_path: Path) -> None:
-    outputs = load_judge_outputs(judge_output_path)
+def validate_loaded_judge_outputs(
+    fixtures: list[dict[str, Any]], outputs: dict[str, dict[str, Any]]
+) -> None:
     errors: list[str] = []
 
     for fixture in fixtures:
@@ -331,6 +349,56 @@ def validate_judge_outputs(fixtures: list[dict[str, Any]], judge_output_path: Pa
         fail("Rubric judge validation failed:\n" + "\n".join(errors))
 
     print(f"[OK] Judge outputs matched {len(fixtures)} rubric fixtures.")
+
+
+def validate_judge_outputs(fixtures: list[dict[str, Any]], judge_output_path: Path) -> None:
+    validate_loaded_judge_outputs(fixtures, load_judge_outputs(judge_output_path))
+
+
+def run_judge_command(
+    fixtures: list[dict[str, Any]],
+    command: str,
+    timeout_seconds: int,
+    output_path: Path | None,
+) -> None:
+    command_parts = shlex.split(command)
+    if not command_parts:
+        fail("--judge-command must not be empty")
+    if timeout_seconds <= 0:
+        fail("--judge-command-timeout must be greater than 0")
+
+    try:
+        completed = subprocess.run(
+            command_parts,
+            input=render_request_jsonl(fixtures),
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=timeout_seconds,
+            check=False,
+        )
+    except FileNotFoundError:
+        fail(f"Judge command not found: {command_parts[0]}")
+    except subprocess.TimeoutExpired:
+        fail(f"Judge command timed out after {timeout_seconds}s: {command}")
+
+    if completed.returncode != 0:
+        stderr = completed.stderr.strip()
+        fail(
+            f"Judge command exited with code {completed.returncode}: {command}"
+            + (f"\nSTDERR:\n{stderr}" if stderr else "")
+        )
+
+    if not completed.stdout.strip():
+        fail("Judge command produced no stdout. It must write judge-output JSONL to stdout.")
+
+    if output_path:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(completed.stdout, encoding="utf-8")
+        print(f"[OK] Wrote judge command output: {output_path}")
+
+    outputs = parse_judge_outputs_text(completed.stdout, f"stdout from `{command}`")
+    validate_loaded_judge_outputs(fixtures, outputs)
 
 
 def print_dry_run_summary(fixtures: list[dict[str, Any]]) -> None:
@@ -367,6 +435,24 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         help="Validate JSONL judge outputs against fixture expectations.",
     )
+    parser.add_argument(
+        "--judge-command",
+        help=(
+            "Run an external judge agent command. The command receives judge request "
+            "JSONL on stdin and must write judge-output JSONL to stdout."
+        ),
+    )
+    parser.add_argument(
+        "--judge-command-timeout",
+        type=int,
+        default=300,
+        help="Timeout in seconds for --judge-command (default: 300).",
+    )
+    parser.add_argument(
+        "--judge-command-output",
+        type=Path,
+        help="Optional path for saving raw stdout from --judge-command before validation.",
+    )
     return parser.parse_args()
 
 
@@ -383,8 +469,22 @@ def main() -> None:
     if args.judge_output:
         validate_judge_outputs(fixtures, args.judge_output)
 
+    if args.judge_command_output and not args.judge_command:
+        fail("--judge-command-output requires --judge-command")
+
+    if args.judge_command:
+        run_judge_command(
+            fixtures,
+            args.judge_command,
+            args.judge_command_timeout,
+            args.judge_command_output,
+        )
+
     if args.dry_run or (
-        not args.export_jsonl and not args.export_expected_output and not args.judge_output
+        not args.export_jsonl
+        and not args.export_expected_output
+        and not args.judge_output
+        and not args.judge_command
     ):
         print_dry_run_summary(fixtures)
 

@@ -4,6 +4,8 @@ This document defines the skill's inspiration and reference layer.
 
 The goal is to improve visual range, product awareness, and pattern benchmarking without weakening the evidence hierarchy. Inspiration sources can help answer "what could this feel like?" or "how do strong products approach this surface?" They must not be used as proof for usability, accessibility, platform behavior, or compliance.
 
+For source-specific benchmark guidance, use [`visual-benchmark-playbooks.md`](visual-benchmark-playbooks.md).
+
 ---
 
 ## Core rule

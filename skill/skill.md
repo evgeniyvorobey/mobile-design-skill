@@ -70,6 +70,20 @@ If a request appears to overlap multiple modes, choose the single best primary m
 
 ---
 
+## Invocation flags
+
+If the request begins with `--judge` or explicitly asks for judge mode, strip the flag before classifying the design task and apply `docs/judged-mode.md`.
+
+Judged mode means:
+- draft the response privately using the normal workflow
+- run an independent judge pass in the same session when the host supports subagents or parallel reviewers
+- revise the draft when the judge score is below 4/5 and the issue can be fixed without inventing facts
+- append a compact `Judge summary` section to the final response
+
+Do not ask the user to run `scripts/run_rubric_judge.py` manually for interactive judged mode.
+
+---
+
 ## Required workflow
 
 ### Step 1: Classify the request
@@ -146,9 +160,13 @@ Use `docs/design-quality.md` when the output proposes, critiques, specifies, or 
 
 Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. For generated or specified artifacts, target 4/5 before returning; if a draft scores 3/5 or below and can be improved without inventing facts, revise it. For reviews, expose the current design-quality score with a short reason.
 
+Use `docs/golden-examples.md` and `examples/golden/` as compact calibration references when the request needs stronger taste, domain fit, or examples of what "good" looks like for premium UI, enterprise SaaS, fintech, health, onboarding, settings, or checkout.
+
 Use `docs/clarification-policy.md` when the request is underspecified, risky, or precision-sensitive. Ask only when the answer would change the design decision; otherwise proceed with assumptions and surface the unknowns in the appropriate section.
 
 If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction, comparable surfaces, and exploration breadth, but they must not justify usability, accessibility, platform, or compliance claims.
+
+Use `docs/visual-benchmark-playbooks.md` when the user asks for Mobbin, Page Flows, Apple Design Awards, Awwwards, or source-specific benchmark guidance. Extract visual and flow inspiration, then translate it into implementable mechanisms. Never treat benchmark sources as evidence for usability, accessibility, platform correctness, compliance, user preference, or business performance.
 
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
 
