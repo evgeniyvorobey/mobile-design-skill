@@ -267,27 +267,15 @@ If the answer is "no" or "not sure", revise the recommendation before returning 
 
 ## Source references
 
-- Apple Human Interface Guidelines: Layout  
-  https://developer.apple.com/design/human-interface-guidelines/layout
-- Apple Human Interface Guidelines: Typography  
-  https://developer.apple.com/design/human-interface-guidelines/typography
-- Apple Human Interface Guidelines: Color  
-  https://developer.apple.com/design/human-interface-guidelines/color
-- Apple Human Interface Guidelines: Motion  
-  https://developer.apple.com/design/human-interface-guidelines/motion
-- Material 3 in Compose / Android Developers  
-  https://developer.android.com/develop/ui/compose/designsystems/material3
-- Fluent 2: Layout  
-  https://fluent2.microsoft.design/layout
-- Fluent 2: Typography  
-  https://fluent2.microsoft.design/typography
-- Fluent 2: Color  
-  https://fluent2.microsoft.design/color
-- GOV.UK Design Principles  
-  https://www.gov.uk/guidance/government-design-principles
-- GOV.UK Design System: Accessibility  
-  https://design-system.service.gov.uk/accessibility/
-- Baymard: Mobile E-Commerce UX  
-  https://baymard.com/research/mcommerce-usability
-- NN/g: 5 Visual-design Principles in UX  
-  https://media.nngroup.com/media/articles/attachments/Principles_Visual_Design-Letter.pdf
+- [Apple Human Interface Guidelines: Layout](https://developer.apple.com/design/human-interface-guidelines/layout)
+- [Apple Human Interface Guidelines: Typography](https://developer.apple.com/design/human-interface-guidelines/typography)
+- [Apple Human Interface Guidelines: Color](https://developer.apple.com/design/human-interface-guidelines/color)
+- [Apple Human Interface Guidelines: Motion](https://developer.apple.com/design/human-interface-guidelines/motion)
+- [Material 3 in Compose / Android Developers](https://developer.android.com/develop/ui/compose/designsystems/material3)
+- [Fluent 2: Layout](https://fluent2.microsoft.design/layout)
+- [Fluent 2: Typography](https://fluent2.microsoft.design/typography)
+- [Fluent 2: Color](https://fluent2.microsoft.design/color)
+- [GOV.UK Design Principles](https://www.gov.uk/guidance/government-design-principles)
+- [GOV.UK Design System: Accessibility](https://design-system.service.gov.uk/accessibility/)
+- [Baymard: Mobile E-Commerce UX](https://baymard.com/research/mcommerce-usability)
+- [NN/g: 5 Visual-design Principles in UX](https://media.nngroup.com/media/articles/attachments/Principles_Visual_Design-Letter.pdf)

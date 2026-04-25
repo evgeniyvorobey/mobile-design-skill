@@ -317,125 +317,73 @@ These are the normalized public links maintainers can cite, verify, or review wh
 
 ### Foundations
 
-- ISO 9241-210: Human-centred design for interactive systems  
-  https://www.iso.org/standard/77520.html
-- ISO 9241-11: Usability definitions and concepts  
-  https://www.iso.org/standard/63500.html
-- Design Council Double Diamond  
-  https://www.designcouncil.org.uk/our-resources/the-double-diamond/
-- UK Government Design Principles  
-  https://www.gov.uk/guidance/government-design-principles
+- [ISO 9241-210: Human-centred design for interactive systems](https://www.iso.org/standard/77520.html)
+- [ISO 9241-11: Usability definitions and concepts](https://www.iso.org/standard/63500.html)
+- [Design Council Double Diamond](https://www.designcouncil.org.uk/our-resources/the-double-diamond/)
+- [UK Government Design Principles](https://www.gov.uk/guidance/government-design-principles)
 
 ### Platform and pattern guidance
 
-- Apple Human Interface Guidelines  
-  https://developer.apple.com/design/human-interface-guidelines/
-- Apple layout guidance  
-  https://developer.apple.com/design/human-interface-guidelines/layout
-- Material Design 3  
-  https://m3.material.io/
-- Android Developers Navigation  
-  https://developer.android.com/guide/navigation
-- SAP Fiori for iOS  
-  https://www.sap.com/design-system/fiori-design-ios/fiori-design-ios
-- SAP Fiori for Android  
-  https://www.sap.com/design-system/fiori-design-android/
-- GOV.UK Design System patterns  
-  https://design-system.service.gov.uk/patterns/
-- NHS Design System  
-  https://service-manual.nhs.uk/design-system
-- NHS App Design System  
-  https://design-system.nhsapp.service.nhs.uk/
-- Android large-screen/adaptive stories  
-  https://developer.android.com/large-screens/stories
+- [Apple Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
+- [Apple layout guidance](https://developer.apple.com/design/human-interface-guidelines/layout)
+- [Material Design 3](https://m3.material.io/)
+- [Android Developers Navigation](https://developer.android.com/guide/navigation)
+- [SAP Fiori for iOS](https://www.sap.com/design-system/fiori-design-ios/fiori-design-ios)
+- [SAP Fiori for Android](https://www.sap.com/design-system/fiori-design-android/)
+- [GOV.UK Design System patterns](https://design-system.service.gov.uk/patterns/)
+- [NHS Design System](https://service-manual.nhs.uk/design-system)
+- [NHS App Design System](https://design-system.nhsapp.service.nhs.uk/)
+- [Android large-screen/adaptive stories](https://developer.android.com/large-screens/stories)
 
 ### Research and usability
 
-- Nielsen Norman Group mobile UX study guide  
-  https://www.nngroup.com/articles/mobile-ux-study-guide/
-- Nielsen Norman Group touch target size  
-  https://www.nngroup.com/articles/touch-target-size/
-- Nielsen Norman Group mobile usability testing  
-  https://www.nngroup.com/articles/mobile-usability-testing/
-- Nielsen Norman Group usability testing 101  
-  https://www.nngroup.com/articles/usability-testing-101/
-- Baymard mobile app research  
-  https://baymard.com/research/mobile-app
-- Baymard checkout UX research  
-  https://baymard.com/blog/current-state-of-checkout-ux
-- GOV.UK Service Manual user research  
-  https://www.gov.uk/service-manual/user-research
-- NHS accessibility guidance for user research  
-  https://service-manual.nhs.uk/accessibility/user-research
+- [Nielsen Norman Group mobile UX study guide](https://www.nngroup.com/articles/mobile-ux-study-guide/)
+- [Nielsen Norman Group touch target size](https://www.nngroup.com/articles/touch-target-size/)
+- [Nielsen Norman Group mobile usability testing](https://www.nngroup.com/articles/mobile-usability-testing/)
+- [Nielsen Norman Group usability testing 101](https://www.nngroup.com/articles/usability-testing-101/)
+- [Baymard mobile app research](https://baymard.com/research/mobile-app)
+- [Baymard checkout UX research](https://baymard.com/blog/current-state-of-checkout-ux)
+- [GOV.UK Service Manual user research](https://www.gov.uk/service-manual/user-research)
+- [NHS accessibility guidance for user research](https://service-manual.nhs.uk/accessibility/user-research)
 
 ### Typography
 
-- Apple typography guidance  
-  https://developer.apple.com/design/human-interface-guidelines/typography
-- Apple fonts and SF  
-  https://developer.apple.com/fonts/
-- Material Design 3 typography  
-  https://m3.material.io/styles/typography/applying-type
-- Fluent 2 typography  
-  https://fluent2.microsoft.design/typography
-- Google Fonts Knowledge: suitable line height  
-  https://fonts.google.com/knowledge/using_type/choosing_a_suitable_line_height
-- GOV.UK type scale  
-  https://design-system.service.gov.uk/styles/type-scale/
-- U.S. Web Design System typography  
-  https://designsystem.digital.gov/components/typography/
-- NHS typography  
-  https://service-manual.nhs.uk/design-system/styles/typography
+- [Apple typography guidance](https://developer.apple.com/design/human-interface-guidelines/typography)
+- [Apple fonts and SF](https://developer.apple.com/fonts/)
+- [Material Design 3 typography](https://m3.material.io/styles/typography/applying-type)
+- [Fluent 2 typography](https://fluent2.microsoft.design/typography)
+- [Google Fonts Knowledge: suitable line height](https://fonts.google.com/knowledge/using_type/choosing_a_suitable_line_height)
+- [GOV.UK type scale](https://design-system.service.gov.uk/styles/type-scale/)
+- [U.S. Web Design System typography](https://designsystem.digital.gov/components/typography/)
+- [NHS typography](https://service-manual.nhs.uk/design-system/styles/typography)
 
 ### Accessibility
 
-- WCAG 2.2  
-  https://www.w3.org/TR/WCAG22/
-- W3C guidance on applying WCAG 2.2 to mobile apps  
-  https://www.w3.org/TR/wcag2mobile-22/
-- ETSI EN 301 549 overview  
-  https://www.etsi.org/human-factors-accessibility/en-301-549-v3-the-harmonized-european-standard-for-ict-accessibility
-- Apple accessibility guidance  
-  https://developer.apple.com/design/human-interface-guidelines/accessibility
-- Material accessibility foundations  
-  https://m3.material.io/foundations/overview/principles
-- Material text resizing guidance  
-  https://m3.material.io/foundations/writing/text-resizing
-- U.S. Web Design System accessibility  
-  https://designsystem.digital.gov/documentation/accessibility/
+- [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+- [W3C guidance on applying WCAG 2.2 to mobile apps](https://www.w3.org/TR/wcag2mobile-22/)
+- [ETSI EN 301 549 overview](https://www.etsi.org/human-factors-accessibility/en-301-549-v3-the-harmonized-european-standard-for-ict-accessibility)
+- [Apple accessibility guidance](https://developer.apple.com/design/human-interface-guidelines/accessibility)
+- [Material accessibility foundations](https://m3.material.io/foundations/overview/principles)
+- [Material text resizing guidance](https://m3.material.io/foundations/writing/text-resizing)
+- [U.S. Web Design System accessibility](https://designsystem.digital.gov/documentation/accessibility/)
 
 ### Design systems, workflow, and tools
 
-- Adobe Spectrum inclusive design  
-  https://spectrum.adobe.com/page/inclusive-design/
-- Apple Design  
-  https://developer.apple.com/design/
-- Apple Design Resources  
-  https://developer.apple.com/design/resources/
-- Material Partner Studies  
-  https://m3.material.io/blog/material-partner-studies
-- Uber design system at scale  
-  https://www.uber.com/blog/design-system-at-scale/
-- Monzo writing system  
-  https://monzo.com/blog/weve-made-our-writing-system-available-to-all
-- Figma components, styles, and shared libraries  
-  https://www.figma.com/best-practices/components-styles-and-shared-libraries/
-- Figma Variables guide  
-  https://help.figma.com/hc/en-us/articles/15339657135383-Guide-to-variables-in-Figma
-- Sketch libraries  
-  https://www.sketch.com/docs/libraries/
-- Framer components workflow  
-  https://www.framer.com/academy/lessons/framer-fundamentals-components
-- Deque Axe accessibility tools  
-  https://www.deque.com/axe/
+- [Adobe Spectrum inclusive design](https://spectrum.adobe.com/page/inclusive-design/)
+- [Apple Design](https://developer.apple.com/design/)
+- [Apple Design Resources](https://developer.apple.com/design/resources/)
+- [Material Partner Studies](https://m3.material.io/blog/material-partner-studies)
+- [Uber design system at scale](https://www.uber.com/blog/design-system-at-scale/)
+- [Monzo writing system](https://monzo.com/blog/weve-made-our-writing-system-available-to-all)
+- [Figma components, styles, and shared libraries](https://www.figma.com/best-practices/components-styles-and-shared-libraries/)
+- [Figma Variables guide](https://help.figma.com/hc/en-us/articles/15339657135383-Guide-to-variables-in-Figma)
+- [Sketch libraries](https://www.sketch.com/docs/libraries/)
+- [Framer components workflow](https://www.framer.com/academy/lessons/framer-fundamentals-components)
+- [Deque Axe accessibility tools](https://www.deque.com/axe/)
 
 ### Creative methods and exploration
 
-- IDEO Design Thinking  
-  https://designthinking.ideo.com/
-- IDEO.org Design Kit  
-  https://www.designkit.org/resources/1.html
-- Stanford d.school Design Thinking Bootleg  
-  https://dschool.stanford.edu/tools/design-thinking-bootleg
-- Google Design expressive design research  
-  https://design.google/library/expressive-material-design-google-research
+- [IDEO Design Thinking](https://designthinking.ideo.com/)
+- [IDEO.org Design Kit](https://www.designkit.org/resources/1.html)
+- [Stanford d.school Design Thinking Bootleg](https://dschool.stanford.edu/tools/design-thinking-bootleg)
+- [Google Design expressive design research](https://design.google/library/expressive-material-design-google-research)

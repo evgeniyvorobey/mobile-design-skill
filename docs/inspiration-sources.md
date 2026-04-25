@@ -69,36 +69,24 @@ Use when the user asks for visual exploration, brand direction, moodboards, or c
 
 ### Production UI and flows
 
-- Mobbin  
-  https://mobbin.com/
-- Page Flows  
-  https://pageflows.com/
-- UI Sources  
-  https://uisources.com/
-- Pttrns  
-  https://www.pttrns.com/
-- Screenlane  
-  https://screenlane.com/
+- [Mobbin](https://mobbin.com/)
+- [Page Flows](https://pageflows.com/)
+- [UI Sources](https://uisources.com/)
+- [Pttrns](https://www.pttrns.com/)
+- [Screenlane](https://screenlane.com/)
 
 ### Platform and awards
 
-- Apple Design Awards  
-  https://developer.apple.com/design/awards/
-- Material Design blog and case studies  
-  https://m3.material.io/blog
-- Awwwards  
-  https://www.awwwards.com/
+- [Apple Design Awards](https://developer.apple.com/design/awards/)
+- [Material Design blog and case studies](https://m3.material.io/blog)
+- [Awwwards](https://www.awwwards.com/)
 
 ### Visual portfolios and moodboards
 
-- Behance  
-  https://www.behance.net/
-- Dribbble  
-  https://dribbble.com/
-- Pinterest  
-  https://www.pinterest.com/
-- Figma Community  
-  https://www.figma.com/community
+- [Behance](https://www.behance.net/)
+- [Dribbble](https://dribbble.com/)
+- [Pinterest](https://www.pinterest.com/)
+- [Figma Community](https://www.figma.com/community)
 
 ---
 

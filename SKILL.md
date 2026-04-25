@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.13.0
+version: 1.13.1
 ---
 
 # Mobile Design Skill
@@ -22,11 +22,14 @@ If deeper detail is needed during a task, load only the relevant references:
 - `skill/templates.md` for output skeletons
 - `docs/workflow.md` for the full internal workflow
 - `docs/clarification-policy.md` for deciding when to ask questions vs proceed with assumptions
+- `docs/principles.md` for durable mobile design principles
+- `docs/guardrails.md` for hard safety, evidence, accessibility, and platform constraints
 - `docs/sources.md` for source hierarchy and canonical URLs
 - `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
 - `docs/design-quality.md` for visual hierarchy, composition, density, typography craft, color semantics, interaction polish, and production-readiness calibration
 - `docs/design-quality-rubric.md` for 1-5 quality scoring, target levels, caps, and improvement ladder
 - `docs/weaknesses.md` for known failure modes and prevention checks that keep outputs from becoming generic, overconfident, aesthetic-only, or weakly buildable
+- `docs/evals.md` for structural, content, and fail-condition evaluation criteria
 - `docs/llm-judge-runner.md` and `scripts/run_rubric_judge.py` for semantic rubric fixture calibration during maintenance
 - `docs/context-defaults.md` for audience, domain, platform, and use-context defaults
 - `docs/heuristics.md` for the usability heuristics catalog with mobile applications and red-flag patterns

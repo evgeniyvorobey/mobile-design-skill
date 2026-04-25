@@ -23,7 +23,7 @@ Better:
 Never claim:
 - “users prefer”
 - “testing proved”
-- “research shows”  
+- “research shows”
 unless the user supplied actual evidence or the claim is presented as general established guidance without fabricated specificity.
 
 Bad:

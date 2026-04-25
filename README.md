@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.13.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.13.1-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.13.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.13.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -207,13 +207,18 @@ Keep these files loaded alongside the active prompt for full skill behavior:
 - `skill/templates.md`
 - `docs/workflow.md`
 - `docs/clarification-policy.md`
+- `docs/principles.md`
+- `docs/guardrails.md`
 - `docs/sources.md`
 - `docs/quality-bars.md`
+- `docs/context-defaults.md`
+- `docs/heuristics.md`
+- `docs/patterns-catalog.md`
 - `docs/design-quality.md`
 - `docs/design-quality-rubric.md`
 - `docs/weaknesses.md`
-- `docs/patterns-catalog.md`
 - `docs/inspiration-sources.md`
+- `docs/self-review.md`
 
 ---
 
@@ -235,12 +240,12 @@ system_prompt = (SKILL_ROOT / "SKILL.md").read_text()
 
 # Optionally inline the expanded reference set for deeper behavior:
 for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
-            "docs/clarification-policy.md",
-            "docs/quality-bars.md", "docs/design-quality.md",
-            "docs/design-quality-rubric.md",
-            "docs/weaknesses.md",
-            "docs/patterns-catalog.md",
-            "docs/inspiration-sources.md"]:
+            "docs/clarification-policy.md", "docs/principles.md",
+            "docs/guardrails.md", "docs/sources.md", "docs/quality-bars.md",
+            "docs/context-defaults.md", "docs/heuristics.md",
+            "docs/patterns-catalog.md", "docs/design-quality.md",
+            "docs/design-quality-rubric.md", "docs/weaknesses.md",
+            "docs/inspiration-sources.md", "docs/self-review.md"]:
     system_prompt += f"\n\n# {ref}\n\n" + (SKILL_ROOT / ref).read_text()
 
 client = anthropic.Anthropic()
@@ -295,12 +300,18 @@ for (const ref of [
   "skill/templates.md",
   "docs/workflow.md",
   "docs/clarification-policy.md",
+  "docs/principles.md",
+  "docs/guardrails.md",
+  "docs/sources.md",
   "docs/quality-bars.md",
+  "docs/context-defaults.md",
+  "docs/heuristics.md",
+  "docs/patterns-catalog.md",
   "docs/design-quality.md",
   "docs/design-quality-rubric.md",
   "docs/weaknesses.md",
-  "docs/patterns-catalog.md",
   "docs/inspiration-sources.md",
+  "docs/self-review.md",
 ]) {
   systemPrompt += `\n\n# ${ref}\n\n` + read(ref);
 }
@@ -432,7 +443,7 @@ mobile-design-skill/
 ├── scripts/
 │   ├── install.sh                        Install script (symlink or copy)
 │   ├── bump_version.py                   Version bumper (synchronizes all version references)
-│   ├── validate_repo.py                  Repository structure, link, and example-response validator
+│   ├── validate_repo.py                  Repository structure, docs hygiene, link, and example-response validator
 │   └── run_rubric_judge.py               Provider-agnostic LLM-as-judge runner for rubric fixtures
 ├── skill/
 │   ├── skill.md                          Expanded prompt source
@@ -549,7 +560,7 @@ Fork the repository, edit the files that govern skill behavior, and run the inst
 After editing:
 
 ```bash
-python3 scripts/validate_repo.py             # check structure, links, and example outputs
+python3 scripts/validate_repo.py             # check structure, docs hygiene, links, and example outputs
 python3 scripts/bump_version.py minor        # bump version
 # fill in the generated CHANGELOG placeholder
 git commit -am "customize for <product>"
@@ -575,7 +586,7 @@ Version is stored in `skill/metadata.yaml` (canonical), mirrored into `SKILL.md`
 
 Contributions are welcome via pull request. Before submitting:
 
-1. Run `python3 scripts/validate_repo.py` — must print `[OK] Repository structure, relative links, and example responses are valid.`
+1. Run `python3 scripts/validate_repo.py` — must print `[OK] Repository structure, documentation hygiene, relative links, and example responses are valid.`
 2. If you added a new document under `docs/`, add it to `REQUIRED_FILES` in `scripts/validate_repo.py` and to the skill's SKILL.md reference list.
 3. If you changed the mode set or output contract, bump MAJOR.
 4. If you added a new capability, bump MINOR and fill in the CHANGELOG.

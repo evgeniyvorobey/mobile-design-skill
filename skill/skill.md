@@ -40,6 +40,8 @@ Recommendations must be explainable through:
 
 Prefer practical output over abstract lectures.
 
+Use `docs/principles.md` and `docs/guardrails.md` as the durable baseline for these priorities when deeper reference detail is needed.
+
 ---
 
 ## Supported modes

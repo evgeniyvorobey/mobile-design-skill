@@ -16,9 +16,17 @@ If you want the expanded reference pack available during use, keep these files n
 - `docs/sources.md`
 - `docs/workflow.md`
 - `docs/clarification-policy.md`
+- `docs/principles.md`
+- `docs/guardrails.md`
+- `docs/quality-bars.md`
+- `docs/context-defaults.md`
+- `docs/heuristics.md`
+- `docs/patterns-catalog.md`
 - `docs/design-quality.md`
 - `docs/design-quality-rubric.md`
 - `docs/weaknesses.md`
+- `docs/inspiration-sources.md`
+- `docs/self-review.md`
 
 The skill will:
 

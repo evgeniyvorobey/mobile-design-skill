@@ -27,6 +27,7 @@ REQUIRED_FILES = [
     "docs/design-quality-rubric.md",
     "docs/evals.md",
     "docs/guardrails.md",
+    "docs/github-publishing.md",
     "docs/heuristics.md",
     "docs/inspiration-sources.md",
     "docs/llm-judge-runner.md",
@@ -68,6 +69,13 @@ MARKDOWN_GLOBS = [
     "examples/*.md",
     "examples/**/*.md",
 ]
+
+DUPLICATE_HEADING_ALLOWED_FILES = {
+    "docs/evals.md",
+    "skill/modes.md",
+    "examples/anti-patterns.md",
+    "examples/clarification-policy.md",
+}
 
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 FRONTMATTER_RE = re.compile(
@@ -591,13 +599,56 @@ def validate_clarification_policy_layer() -> None:
         fail("Clarification policy validation failed:\n" + "\n".join(errors))
 
 
-def validate_links() -> None:
+def iter_markdown_files() -> list[Path]:
     markdown_files: list[Path] = []
     for pattern in MARKDOWN_GLOBS:
         markdown_files.extend(ROOT.glob(pattern))
+    return sorted(set(markdown_files))
 
+
+def validate_documentation_hygiene() -> None:
+    errors: list[str] = []
+
+    for file_path in iter_markdown_files():
+        relative_path = file_path.relative_to(ROOT).as_posix()
+        text = file_path.read_text(encoding="utf-8")
+        in_fence = False
+        seen_headings: dict[str, int] = {}
+
+        for lineno, line in enumerate(text.splitlines(), start=1):
+            if line.rstrip(" \t") != line:
+                errors.append(f"{relative_path}:{lineno}: trailing whitespace")
+
+            if line.startswith("```"):
+                in_fence = not in_fence
+                continue
+            if in_fence:
+                continue
+
+            heading_match = re.match(r"^(#{1,6})\s+(.+?)\s*$", line)
+            if not heading_match:
+                continue
+
+            heading = f"{heading_match.group(1)} {heading_match.group(2).strip()}"
+            if relative_path in DUPLICATE_HEADING_ALLOWED_FILES:
+                continue
+
+            previous_line = seen_headings.get(heading)
+            if previous_line:
+                errors.append(
+                    f"{relative_path}:{lineno}: duplicate heading `{heading}` "
+                    f"(first seen on line {previous_line})"
+                )
+            else:
+                seen_headings[heading] = lineno
+
+    if errors:
+        fail("Documentation hygiene validation failed:\n" + "\n".join(errors))
+
+
+def validate_links() -> None:
     missing_links: list[str] = []
-    for file_path in sorted(set(markdown_files)):
+    for file_path in iter_markdown_files():
         text = file_path.read_text(encoding="utf-8")
         for lineno, line in enumerate(text.splitlines(), start=1):
             for match in LINK_RE.finditer(line):
@@ -714,9 +765,13 @@ def main() -> None:
     validate_rubric_eval_pack()
     validate_llm_judge_runner_contract()
     validate_clarification_policy_layer()
+    validate_documentation_hygiene()
     validate_links()
     validate_example_responses()
-    print("[OK] Repository structure, relative links, and example responses are valid.")
+    print(
+        "[OK] Repository structure, documentation hygiene, relative links, "
+        "and example responses are valid."
+    )
 
 
 if __name__ == "__main__":
