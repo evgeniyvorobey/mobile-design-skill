@@ -1,6 +1,6 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
-version: 1.14.0
+version: 1.15.0
 status: production-ready
 owner: repository-maintained
 entrypoint: SKILL.md
@@ -50,6 +50,9 @@ accepted_inputs:
   - wireframe description
   - flow description
   - constraints
+  - benchmark references
+  - rendered artifact description
+  - local URL or prototype reference
 platforms:
   - ios
   - android
@@ -67,6 +70,9 @@ response_contract:
   include_platform_notes_when_relevant: true
   distinguish_facts_from_recommendations: true
   separate_inspiration_from_evidence: true
+  apply_domain_packs_when_relevant: true
+  support_benchmark_report_format: true
+  support_optional_rendered_output_qa: true
 guardrails:
   - do not invent official platform rules
   - do not invent research findings or usability test results
@@ -144,6 +150,20 @@ design_quality_rubric:
       - examples/evals/rubric-score-3.json
       - examples/evals/rubric-score-4.json
       - examples/evals/rubric-score-5.json
+    synthetic_case_studies_index: docs/synthetic-case-studies.md
+    synthetic_case_studies:
+      - examples/case-studies/fintech-account-overview.md
+      - examples/case-studies/health-medication-refill.md
+      - examples/case-studies/saas-approval-queue.md
+      - examples/case-studies/marketplace-checkout-substitution.md
+      - examples/case-studies/social-privacy-settings.md
+      - examples/case-studies/education-lesson-progress.md
+      - examples/case-studies/onboarding-permissions.md
+      - examples/case-studies/settings-consent-destructive-action.md
+      - examples/case-studies/search-results-filtering.md
+      - examples/case-studies/empty-error-state-recovery.md
+      - examples/case-studies/typography-spacing-system.md
+      - examples/case-studies/rationale-handoff.md
   levels:
     "1": broken or misleading
     "2": structurally weak
@@ -204,6 +224,8 @@ weakness_prevention:
 inspiration_sources:
   role: non-authoritative visual inspiration and production reference layer
   benchmark_playbooks: docs/visual-benchmark-playbooks.md
+  benchmark_report_format: docs/benchmark-report-format.md
+  benchmark_report_example: examples/benchmark-report.md
   production_references:
     - Mobbin
     - Page Flows
@@ -219,6 +241,46 @@ inspiration_sources:
     - Dribbble
     - Pinterest
     - Figma Community
+domain_packs:
+  role: synthetic domain-aware mobile design playbooks
+  index: docs/domain-packs/index.md
+  packs:
+    fintech: docs/domain-packs/fintech.md
+    health: docs/domain-packs/health.md
+    saas: docs/domain-packs/saas.md
+    marketplace: docs/domain-packs/marketplace.md
+    social: docs/domain-packs/social.md
+    education: docs/domain-packs/education.md
+  boundaries:
+    - recommendations not proof
+    - no compliance verdicts
+    - no business metric claims
+    - confirm regulated requirements with qualified owners
+visual_review_fixtures:
+  role: synthetic Figma-like text fixtures for Mode D review calibration
+  index: docs/visual-review-fixtures.md
+  fixtures:
+    - examples/visual-review-fixtures/fintech-dashboard-dense-summary.md
+    - examples/visual-review-fixtures/health-appointment-booking.md
+    - examples/visual-review-fixtures/enterprise-saas-mobile-table-card-list.md
+    - examples/visual-review-fixtures/marketplace-product-detail-checkout-edge.md
+    - examples/visual-review-fixtures/social-profile-privacy-control.md
+    - examples/visual-review-fixtures/education-quiz-results.md
+rendered_output_qa:
+  role: optional post-implementation QA workflow for rendered mobile artifacts
+  documentation: docs/rendered-output-qa.md
+  schema: examples/rendered-output-qa/report-schema.json
+  sample_report: examples/rendered-output-qa/sample-report.json
+  required_by_default: false
+  checks:
+    - mobile viewports
+    - overlap clipping and text overflow
+    - tap target hints
+    - contrast hints
+    - responsive behavior
+    - state coverage
+    - keyboard and focus behavior
+    - reduced motion
 release_automation:
   role: deterministic release validation without network or model credentials
   workflow: .github/workflows/release-validate.yml
@@ -274,4 +336,9 @@ quality_bar:
   pattern_catalog_grounded: true
   inspiration_sources_separated_from_evidence: true
   visual_benchmark_playbooks: true
+  benchmark_report_format: true
+  synthetic_case_studies: true
+  domain_packs: true
+  visual_review_fixtures: true
+  rendered_output_qa: true
   release_validation: true

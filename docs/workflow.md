@@ -156,7 +156,12 @@ Use the source hierarchy in this order:
 - Use Figma Variables guidance when outputs need token-friendly structure.
 - Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes a design artifact's hierarchy, composition, density, typography craft, color semantics, interaction polish, brand expression, or production readiness.
 - Use `docs/design-quality-rubric.md` when the output needs a 1-5 quality target or review score. Generated/specification outputs should internally target 4/5; Mode D reviews should expose the current score.
+- Use `docs/domain-packs/index.md` and the closest pack in `docs/domain-packs/` when fintech, health, SaaS, marketplace, social, or education materially changes trust, safety, hierarchy, state coverage, or handoff requirements.
+- Use `docs/synthetic-case-studies.md` and `examples/case-studies/` during maintenance or quality-sensitive calibration to compare weak vs strong response shapes. Do not treat synthetic cases as real-world validation.
 - Use `docs/inspiration-sources.md` only when the user asks for visual inspiration, moodboards, benchmarks, or "best-in-class" examples. Treat it as a non-authoritative layer for visual range and production references, not as evidence for usability, accessibility, platform behavior, or compliance.
+- Use `docs/benchmark-report-format.md` when a request asks to compare 3-5 references or turn benchmark inspiration into tokens, components, states, and QA checks.
+- Use `docs/visual-review-fixtures.md` as maintenance calibration for Mode D text-description reviews and apply the same evidence limits in live reviews.
+- Use `docs/rendered-output-qa.md` only after a rendered artifact exists or when the user asks for post-implementation QA. It is optional and must not block normal design generation.
 - Use `docs/weaknesses.md` as an internal preflight when the task could invite generic output, unsupported claims, first-idea bias, platform flattening, happy-path-only flow design, or weak handoff.
 
 ---

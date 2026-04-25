@@ -26,8 +26,16 @@ REQUIRED_FILES = [
     "skill/usage.md",
     "docs/clarification-policy.md",
     "docs/context-defaults.md",
+    "docs/benchmark-report-format.md",
     "docs/design-quality.md",
     "docs/design-quality-rubric.md",
+    "docs/domain-packs/index.md",
+    "docs/domain-packs/fintech.md",
+    "docs/domain-packs/health.md",
+    "docs/domain-packs/saas.md",
+    "docs/domain-packs/marketplace.md",
+    "docs/domain-packs/social.md",
+    "docs/domain-packs/education.md",
     "docs/evals.md",
     "docs/golden-examples.md",
     "docs/guardrails.md",
@@ -39,10 +47,13 @@ REQUIRED_FILES = [
     "docs/patterns-catalog.md",
     "docs/principles.md",
     "docs/quality-bars.md",
+    "docs/rendered-output-qa.md",
     "docs/self-review.md",
     "docs/sources.md",
+    "docs/synthetic-case-studies.md",
     "docs/versioning.md",
     "docs/visual-benchmark-playbooks.md",
+    "docs/visual-review-fixtures.md",
     "docs/weaknesses.md",
     "docs/workflow.md",
     "examples/design-flow.md",
@@ -54,6 +65,19 @@ REQUIRED_FILES = [
     "examples/typography-spacing.md",
     "examples/ui-spec.md",
     "examples/anti-patterns.md",
+    "examples/benchmark-report.md",
+    "examples/case-studies/fintech-account-overview.md",
+    "examples/case-studies/health-medication-refill.md",
+    "examples/case-studies/saas-approval-queue.md",
+    "examples/case-studies/marketplace-checkout-substitution.md",
+    "examples/case-studies/social-privacy-settings.md",
+    "examples/case-studies/education-lesson-progress.md",
+    "examples/case-studies/onboarding-permissions.md",
+    "examples/case-studies/settings-consent-destructive-action.md",
+    "examples/case-studies/search-results-filtering.md",
+    "examples/case-studies/empty-error-state-recovery.md",
+    "examples/case-studies/typography-spacing-system.md",
+    "examples/case-studies/rationale-handoff.md",
     "examples/golden/premium-ui.md",
     "examples/golden/enterprise-saas.md",
     "examples/golden/fintech.md",
@@ -66,6 +90,14 @@ REQUIRED_FILES = [
     "examples/evals/rubric-score-3.json",
     "examples/evals/rubric-score-4.json",
     "examples/evals/rubric-score-5.json",
+    "examples/rendered-output-qa/report-schema.json",
+    "examples/rendered-output-qa/sample-report.json",
+    "examples/visual-review-fixtures/fintech-dashboard-dense-summary.md",
+    "examples/visual-review-fixtures/health-appointment-booking.md",
+    "examples/visual-review-fixtures/enterprise-saas-mobile-table-card-list.md",
+    "examples/visual-review-fixtures/marketplace-product-detail-checkout-edge.md",
+    "examples/visual-review-fixtures/social-profile-privacy-control.md",
+    "examples/visual-review-fixtures/education-quiz-results.md",
     "scripts/bump_version.py",
     "scripts/install.sh",
     "scripts/rubric_judge_oracle_agent.py",
@@ -467,6 +499,101 @@ RELEASE_AUTOMATION_REQUIRED_PATTERNS = [
     "validate_release.py",
 ]
 
+SYNTHETIC_CASE_STUDY_FILES = [
+    "examples/case-studies/fintech-account-overview.md",
+    "examples/case-studies/health-medication-refill.md",
+    "examples/case-studies/saas-approval-queue.md",
+    "examples/case-studies/marketplace-checkout-substitution.md",
+    "examples/case-studies/social-privacy-settings.md",
+    "examples/case-studies/education-lesson-progress.md",
+    "examples/case-studies/onboarding-permissions.md",
+    "examples/case-studies/settings-consent-destructive-action.md",
+    "examples/case-studies/search-results-filtering.md",
+    "examples/case-studies/empty-error-state-recovery.md",
+    "examples/case-studies/typography-spacing-system.md",
+    "examples/case-studies/rationale-handoff.md",
+]
+
+SYNTHETIC_CASE_STUDY_SECTIONS = [
+    "## Prompt",
+    "## Weak response",
+    "## Why this is weak",
+    "## Strong response",
+    "## Why this is stronger",
+    "## Regression checks",
+]
+
+DOMAIN_PACK_FILES = [
+    "docs/domain-packs/fintech.md",
+    "docs/domain-packs/health.md",
+    "docs/domain-packs/saas.md",
+    "docs/domain-packs/marketplace.md",
+    "docs/domain-packs/social.md",
+    "docs/domain-packs/education.md",
+]
+
+DOMAIN_PACK_SECTIONS = [
+    "## When To Use",
+    "## Primary User Jobs",
+    "## Trust And Safety Risks",
+    "## Common Mobile Surfaces",
+    "## Hierarchy Guidance",
+    "## State And Recovery Requirements",
+    "## Accessibility Notes",
+    "## Platform Notes",
+    "## Evidence And Compliance Boundaries",
+    "## Design-Quality Traps",
+    "## Handoff Checks",
+]
+
+VISUAL_REVIEW_FIXTURE_FILES = [
+    "examples/visual-review-fixtures/fintech-dashboard-dense-summary.md",
+    "examples/visual-review-fixtures/health-appointment-booking.md",
+    "examples/visual-review-fixtures/enterprise-saas-mobile-table-card-list.md",
+    "examples/visual-review-fixtures/marketplace-product-detail-checkout-edge.md",
+    "examples/visual-review-fixtures/social-profile-privacy-control.md",
+    "examples/visual-review-fixtures/education-quiz-results.md",
+]
+
+VISUAL_REVIEW_FIXTURE_SECTIONS = [
+    "## Review setup",
+    "## Screen description",
+    "## Frame specs",
+    "## Visible hierarchy",
+    "## Components",
+    "## Typography",
+    "## Color and state notes",
+    "## Interaction states",
+    "## Known constraints",
+    "## Expected critique",
+    "## Prohibited critique",
+    "## Severity expectations",
+    "## Rubric score expectation",
+]
+
+BENCHMARK_REPORT_REQUIRED_PATTERNS = [
+    "3-5 references",
+    "Reference Input Schema",
+    "Final Report Template",
+    "Borrow",
+    "Do not copy",
+    "Translate to tokens/components/states",
+    "Evidence boundaries",
+    "Red Flags",
+]
+
+RENDERED_OUTPUT_QA_REQUIRED_PATTERNS = [
+    "optional workflow",
+    "mobile viewport",
+    "overlap",
+    "clipping",
+    "text overflow",
+    "tap target",
+    "contrast risk",
+    "reduced-motion",
+    "rendered-output-qa/v1",
+]
+
 CLARIFICATION_POLICY_REQUIRED_PATTERNS = [
     "Ask only when",
     "at most **three**",
@@ -823,6 +950,197 @@ def validate_release_automation() -> None:
         fail("Release automation validation failed:\n" + "\n".join(errors))
 
 
+def validate_synthetic_case_studies() -> None:
+    index = (ROOT / "docs/synthetic-case-studies.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    for relative_path in SYNTHETIC_CASE_STUDY_FILES:
+        if relative_path not in index:
+            errors.append(f"docs/synthetic-case-studies.md: missing `{relative_path}`")
+
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        for section in SYNTHETIC_CASE_STUDY_SECTIONS:
+            if section not in text:
+                errors.append(f"{relative_path}: missing `{section}`")
+
+        if "4/5" not in text:
+            errors.append(f"{relative_path}: missing `4/5` quality target marker")
+        if "real product" in text.lower() and "not" not in text.lower():
+            errors.append(f"{relative_path}: must not imply real-product validation")
+        regression_checks = extract_section(text, "Regression checks")
+        if bullet_count(regression_checks) < 3:
+            errors.append(
+                f"{relative_path}: `## Regression checks` must contain at least 3 bullets"
+            )
+
+    for relative_path in [
+        "SKILL.md",
+        "README.md",
+        "skill/skill.md",
+        "skill/metadata.yaml",
+        "skill/usage.md",
+        "docs/design-quality-rubric.md",
+        "docs/evals.md",
+    ]:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "synthetic-case-studies.md" not in text and "examples/case-studies" not in text:
+            errors.append(f"{relative_path}: missing synthetic case studies reference")
+
+    if errors:
+        fail("Synthetic case studies validation failed:\n" + "\n".join(errors))
+
+
+def validate_domain_packs() -> None:
+    index = (ROOT / "docs/domain-packs/index.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    for relative_path in DOMAIN_PACK_FILES:
+        if relative_path.removeprefix("docs/domain-packs/") not in index:
+            errors.append(f"docs/domain-packs/index.md: missing `{relative_path}`")
+
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        for section in DOMAIN_PACK_SECTIONS:
+            if section not in text:
+                errors.append(f"{relative_path}: missing `{section}`")
+
+        boundaries = extract_section(text, "Evidence And Compliance Boundaries")
+        if "proof" not in boundaries.lower() or "compliance" not in boundaries.lower():
+            errors.append(
+                f"{relative_path}: evidence boundaries must mention proof and compliance"
+            )
+
+    for relative_path in [
+        "SKILL.md",
+        "README.md",
+        "skill/skill.md",
+        "skill/metadata.yaml",
+        "skill/usage.md",
+        "docs/workflow.md",
+        "docs/design-quality-rubric.md",
+        "docs/evals.md",
+    ]:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if (
+            "docs/domain-packs" not in text
+            and "domain-packs" not in text
+            and "domain_packs" not in text
+        ):
+            errors.append(f"{relative_path}: missing domain packs reference")
+
+    if errors:
+        fail("Domain packs validation failed:\n" + "\n".join(errors))
+
+
+def validate_visual_review_fixtures() -> None:
+    index = (ROOT / "docs/visual-review-fixtures.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    for relative_path in VISUAL_REVIEW_FIXTURE_FILES:
+        if relative_path not in index:
+            errors.append(f"docs/visual-review-fixtures.md: missing `{relative_path}`")
+
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        for section in VISUAL_REVIEW_FIXTURE_SECTIONS:
+            if section not in text:
+                errors.append(f"{relative_path}: missing `{section}`")
+        if "Synthetic fixture only" not in text:
+            errors.append(f"{relative_path}: missing synthetic fixture boundary")
+        if "Do not claim" not in text:
+            errors.append(f"{relative_path}: missing prohibited-claim guardrail")
+
+    for relative_path in [
+        "SKILL.md",
+        "README.md",
+        "skill/metadata.yaml",
+        "docs/design-quality-rubric.md",
+        "docs/evals.md",
+    ]:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "visual-review-fixtures.md" not in text and "visual_review_fixtures" not in text:
+            errors.append(f"{relative_path}: missing visual review fixtures reference")
+
+    if errors:
+        fail("Visual review fixtures validation failed:\n" + "\n".join(errors))
+
+
+def validate_benchmark_report_format() -> None:
+    doc = (ROOT / "docs/benchmark-report-format.md").read_text(encoding="utf-8")
+    example = (ROOT / "examples/benchmark-report.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    for pattern in BENCHMARK_REPORT_REQUIRED_PATTERNS:
+        if pattern not in doc:
+            errors.append(f"docs/benchmark-report-format.md: missing `{pattern}`")
+    for pattern in ["## Prompt", "## Report output", "Evidence boundaries", "Do not copy"]:
+        if pattern not in example:
+            errors.append(f"examples/benchmark-report.md: missing `{pattern}`")
+
+    for relative_path in [
+        "SKILL.md",
+        "README.md",
+        "skill/skill.md",
+        "skill/metadata.yaml",
+        "skill/usage.md",
+        "docs/evals.md",
+        "docs/inspiration-sources.md",
+    ]:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "benchmark-report-format.md" not in text and "benchmark_report_format" not in text:
+            errors.append(f"{relative_path}: missing benchmark report format reference")
+
+    if errors:
+        fail("Benchmark report format validation failed:\n" + "\n".join(errors))
+
+
+def validate_rendered_output_qa() -> None:
+    doc = (ROOT / "docs/rendered-output-qa.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    for pattern in RENDERED_OUTPUT_QA_REQUIRED_PATTERNS:
+        if pattern not in doc:
+            errors.append(f"docs/rendered-output-qa.md: missing `{pattern}`")
+
+    try:
+        schema = json.loads(
+            (ROOT / "examples/rendered-output-qa/report-schema.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        sample = json.loads(
+            (ROOT / "examples/rendered-output-qa/sample-report.json").read_text(
+                encoding="utf-8"
+            )
+        )
+    except json.JSONDecodeError as exc:
+        fail(f"Rendered-output QA JSON validation failed: {exc}")
+
+    required = set(schema.get("required", []))
+    missing_sample_keys = required - sample.keys()
+    if missing_sample_keys:
+        errors.append(
+            "examples/rendered-output-qa/sample-report.json: missing required keys "
+            + ", ".join(sorted(missing_sample_keys))
+        )
+    if schema.get("properties", {}).get("schema_version", {}).get("const") != "rendered-output-qa/v1":
+        errors.append("report-schema.json: missing rendered-output-qa/v1 schema version")
+    if sample.get("schema_version") != "rendered-output-qa/v1":
+        errors.append("sample-report.json: missing rendered-output-qa/v1 schema version")
+
+    for relative_path in [
+        "SKILL.md",
+        "README.md",
+        "skill/metadata.yaml",
+        "docs/design-quality-rubric.md",
+        "docs/evals.md",
+    ]:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "rendered-output-qa.md" not in text and "rendered_output_qa" not in text:
+            errors.append(f"{relative_path}: missing rendered-output QA reference")
+
+    if errors:
+        fail("Rendered-output QA validation failed:\n" + "\n".join(errors))
+
+
 def iter_markdown_files() -> list[Path]:
     markdown_files: list[Path] = []
     for pattern in MARKDOWN_GLOBS:
@@ -993,6 +1311,11 @@ def main() -> None:
     validate_visual_benchmark_playbooks()
     validate_golden_examples()
     validate_release_automation()
+    validate_synthetic_case_studies()
+    validate_domain_packs()
+    validate_visual_review_fixtures()
+    validate_benchmark_report_format()
+    validate_rendered_output_qa()
     validate_documentation_hygiene()
     validate_links()
     validate_example_responses()

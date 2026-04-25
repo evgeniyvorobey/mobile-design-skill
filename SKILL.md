@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.14.0
+version: 1.15.0
 ---
 
 # Mobile Design Skill
@@ -30,6 +30,8 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/design-quality.md` for visual hierarchy, composition, density, typography craft, color semantics, interaction polish, and production-readiness calibration
 - `docs/design-quality-rubric.md` for 1-5 quality scoring, target levels, caps, and improvement ladder
 - `docs/golden-examples.md` and `examples/golden/` for taste and domain calibration across premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout
+- `docs/synthetic-case-studies.md` and `examples/case-studies/` for synthetic bad-to-good calibration cases when tuning output quality
+- `docs/domain-packs/index.md` and `docs/domain-packs/` for domain-specific mobile playbooks covering fintech, health, SaaS, marketplace, social, and education
 - `docs/weaknesses.md` for known failure modes and prevention checks that keep outputs from becoming generic, overconfident, aesthetic-only, or weakly buildable
 - `docs/evals.md` for structural, content, and fail-condition evaluation criteria
 - `docs/llm-judge-runner.md` and `scripts/run_rubric_judge.py` for semantic rubric fixture calibration, including external-agent command runs during maintenance
@@ -38,6 +40,9 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/patterns-catalog.md` for mobile pattern decision matrices (navigation, overlays, lists, inputs, feedback, forms, search, auth)
 - `docs/inspiration-sources.md` for visual inspiration and production reference sources, used only after UX/platform/accessibility reasoning is grounded
 - `docs/visual-benchmark-playbooks.md` for source-specific Mobbin, Page Flows, Apple Design Awards, and Awwwards benchmark checklists
+- `docs/benchmark-report-format.md` and `examples/benchmark-report.md` for turning 3-5 references into borrow / do-not-copy / token-component-state guidance
+- `docs/visual-review-fixtures.md` and `examples/visual-review-fixtures/` for text-only Figma-like review fixtures and expected critique discipline
+- `docs/rendered-output-qa.md` and `examples/rendered-output-qa/` for optional QA after a design exists as HTML, app build, prototype, screenshot, or recording
 - `docs/self-review.md` for the mandatory self-review pass run before any response is returned
 - `examples/` for regression-style examples
 - `examples/evals/` and `examples/rubric-before-after.md` for design-quality rubric score calibration
@@ -85,6 +90,8 @@ Extract or infer:
 - whether the user needs exploration, critique, or handoff structure
 
 Apply the context-aware defaults in `docs/context-defaults.md`. Precedence when signals conflict: safety/accessibility > regulated domain > use-context > audience > platform. State the resolution in `Assumptions`.
+
+If the request matches fintech, health, SaaS, marketplace, social, or education, load the closest domain pack from `docs/domain-packs/` before drafting. Domain packs are synthetic calibration material: they can shape hierarchy, trust language, states, and handoff checks, but they do not prove compliance, user preference, safety, or business performance.
 
 ### 3. Determine platform scope
 Identify whether the request is:
@@ -141,11 +148,19 @@ Use `docs/design-quality.md` when the output proposes, critiques, specifies, or 
 
 Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. For generated or specified artifacts, target 4/5 before returning; if a draft scores 3/5 or below and can be improved without inventing facts, revise it. For reviews, expose the current design-quality score with a short reason.
 
+Use `docs/synthetic-case-studies.md` and `examples/case-studies/` during maintenance, calibration, or quality-sensitive drafting to compare weak vs strong answer shapes. Treat these examples as synthetic fixtures, not real-world validation.
+
 Use `docs/clarification-policy.md` when the request is underspecified, risky, or precision-sensitive. Ask only when the answer would change the design decision; otherwise proceed with assumptions and surface the unknowns in the appropriate section.
 
 If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction and comparison examples, but they must not justify usability, accessibility, platform, or compliance claims.
 
 Use `docs/visual-benchmark-playbooks.md` when the user asks for Mobbin, Page Flows, Apple Design Awards, Awwwards, or source-specific benchmark guidance. Extract visual and flow inspiration, then translate it into implementable mechanisms. Never treat benchmark sources as evidence for usability, accessibility, platform correctness, compliance, user preference, or business performance.
+
+Use `docs/benchmark-report-format.md` when the user asks to compare 3-5 references, benchmark a category, or turn inspiration into design direction. Ask for references only when they materially improve the answer; otherwise proceed with labeled assumptions and keep the output useful.
+
+Use `docs/visual-review-fixtures.md` only as calibration/evaluation material for Mode D text-description reviews. In live reviews, apply the same discipline: qualify visual claims when no screenshot or Figma evidence is provided.
+
+Use `docs/rendered-output-qa.md` only when a rendered artifact exists or the user asks for post-implementation QA. Do not block normal design generation waiting for screenshots, builds, or Playwright. When no artifact exists, list rendered QA as a next action.
 
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
 

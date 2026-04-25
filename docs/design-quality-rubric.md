@@ -9,6 +9,10 @@ The rubric complements:
 - `docs/quality-bars.md` for numeric thresholds
 - `docs/evals.md` for external response evaluation
 - `docs/golden-examples.md` for compact taste and domain calibration examples
+- `docs/synthetic-case-studies.md` for synthetic bad-to-good calibration cases
+- `docs/domain-packs/index.md` for domain-specific risk and trust calibration
+- `docs/visual-review-fixtures.md` for text-only review calibration
+- `docs/rendered-output-qa.md` for optional QA when a rendered artifact exists
 - `examples/evals/` for score-calibrated rubric fixtures
 - `examples/rubric-before-after.md` for a weak-to-strong upgrade example
 - `scripts/run_rubric_judge.py` and `docs/llm-judge-runner.md` for semantic judge calibration
@@ -161,6 +165,14 @@ Use these fixtures when tuning prompts, judging generated responses, or adding L
 For human calibration, use `examples/rubric-before-after.md`. It shows the upgrade path from a 2/5 template-complete UI spec to a 4/5 shippable spec.
 
 For taste and domain calibration, use `docs/golden-examples.md` and `examples/golden/`. These examples show compact 4/5-style patterns for premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
+
+For broader synthetic calibration, use `docs/synthetic-case-studies.md` and `examples/case-studies/`. These cases show plausible weak responses, stronger 4/5 responses, and regression checks across domains and modes. They are not real-world validation.
+
+For domain-aware calibration, use `docs/domain-packs/index.md` and `docs/domain-packs/`. Domain packs raise quality by improving hierarchy, state coverage, trust language, and handoff checks for fintech, health, SaaS, marketplace, social, and education. They do not prove compliance or business impact.
+
+For review calibration, use `docs/visual-review-fixtures.md` and `examples/visual-review-fixtures/` to test whether Mode D reviews avoid unsupported visual claims from text-only evidence.
+
+For implemented UI, use `docs/rendered-output-qa.md` and `examples/rendered-output-qa/` as an optional post-design QA layer. Rendered overlap, clipping, overflow, or state failures can cap an otherwise strong written design until fixed.
 
 For semantic runner calibration, use:
 

@@ -162,11 +162,21 @@ Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. 
 
 Use `docs/golden-examples.md` and `examples/golden/` as compact calibration references when the request needs stronger taste, domain fit, or examples of what "good" looks like for premium UI, enterprise SaaS, fintech, health, onboarding, settings, or checkout.
 
+Use `docs/synthetic-case-studies.md` and `examples/case-studies/` during maintenance, calibration, or quality-sensitive drafting to compare weak vs strong answer shapes. These are synthetic fixtures, not real product validation.
+
+Use the closest pack in `docs/domain-packs/` when the product domain is fintech, health, SaaS, marketplace, social, or education. Domain packs can shape hierarchy, trust language, state coverage, and handoff checks, but must not be treated as compliance, safety, or business-performance proof.
+
 Use `docs/clarification-policy.md` when the request is underspecified, risky, or precision-sensitive. Ask only when the answer would change the design decision; otherwise proceed with assumptions and surface the unknowns in the appropriate section.
 
 If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction, comparable surfaces, and exploration breadth, but they must not justify usability, accessibility, platform, or compliance claims.
 
 Use `docs/visual-benchmark-playbooks.md` when the user asks for Mobbin, Page Flows, Apple Design Awards, Awwwards, or source-specific benchmark guidance. Extract visual and flow inspiration, then translate it into implementable mechanisms. Never treat benchmark sources as evidence for usability, accessibility, platform correctness, compliance, user preference, or business performance.
+
+Use `docs/benchmark-report-format.md` when the user asks to compare 3-5 references, benchmark a category, or turn inspiration into design direction. Ask for references only when they materially improve the answer; otherwise proceed with labeled assumptions.
+
+Use `docs/visual-review-fixtures.md` only as calibration/evaluation material for Mode D text-description reviews. In live reviews, apply the same discipline: qualify visual claims when no screenshot or Figma evidence is provided.
+
+Use `docs/rendered-output-qa.md` only when a rendered artifact exists or the user asks for post-implementation QA. Do not block normal design generation waiting for screenshots, builds, or Playwright. When no artifact exists, list rendered QA as a next action.
 
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
 

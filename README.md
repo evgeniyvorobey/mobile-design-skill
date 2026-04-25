@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.14.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.15.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.14.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.15.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -80,6 +80,11 @@ It is structured around:
 - **LLM-as-judge runner** — LLM-agnostic JSONL runner with an external-agent command adapter for semantic rubric calibration.
 - **Visual benchmark playbooks** — source-specific checklists for Mobbin, Page Flows, Apple Design Awards, and Awwwards that keep inspiration separate from evidence.
 - **Golden examples** — compact taste and domain calibration examples for premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
+- **Synthetic case studies** — 12 bad-to-good calibration cases that show weak vs strong mobile design responses without real products or screenshots.
+- **Visual review fixtures** — Figma-like text descriptions with expected critique and prohibited overclaims for Mode D review calibration.
+- **Benchmark report format** — a compact structure for turning 3-5 references into borrow / do-not-copy / token-component-state guidance.
+- **Domain packs** — mini-playbooks for fintech, health, SaaS, marketplace, social, and education.
+- **Rendered-output QA workflow** — optional post-implementation QA guidance for checking mobile viewports, overlap, clipping, tap-target risk, contrast hints, and state behavior when a rendered artifact exists.
 - **Known weakness prevention** — internal failure-mode preflight for generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff.
 - **Context-aware defaults** — adjusts output for audience (older adults, children, power users), domain (finance, health, government, enterprise, social), platform, and use-context (one-handed, outdoor, in-vehicle, emergency).
 - **Heuristic grounding** — decisions cite Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen rather than being presented as preference.
@@ -221,9 +226,14 @@ Keep these files loaded alongside the active prompt for full skill behavior:
 - `docs/design-quality.md`
 - `docs/design-quality-rubric.md`
 - `docs/golden-examples.md`
+- `docs/synthetic-case-studies.md`
+- `docs/domain-packs/index.md`
 - `docs/weaknesses.md`
 - `docs/inspiration-sources.md`
 - `docs/visual-benchmark-playbooks.md`
+- `docs/benchmark-report-format.md`
+- `docs/visual-review-fixtures.md`
+- `docs/rendered-output-qa.md`
 - `docs/self-review.md`
 
 ---
@@ -252,8 +262,11 @@ for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
             "docs/context-defaults.md", "docs/heuristics.md",
             "docs/patterns-catalog.md", "docs/design-quality.md",
             "docs/design-quality-rubric.md", "docs/golden-examples.md",
+            "docs/synthetic-case-studies.md", "docs/domain-packs/index.md",
             "docs/weaknesses.md", "docs/inspiration-sources.md",
-            "docs/visual-benchmark-playbooks.md", "docs/self-review.md"]:
+            "docs/visual-benchmark-playbooks.md", "docs/benchmark-report-format.md",
+            "docs/visual-review-fixtures.md", "docs/rendered-output-qa.md",
+            "docs/self-review.md"]:
     system_prompt += f"\n\n# {ref}\n\n" + (SKILL_ROOT / ref).read_text()
 
 client = anthropic.Anthropic()
@@ -319,9 +332,14 @@ for (const ref of [
   "docs/design-quality.md",
   "docs/design-quality-rubric.md",
   "docs/golden-examples.md",
+  "docs/synthetic-case-studies.md",
+  "docs/domain-packs/index.md",
   "docs/weaknesses.md",
   "docs/inspiration-sources.md",
   "docs/visual-benchmark-playbooks.md",
+  "docs/benchmark-report-format.md",
+  "docs/visual-review-fixtures.md",
+  "docs/rendered-output-qa.md",
   "docs/self-review.md",
 ]) {
   systemPrompt += `\n\n# ${ref}\n\n` + read(ref);
@@ -489,8 +507,20 @@ mobile-design-skill/
 │   ├── design-quality.md                 Visual hierarchy, composition, density, and craft calibration
 │   ├── design-quality-rubric.md          1-5 design quality scoring and improvement ladder
 │   ├── golden-examples.md                Golden example index and calibration guide
+│   ├── synthetic-case-studies.md         Synthetic bad-to-good case-study index
+│   ├── visual-review-fixtures.md         Text-only visual review fixture index
+│   ├── benchmark-report-format.md        3-5 reference benchmark report template
+│   ├── rendered-output-qa.md             Optional post-implementation rendered QA workflow
 │   ├── weaknesses.md                     Known failure modes and prevention checks
 │   ├── context-defaults.md               Audience / domain / platform / use-context defaults
+│   ├── domain-packs/
+│   │   ├── index.md                      Domain pack index
+│   │   ├── fintech.md                    Fintech mobile design playbook
+│   │   ├── health.md                     Health mobile design playbook
+│   │   ├── saas.md                       Enterprise SaaS mobile design playbook
+│   │   ├── marketplace.md                Marketplace mobile design playbook
+│   │   ├── social.md                     Social mobile design playbook
+│   │   └── education.md                  Education mobile design playbook
 │   ├── heuristics.md                     Fitts, Hick, Jakob, Zeigarnik, Nielsen, Gestalt — with mobile applications
 │   ├── patterns-catalog.md               Mobile pattern decision matrices
 │   ├── inspiration-sources.md            Non-authoritative inspiration and reference layer
@@ -512,6 +542,20 @@ mobile-design-skill/
     ├── rationale-handoff.md              Worked example for Mode 6
     ├── rubric-before-after.md            2/5 → 4/5 rubric upgrade example
     ├── anti-patterns.md                  Bad/Good pairs — how the skill should behave under ambiguous input
+    ├── benchmark-report.md               Synthetic benchmark report example
+    ├── case-studies/                     Synthetic bad-to-good calibration cases
+    │   ├── fintech-account-overview.md
+    │   ├── health-medication-refill.md
+    │   ├── saas-approval-queue.md
+    │   ├── marketplace-checkout-substitution.md
+    │   ├── social-privacy-settings.md
+    │   ├── education-lesson-progress.md
+    │   ├── onboarding-permissions.md
+    │   ├── settings-consent-destructive-action.md
+    │   ├── search-results-filtering.md
+    │   ├── empty-error-state-recovery.md
+    │   ├── typography-spacing-system.md
+    │   └── rationale-handoff.md
     ├── golden/                           Compact taste/domain calibration examples
     │   ├── premium-ui.md                 Premium UI calibration
     │   ├── enterprise-saas.md            Enterprise SaaS calibration
@@ -520,6 +564,16 @@ mobile-design-skill/
     │   ├── onboarding.md                 Onboarding calibration
     │   ├── settings.md                   Settings calibration
     │   └── checkout.md                   Checkout calibration
+    ├── visual-review-fixtures/           Figma-like text review fixtures
+    │   ├── fintech-dashboard-dense-summary.md
+    │   ├── health-appointment-booking.md
+    │   ├── enterprise-saas-mobile-table-card-list.md
+    │   ├── marketplace-product-detail-checkout-edge.md
+    │   ├── social-profile-privacy-control.md
+    │   └── education-quiz-results.md
+    ├── rendered-output-qa/
+    │   ├── report-schema.json            Optional rendered QA report schema
+    │   └── sample-report.json            Example rendered QA report
     └── evals/
         ├── rubric-score-1.json           Rubric fixture: broken or misleading
         ├── rubric-score-2.json           Rubric fixture: structurally weak
@@ -591,6 +645,11 @@ Fork the repository, edit the files that govern skill behavior, and run the inst
 - [`docs/design-quality.md`](docs/design-quality.md) — tune design-quality calibration for hierarchy, rhythm, visual craft, and production readiness
 - [`docs/design-quality-rubric.md`](docs/design-quality-rubric.md) — tune 1-5 design-quality scoring, caps, and improvement ladder
 - [`docs/golden-examples.md`](docs/golden-examples.md) — tune compact taste and domain calibration examples
+- [`docs/synthetic-case-studies.md`](docs/synthetic-case-studies.md) — tune synthetic bad-to-good calibration cases
+- [`docs/domain-packs/index.md`](docs/domain-packs/index.md) — tune domain-specific mobile playbooks
+- [`docs/benchmark-report-format.md`](docs/benchmark-report-format.md) — tune benchmark report structure for 3-5 references
+- [`docs/visual-review-fixtures.md`](docs/visual-review-fixtures.md) — tune text-only review calibration fixtures
+- [`docs/rendered-output-qa.md`](docs/rendered-output-qa.md) — tune optional post-implementation QA workflow
 - [`docs/weaknesses.md`](docs/weaknesses.md) — tune known weakness patterns and prevention checks for recurring output regressions
 - [`docs/llm-judge-runner.md`](docs/llm-judge-runner.md) — tune semantic judge runner contract and pass criteria
 - [`docs/patterns-catalog.md`](docs/patterns-catalog.md) — add patterns unique to your product area

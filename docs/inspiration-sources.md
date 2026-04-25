@@ -124,6 +124,8 @@ When inspiration is useful, keep it separate from UX rationale:
 
 Do not overfit the user's design to a gallery trend. Use references to widen options, then choose using the skill's normal workflow: task clarity, context, platform conventions, accessibility, quality bars, pattern matrices, and implementation constraints.
 
+Use [`benchmark-report-format.md`](benchmark-report-format.md) when the task needs a structured 3-5 reference comparison. It keeps benchmark observations separate from proof and translates references into tokens, components, states, and QA checks.
+
 ---
 
 ## Review checklist

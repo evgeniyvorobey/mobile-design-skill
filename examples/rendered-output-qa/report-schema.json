@@ -1,0 +1,553 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/mobile-design-skill/rendered-output-qa-report.schema.json",
+  "title": "Rendered Output QA Report",
+  "description": "JSON Schema-like contract for optional mobile rendered-output QA reports. Screenshots and browser automation are optional; reports may be based on a running app, local HTML, prototype, screenshot, or recording.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "report_id",
+    "generated_at",
+    "artifact",
+    "coverage",
+    "summary",
+    "checks",
+    "findings",
+    "unverified",
+    "recommendations"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "rendered-output-qa/v1"
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "artifact": {
+      "type": "object",
+      "required": [
+        "name",
+        "artifact_type",
+        "platform_scope",
+        "primary_task",
+        "source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "artifact_type": {
+          "type": "string",
+          "enum": [
+            "local_url",
+            "html_file",
+            "native_build",
+            "prototype",
+            "screenshot",
+            "recording",
+            "other"
+          ]
+        },
+        "platform_scope": {
+          "type": "string",
+          "enum": [
+            "ios",
+            "android",
+            "cross_platform",
+            "mobile_web",
+            "unspecified"
+          ]
+        },
+        "primary_task": {
+          "type": "string"
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "url",
+                "path",
+                "user_supplied",
+                "description"
+              ]
+            },
+            "value": {
+              "type": "string"
+            }
+          }
+        },
+        "commit": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "method",
+        "viewports",
+        "states",
+        "settings"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "manual_browser",
+            "playwright_existing_project",
+            "native_simulator",
+            "screenshot_review",
+            "recording_review",
+            "hybrid"
+          ]
+        },
+        "viewports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/viewport"
+          }
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stateCoverage"
+          }
+        },
+        "settings": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color_scheme": {
+              "type": "string",
+              "enum": [
+                "light",
+                "dark",
+                "both",
+                "not_verified"
+              ]
+            },
+            "reduced_motion": {
+              "type": "string",
+              "enum": [
+                "verified_on",
+                "verified_off",
+                "both",
+                "not_verified"
+              ]
+            },
+            "text_scale": {
+              "type": "string"
+            },
+            "locale": {
+              "type": "string"
+            },
+            "keyboard": {
+              "type": "string",
+              "enum": [
+                "verified",
+                "partially_verified",
+                "not_verified"
+              ]
+            },
+            "focus_navigation": {
+              "type": "string",
+              "enum": [
+                "verified",
+                "partially_verified",
+                "not_verified"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "status",
+        "max_severity",
+        "finding_count",
+        "passed_check_count",
+        "unverified_check_count",
+        "design_quality_score_cap",
+        "short_rationale"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "pass_with_notes",
+            "needs_fixes",
+            "blocked",
+            "inconclusive"
+          ]
+        },
+        "max_severity": {
+          "$ref": "#/$defs/severity"
+        },
+        "finding_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "passed_check_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unverified_check_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "design_quality_score_cap": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 5
+        },
+        "short_rationale": {
+          "type": "string"
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/checkResult"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "unverified": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/unverifiedItem"
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/recommendation"
+      }
+    }
+  },
+  "$defs": {
+    "severity": {
+      "type": "string",
+      "enum": [
+        "blocker",
+        "high",
+        "medium",
+        "low",
+        "info",
+        "none"
+      ]
+    },
+    "checkCategory": {
+      "type": "string",
+      "enum": [
+        "mobile_viewport",
+        "overlap",
+        "clipping",
+        "text_overflow",
+        "tap_target",
+        "contrast",
+        "responsive_behavior",
+        "state_coverage",
+        "keyboard_focus",
+        "reduced_motion",
+        "safe_area",
+        "evidence_boundary"
+      ]
+    },
+    "viewport": {
+      "type": "object",
+      "required": [
+        "id",
+        "width",
+        "height",
+        "device_class",
+        "orientation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "device_class": {
+          "type": "string",
+          "enum": [
+            "narrow_phone",
+            "common_phone",
+            "tall_phone",
+            "landscape_phone",
+            "tablet",
+            "custom"
+          ]
+        },
+        "orientation": {
+          "type": "string",
+          "enum": [
+            "portrait",
+            "landscape"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "stateCoverage": {
+      "type": "object",
+      "required": [
+        "state",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "default",
+            "loading",
+            "empty",
+            "error",
+            "success",
+            "offline",
+            "permission_denied",
+            "keyboard_open",
+            "reduced_motion",
+            "other"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "partially_verified",
+            "not_applicable",
+            "not_available",
+            "not_verified"
+          ]
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "checkResult": {
+      "type": "object",
+      "required": [
+        "id",
+        "category",
+        "status",
+        "severity",
+        "evidence",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/checkCategory"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pass",
+            "fail",
+            "warning",
+            "not_verified",
+            "not_applicable"
+          ]
+        },
+        "severity": {
+          "$ref": "#/$defs/severity"
+        },
+        "evidence": {
+          "type": "string",
+          "enum": [
+            "observed",
+            "measured",
+            "inferred",
+            "user_supplied",
+            "not_verified"
+          ]
+        },
+        "viewport_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "state": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "required": [
+        "id",
+        "severity",
+        "category",
+        "title",
+        "evidence",
+        "impact",
+        "recommendation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/severity"
+        },
+        "category": {
+          "$ref": "#/$defs/checkCategory"
+        },
+        "title": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "object",
+          "required": [
+            "type",
+            "description"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "observed",
+                "measured",
+                "inferred",
+                "user_supplied"
+              ]
+            },
+            "description": {
+              "type": "string"
+            },
+            "viewport_ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "selector_or_region": {
+              "type": "string"
+            },
+            "artifact_ref": {
+              "type": "string"
+            }
+          }
+        },
+        "impact": {
+          "type": "string"
+        },
+        "recommendation": {
+          "type": "string"
+        },
+        "owner_hint": {
+          "type": "string",
+          "enum": [
+            "design",
+            "engineering",
+            "content",
+            "qa",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "unverifiedItem": {
+      "type": "object",
+      "required": [
+        "category",
+        "reason",
+        "needed_evidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/checkCategory"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "needed_evidence": {
+          "type": "string"
+        }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "required": [
+        "priority",
+        "title",
+        "action",
+        "success_criteria"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "priority": {
+          "type": "string",
+          "enum": [
+            "p0",
+            "p1",
+            "p2",
+            "p3"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "success_criteria": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

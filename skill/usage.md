@@ -26,9 +26,14 @@ If you want the expanded reference pack available during use, keep these files n
 - `docs/design-quality.md`
 - `docs/design-quality-rubric.md`
 - `docs/golden-examples.md`
+- `docs/synthetic-case-studies.md`
+- `docs/domain-packs/index.md`
 - `docs/weaknesses.md`
 - `docs/inspiration-sources.md`
 - `docs/visual-benchmark-playbooks.md`
+- `docs/benchmark-report-format.md`
+- `docs/visual-review-fixtures.md`
+- `docs/rendered-output-qa.md`
 - `docs/self-review.md`
 
 The skill will:
@@ -43,11 +48,14 @@ The skill will:
 8. include accessibility and usability by default
 9. include design-quality calibration for visual hierarchy, rhythm, craft, and production readiness when producing design artifacts
 10. apply a 1-5 design-quality rubric, targeting 4/5 for generated artifacts and exposing current score in reviews
-11. use `examples/evals/`, `examples/rubric-before-after.md`, and `examples/golden/` as calibration references when tuning quality and taste
-12. use visual benchmark playbooks to keep Mobbin, Page Flows, Apple Design Awards, and Awwwards separate from evidence claims
-13. use `scripts/run_rubric_judge.py` for provider-agnostic LLM-as-judge calibration, including external-agent command runs
-14. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
-15. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
+11. use `examples/evals/`, `examples/rubric-before-after.md`, `examples/golden/`, and `examples/case-studies/` as calibration references when tuning quality and taste
+12. use domain packs for fintech, health, SaaS, marketplace, social, and education when the product category materially changes risk, hierarchy, state coverage, or trust language
+13. use visual benchmark playbooks and benchmark report format to keep references separate from evidence claims
+14. use visual-review fixtures to calibrate text-only review discipline and avoid unsupported visual overclaims
+15. use rendered-output QA only after a rendered artifact exists; do not block normal design generation waiting for screenshots or builds
+16. use `scripts/run_rubric_judge.py` for provider-agnostic LLM-as-judge calibration, including external-agent command runs
+17. run known-weakness preflight to avoid generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
+18. keep inspiration references separate from UX, accessibility, and platform rationale when inspiration is requested
 
 ---
 

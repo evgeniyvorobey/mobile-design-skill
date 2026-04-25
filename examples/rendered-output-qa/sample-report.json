@@ -1,0 +1,259 @@
+{
+  "schema_version": "rendered-output-qa/v1",
+  "report_id": "checkout-review-2026-04-25",
+  "generated_at": "2026-04-25T10:30:00Z",
+  "artifact": {
+    "name": "Mobile checkout payment step",
+    "artifact_type": "local_url",
+    "platform_scope": "mobile_web",
+    "primary_task": "Complete payment after reviewing the order total",
+    "source": {
+      "kind": "url",
+      "value": "http://localhost:3000/checkout/payment"
+    },
+    "commit": "example-local-build",
+    "notes": "Example report with synthetic observations; not a real product audit."
+  },
+  "coverage": {
+    "method": "manual_browser",
+    "viewports": [
+      {
+        "id": "narrow-360x780",
+        "width": 360,
+        "height": 780,
+        "device_class": "narrow_phone",
+        "orientation": "portrait",
+        "notes": "Used for minimum supported phone width."
+      },
+      {
+        "id": "common-390x844",
+        "width": 390,
+        "height": 844,
+        "device_class": "common_phone",
+        "orientation": "portrait",
+        "notes": "Used for common modern phone width."
+      }
+    ],
+    "states": [
+      {
+        "state": "default",
+        "status": "verified",
+        "notes": "Payment form and order summary were visible."
+      },
+      {
+        "state": "loading",
+        "status": "partially_verified",
+        "notes": "Submit loading state was visible; full-page loading was not available."
+      },
+      {
+        "state": "empty",
+        "status": "not_applicable",
+        "notes": "Checkout cannot be empty after cart review."
+      },
+      {
+        "state": "error",
+        "status": "verified",
+        "notes": "Card validation error and payment failure banner were available."
+      },
+      {
+        "state": "keyboard_open",
+        "status": "partially_verified",
+        "notes": "Browser keyboard behavior was approximated by shrinking viewport height."
+      },
+      {
+        "state": "reduced_motion",
+        "status": "not_verified",
+        "notes": "The artifact did not expose a reduced-motion toggle."
+      }
+    ],
+    "settings": {
+      "color_scheme": "light",
+      "reduced_motion": "not_verified",
+      "text_scale": "100% only",
+      "locale": "en-US",
+      "keyboard": "partially_verified",
+      "focus_navigation": "partially_verified"
+    }
+  },
+  "summary": {
+    "status": "needs_fixes",
+    "max_severity": "high",
+    "finding_count": 3,
+    "passed_check_count": 5,
+    "unverified_check_count": 2,
+    "design_quality_score_cap": 3,
+    "short_rationale": "The checkout remains generally usable, but the sticky payment CTA overlaps validation feedback on the narrow viewport and reduced-motion behavior was not verified."
+  },
+  "checks": [
+    {
+      "id": "viewport-common-phone",
+      "category": "mobile_viewport",
+      "status": "pass",
+      "severity": "none",
+      "evidence": "observed",
+      "viewport_ids": [
+        "common-390x844"
+      ],
+      "state": "default",
+      "notes": "Primary total, card fields, and payment CTA remain visible in a predictable order."
+    },
+    {
+      "id": "viewport-narrow-overlap",
+      "category": "overlap",
+      "status": "fail",
+      "severity": "high",
+      "evidence": "observed",
+      "viewport_ids": [
+        "narrow-360x780"
+      ],
+      "state": "error",
+      "notes": "Sticky payment CTA covers the bottom line of the card validation error."
+    },
+    {
+      "id": "card-title-overflow",
+      "category": "text_overflow",
+      "status": "warning",
+      "severity": "medium",
+      "evidence": "observed",
+      "viewport_ids": [
+        "narrow-360x780"
+      ],
+      "state": "default",
+      "notes": "Long saved-card name truncates without preserving the final four digits."
+    },
+    {
+      "id": "tap-target-primary",
+      "category": "tap_target",
+      "status": "pass",
+      "severity": "none",
+      "evidence": "inferred",
+      "viewport_ids": [
+        "narrow-360x780",
+        "common-390x844"
+      ],
+      "state": "default",
+      "notes": "Primary CTA and input rows appear to meet common mobile touch guidance; exact hit boxes were not measured."
+    },
+    {
+      "id": "contrast-placeholder",
+      "category": "contrast",
+      "status": "warning",
+      "severity": "low",
+      "evidence": "inferred",
+      "viewport_ids": [
+        "common-390x844"
+      ],
+      "state": "default",
+      "notes": "Placeholder text appears light against the field background; contrast ratio was not measured."
+    },
+    {
+      "id": "keyboard-payment-field",
+      "category": "keyboard_focus",
+      "status": "warning",
+      "severity": "medium",
+      "evidence": "observed",
+      "viewport_ids": [
+        "narrow-360x780"
+      ],
+      "state": "keyboard_open",
+      "notes": "When viewport height is reduced, the CVV field remains visible but the payment CTA is partially obscured."
+    },
+    {
+      "id": "reduced-motion",
+      "category": "reduced_motion",
+      "status": "not_verified",
+      "severity": "info",
+      "evidence": "not_verified",
+      "viewport_ids": [
+        "common-390x844"
+      ],
+      "state": "reduced_motion",
+      "notes": "No reduced-motion setting or emulation was available during this review."
+    }
+  ],
+  "findings": [
+    {
+      "id": "finding-001",
+      "severity": "high",
+      "category": "overlap",
+      "title": "Sticky CTA overlaps card validation error on narrow phones",
+      "evidence": {
+        "type": "observed",
+        "description": "On 360x780, the fixed bottom payment bar covers the second line of the card-number error after submit.",
+        "viewport_ids": [
+          "narrow-360x780"
+        ],
+        "selector_or_region": "bottom payment bar / card number field"
+      },
+      "impact": "Users may not see the recovery instruction and may repeatedly submit the same invalid card number.",
+      "recommendation": "Reserve bottom padding equal to the sticky CTA height plus safe-area inset, or move field-level errors above the sticky bar when the keyboard/error state is active.",
+      "owner_hint": "engineering"
+    },
+    {
+      "id": "finding-002",
+      "severity": "medium",
+      "category": "text_overflow",
+      "title": "Saved-card label truncates before the identifying digits",
+      "evidence": {
+        "type": "observed",
+        "description": "The saved-card row truncates the card label as 'Corporate travel Visa end...' on the narrow viewport.",
+        "viewport_ids": [
+          "narrow-360x780"
+        ],
+        "selector_or_region": "saved payment method row"
+      },
+      "impact": "Users with multiple cards may not know which payment method is selected.",
+      "recommendation": "Keep the final four digits in a non-shrinking text span and truncate the nickname before the card network or digits.",
+      "owner_hint": "design"
+    },
+    {
+      "id": "finding-003",
+      "severity": "low",
+      "category": "contrast",
+      "title": "Placeholder contrast should be measured before release",
+      "evidence": {
+        "type": "inferred",
+        "description": "Placeholder text appears visually faint in light mode, but exact contrast values were not measured.",
+        "viewport_ids": [
+          "common-390x844"
+        ],
+        "selector_or_region": "payment input placeholders"
+      },
+      "impact": "Users with low vision may confuse placeholders with disabled or unavailable fields.",
+      "recommendation": "Measure placeholder, helper, and disabled text contrast against the field background and adjust tokens if needed.",
+      "owner_hint": "qa"
+    }
+  ],
+  "unverified": [
+    {
+      "category": "reduced_motion",
+      "reason": "The local artifact did not expose reduced-motion emulation during this review.",
+      "needed_evidence": "Run the screen with reduced-motion preference enabled or provide a recording of the reduced-motion path."
+    },
+    {
+      "category": "contrast",
+      "reason": "Visual inspection can only flag contrast risk, not prove exact ratios.",
+      "needed_evidence": "Measured foreground/background color values for placeholder, helper, error, disabled, and primary CTA states."
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "p1",
+      "title": "Fix narrow-viewport error overlap",
+      "action": "Add reserved bottom spacing for the sticky CTA and test the payment-error state at 360 px width.",
+      "success_criteria": "Field-level error text remains fully visible with the sticky CTA and simulated keyboard present."
+    },
+    {
+      "priority": "p2",
+      "title": "Protect payment-method identity under truncation",
+      "action": "Make final four digits non-shrinking and truncate the custom card nickname first.",
+      "success_criteria": "The selected card row always shows card network and final four digits at 360 px width."
+    },
+    {
+      "priority": "p3",
+      "title": "Measure contrast tokens",
+      "action": "Capture foreground/background pairs for placeholder, helper, disabled, error, and CTA text.",
+      "success_criteria": "Contrast findings are upgraded from inferred risk to measured pass/fail."
+    }
+  ]
+}

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.15.0] - 2026-04-25
+
+### Added
+- Synthetic case-study calibration pack at `docs/synthetic-case-studies.md` and `examples/case-studies/`, covering 12 bad-to-good mobile design response cases without real products or screenshots.
+- Text-only visual review fixture pack at `docs/visual-review-fixtures.md` and `examples/visual-review-fixtures/`, covering six Figma-like review scenarios with expected critique and prohibited overclaims.
+- Benchmark report format at `docs/benchmark-report-format.md` plus `examples/benchmark-report.md` for turning 3-5 references into borrow / do-not-copy / token-component-state guidance.
+- Domain packs under `docs/domain-packs/` for fintech, health, SaaS, marketplace, social, and education.
+- Optional rendered-output QA workflow at `docs/rendered-output-qa.md` with report schema and sample report under `examples/rendered-output-qa/`.
+- Machine-readable metadata for synthetic case studies, domain packs, visual review fixtures, benchmark reports, and rendered-output QA.
+
+### Changed
+- `SKILL.md`, the Claude Code wrapper, `skill/skill.md`, `skill/usage.md`, README, `docs/workflow.md`, `docs/evals.md`, and `docs/design-quality-rubric.md` now surface the synthetic calibration and optional QA layers.
+- `scripts/validate_repo.py` now validates the new synthetic case studies, domain packs, visual review fixtures, benchmark report format, rendered-output QA schema/sample, and required references.
+
 ## [1.14.0] - 2026-04-25
 
 ### Added

@@ -75,6 +75,7 @@ For every evaluated response:
 - [ ] Evidence boundaries are clear: facts, assumptions, recommendations, and unverifiable items are separated where risk exists.
 - [ ] The response is buildable enough for the requested mode: states, behaviors, values, tokens, QA checks, or validation focus are present as appropriate.
 - [ ] The 1-5 design-quality rubric from [`design-quality-rubric.md`](design-quality-rubric.md) is applied when the response proposes, specifies, reviews, or rationalizes a design artifact.
+- [ ] Relevant synthetic case studies, visual-review fixtures, domain packs, benchmark report format, or rendered-output QA guidance are used for calibration when the task matches those surfaces.
 
 Hard-fail the response if it matches a P0 or P1 weakness in `docs/weaknesses.md`.
 
@@ -353,12 +354,21 @@ For content validation:
 
 The files in `examples/` are treated as regression targets. The compact golden examples in [`../examples/golden/`](../examples/golden/) are taste and domain calibration targets, not full structural examples.
 
+Synthetic calibration resources:
+
+- [`synthetic-case-studies.md`](synthetic-case-studies.md) and [`../examples/case-studies/`](../examples/case-studies/) — bad-to-good response calibration without real products or screenshots
+- [`visual-review-fixtures.md`](visual-review-fixtures.md) and [`../examples/visual-review-fixtures/`](../examples/visual-review-fixtures/) — Figma-like text review fixtures for Mode D evidence discipline
+- [`domain-packs/index.md`](domain-packs/index.md) — domain-aware mobile playbooks for fintech, health, SaaS, marketplace, social, and education
+- [`benchmark-report-format.md`](benchmark-report-format.md) and [`../examples/benchmark-report.md`](../examples/benchmark-report.md) — benchmark reporting for 3-5 references without copying or evidence overreach
+- [`rendered-output-qa.md`](rendered-output-qa.md) and [`../examples/rendered-output-qa/`](../examples/rendered-output-qa/) — optional post-implementation QA report structure
+
 When the skill, `modes.md`, or `templates.md` changes:
 
 1. Re-generate each example with the updated skill.
 2. Score the regenerated response against this file.
 3. Compare to the committed example; any content regression should block the change.
 4. Spot-check the golden examples for domain-specific regressions in premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
+5. Spot-check synthetic case studies, visual review fixtures, benchmark reports, and domain packs when changing prompt behavior that affects these surfaces.
 
 ---
 
