@@ -302,16 +302,14 @@ Output:
 Output:
 - Mode
 - Platform scope
+- Sub-case (D1 / D2 / D3 / D4)
 - Assumptions
 - Quick summary
 - Strengths
-- Usability issues
-- Accessibility issues
-- Hierarchy and readability issues
-- Design quality issues
-- Navigation and interaction issues
-- Severity or priority
-- Recommended fixes
+- Findings (each one causal chain: Lens, Observation, Violated principle, User consequence, Change, Predicted effect, Severity 0–4, Moves)
+- Design quality score (current → projected, with per-dimension table)
+- Severity index
+- Bold move (optional — only when the trigger is met)
 - Platform-convention mismatches
 - Unresolved assumptions
 - Practical next actions

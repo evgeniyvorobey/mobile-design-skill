@@ -80,8 +80,10 @@ Use these for:
 Use when official guidance does not fully answer design tradeoffs or when learning from production examples.
 
 Primary references:
-- Nielsen Norman Group mobile UX guidance
+- Nielsen Norman Group mobile UX guidance (incl. severity ratings and "Making Usability Findings Actionable")
 - Baymard mobile UX research
+- Luke Wroblewski, *Web Form Design* (form and input patterns)
+- Jon Yablonski, *Laws of UX* (umbrella for Fitts, Hick, Doherty, Jakob, Aesthetic-Usability)
 - Material Partner Studies
 - Apple design videos and resources
 - Android adaptive app stories
@@ -210,6 +212,19 @@ They must not be used for:
 - compliance claims
 - usability proof
 - fabricated trend or popularity claims
+
+### Distinctiveness and creative-range references
+
+These inform visual range and the distinctiveness levers in [`design-quality.md`](design-quality.md). They are NOT evidence for usability, accessibility, platform correctness, or compliance.
+
+- Marty Neumeier, *Zag* / *The Brand Gap* (radical differentiation, the Onlyness test)
+- Byron Sharp & Jenni Romaniuk, *Building Distinctive Brand Assets* (fame × uniqueness)
+- Noriaki Kano, the Kano model (must-be / performance / attractive quality)
+- Don Norman, *Emotional Design* (visceral / behavioral / reflective)
+- Aarron Walter, *Designing for Emotion*; Stephen Anderson, *Seductive Interaction Design*
+- Alla Kholmatova, *Design Systems* (functional vs. perceptual patterns)
+- Val Head, *Designing Interface Animation*; Disney's twelve principles of animation
+- Ellen Lupton, *Thinking with Type* (typographic personality)
 
 ---
 
@@ -387,3 +402,7 @@ These are the normalized public links maintainers can cite, verify, or review wh
 - [IDEO.org Design Kit](https://www.designkit.org/resources/1.html)
 - [Stanford d.school Design Thinking Bootleg](https://dschool.stanford.edu/tools/design-thinking-bootleg)
 - [Google Design expressive design research](https://design.google/library/expressive-material-design-google-research)
+- [Edward de Bono — Lateral Thinking](https://www.debonogroup.com/services/core-programs/lateral-thinking/)
+- [SCAMPER technique](https://en.wikipedia.org/wiki/SCAMPER)
+- [Jobs-to-be-Done (Strategyn / Ulwick)](https://strategyn.com/jobs-to-be-done/)
+- [Google Design Sprint Kit — Crazy 8s](https://designsprintkit.withgoogle.com/methodology/phase3-sketch/crazy-8s)

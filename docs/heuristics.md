@@ -286,6 +286,22 @@ Heuristics are rules of thumb, not laws. Apply them with context in mind (`docs/
 
 ---
 
+### Cognitive Load Theory
+
+**What**: Working memory is limited; extraneous load (clutter, decoration, redundant choices) competes with the task and is the load designers can most directly cut.
+
+**Mobile application**:
+- Reduce extraneous load before adding polish: one primary task per screen, progressive disclosure for the rest.
+- Prefer recognition and smart defaults over inputs the app could infer.
+- Treat dense decoration as a cost, not a feature.
+
+**Red flag**:
+- Over-decorated screens where ornament competes with the task. Name "extraneous load" as the violated principle for clutter findings.
+
+**Source**: Sweller (1988).
+
+---
+
 ## Nielsen's 10 Usability Heuristics (mobile adaptation)
 
 Each of Nielsen's heuristics, adapted for mobile. Use during Mode D reviews and as a check during generation.
@@ -389,6 +405,36 @@ Elements within a visible container are perceived as grouped even if similar ele
 
 ---
 
+## Form and review principles
+
+### Form design (Wroblewski)
+
+**What**: Form usability comes from labeling, alignment, required-field marking, and error prevention — not styling.
+
+**Mobile application**:
+- Persistent visible labels (never placeholder-as-label); mark required fields before submit.
+- Validate on blur with helper text; keep the primary action reachable on long forms.
+- Distinguish primary from secondary actions; preserve entered data on error.
+
+**Red flag**:
+- Placeholder-only labels, required fields revealed only at submit, error signalled by color alone.
+
+**Source**: Luke Wroblewski, *Web Form Design* (2008).
+
+---
+
+### Severity rating (Nielsen 0–4)
+
+**What**: Rate each review finding 0–4 reasoned as frequency × impact × persistence (0 not a problem, 1 cosmetic, 2 minor, 3 major, 4 catastrophe).
+
+**Mobile application**:
+- Order findings by user impact, not by how much they bother you visually.
+- A catastrophe (irreversible data loss, blocked task) is a 4 even if rare; a cosmetic nit is a 1 even if frequent.
+
+**Source**: Nielsen, severity ratings for usability problems (NN/g, 1994).
+
+---
+
 ## How to apply heuristics
 
 ### During generation (Mode A, B, C, E, F)
@@ -400,12 +446,16 @@ When producing a design or spec, check each major decision against the heuristic
 - Does the flow respect interruption-resilience?
 - Is progress visible per Zeigarnik and goal-gradient?
 - Are platform conventions respected per Jakob?
+- Is extraneous cognitive load minimized (Cognitive Load Theory)?
+- For forms, are labels, required marking, and error prevention handled (Wroblewski)?
 
 Cite the relevant heuristic in the `Rationale for major choices` or `Pattern choices and why` block when it is the primary driver of a decision.
 
 ### During review (Mode D)
 
 Use the Red Flag items above as a concrete violation checklist. Every red flag maps to a heuristic and should be cited in the review output with the heuristic name, not as a vague "this feels off".
+
+For each finding, name the violated principle (including Cognitive Load Theory for clutter and Wroblewski for forms) and rate severity on the Nielsen 0–4 scale by user impact.
 
 ### Conflict resolution
 

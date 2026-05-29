@@ -41,11 +41,14 @@ For generated or specified design artifacts, the score is primarily internal:
 - if the draft scores **3/5 or below** and the missing context is not blocking, revise the design before returning
 - if missing input prevents a 4/5 recommendation, state the limitation in `Assumptions` or `Unresolved assumptions`
 
-For reviews, expose the score:
+For reviews, expose both a current and a projected score. The projection is conditional and is derived from the improvement ladder below — never asserted as achieved:
 
 ```md
-- Current design quality score: [1-5]/5 — [short reason]
+- Current: [1-5]/5 — [short evidence-based reason; "provisional" for D2/D3 text-only]
+- Projected after the recommended fixes: [1-5]/5 — conditional: requires the listed High+Medium fixes to land AND the named assumptions to hold; capped at 4/5 unless resilience conditions are named and confirmable. For D2/D3, doubly provisional — visual dimensions are not projected upward.
 ```
+
+The projected score is the median of the per-dimension projected column (not the sum of per-dimension gains); a cap lifts only when the specific fix that meets its condition is present, and a P0/Fail is never projected up to a number.
 
 For generation, specs, typography systems, and handoff, expose the target only when useful:
 
@@ -97,6 +100,7 @@ Apply these caps before calculating the final score:
 - Visual assertions from text-only review input cap Mode D score confidence; label the score as provisional or restrict it to structural quality.
 - Aesthetic-only recommendations cap the design-quality score at **2/5** until translated into task, accessibility, or implementation mechanisms.
 - Platform flattening in materially different iOS/Android behavior caps cross-platform outputs at **3/5**.
+- An inert screen — competent on all dimensions but failing the inert-screen test in `docs/design-quality.md` — caps at **3/5** with an upside note (not a quiet 4/5) until it carries at least one owned distinctive asset or a justified signature moment.
 
 ---
 

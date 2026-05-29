@@ -43,6 +43,7 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 
 ### Substance
 - Does every recommendation have a reason tied to user goal, task, accessibility, readability, or implementation — not aesthetic preference?
+- For a recommendation that changes a design, did I state its intended effect, not just the change itself?
 - For each major design decision, have I named at least one alternative and said why it was rejected? If not, the decision was not actually made.
 - Are there any sentences that could be deleted without losing information? Delete them.
 
@@ -71,11 +72,12 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - If the response proposes, specifies, reviews, or rationalizes a design artifact, did I apply the relevant lenses from `docs/design-quality.md`?
 - Did I apply the 1-5 rubric from `docs/design-quality-rubric.md`?
 - For generated/specification outputs, would the draft score at least 4/5? If not, did I revise the weak dimension or state the missing input?
-- For Mode D reviews, did I expose the current design-quality score with a reason and evidence limits?
+- For Mode D reviews, did I expose both a current and a projected (conditional) design-quality score with a reason and evidence limits?
 - Did I define the intended attention path rather than only listing components?
 - Did I translate visual quality into concrete mechanisms such as size, spacing, alignment, color role, density, motion, state treatment, or tokens?
 - Did I avoid using "premium", "clean", "modern", "delightful", or "polished" as unexplained taste words?
 - Did visual expression support task clarity and accessibility rather than hide missing states, weak hierarchy, or inaccessible interactions?
+- Inert-screen test: if this screen lost its logo and brand color, would it still be distinguishable from a competitor's? If not, flag it as inert (3/5 with an upside note), not a quiet 4/5.
 
 ### Inspiration handling
 - If I used inspiration sources, are they clearly separated from UX rationale, platform guidance, accessibility requirements, and compliance language?
@@ -122,8 +124,11 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Did I classify the sub-case (D1 visual / D2 description only / D3 problem statement / D4 context change) at the top?
 - For D2 (description only): did I avoid asserting visual properties (contrast, spacing values, visual weight)?
 - Did I find at least one genuine strength? A review with only negatives is biased, not thorough.
-- Does every severity-High issue have a concrete recommended fix, not a restatement of the issue?
-- Is severity assigned based on user impact, not on how much it bothers me visually?
+- Is each finding a single causal chain (observation → violated principle → user consequence → change → predicted effect), with no issue split from its fix and no orphaned fix?
+- Does every finding name the violated principle, and does every predicted effect name a user outcome (directional + confidence), not a restatement of the change?
+- Is severity rated 0–4 (Nielsen = frequency × impact × persistence) and based on user impact, not on how much it bothers me visually?
+- Did I expose both a current and a projected score, with the projection conditional, capped at 4/5 unless resilience is named, and labeled provisional for D2/D3?
+- If a Bold move is present: is its trigger met, all fields complete, and kept separate from required fixes — and did I withhold any UX-strengthening move only because it contradicts the product (if so, move it here)?
 
 ### Mode E: Create typography and spacing system
 - Are type roles named (Display, Title, Body, etc.), not just a list of sizes?

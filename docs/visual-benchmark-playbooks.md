@@ -60,6 +60,8 @@ Better:
 5. Re-check the result against the skill's quality bars.
    Confirm contrast, text scaling, touch target size, navigation recovery, content hierarchy, state coverage, and platform fit before presenting the benchmark-backed recommendation.
 
+Sourced discipline: NN/g "Competitive Usability Evaluations" distinguishes competitive *reviews* (expert) from competitive *testing* (users) and warns "you want to beat the competition, not copy them." NN/g "7 Steps to Benchmark Your Product's UX" frames a benchmark as a metric to measure against, never a design to replicate.
+
 ---
 
 ## Mobbin

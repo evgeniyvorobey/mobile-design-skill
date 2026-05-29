@@ -78,6 +78,134 @@ A personal finance dashboard summarizes checking, savings, credit card balance, 
 - Product wants density, but the screen must still support large text.
 - The dashboard should avoid implying financial advice.
 
+## Example output
+
+```md
+Mode: Review screen for usability/accessibility
+Platform scope: Cross-platform mobile
+Sub-case: D2 description only (text description provided, no visual asset)
+Assumptions:
+- This is a phone-first home screen, 390 x 844 px.
+- Privacy masking exists only in account settings, not on this screen.
+- Dark mode is planned but undescribed, so it is out of scope for evidence.
+
+## Quick summary
+The dashboard packs a useful financial overview into one screen, but it is structurally overloaded and trust-fragile: nine information groups compete in the first viewport, account assets and credit-card debt are not semantically separated, status meaning rides on color alone, stale-data and error handling are thin, and sensitive balances cannot be masked from here. Current quality is low for a money-status surface. The structural fixes below have a clear path to a stronger score, but visual properties cannot be confirmed from text.
+
+## Strengths
+- Provides a genuinely useful high-level financial summary in one place.
+- Gives direct access to each account via tappable account cards.
+- Offers a clear primary action ("Move money") for the most common next step.
+
+## Findings
+
+### F1 — Sensitive balances cannot be hidden from the dashboard
+- Lens: Usability
+- Observation: Privacy masking is reachable only from account settings; the dashboard itself exposes net worth and balances with no on-screen control, and the screen may be used in public.
+- Violated principle: Nielsen #3 User control and freedom; Nielsen #7 Flexibility and efficiency (fast access to a frequent need).
+- User consequence: Users in public settings cannot quickly hide financial data, exposing sensitive amounts to shoulder-surfing and eroding trust in the product.
+- Change: Add a compact privacy toggle (or quick gesture) on the dashboard that masks amounts in place and persists per session.
+- Predicted effect: Should reduce unwanted exposure of sensitive amounts; confidence M (D2 text-only — structural inference, not measured).
+- Severity: 3 (major) — frequent (any public use), high impact (sensitive data), persistent (every visit until masked).
+- Moves: Production readiness 2→3; lifts cap: trust gap on sensitive-data exposure.
+
+### F2 — Stale financial data is signaled only by a timestamp
+- Lens: Usability
+- Observation: Stale data state relies on the single "as of 7:10 AM" timestamp in the net worth card; bank sync or investment data may be delayed without per-group freshness.
+- Violated principle: Nielsen #1 Visibility of system status.
+- User consequence: Users may act on out-of-date balances (e.g. move money against a stale figure) because freshness is neither per-group nor prominent.
+- Change: Expose sync freshness per data group; surface a clear "data may be delayed" state when sync is behind, distinct from normal.
+- Predicted effect: Should reduce decisions made on stale balances; confidence M (D2 text-only).
+- Severity: 3 (major) — occasional but high impact (financial decisions), persistent across sync delays.
+- Moves: Production readiness 2→3; lifts cap: stale-data ambiguity.
+
+### F3 — Status meaning carried by color alone
+- Lens: Accessibility
+- Observation: Positive/negative movement is green/red, the due-today bill is red text only, and spending-chart categories are differentiated by hue only.
+- Violated principle: WCAG use-of-color (1.4.1) — do not use color as the only means of conveying information.
+- User consequence: Users with color-vision differences or in low-light/glare may miss gains/losses, an urgent due-today bill, or which spending category is which.
+- Change: Pair movement with a sign/arrow + text, label the due-today bill with text/icon, and add labels or patterns to chart categories — do not rely on hue alone.
+- Predicted effect: Should reduce misread financial status under color-vision or glare conditions; confidence M (cannot verify rendering from text).
+- Severity: 3 (major) — frequent, high impact (financial status), persistent.
+- Moves: Production readiness 2→3; lifts cap: color-only status risk.
+
+### F4 — Weak loading and error recovery
+- Lens: Usability
+- Observation: Loading shows spinners in every card; the error state is a single generic toast ("Something went wrong"); offline is undescribed.
+- Violated principle: Nielsen #1 Visibility of system status; Nielsen #9 Help users recognize, diagnose, and recover from errors.
+- User consequence: All-card spinners hide which data is actually unavailable, and a generic toast neither explains the failure nor preserves trust in the rest of the screen.
+- Change: Use per-group loading/error/offline cards that name which data is unavailable and offer retry; preserve last-known values where safe.
+- Predicted effect: Should improve recovery and preserve trust during partial failures; confidence M (D2 text-only).
+- Severity: 3 (major) — occasional but high impact, persistent until states are defined.
+- Moves: Production readiness 2→3; Interaction polish 2→3.
+
+### F5 — Overcrowded first viewport
+- Lens: Hierarchy & readability
+- Observation: The first viewport contains nine separate information groups (net worth, three account cards, spending ring, bills, investment chart, credit warning chip, sticky CTA) competing before the user confirms current position.
+- Violated principle: Cognitive load (extraneous); Hick's Law (too many competing targets); Gestalt proximity / common region.
+- User consequence: The user must scan many competing groups to answer "where do I stand," raising effort and slowing the core task.
+- Change: Reduce first-viewport groups; lead with current position, then progressively reveal detail; group accounts (assets) separately from liabilities (credit card debt).
+- Predicted effect: Should reduce scanning effort to confirm financial position; confidence M (perceived density not measurable from text).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Attention path & hierarchy 2→3.
+
+### F6 — Assets and liabilities not semantically separated
+- Lens: Hierarchy & readability
+- Observation: Net worth, account balances, and credit-card debt share the same card treatment without strong separation between what the user owns and what the user owes.
+- Violated principle: Gestalt common region; Cognitive load (extraneous).
+- User consequence: Users may misread their true position when assets and debt are visually interchangeable, weakening financial clarity.
+- Change: Visually and structurally separate assets from liabilities (distinct grouping/section), and make the credit-card balance read as a liability, not another account.
+- Predicted effect: Should reduce misreading of net position; confidence M (D2 text-only).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Attention path & hierarchy 2→3.
+
+### F7 — Small labels and over-truncation
+- Lens: Hierarchy & readability
+- Observation: Several roles sit at 10-11 px (chart labels, due dates/timestamps, bottom-nav labels) and some rows truncate after 16 characters; the screen must still support large text.
+- Violated principle: Cognitive load (extraneous); legibility/readability under text scaling.
+- User consequence: Small labels and aggressive truncation can hide merchant names and metadata, especially at larger text sizes, harming scanning.
+- Change: Raise minimum label sizes, allow wrapping or progressive disclosure instead of hard truncation, and verify behavior at large text settings.
+- Predicted effect: Should improve label legibility and reduce truncation loss at large text; confidence L (exact sizes/contrast not verifiable from text).
+- Severity: 1 (cosmetic) — frequent, low-to-moderate impact, persistent; keep qualified (no screenshot).
+- Moves: Typography craft n/v→n/v (not raised from text).
+
+## Design quality score (current → projected)
+- Current: 2/5 — provisional (D2 text-only). Pinned by sensitive-data exposure (F1), stale-data ambiguity (F2), and color-only status (F3).
+- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3+F4 to land (plus F5/F6 grouping) AND a visual pass to confirm contrast, spacing, and large-text behavior. Doubly provisional (D2): visual dimensions are not raised from text.
+- Ceiling note: capped at 4/5 — resilience (large-text, dark mode, color-vision rendering) is unverified from the description.
+- Largest single lever: F1 + F2 + F3 (the trust trio that pins a money-status surface at 2).
+
+| Dimension | Now | Projected | Gated by | Confidence |
+|-----------|-----|-----------|----------|------------|
+| Attention path & hierarchy | 2 | 3 | F5/F6 grouping (rung 2→3) | provisional |
+| Production readiness | 2 | 4 | F1/F2/F3/F4 lift trust caps | provisional |
+| Interaction polish & motion | 2 | 3 | F4 states (rung 2→3) | provisional |
+| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
+| Typography craft | n/v | n/v | sizes/contrast not from text | not-from-text |
+- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+
+## Severity index
+- 4 (catastrophe): none
+- 3 (major): F1, F2, F3, F4
+- 2 (minor): F5, F6
+- 1 (cosmetic): F7
+
+## Platform-convention mismatches
+- Cross-platform caution: the sticky "Move money" CTA and bottom navigation must respect each platform's safe-area and navigation conventions rather than behaving like a web layout dropped into a phone.
+- Privacy masking and quick controls should follow platform-idiomatic patterns (e.g. gesture vs. control) per OS rather than a single forced pattern.
+
+## Unresolved assumptions
+- Cannot verify contrast ratios, exact spacing, or visual weight from text.
+- Cannot verify chart readability; the hue-only encoding is a stated risk, not a measured failure.
+- Cannot verify tap-target sizes from the description.
+- Cannot verify large-text or dark-mode resilience from text alone.
+
+## Next actions
+- Add an on-dashboard privacy toggle and per-group sync-freshness state before polishing visuals.
+- Separate assets from liabilities, reduce first-viewport groups, and add non-color status cues.
+- Run a visual pass with large text, color-vision simulation, and partial-failure scenarios to confirm the projected score.
+```
+
 ## Expected critique
 
 - The review should identify density and hierarchy risk: 9 information groups compete before the user confirms current financial position.
@@ -100,11 +228,15 @@ A personal finance dashboard summarizes checking, savings, credit card balance, 
 
 ## Severity expectations
 
-- High: sensitive data exposure, stale financial data ambiguity, color-only risk for financial status, weak error recovery for account sync.
-- Medium: overcrowded hierarchy, overuse of small labels, carousel hiding account comparison.
-- Low: bottom navigation label size and visual polish should remain qualified because no screenshot is provided.
+Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catastrophic; Medium to 2; Low to 1).
+
+- 3 (major): sensitive data exposure, stale financial data ambiguity, color-only risk for financial status, weak error recovery for account sync.
+- 2 (minor): overcrowded hierarchy, assets/liabilities not separated, carousel hiding account comparison.
+- 1 (cosmetic): bottom-navigation label size, small labels, and visual polish should remain qualified because no screenshot is provided.
 
 ## Rubric score expectation
 
-- Expected current design-quality score: 2/5.
-- Reason: the screen has a useful structure, but trust, hierarchy, state handling, and color semantics are weak enough to create material financial understanding risk.
+- Expected score: current 2/5 -> projected up to 4/5 (conditional, provisional D2).
+- Reason for current: the screen has a useful structure, but trust, hierarchy, state handling, and color semantics are weak enough to create material financial understanding risk.
+- Reason for projected: landing the major findings (privacy toggle, per-group freshness, non-color status, per-group error states) plus grouping fixes can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because visual dimensions (contrast, spacing, large-text rendering) cannot be raised from a text-only description.
+- No Bold move is expected: the screen has unresolved severity-3 findings, so the Bold move trigger is not met.

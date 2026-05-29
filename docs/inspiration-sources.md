@@ -67,6 +67,46 @@ Use when the user asks for visual exploration, brand direction, moodboards, or c
 
 ---
 
+## Reasoning and point-of-view sources (derivation layer)
+
+The tiers above are a *retrieval* layer — places to see what exists. These are a *derivation* layer: they teach why strong products made a decision, so you can reason about your own context. They go beyond Apple/Google. The same rule applies — never proof of usability, accessibility, platform correctness, or compliance.
+
+### Production-reasoning sources (the "why", not the look)
+
+| Source | Teaches | Do NOT use for |
+|--------|---------|----------------|
+| Airbnb Design (DLS, "Building a Visual Language") | Deriving a system from named principles; cross-platform componentization | Proof your tokens are accessible or platform-correct |
+| The Linear Method | Opinionated defaults that reduce user decisions; scoping and quality-bar mindset | Usability/accessibility evidence |
+| Stripe design/engineering writing | Reasoning behind developer experience and accessible color-system construction | A blanket "Stripe does X so X is correct" |
+| Figma blog; Intercom product principles; Spotify Design | Process, design-system governance, decision frameworks | Platform-behavior or compliance proof |
+| Shopify Polaris | Stated reasoning behind dense/admin patterns | Assuming Polaris reasoning transfers to your platform |
+| Smashing Magazine; A List Apart | Technique deep-dives and durable craft principles | Authoritative standards (defer to WCAG/HIG/Material) |
+
+### Editorial / typographic / compositional schools (range beyond platform defaults)
+
+| School | Teaches | Do NOT use for |
+|--------|---------|----------------|
+| Swiss / International Typographic Style | Grid, hierarchy, and whitespace as compositional logic | Accessibility or interaction proof |
+| Müller-Brockmann, *Grid Systems* | Modular grids richer than the 4/8pt platform grid | A guarantee of usability |
+| Vignelli, *The Vignelli Canon* | Typographic restraint; principle over novelty | Platform/accessibility proof |
+| Brutalist / editorial web craft | Expressive composition and editorial pacing for low-risk surfaces | Mobile usability or task-critical flows |
+
+### Point-of-view products (study the PRINCIPLE, never copy the surface)
+
+| Product | The one transferable principle |
+|---------|-------------------------------|
+| Linear | Opinionated defaults reduce decision cost |
+| Arc / The Browser Company | The "novelty tax": weigh novelty against learnability |
+| Things / Cultured Code | Craft as subtraction |
+| Teenage Engineering | Constraints as a creative feature |
+| Superhuman | Perceived speed as a design material |
+| Duolingo | Motivation mechanics on named psychology (with an ethics caveat) |
+| Monzo / Revolut / Robinhood | Personality inside a trust constraint |
+| Headspace / Calm | Pace and calm as design materials |
+| Spotify Wrapped | Data storytelling over data visualization |
+
+---
+
 ## Canonical URLs
 
 ### Production UI and flows
@@ -125,6 +165,37 @@ When inspiration is useful, keep it separate from UX rationale:
 Do not overfit the user's design to a gallery trend. Use references to widen options, then choose using the skill's normal workflow: task clarity, context, platform conventions, accessibility, quality bars, pattern matrices, and implementation constraints.
 
 Use [`benchmark-report-format.md`](benchmark-report-format.md) when the task needs a structured 3-5 reference comparison. It keeps benchmark observations separate from proof and translates references into tokens, components, states, and QA checks.
+
+---
+
+## Generative direction method
+
+When the user wants a fresh direction (not just references), derive one instead of retrieving a gallery. Run this only AFTER the design is grounded in the evidence hierarchy; it widens options, it does not replace grounding.
+
+1. Reframe the job (JTBD): "When [situation], I want to [motivation], so I can [outcome]."
+2. Open the question (How Might We): 2–3 HMW questions from the job.
+3. Diverge fast (Crazy Eights): 8 distinct directions in one timeboxed pass to beat first-idea bias.
+4. Inject a forced input (de Bono Random Entry / "Po"): a random word, a point-of-view product's principle, or a compositional school — plus one deliberate provocation.
+5. Transform a baseline (SCAMPER): Substitute, Combine, Adapt, Modify, Put-to-other-use, Eliminate, Reverse.
+6. Cross-industry analogy: borrow a *mechanism* from a non-competitor domain, never its surface.
+7. Converge on 2–3 directions, each named as a short thesis (not a moodboard).
+8. Translate to mechanism (mandatory): spacing/grid ratio, density choice with a reason, type roles, motion intent + reduced-motion fallback, one composition move, color/semantic tokens, state coverage.
+9. Re-check against the evidence hierarchy (contrast, text scaling, touch targets, navigation recovery, platform fit).
+
+A direction is not "done" until it exists as tokens, components, and states — never as adjectives.
+
+---
+
+## Reference → transferable mechanism
+
+A reference is never reproduced; it is decomposed into the mechanism it implies.
+
+- airy feel → a spacing ratio (baseline grid + line-height), not a screenshot
+- "premium" density → an explicit density choice with a reason, validated against touch-target and readability minimums
+- a reference's motion → a motion intent (orientation/feedback) + timing + reduced-motion fallback
+- a striking layout → one composition move (e.g. an asymmetric grid), expressed as columns/zones
+
+Benchmark to learn, not to copy: NN/g "Competitive Usability Evaluations" ("you want to beat the competition, not copy them") and "7 Steps to Benchmark Your Product's UX" (a benchmark is a metric to measure against, not a design to replicate).
 
 ---
 

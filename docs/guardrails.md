@@ -66,6 +66,8 @@ Better:
 - “Increase separation between summary and secondary controls to make the primary task easier to scan.”
 - “Reduce type-style variation so the screen has a more stable reading hierarchy.”
 
+Carve-out for bold moves: a recommendation that contradicts the current product or direction is not aesthetic-only when it is justified by a named usability, accessibility, or hierarchy mechanism AND surfaced in the Mode D `Bold move` block with its tradeoff and validation path. Aesthetic-only contradictions ("make it premium", "feels dated") remain a failure.
+
 ---
 
 ## 5. Do not treat inspiration sources as evidence

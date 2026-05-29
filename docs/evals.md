@@ -163,25 +163,30 @@ Hard-fail the response if it matches a P0 or P1 weakness in `docs/weaknesses.md`
 
 ### Structural validation
 - [ ] Response begins with `Mode: Review screen for usability/accessibility`
-- [ ] Contains sections: `Quick summary`, `Strengths`, `Usability issues`, `Accessibility issues`, `Hierarchy and readability issues`, `Design quality issues`, `Navigation and interaction issues`, `Severity or priority`, `Recommended fixes`, `Unresolved assumptions`
+- [ ] Contains sections: `Quick summary`, `Strengths`, `Findings`, `Design quality score (current → projected)`, `Severity index`, `Unresolved assumptions`
 - [ ] Sub-case is classified in the opening (visual / description-only / problem-statement / context-change)
-- [ ] Severity uses consistent tiers (High/Medium/Low or equivalent)
+- [ ] Severity uses the Nielsen 0–4 scale per finding
 - [ ] At least one strength is identified (not only negatives)
 
 ### Content validation
-- [ ] Issues are concrete, not aesthetic opinions ("form is too long without grouping" vs "feels cluttered")
-- [ ] Every severity-High issue has a recommended fix
+- [ ] Each finding is one causal chain: observation → violated principle → user consequence → change → predicted effect (no issue split from its fix)
+- [ ] Every finding names the violated principle (heuristic/law), not "feels off"
+- [ ] Every predicted effect names a user outcome, stated directionally with a confidence level and no fabricated percentages
+- [ ] Findings are concrete, not aesthetic opinions ("form is too long without grouping" vs "feels cluttered")
+- [ ] Both a current and a projected score are present; the projection is conditional (IF fixes land AND assumptions hold) and capped at 4/5 unless resilience is named
 - [ ] Unresolved assumptions list what cannot be verified from the provided material
-- [ ] For description-only reviews: visual/aesthetic claims are qualified ("cannot verify from description")
-- [ ] Design quality issues do not assert color, spacing, balance, contrast, or visual weight from text-only input without qualifier
+- [ ] For description-only reviews: visual/aesthetic claims are qualified ("cannot verify from description"), and visual dimensions are not projected upward
+- [ ] Findings do not assert color, spacing, balance, contrast, or visual weight from text-only input without qualifier
 - [ ] For problem-statement reviews: diagnosis is differentiated from assessment
+- [ ] If a Bold move is present: trigger met, all fields complete, kept separate from required fixes
 - [ ] Compliance language avoided (see shared fail conditions)
 
 ### Fail conditions
 - Review asserts visual properties (color, contrast, spacing) from text-only input without qualifier
 - No strengths section or "no strengths found"
-- Severity tiers inconsistent within the response
-- Recommended fixes repeat the issue without actionable change
+- A finding splits the issue from its fix, or a change is stated without a predicted effect
+- Projected score asserted without conditional phrasing (IF fixes land AND assumptions hold), or a P0/Fail projected up to a number
+- Bold move offered without its trigger met, or missing required fields (deviation, JTBD job, validation path)
 - Compliance claim without verified evidence
 
 ---
@@ -264,8 +269,9 @@ For generated concepts, UI specs, typography systems, and handoff:
 
 For reviews:
 
-- [ ] `Design quality issues` includes a current score such as `Current design quality score: 2/5 — ...`.
-- [ ] Text-only reviews label the score as structural/provisional when visual evidence is missing.
+- [ ] `Design quality score (current → projected)` includes both a current score and a projected score (e.g. `Current: 2/5 — ...` and `Projected after the recommended fixes: 4/5 — conditional ...`).
+- [ ] The projection is conditional (IF fixes land AND assumptions hold) and capped at 4/5 unless resilience is named; a P0/Fail is not projected up to a number.
+- [ ] Text-only reviews label both scores as structural/provisional, and visual dimensions are not projected upward.
 - [ ] Score rationale references concrete dimensions: hierarchy, spacing, typography, color/state, interaction polish, brand/context fit, or production readiness.
 
 ### Rubric eval fixtures

@@ -12,7 +12,7 @@ Each mode includes:
 
 All modes also use `docs/weaknesses.md` as a failure-mode preflight. The goal is to prevent outputs that are structurally complete but generic, overconfident, aesthetic-only, platform-flattened, or weakly buildable.
 
-Modes that propose, specify, review, or rationalize a design artifact also use `docs/design-quality-rubric.md`. Generated/specification outputs should internally target 4/5; reviews should expose the current score with evidence limits.
+Modes that propose, specify, review, or rationalize a design artifact also use `docs/design-quality-rubric.md`. Generated/specification outputs should internally target 4/5; reviews should expose both a current and a projected (conditional) score with evidence limits.
 
 All modes use `docs/clarification-policy.md` before drafting. Ask clarifying questions only when missing information would materially change the recommendation; otherwise proceed with minimal labeled assumptions.
 
@@ -195,7 +195,7 @@ If the request lacks detail:
 ## Mode D: Review screen for usability/accessibility
 
 ### Purpose
-Critique a screen or screen description through usability, accessibility, hierarchy, and platform lenses.
+Run an expert review of a screen or screen description through usability, accessibility, hierarchy, design-quality, and platform lenses. Mode D borrows critique's reasoning structure (objective → decision → why it is or isn't effective) but, as an expert review rather than a facilitated critique, it also prescribes fixes: each finding is one causal chain — observation → violated principle → user consequence → change → predicted effect — not a list of problems split from a separate list of remedies.
 
 ### Sub-cases
 
@@ -257,32 +257,33 @@ At least one of:
 - Assumptions
 - Quick summary
 - Strengths
-- Usability issues
-- Accessibility issues
-- Hierarchy and readability issues
-- Design quality issues
-- Navigation and interaction issues
-- Severity or priority
-- Recommended fixes
+- Findings — each finding is one causal chain with: Lens (Usability / Accessibility / Hierarchy & readability / Design quality / Navigation), Observation, Violated principle (named), User consequence, Change, Predicted effect (directional + confidence), Severity (Nielsen 0–4 = frequency × impact × persistence), Moves (which design-quality dimension it shifts, band→band)
+- Design quality score (current → projected) — current and projected scores plus a per-dimension table; the projection is conditional and capped at 4/5 unless resilience is named
+- Severity index — findings rolled up by Nielsen 0–4 level
+- Bold move (optional) — include only when the trigger is met (see below)
 - Platform-convention mismatches
 - Unresolved assumptions
 - Next actions
 
+The Bold move trigger: offer one only when there is no unresolved severity-3/4 finding, the screen is already at or near 3/5 but inert (loses no points yet has no point of view), and there is a concrete UX upside. Allowed in D1/D3; in D2 it may address structure/flow only; in D4 only if the new context unlocks it. It is not a fix and not required to ship; if the trigger is not met, omit the section. A recommendation that contradicts the stated product/task is a failure only when its justification is aesthetic — a contradiction justified by a named usability/accessibility/hierarchy mechanism and surfaced in the Bold move block with its tradeoff and validation path is encouraged, not penalized.
+
 ### Validation checklist
 - Is the sub-case (D1 / D2 / D3 / D4) classified explicitly?
-- Does the review distinguish strengths from problems?
-- Are issues concrete rather than aesthetic opinions?
+- Does the review distinguish strengths from problems, with at least one genuine strength?
+- Is each finding a single causal chain (observation → violated principle → user consequence → change → predicted effect), not an issue split from its fix?
+- Does every finding name the violated principle (heuristic/law), instead of "this feels off"?
+- Does every predicted effect name a user outcome, stated directionally with a confidence level and no fabricated percentages?
+- Is severity rated on the Nielsen 0–4 scale and justified as frequency × impact × persistence?
 - For D2: are visual claims qualified as unverifiable, or restricted to structure?
 - For D3: is diagnosis separated from assessment?
 - For D4: is the review framed as a delta against the changed context, not a full re-review?
-- Are severity levels useful?
-- Are fixes practical?
-- Are platform mismatches called out?
-- Are typography and spacing reviewed (where verifiable), not ignored?
+- Are both a current and a projected design-quality score exposed, with the projection written conditionally (IF the fixes land AND assumptions hold), capped at 4/5 unless resilience is named?
+- For D2/D3: is the projected score labeled provisional, and are visual dimensions kept out of the upward projection?
+- If a Bold move is offered: is the trigger met, does it carry all required fields (deviation, JTBD job, upside, risk, validation path, score impact, conviction), and is it kept separate from the required fixes?
+- Was any UX-strengthening recommendation withheld only because it contradicts the current product? If so, is it moved to Bold move with its tradeoff?
+- Are platform mismatches called out, and typography/spacing reviewed where verifiable?
 - Are design-quality claims limited to what can be verified from the provided visual or description?
-- Does the review expose a current design-quality score and qualify it when evidence is limited?
-- Is compliance language avoided unless verified?
-- Are unresolved assumptions stated?
+- Is compliance language avoided unless verified, and are unresolved assumptions stated?
 
 ### Fallback behavior
 If evidence is limited:

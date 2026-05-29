@@ -32,82 +32,110 @@ Next actions: redesign the screen and test privacy understanding.
 - Does not distinguish privacy visibility, interaction signals, discoverability, safety, and destructive actions.
 - Treats delete account as just a red button placement problem.
 - "Maybe a profile preview" is not specified as a mechanism.
-- Accessibility and severity are generic.
+- Lists problems and fixes loosely with no causal chain, no severity, and no predicted effect.
 
 ## Strong response
 
 ```md
 Mode: Review screen for usability/accessibility
 Platform scope: Assumed cross-platform because platform is unspecified
+Sub-case: D2 description only
 Assumptions:
 - This is a description-only review, so visual spacing, contrast, and exact tap sizes cannot be verified.
 - The settings affect other users' ability to see or contact the account owner.
 - Delete account is destructive and should not sit among reversible privacy toggles.
 
 ## Quick summary
-The current structure is likely understandable at the row level but weak at privacy comprehension. Users need grouped mental models, audience previews, and stronger separation between reversible privacy choices and destructive account actions.
+The current structure is likely understandable at the row level but weak at privacy comprehension: users cannot verify "who sees what," and an irreversible delete sits inside the same toggle pattern as reversible choices. Current quality is low for a privacy surface, but the structural fixes below have a clear path to a stronger score.
 
 ## Strengths
 - The described settings cover important privacy controls.
-- Toggle rows can be efficient for reversible binary settings if labels and consequences are clear.
+- Toggle rows can be efficient for reversible binary settings when labels and consequences are clear.
 
-## Usability issues
-- High: unrelated toggles in one long list force users to infer consequences.
-- High: no audience preview means users cannot verify "who sees what" before changing settings.
-- Medium: discoverability, activity, and read receipts have different mental models but appear as equivalent toggles.
+## Findings
 
-## Accessibility issues
-- Toggle labels must include current state and consequence, not only setting name.
-- Screen reader order should read group name, setting, state, and effect.
-- Privacy warnings cannot rely on color alone.
+### F1 — No audience preview for visibility settings
+- Lens: Usability
+- Observation: There is no preview of who can see what; visibility settings are bare toggles.
+- Violated principle: Nielsen #1 Visibility of system status; Nielsen #2 Match between system and the real world.
+- User consequence: Users change visibility blind and cannot confirm the outcome, so they either over-share by mistake or avoid the settings entirely.
+- Change: Add an audience preview ("View as…": public / followers / mutuals / nobody, or product-approved equivalents) tied to each visibility setting.
+- Predicted effect: Should raise confidence that a setting did what the user intended; confidence M (D2 text-only — structural inference).
+- Severity: 3 (major) — frequent, high impact (privacy mistakes), persistent.
+- Moves: Attention path 2→3; lifts cap: privacy-comprehension gap.
 
-## Hierarchy and readability issues
-- Group settings into: Profile visibility, Interaction signals, Findability, Safety, Account actions.
-- Put blocked users under Safety, not near public-profile controls.
-- Keep Delete account in a separate Account actions section with destructive treatment and explanation.
+### F2 — Destructive delete sits among reversible toggles
+- Lens: Navigation & interaction
+- Observation: "Delete account" appears in the same long toggle list as reversible privacy settings.
+- Violated principle: Nielsen #5 Error prevention; Nielsen #3 User control and freedom.
+- User consequence: An irreversible action is one mistap away and is visually equivalent to reversible settings, risking accidental account loss.
+- Change: Move delete account into a separate "Account actions" section with a dedicated destructive flow, confirmation, and clear irreversibility/recovery boundaries.
+- Predicted effect: Should reduce accidental destructive actions; confidence M (behavior unverifiable from text).
+- Severity: 3 (major) — rare action, maximal impact, persistent risk.
+- Moves: Production readiness 2→3; lifts cap: P1 (destructive action among reversible controls).
 
-## Design quality issues
-- Description-only evidence limits visual scoring; structural quality is currently around 2/5.
-- A stronger design would expose consequences before change, not after error or confusion.
+### F3 — Unrelated settings in one ungrouped list
+- Lens: Hierarchy & readability
+- Observation: Public profile, activity status, read receipts, discoverability, and blocked users appear as equivalent toggles in one list, though they have different mental models.
+- Violated principle: Gestalt proximity / common region; Cognitive load (extraneous).
+- User consequence: Users must infer which setting affects visibility vs. interaction vs. findability vs. safety, slowing decisions and reducing confidence.
+- Change: Group into Profile visibility, Interaction signals, Findability, Safety, and Account actions; place blocked users under Safety.
+- Predicted effect: Should reduce scanning effort and mis-set privacy choices; confidence M.
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Attention path 2→3, Composition 2→3.
 
-## Navigation and interaction issues
-- Use detail rows for complex settings such as discoverability instead of a single toggle if multiple channels are affected.
-- Provide a "View as..." or audience preview for profile visibility.
-- For delete account, require a dedicated flow with data export/recovery information if product policy supports it.
+### F4 — Toggle labels lack state and consequence
+- Lens: Accessibility
+- Observation: Toggles are named by setting only; there is no described state or consequence text, and warnings are not described beyond toggles.
+- Violated principle: Nielsen #6 Recognition over recall; label semantics for assistive technology; WCAG use-of-color (do not rely on color alone).
+- User consequence: Screen-reader users may hear only the setting name without its state or effect, and any color-only privacy warning is missed by some users.
+- Change: Give each toggle an accessible name that includes current state and effect; ensure screen-reader order reads group → setting → state → effect; never signal a privacy warning by color alone.
+- Predicted effect: Should improve comprehension for assistive-tech users; confidence M (semantics unverifiable from text).
+- Severity: 2 (minor) — affects a subset, moderate impact, persistent.
+- Moves: Production readiness 2→3.
 
-## Severity or priority
-- High: no audience preview for visibility settings.
-- High: destructive delete action appears in the same control pattern as reversible toggles.
-- Medium: long ungrouped list reduces scanning and confidence.
+## Design quality score (current → projected)
+- Current: 2/5 — provisional (D2 text-only). Pinned by no audience preview (F1) and the destructive action sitting among reversible toggles (F2).
+- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3+F4 to land AND confirmation of the audience taxonomy and retention/recovery policy. Doubly provisional (D2): visual dimensions are not raised from text.
+- Ceiling note: capped at 4/5 — large-text, screen-reader, and preview-accuracy resilience unverified from the description.
+- Largest single lever: F1 + F2 (privacy comprehension and destructive-action separation pin the score at 2).
 
-## Recommended fixes
-- Add grouped sections with plain-language descriptions.
-- Replace ambiguous toggles with detail screens where the consequence has multiple parts.
-- Add preview states: public, followers, mutuals, nobody, or product-approved equivalents.
-- Separate Delete account into a destructive flow with confirmation and clear irreversibility/recovery boundaries.
+| Dimension | Now | Projected | Gated by | Confidence |
+|-----------|-----|-----------|----------|------------|
+| Attention path & hierarchy | 2 | 3 | F1/F3 grouping (rung 2→3) | provisional |
+| Production readiness | 2 | 4 | F2/F4 lift caps | provisional |
+| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
+- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+
+## Severity index
+- 4 (catastrophe): none
+- 3 (major): F1, F2
+- 2 (minor): F3, F4
+- 1 (cosmetic): none
 
 ## Unresolved assumptions
-- Exact visual density, contrast, tap target size, and platform component choice require screenshot or design file.
+- Exact visual density, contrast, tap target size, and platform component choice require a screenshot or design file.
 - Legal retention and account recovery policy are not provided.
 
 ## Next actions
 - Define the audience model for each setting and map every toggle to a visible consequence.
-- QA screen reader labels, large text, privacy preview accuracy, blocked-users navigation, and delete-account confirmation.
+- QA screen-reader labels, large text, privacy-preview accuracy, blocked-users navigation, and delete-account confirmation.
 ```
 
 ## Why this is stronger
 
-- Quality target: 4/5 - strong once audience taxonomy, retention policy, and moderation routes are confirmed.
-- Qualifies visual uncertainty from text-only input.
-- Moves from "cleaner list" to privacy comprehension mechanisms.
+- Quality target after fixes: up to 4/5 — strong once audience taxonomy, retention policy, and moderation routes are confirmed.
+- Qualifies visual uncertainty from text-only input and keeps visual dimensions out of the upward projection.
+- Each finding is one causal chain (observation → violated principle → user consequence → change → predicted effect) with Nielsen 0–4 severity.
 - Separates reversible settings from destructive account actions.
-- Includes severity, actual strengths, and actionable fixes.
+- Exposes both a current and a conditional projected score; no Bold move is offered because unresolved severity-3 findings remain.
 - Avoids claiming legal or accessibility compliance.
 
 ## Regression checks
 
 - Does the review classify evidence limits for description-only input?
 - Does it include at least one real strength?
+- Is each finding a single causal chain with a named violated principle and a predicted effect?
 - Does it separate audience visibility from safety and account actions?
-- Does it avoid visual overclaim about spacing or contrast?
-- Does it define concrete privacy preview behavior?
+- Does it avoid visual overclaim about spacing or contrast, and keep visual dimensions out of the projection?
+- Does it expose a current and a conditional projected score, and correctly omit the Bold move while severity-3 findings are unresolved?

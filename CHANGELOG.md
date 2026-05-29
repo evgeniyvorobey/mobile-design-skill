@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.16.0] - 2026-05-29
+
+### Added
+- Mode D review: a causal **Findings** block (observation → violated principle → user consequence → change → predicted effect → Nielsen 0–4 severity → dimension moved), replacing the split issue/fix sections.
+- Mode D review: a **current → projected** design-quality score (conditional, capped at 4/5, doubly-provisional for text-only D2/D3) with a per-dimension before/after table.
+- Mode D review: an optional **Bold move** block for product-contradicting recommendations, gated by trigger and required fields (deviation, JTBD job, upside, risk, validation path, score impact, conviction).
+- Distinctiveness levers and the "inert-screen test" in `docs/design-quality.md`, with a matching rubric cap so a competent-but-forgettable screen scores 3/5 with an upside note rather than a quiet 4/5.
+- Heuristics: Cognitive Load Theory (Sweller), form-design principles (Wroblewski), and the Nielsen 0–4 severity scale in `docs/heuristics.md`.
+- Inspiration: a derivation layer (production-reasoning sources, editorial/craft schools, and point-of-view products beyond Apple/Google), a generative direction method (JTBD → How-Might-We → Crazy Eights → de Bono → SCAMPER → translate-to-mechanism), and a reference→mechanism discipline in `docs/inspiration-sources.md`.
+- Anti-pattern 8 (bold move vs aesthetic laundering); creative-range references and ideation-method links in `docs/sources.md`; NN/g benchmark citations in `docs/visual-benchmark-playbooks.md`.
+- Proposal record at `docs/proposals/review-mode-upgrade.md`.
+
+### Changed
+- Mode D output contract updated across `skill/templates.md`, `skill/skill.md`, `skill/modes.md`, `docs/design-quality-rubric.md`, `docs/self-review.md`, `docs/evals.md`, `docs/workflow.md`, and `scripts/validate_repo.py`.
+- Guardrail #4 carve-out: a product-contradicting recommendation is not aesthetic laundering when justified by a named usability/accessibility/hierarchy mechanism and surfaced in the Bold move block with its tradeoff and validation path.
+- Regenerated Mode D calibration to the new format: `examples/review-screen.md`, `examples/golden/settings.md`, all `examples/visual-review-fixtures/`, and `examples/case-studies/social-privacy-settings.md`.
+
 ## [1.15.0] - 2026-04-25
 
 ### Added

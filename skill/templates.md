@@ -267,35 +267,64 @@ Assumptions:
 - [strength]
 - [strength]
 
-## Usability issues
-- [issue]
-- [issue]
+## Findings
+> Each finding is one causal chain, ordered by severity. High-severity (3–4) findings use all fields. Low/cosmetic (0–2) may compress to Observation → Change → Severity. Never split an issue from its fix.
 
-## Accessibility issues
-- [issue]
-- [issue]
+### F1 — [short title]
+- Lens: [Usability / Accessibility / Hierarchy & readability / Design quality / Navigation]
+- Observation: [what is there now — evidence-bound; for D2, structure & behavior only, no visual assertions]
+- Violated principle: [named — e.g. Nielsen #5 Error prevention · Hick's Law · Cognitive load (extraneous) · Gestalt proximity · Wroblewski form-design]
+- User consequence: [the mechanism by which it hurts the user — not a restatement of the observation]
+- Change: [the specific edit]
+- Predicted effect: [directional + confidence — "should reduce mis-submits; confidence M (D2 text-only)". Never a fabricated %]
+- Severity: [0–4, Nielsen] — [frequency × impact × persistence, one line]
+- Moves: [dimension band→band, e.g. "Hierarchy 2→4"; + "lifts cap: …" if applicable]
 
-## Hierarchy and readability issues
-- [issue]
-- [issue]
+### F2 — [short title]
+- Lens:
+- Observation:
+- Violated principle:
+- User consequence:
+- Change:
+- Predicted effect:
+- Severity:
+- Moves:
 
-## Design quality issues
-- Current design quality score: [1-5]/5 — [short evidence-based reason; label as provisional if visual evidence is limited]
-- [issue]
-- [issue]
+## Design quality score (current → projected)
+- Current: [1-5]/5 — [evidence-based reason; "provisional" for D2/D3]
+- Projected after High+Medium findings: [1-5]/5 — conditional: requires F[..] AND [assumptions]. [D2/D3: "doubly provisional — also depends on unverified visual properties."]
+- Ceiling note: projection capped at 4/5 unless resilience conditions are named and confirmable.
+- Largest single lever: [the one finding that moves the score most]
 
-## Navigation and interaction issues
-- [issue]
-- [issue]
+| Dimension | Now | Projected | Gated by (cap / ladder rung) | Confidence |
+|-----------|-----|-----------|------------------------------|------------|
+| Attention path & hierarchy | [n] | [n] | [cap / rung / —] | [verifiable / provisional / not-from-text] |
+| Composition & spacing | [n] | [n] | | |
+| Typography craft | [n] | [n] | | |
+| Color, state & contrast | [n] | [n] | | |
+| Density & rhythm | [n] | [n] | | |
+| Interaction polish & motion | [n] | [n] | | |
+| Context & brand fit | [n] | [n] | | |
+| Production readiness | [n] | [n] | | |
+- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
 
-## Severity / priority
-- High:
-- Medium:
-- Low:
+## Severity index
+- 4 (catastrophe): [F..]
+- 3 (major): [F..]
+- 2 (minor): [F..]
+- 1 (cosmetic): [F..]
 
-## Recommended fixes
-- [fix]
-- [fix]
+## Bold move (optional — omit unless the trigger is met)
+> Use only when: no unresolved severity-3/4 finding, the screen is already ≥3/5 but inert, and there is a concrete UX upside. Allowed in D1/D3; D2 = structure/flow only; D4 = only if the new context unlocks it. This is NOT a fix and NOT required to ship. At most one (two only if genuinely distinct). If unsure, omit.
+
+- The move: [one buildable sentence — a component/layout/flow/interaction change, not an adjective]
+- Deviates from: [the product assumption / current direction / brand rule / platform convention it contradicts]
+- Job served (JTBD): [the job + one desired-outcome statement: minimize/increase [metric] of [object] when [context]]
+- UX upside: [concrete, checkable benefit — tie to a named heuristic or quality bar]
+- Risk / cost: [learnability, discoverability, accessibility exposure, or dev cost if this is wrong]
+- De-risk / validate: [the cheap test before committing + kill criterion + the contrast/large-text/reduced-motion checks it must still pass]
+- Score impact: safe fixes alone → [X]/5; this move targets [Y]/5; it does NOT raise the score until validated.
+- Conviction: [Speculative / Worth a spike / High-confidence]
 
 ## Platform-convention mismatches
 - [mismatch]

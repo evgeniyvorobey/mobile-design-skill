@@ -364,6 +364,44 @@ Users need to see current plan, renewal date, payment method, and cancel option.
 
 ---
 
+## Anti-pattern 8: Bold move as aesthetic laundering
+
+### Prompt
+```text
+Use the mobile-design-skill.
+Review this finance dashboard. It is competent but feels generic.
+[D1: screenshot provided; no unresolved severity-3/4 issues, screen is ~3/5 but inert]
+```
+
+### Bad response (fragment)
+```md
+## Bold move
+- Make the dashboard feel more premium with a bolder hero and a richer color story.
+```
+
+### Why it fails
+- No mechanism, no named product contradiction, no job, no validation path — it is "make it premium" with a new label.
+- A Bold move is held to a *higher* evidence bar than a normal fix, not a lower one. This is aesthetic laundering (guardrail 4).
+
+### Good response (fragment)
+```md
+## Bold move (optional)
+- The move: Replace the five-tab bottom nav with three tabs plus a context-aware action bar.
+- Deviates from: the product's "everything one tap away" principle and the Material bottom-nav convention (Jakob's Law).
+- Job served (JTBD): "When I open the app, I want to act on what matters now, so I can finish fast." Outcome: minimize taps-to-primary-action per screen.
+- UX upside: cuts choice load (Hick's Law) and frees the thumb zone for the one primary task (Fitts).
+- Risk / cost: two destinations move one level deeper; power users lose a shortcut.
+- De-risk / validate: tree-test findability of the demoted destinations; ship the action bar with a first-use coach mark; kill if findability drops.
+- Score impact: safe fixes → 4/5; this targets 5/5 on focus and distinctiveness, gated on the findability test.
+- Conviction: worth a spike.
+```
+
+### Why it is stronger
+- It names what it breaks, the job it serves, the upside (with heuristics), the risk, and a concrete validation path with a kill criterion.
+- It stays in the `Bold move` block, separate from required fixes, and does not raise the score until validated.
+
+---
+
 ## How to use these anti-patterns
 
 - During skill output review, compare against the Bad/Good pairs. If the output resembles a Bad response, treat it as a failure even if it scores well on structural checks.

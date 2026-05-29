@@ -75,6 +75,124 @@ A quiz results screen appears after a 12-question practice quiz. It shows score,
 - Educators may need traceability between missed questions and lesson objectives.
 - The fixture does not provide psychometric validation or assessment policy.
 
+## Example output
+
+```md
+Mode: Review screen for usability/accessibility
+Platform scope: Cross-platform mobile
+Sub-case: D2 description only (text description provided, no visual asset)
+Assumptions:
+- This is a phone-first results screen, 390 x 844 px, after a 12-question practice quiz.
+- Correct/incorrect are conveyed by icon plus color (green check, red x), as stated.
+- The motivational copy is described in role only; exact wording is unknown.
+
+## Quick summary
+The results screen displays performance clearly, but learning recovery is weaker than the score display: explanations are collapsed by default, the primary action is "Continue" even after a failure, missed questions are not grouped or mapped to objectives, and there is no recovery if result submission fails. The structure is solid, so the ceiling is good, but visual balance and exact tone cannot be judged from text, and the indicators are not color-only because icons are described.
+
+## Strengths
+- Shows a clear score, pass/fail status, and time spent in a prominent summary.
+- Provides a per-question review list with expandable explanations and a retry path.
+- Recommends a next lesson, giving the learner a forward action.
+
+## Findings
+
+### F1 — No recovery if result submission fails
+- Lens: Usability
+- Observation: Loading after submit, result-submission error, and offline states are not described.
+- Violated principle: Nielsen #1 Visibility of system status; Nielsen #9 Help users recognize, diagnose, and recover from errors.
+- User consequence: If submission fails or the learner is offline, results may be lost with no feedback or retry, discarding completed work.
+- Change: Add submit loading, an error/offline state with retry, and preserve the learner's submitted answers until the result is confirmed saved.
+- Predicted effect: Should reduce lost results on submission failure; confidence M (D2 text-only — structural inference, not measured).
+- Severity: 3 (major) — occasional but high impact (lost work), persistent until states exist.
+- Moves: Production readiness 2→3; lifts cap: missing submission recovery.
+
+### F2 — Primary action does not adapt to outcome
+- Lens: Usability
+- Observation: "Continue" is primary even when the learner failed, opening the next lesson regardless of result.
+- Violated principle: Nielsen #7 Flexibility and efficiency of use; match between system and the real world (the best next step depends on outcome).
+- User consequence: After a failure, advancing to the next lesson may not be the best next step; the screen nudges the learner past unaddressed gaps.
+- Change: Adapt the primary action by outcome (e.g. "Review mistakes" or "Retry" on failure), or clearly explain why continuing is recommended.
+- Predicted effect: Should better match the next action to the learner's result; confidence M (D2 text-only). Reviewed as a structural mismatch, not a measured learning outcome.
+- Severity: 3 (major) — frequent on failures, moderate-to-high impact, persistent.
+- Moves: Attention path & hierarchy 2→3; lifts cap: outcome-action mismatch.
+
+### F3 — Explanations collapsed and mistakes not surfaced first
+- Lens: Usability
+- Observation: Explanations are collapsed by default and missed questions are interleaved in a 12-row list rather than grouped or prioritized.
+- Violated principle: Cognitive load (extraneous); recognition over recall.
+- User consequence: Learners must hunt for the questions they got wrong and expand each one, raising the effort to learn from mistakes — the core job of the screen.
+- Change: Group incorrect answers first, add a "Review mistakes" action, and make each missed question's explanation easy to reach.
+- Predicted effect: Should reduce effort to learn from mistakes; confidence M (D2 text-only).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Attention path & hierarchy 2→3.
+
+### F4 — Missed questions not mapped to objectives/lessons
+- Lens: Usability
+- Observation: There is no described linkage between missed questions and lesson objectives, though educators may need that traceability.
+- Violated principle: Match between system and the real world; recognition over recall.
+- User consequence: Learners (and educators) cannot tell which concept a mistake maps to or where to study next, weakening the learning loop.
+- Change: Map each missed question to its objective and a linked lesson the learner can open.
+- Predicted effect: Should improve targeted study after a quiz; confidence M (D2 text-only).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Production readiness 2→3.
+
+### F5 — Accessible labels for correct/incorrect not confirmed
+- Lens: Accessibility
+- Observation: Correct/incorrect use a green check and red x (icon plus color), but screen-reader text labels for the indicators are not described.
+- Violated principle: Name/role/value for assistive technology (status must be programmatically available).
+- User consequence: Screen-reader users may not hear whether an answer was correct or incorrect if the icons lack text alternatives.
+- Change: Add explicit text labels ("Correct"/"Incorrect") for each indicator for assistive technology; keep icon plus color for sighted users.
+- Predicted effect: Should improve screen-reader clarity of results; confidence M (semantics unverifiable from text). Note: the indicators are not color-only, since icons are described — the requirement is accessible labels, not removing color reliance.
+- Severity: 2 (minor) — frequent for AT users, moderate impact, persistent.
+- Moves: Production readiness 2→3.
+
+### F6 — Possible shame risk in failure copy
+- Lens: Design quality
+- Observation: A motivational message is present and "Continue" stays primary after failure; failure copy should avoid shame, but exact wording is not provided.
+- Violated principle: Match between system and the real world (tone appropriate to a learner who failed); cognitive/emotional load.
+- User consequence: If the motivational copy reads as negative after a failure, it can discourage the learner and undermine motivation.
+- Change: Ensure failure copy is supportive and outcome-aware; pair it with a constructive next step rather than a generic "Continue."
+- Predicted effect: Should reduce discouragement after failure; confidence L (cannot evaluate unseen copy). Does not invent or assert the exact wording.
+- Severity: 1 (cosmetic) — occasional, low-to-moderate impact, persistent; keep qualified.
+- Moves: Context & brand fit n/v→n/v (tone not verifiable from text).
+
+## Design quality score (current → projected)
+- Current: 3/5 — provisional (D2 text-only). Held below 4 by missing submission recovery (F1) and an outcome-blind primary action (F2).
+- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2 to land (plus F3/F4/F5) AND a visual pass to confirm balance and tone. Doubly provisional (D2): visual dimensions are not raised from text.
+- Ceiling note: capped at 4/5 — resilience (large-text, color-filter rendering, screen-reader behavior) is unverified from the description.
+- Largest single lever: F2 (adapting the primary action to outcome turns a scoring screen into a learning screen), with F1 protecting completed work.
+
+| Dimension | Now | Projected | Gated by | Confidence |
+|-----------|-----|-----------|----------|------------|
+| Attention path & hierarchy | 3 | 4 | F2/F3 (rung 3→4) | provisional |
+| Production readiness | 2 | 4 | F1/F4/F5 lift recovery/AT caps | provisional |
+| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
+| Context & brand fit | n/v | n/v | tone/copy not from text | not-from-text |
+| Typography craft | n/v | n/v | sizes/balance not from text | not-from-text |
+- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+
+## Severity index
+- 4 (catastrophe): none
+- 3 (major): F1, F2
+- 2 (minor): F3, F4, F5
+- 1 (cosmetic): F6
+
+## Platform-convention mismatches
+- Cross-platform caution: the sticky footer actions and close button should follow each platform's navigation and dismissal conventions.
+- Expand/collapse and result announcements should use platform-idiomatic patterns and assistive-technology APIs rather than a single forced style.
+
+## Unresolved assumptions
+- Cannot verify whether the 44 px score block is visually overwhelming without a screenshot.
+- Cannot verify contrast of the check/x icons or labels from text.
+- Cannot evaluate the motivational copy because exact wording is not provided.
+- Cannot claim any learning-improvement or assessment-validity outcome.
+
+## Next actions
+- Add submission loading/error/offline recovery that preserves submitted answers, and adapt the primary action to outcome.
+- Group mistakes first, map missed questions to objectives/lessons, and add accessible labels for correct/incorrect.
+- Run a visual pass with large text, a color filter, and a screen reader to confirm the projected score.
+```
+
 ## Expected critique
 
 - The review should identify that the score is clear, but learning recovery is weaker than performance display.
@@ -97,11 +215,15 @@ A quiz results screen appears after a 12-question practice quiz. It shows score,
 
 ## Severity expectations
 
-- High: missing result-submission recovery, primary action mismatch after failure if pass/fail changes the next best task.
-- Medium: explanations hidden by default for missed questions, weak objective mapping, accessibility labels for correct/incorrect indicators.
-- Low: exact motivational tone, visual balance of score block, and footer spacing should remain qualified because no screenshot is provided.
+Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catastrophic; Medium to 2; Low to 1).
+
+- 3 (major): missing result-submission recovery, primary action mismatch after failure if pass/fail changes the next best task.
+- 2 (minor): explanations hidden by default for missed questions, weak objective mapping, accessibility labels for correct/incorrect indicators.
+- 1 (cosmetic): exact motivational tone, visual balance of score block, and footer spacing should remain qualified because no screenshot is provided.
 
 ## Rubric score expectation
 
-- Expected current design-quality score: 3/5.
-- Reason: the screen has a solid results structure and review path, but recovery, learning guidance, and state handling need more production-ready detail.
+- Expected score: current 3/5 -> projected up to 4/5 (conditional, provisional D2).
+- Reason for current: the screen has a solid results structure and review path, but recovery, learning guidance, and state handling need more production-ready detail.
+- Reason for projected: adding submission recovery and an outcome-aware primary action, plus surfacing mistakes and objective mapping, can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because visual balance, tone, and rendering cannot be raised from a text-only description.
+- No Bold move is expected: despite the screen being 3/5, it has an unresolved severity-3 finding (missing result-submission recovery), so the Bold move trigger (no unresolved severity-3/4 finding) is not met.

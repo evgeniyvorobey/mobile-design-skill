@@ -74,6 +74,134 @@ A mobile enterprise app shows a queue of operational exceptions. The desktop pro
 - Bulk actions can affect many records and should prevent irreversible mistakes.
 - Mobile may be used in short sessions between desktop workflows.
 
+## Example output
+
+```md
+Mode: Review screen for usability/accessibility
+Platform scope: Cross-platform mobile
+Sub-case: D2 description only (text description provided, no visual asset)
+Assumptions:
+- This is a phone-first operational queue, 393 x 852 px, used in short sessions between desktop work.
+- Density is intended and appropriate; the goal is scannability, not consumer-style spacing.
+- "Close" is the only potentially irreversible bulk action described.
+
+## Quick summary
+The card-from-table conversion is a reasonable operational pattern and the density fits power-user work, but safety and traceability need stronger production detail: bulk "Close" can act on many records (and across mixed permissions) without confirmation, conflict and partial-permission states are undefined, status meaning rides on color alone, and empty/error copy is thin. The structure is workable, so the projected ceiling is high, but visual readability cannot be judged from text.
+
+## Strengths
+- Converts the desktop table into mobile cards without abandoning record traceability.
+- Provides filters (Status, Owner, SLA, Region), skeleton loading, and a selection-driven bulk-action bar that fit enterprise workflows.
+- Leads the list with the SLA-breach card, surfacing the riskiest item first.
+
+## Findings
+
+### F1 — Bulk "Close" can act irreversibly without confirmation
+- Lens: Usability
+- Observation: The bulk-action bar offers Close with no described confirmation or preview, and some users can view but not close records (mixed permissions).
+- Violated principle: Nielsen #5 Error prevention; Nielsen #3 User control and freedom.
+- User consequence: A user can close many records in one tap — possibly including records they should not act on — with no chance to review, an irreversible operational mistake.
+- Change: Require a confirmation that previews the selected count and record names before Close; exclude or clearly flag records the user lacks permission to close.
+- Predicted effect: Should reduce accidental and unauthorized bulk closures; confidence M (D2 text-only — structural inference, not measured).
+- Severity: 4 (catastrophe) — occasional but irreversible and broad (many records at once), persistent until guarded.
+- Moves: Production readiness 2→4; lifts cap: irreversible bulk action without confirmation.
+
+### F2 — Missing conflict state for concurrent edits
+- Lens: Usability
+- Observation: Records may change while the user reviews the queue, but no conflict state is defined for when another user changes a record mid-session.
+- Violated principle: Nielsen #1 Visibility of system status; Nielsen #5 Error prevention.
+- User consequence: A user may act on a stale record and overwrite or duplicate another operator's change, corrupting the queue.
+- Change: Add a conflict state that detects server-side changes and offers refresh/merge before the action is applied.
+- Predicted effect: Should reduce stale-record actions and overwrites; confidence M (D2 text-only).
+- Severity: 3 (major) — occasional but high impact, persistent until handled.
+- Moves: Production readiness 2→3; lifts cap: missing conflict handling.
+
+### F3 — Partial-permission state undefined
+- Lens: Usability
+- Observation: Some users can view but not close records, but no partial-permission state is described for actions they cannot perform.
+- Violated principle: Nielsen #5 Error prevention; Nielsen #1 Visibility of system status.
+- User consequence: Users may attempt actions they are not allowed to take and hit opaque failures, or worse, act on records inconsistently.
+- Change: Disable unauthorized actions with a visible reason and reflect permission scope in the selection/bulk bar.
+- Predicted effect: Should reduce unauthorized-action attempts and opaque failures; confidence M (D2 text-only).
+- Severity: 3 (major) — frequent for limited-permission roles, moderate-to-high impact, persistent.
+- Moves: Production readiness 2→3; lifts cap: permission ambiguity.
+
+### F4 — Status meaning carried by color alone
+- Lens: Accessibility
+- Observation: SLA breach is red, warning is orange, normal is blue, and stale-data cards show a clock icon with no text label.
+- Violated principle: WCAG use-of-color (1.4.1) — color must not be the only means of conveying information.
+- User consequence: Users with color-vision differences or in glare may misread record status or miss that data is stale, leading to wrong prioritization.
+- Change: Add a text label (and/or icon) to each status chip and a text label to the stale indicator; do not rely on hue alone.
+- Predicted effect: Should reduce status misreads under color-vision or glare conditions; confidence M (cannot verify rendering from text).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Production readiness 2→3.
+
+### F5 — Traceability at risk from over-truncation
+- Lens: Hierarchy & readability
+- Observation: Cards carry ID (12 px monospace), customer, status, owner, SLA, and last-updated in a 112 px card; metadata labels are 11 px and the queue is dense.
+- Violated principle: Cognitive load (extraneous); legibility under density and text scaling.
+- User consequence: If identifying fields truncate or shrink too far, operators lose the ability to trace and trust which record they are acting on.
+- Change: Protect the identifying fields (ID, customer, SLA, owner, last-updated) from truncation, allow controlled wrapping, and verify at large text — without abandoning intended density.
+- Predicted effect: Should preserve record traceability while keeping density; confidence L (exact readability not verifiable from text).
+- Severity: 2 (minor) — frequent, moderate impact, persistent; keep qualified (no screenshot).
+- Moves: Density & rhythm n/v→n/v (not raised from text).
+
+### F6 — Weak empty and error copy
+- Lens: Usability
+- Observation: Empty state is "No exceptions" and the error is "Could not refresh," with no context, retry, or last-known-data behavior.
+- Violated principle: Nielsen #9 Help users recognize, diagnose, and recover from errors; Nielsen #1 Visibility of system status.
+- User consequence: Operators cannot tell whether the queue is genuinely clear or failed to load, and a refresh failure offers no recovery or fallback to last-known data.
+- Change: Give empty/error states context and a retry, and preserve last-known records with a staleness note when refresh fails; define offline behavior.
+- Predicted effect: Should improve recovery and trust during refresh failures; confidence M (D2 text-only).
+- Severity: 2 (minor) — occasional, moderate impact, persistent until defined.
+- Moves: Interaction polish & motion 2→3.
+
+### F7 — Priority ordering is unexplained
+- Lens: Hierarchy & readability
+- Observation: The SLA-breach card leads, but the rest is ordered by last-updated time with no explanation of the priority logic.
+- Violated principle: Nielsen #1 Visibility of system status; recognition over recall.
+- User consequence: Operators may not understand why items are ordered as they are and could miss high-risk items further down.
+- Change: Make the sort explicit (and ideally selectable), and expose the SLA-breach reason on the card.
+- Predicted effect: Should improve trust in ordering and risk-spotting; confidence M (D2 text-only).
+- Severity: 1 (cosmetic) — frequent, low-to-moderate impact, persistent.
+- Moves: Attention path & hierarchy 2→3.
+
+## Design quality score (current → projected)
+- Current: 3/5 — provisional (D2 text-only). The operational structure is workable, but it is held below 4 by an unguarded irreversible bulk action (F1) and missing conflict/permission states (F2, F3).
+- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3 to land (plus F4/F6) AND a visual pass to confirm readability at the intended density. Doubly provisional (D2): visual dimensions are not raised from text.
+- Ceiling note: capped at 4/5 — resilience (large-text legibility at density, offline, color-vision rendering) is unverified from the description.
+- Largest single lever: F1 (guarding the irreversible bulk Close is the single change that most unblocks the score).
+
+| Dimension | Now | Projected | Gated by | Confidence |
+|-----------|-----|-----------|----------|------------|
+| Production readiness | 2 | 4 | F1/F2/F3 lift safety caps | provisional |
+| Attention path & hierarchy | 3 | 4 | F7 ordering (rung 3→4) | provisional |
+| Interaction polish & motion | 2 | 3 | F6 states (rung 2→3) | provisional |
+| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
+| Density & rhythm | n/v | n/v | readability at density not from text | not-from-text |
+- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+
+## Severity index
+- 4 (catastrophe): F1
+- 3 (major): F2, F3
+- 2 (minor): F4, F5, F6
+- 1 (cosmetic): F7
+
+## Platform-convention mismatches
+- Cross-platform caution: the bottom bulk-action bar, pull-to-refresh, and overflow menus should follow each platform's idioms rather than a single forced pattern.
+- Destructive confirmation should respect platform conventions for irreversible actions (dialog vs. action sheet) rather than acting like a web table.
+
+## Unresolved assumptions
+- Cannot verify readability, contrast, or perceived clutter at the intended density from text.
+- Cannot verify tap-target sizes for checkboxes, chips, or overflow menus.
+- Cannot verify offline behavior because it is not described.
+- Cannot verify whether truncation actually hides identifying fields without a screenshot.
+
+## Next actions
+- Guard bulk "Close" with a count-and-names confirmation and permission-aware action availability before any visual polish.
+- Define conflict and partial-permission states, add non-color status labels, and strengthen empty/error/offline copy.
+- Run a visual pass at the intended density with large text and color-vision simulation to confirm the projected score.
+```
+
 ## Expected critique
 
 - The review should recognize that density is appropriate for operational work, but must be made scannable through stronger ordering and labels.
@@ -96,11 +224,16 @@ A mobile enterprise app shows a queue of operational exceptions. The desktop pro
 
 ## Severity expectations
 
-- High: irreversible or broad bulk action without confirmation, missing conflict state, permission ambiguity.
-- Medium: color-only status semantics, traceability/truncation risk, weak error recovery.
-- Low: exact card spacing, perceived clutter, and visual balance should remain qualified because no screenshot is provided.
+Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catastrophic; Medium to 2; Low to 1).
+
+- 4 (catastrophe): irreversible or broad bulk action (Close) without confirmation, because it can affect many records at once and cannot be undone.
+- 3 (major): missing conflict state, permission ambiguity.
+- 2 (minor): color-only status semantics, traceability/truncation risk, weak error recovery.
+- 1 (cosmetic): exact card spacing, perceived clutter, and visual balance should remain qualified because no screenshot is provided.
 
 ## Rubric score expectation
 
-- Expected current design-quality score: 3/5.
-- Reason: the core operational structure is workable, but status semantics, conflict handling, and bulk-action safety need stronger production detail.
+- Expected score: current 3/5 -> projected up to 4/5 (conditional, provisional D2).
+- Reason for current: the core operational structure is workable, but status semantics, conflict handling, and bulk-action safety need stronger production detail.
+- Reason for projected: guarding the irreversible bulk Close and adding conflict/permission states can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because readability at the intended density, contrast, and large-text behavior cannot be raised from a text-only description.
+- No Bold move is expected: although the screen is already 3/5, it has an unresolved severity-4 finding (unguarded bulk Close), so the Bold move trigger (no unresolved severity-3/4 finding) is not met.

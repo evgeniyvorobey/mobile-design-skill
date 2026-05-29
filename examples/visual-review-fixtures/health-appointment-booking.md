@@ -78,6 +78,114 @@ A health app booking screen lets the user choose a clinician, appointment type, 
 - Location, video requirements, and preparation instructions may differ by appointment type.
 - The design must not diagnose, triage, or claim medical safety from UI alone.
 
+## Example output
+
+```md
+Mode: Review screen for usability/accessibility
+Platform scope: Cross-platform mobile
+Sub-case: D2 description only (text description provided, no visual asset)
+Assumptions:
+- This is a phone-first booking screen, 375 x 812 px.
+- The urgent-symptoms notice is the only safety boundary present on this screen.
+- Confirmation, time zone, and reschedule flows are out of scope because they are not described.
+
+## Quick summary
+The screen supports a focused booking task — clinician, type, date, time, estimate — but it under-weights the parts that matter most in a health context: the urgent-symptoms boundary sits low and tiny, unavailable slots are unexplained, and the user lacks confirmation of time zone, location/video requirements, and what they are actually booking. Loading and error states block the task without preserving selections. Current quality is low for a safety-relevant flow. Structure-and-behavior fixes have a clear path to a stronger score; visual tone cannot be judged from text.
+
+## Strengths
+- Provides clinician context (name, specialty, rating, next available) to support an informed choice.
+- Offers a clear appointment-type control (Video / Clinic / Phone) up front.
+- Combines date and time selection with a sticky estimate and primary CTA for a focused task.
+
+## Findings
+
+### F1 — Urgent-symptoms guidance is de-emphasized
+- Lens: Usability
+- Observation: The urgent-symptoms notice is sixth in the hierarchy, sits low on the screen, and is described as small text with a small icon.
+- Violated principle: Nielsen #5 Error prevention; Nielsen #1 Visibility of system status (safety-critical boundary).
+- User consequence: A user with urgent symptoms may not see the guidance in time and could book a routine slot instead of seeking emergency care.
+- Change: Move urgent guidance near the appointment-type choice (before slot selection) and give it clear escalation copy and prominence appropriate to a safety boundary.
+- Predicted effect: Should raise the chance the urgent path is seen before booking; confidence M (D2 text-only — structural inference, not measured). This reviews only the described warning; it does not claim the flow prevents missed urgent care.
+- Severity: 3 (major) — occasional but high impact (safety), persistent until repositioned.
+- Moves: Attention path & hierarchy 2→3; lifts cap: safety-boundary visibility.
+
+### F2 — Unavailable time slots are unexplained
+- Lens: Usability
+- Observation: Disabled time slots are gray with no reason shown; the disabled state exists but does not explain why.
+- Violated principle: Nielsen #1 Visibility of system status; Nielsen #9 Help users recognize, diagnose, and recover.
+- User consequence: Users cannot tell whether a slot is taken, outside hours, or unavailable for their appointment type, causing confusion and repeated taps.
+- Change: Show a reason for disabled slots (or filter them out) and distinguish "taken" from "unavailable for this type."
+- Predicted effect: Should reduce confusion and dead-end taps on the slot grid; confidence M (D2 text-only).
+- Severity: 3 (major) — frequent, moderate-to-high impact, persistent.
+- Moves: Production readiness 2→3; lifts cap: unexplained disabled state.
+
+### F3 — Final booking lacks a confirmation summary
+- Lens: Usability
+- Observation: There is no confirmation state; time zone is undescribed, and location/video requirements and preparation notes are not surfaced before the user taps "Book appointment."
+- Violated principle: Nielsen #5 Error prevention; Nielsen #1 Visibility of system status.
+- User consequence: Users may book the wrong time (time-zone mismatch) or arrive unprepared for the wrong modality, which is costly to correct in a health context.
+- Change: Add a confirmation summary before final booking that states time (with time zone), modality, location/video requirements, and any preparation notes.
+- Predicted effect: Should reduce wrong-time and wrong-modality bookings; confidence M (D2 text-only).
+- Severity: 3 (major) — occasional but high impact, persistent until a summary exists.
+- Moves: Production readiness 2→3; lifts cap: missing confirmation.
+
+### F4 — Loading and error states discard task context
+- Lens: Usability
+- Observation: Loading availability is a full-screen spinner; the error is generic ("Could not load availability"); neither preserves the chosen clinician/type/date.
+- Violated principle: Nielsen #1 Visibility of system status; Nielsen #9 Error recovery.
+- User consequence: A full-screen spinner and generic error block the task and can lose the user's selections, forcing re-entry.
+- Change: Scope loading to the slot region, give the error a cause and retry, and preserve clinician/type/date across refreshes; add slot-taken/conflict recovery.
+- Predicted effect: Should reduce lost selections and dead-end errors; confidence M (D2 text-only).
+- Severity: 2 (minor) — occasional, moderate impact, persistent until states improve.
+- Moves: Interaction polish & motion 2→3.
+
+### F5 — Sticky estimate may imply false cost certainty
+- Lens: Usability
+- Observation: The sticky footer pairs a total estimate with the booking CTA; insurance estimate copy is neutral gray ("Estimate may vary") and may be unavailable or incomplete.
+- Violated principle: Nielsen #1 Visibility of system status; match between system and the real world (cost expectations).
+- User consequence: A prominent footer total next to "Book appointment" can read as a final price, surprising users when insurance differs.
+- Change: Make the estimate's provisional nature explicit at the CTA (clearly an estimate, not a final charge) and state when an estimate is unavailable.
+- Predicted effect: Should reduce false certainty about final cost; confidence M (D2 text-only).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Production readiness 2→3.
+
+## Design quality score (current → projected)
+- Current: 2/5 — provisional (D2 text-only). Pinned by the de-emphasized urgent boundary (F1), unexplained disabled slots (F2), and missing confirmation (F3).
+- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3 to land (plus F4/F5) AND a visual pass to confirm tone, contrast, and large-text behavior. Doubly provisional (D2): visual dimensions are not raised from text.
+- Ceiling note: capped at 4/5 — resilience (large-text, contrast of gray notices, dark mode) is unverified from the description.
+- Largest single lever: F1 + F3 (safety visibility and pre-booking confirmation, the two that most pin a health flow at 2).
+
+| Dimension | Now | Projected | Gated by | Confidence |
+|-----------|-----|-----------|----------|------------|
+| Attention path & hierarchy | 2 | 3 | F1 reposition (rung 2→3) | provisional |
+| Production readiness | 2 | 4 | F2/F3/F5 lift task-safety caps | provisional |
+| Interaction polish & motion | 2 | 3 | F4 states (rung 2→3) | provisional |
+| Color, state & contrast | n/v | n/v | gray-text contrast not from text | not-from-text |
+| Typography craft | n/v | n/v | sizes/contrast not from text | not-from-text |
+- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+
+## Severity index
+- 4 (catastrophe): none
+- 3 (major): F1, F2, F3
+- 2 (minor): F4, F5
+- 1 (cosmetic): none
+
+## Platform-convention mismatches
+- Cross-platform caution: the sticky footer and back behavior should respect each platform's safe-area and navigation conventions.
+- The segmented appointment-type control and date strip should follow platform-idiomatic selection patterns rather than a single forced style.
+
+## Unresolved assumptions
+- Cannot verify contrast of the gray urgent notice or estimate copy from text.
+- Cannot verify the "calm and simple" visual tone without a screenshot.
+- Cannot verify tap-target sizes for time slots from the description.
+- Cannot verify time-zone handling, confirmation, or reschedule flows because they are not described.
+
+## Next actions
+- Reposition and strengthen the urgent-symptoms guidance and add a pre-booking confirmation summary (time zone, modality, location/video, prep).
+- Explain or filter unavailable slots and preserve selections across availability refresh and errors.
+- Run a visual pass with large text and the safety/error scenarios to confirm the projected score.
+```
+
 ## Expected critique
 
 - The review should flag urgency visibility: urgent symptom guidance is too low in hierarchy and too small for a safety-critical boundary.
@@ -99,11 +207,15 @@ A health app booking screen lets the user choose a clinician, appointment type, 
 
 ## Severity expectations
 
-- High: urgent-care notice too de-emphasized, unavailable slot ambiguity, final booking without confirmation of time/location/type.
-- Medium: full-screen loading, generic availability error, insurance-estimate ambiguity.
-- Low: calm visual tone and exact spacing should remain qualified because no screenshot is provided.
+Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catastrophic; Medium to 2; Low to 1).
+
+- 3 (major): urgent-care notice too de-emphasized, unavailable slot ambiguity, final booking without confirmation of time/location/type.
+- 2 (minor): full-screen loading, generic availability error, insurance-estimate ambiguity.
+- 1 (cosmetic): calm visual tone and exact spacing should remain qualified because no screenshot is provided.
 
 ## Rubric score expectation
 
-- Expected current design-quality score: 2/5.
-- Reason: the structure supports booking, but safety escalation, state clarity, and appointment confidence are too weak for a health context.
+- Expected score: current 2/5 -> projected up to 4/5 (conditional, provisional D2).
+- Reason for current: the structure supports booking, but safety escalation, state clarity, and appointment confidence are too weak for a health context.
+- Reason for projected: repositioning the urgent boundary, explaining disabled slots, and adding a pre-booking confirmation can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because visual tone, contrast of gray notices, and large-text behavior cannot be raised from a text-only description.
+- No Bold move is expected: the screen has unresolved severity-3 findings, so the Bold move trigger is not met.

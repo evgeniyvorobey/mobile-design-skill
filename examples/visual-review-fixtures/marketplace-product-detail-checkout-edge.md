@@ -80,6 +80,134 @@ A marketplace product detail page includes a sticky "Buy now" action that can sk
 - Substitution affects trust and should be explicit.
 - The screen must avoid dark patterns around urgency, hidden fees, and default opt-ins.
 
+## Example output
+
+```md
+Mode: Review screen for usability/accessibility
+Platform scope: Cross-platform mobile
+Sub-case: D2 description only (text description provided, no visual asset)
+Assumptions:
+- This is a phone-first product detail page, 390 x 844 px, with a sticky "Buy now" that can skip cart.
+- Substitution preference is enabled by default, as stated.
+- Stock is limited ("Only 2 left"); whether that figure is accurate is not stated and is not assumed.
+
+## Quick summary
+The buying path is clear and media-first, but it carries several trust and recovery risks before a fast purchase: total cost is delayed until checkout, substitution is opted in by default, there is no recovery if stock changes mid-checkout, return terms are buried, and payment errors are toast-only. None of this is called deceptive — but the combination undermines confidence before a one-tap buy. The structure can support a fast path once transparency improves; visual properties cannot be judged from text.
+
+## Strengths
+- Leads with media-first product exploration via the image carousel.
+- Surfaces a stock signal, a seller module (rating, response time), and return terms on the page.
+- Provides a checkout sheet that can support a fast path if transparency is improved.
+
+## Findings
+
+### F1 — Total cost is delayed until checkout
+- Lens: Usability
+- Observation: The base price is prominent (24 px), but it excludes shipping and taxes; the total appears only after address loads in the checkout sheet.
+- Violated principle: Nielsen #1 Visibility of system status; match between system and the real world (true cost expectations).
+- User consequence: A user can commit toward "Buy now" anchored on a base price and only discover the real total deep in checkout, a trust and abandonment risk.
+- Change: Show an estimated total or total range (and the shipping/tax dependency) before the CTA, and update it as soon as address is known.
+- Predicted effect: Should reduce surprise at the final total; confidence M (D2 text-only — structural inference, not measured). No conversion claim is made.
+- Severity: 3 (major) — frequent (every purchase), high impact (trust, cost), persistent.
+- Moves: Production readiness 2→3; lifts cap: delayed total-cost transparency.
+
+### F2 — Substitution is opted in by default
+- Lens: Usability
+- Observation: The substitution preference is enabled by default in the checkout sheet.
+- Violated principle: Nielsen #3 User control and freedom; Nielsen #5 Error prevention (avoid default opt-ins for consequential choices).
+- User consequence: Users may unknowingly accept substitutions they did not want, receiving a different item — a trust violation if not clearly chosen.
+- Change: Make substitution an explicit choice (off by default, or a clear inline decision) with a plain explanation of what substitution means.
+- Predicted effect: Should reduce unwanted substitutions; confidence M (D2 text-only).
+- Severity: 3 (major) — frequent, high impact (wrong item, trust), persistent until changed.
+- Moves: Production readiness 2→3; lifts cap: default opt-in risk.
+
+### F3 — No recovery if stock changes mid-checkout
+- Lens: Usability
+- Observation: Stock is limited ("Only 2 left") and inventory can change during checkout, but no stock-change state is described.
+- Violated principle: Nielsen #1 Visibility of system status; Nielsen #9 Help users recognize, diagnose, and recover.
+- User consequence: A user can complete checkout for an item that sold out, hitting a late failure with no graceful recovery.
+- Change: Add a stock-change dialog that detects sell-out before payment and offers options (wait-list, substitute with consent, or cancel).
+- Predicted effect: Should reduce dead-end checkouts on stock change; confidence M (D2 text-only).
+- Severity: 3 (major) — occasional but high impact, persistent until handled.
+- Moves: Production readiness 2→3; lifts cap: missing stock-change recovery.
+
+### F4 — Payment errors are toast-only
+- Lens: Usability
+- Observation: Payment failure uses a toast only; whether the checkout form is preserved is not described.
+- Violated principle: Nielsen #9 Help users recognize, diagnose, and recover from errors; Nielsen #1 Visibility of system status.
+- User consequence: A transient toast is easy to miss and may not preserve checkout context, forcing re-entry or an unclear failure.
+- Change: Show a persistent, specific payment-error state that preserves the checkout form and offers retry.
+- Predicted effect: Should reduce missed payment errors and re-entry; confidence M (D2 text-only).
+- Severity: 3 (major) — occasional but high impact (failed purchase), persistent until changed.
+- Moves: Interaction polish & motion 2→3; lifts cap: toast-only error recovery.
+
+### F5 — Return terms are de-emphasized before purchase
+- Lens: Hierarchy & readability
+- Observation: Return terms are a collapsed disclosure in small gray text, sixth in the hierarchy, before a final purchase action.
+- Violated principle: Nielsen #1 Visibility of system status; recognition over recall.
+- User consequence: Important, seller-variable return terms are easy to miss before buying, which can cause post-purchase disputes.
+- Change: Summarize key return terms near the CTA (not only in a collapsed block) so they are visible before purchase.
+- Predicted effect: Should improve awareness of return terms before buying; confidence M (D2 text-only).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Attention path & hierarchy 2→3.
+
+### F6 — Stock urgency relies on color alone
+- Lens: Accessibility
+- Observation: Stock urgency is conveyed by orange text only.
+- Violated principle: WCAG use-of-color (1.4.1) — color must not be the only means of conveying information.
+- User consequence: Users with color-vision differences or in glare may not register the urgency signal, missing a relevant stock cue.
+- Change: Pair the stock signal with an icon and/or explicit text (e.g. "Only 2 left in stock") rather than color alone.
+- Predicted effect: Should make the stock signal perceivable beyond color; confidence M (cannot verify rendering from text).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Production readiness 2→3.
+
+### F7 — No final review before a one-tap purchase
+- Lens: Usability
+- Observation: "Buy now" can skip cart and there is no described final review row before payment is committed.
+- Violated principle: Nielsen #5 Error prevention; Nielsen #3 User control and freedom.
+- User consequence: A fast path without a final review can let users commit to a purchase before confirming item, total, and substitution choice.
+- Change: Add a concise final review row (item, total, substitution choice, return summary) before the purchase is committed.
+- Predicted effect: Should reduce accidental or under-informed purchases; confidence M (D2 text-only).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Production readiness 2→3.
+
+## Design quality score (current → projected)
+- Current: 2/5 — provisional (D2 text-only). Pinned by delayed total cost (F1), default substitution (F2), no stock-change recovery (F3), and toast-only payment errors (F4).
+- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3+F4 to land (plus F5/F6/F7) AND a visual pass to confirm media quality, contrast, and spacing. Doubly provisional (D2): visual dimensions are not raised from text.
+- Ceiling note: capped at 4/5 — resilience (large-text, contrast of small gray/orange text, dark mode) is unverified from the description.
+- Largest single lever: F1 + F2 (cost transparency and explicit substitution, the trust pair that most pins a checkout edge at 2).
+
+| Dimension | Now | Projected | Gated by | Confidence |
+|-----------|-----|-----------|----------|------------|
+| Production readiness | 2 | 4 | F1/F2/F3/F7 lift trust caps | provisional |
+| Attention path & hierarchy | 2 | 3 | F5 return terms (rung 2→3) | provisional |
+| Interaction polish & motion | 2 | 3 | F4 error state (rung 2→3) | provisional |
+| Color, state & contrast | n/v | n/v | orange/gray contrast not from text | not-from-text |
+| Typography craft | n/v | n/v | sizes/contrast not from text | not-from-text |
+- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+
+## Severity index
+- 4 (catastrophe): none
+- 3 (major): F1, F2, F3, F4
+- 2 (minor): F5, F6, F7
+- 1 (cosmetic): none
+
+## Platform-convention mismatches
+- Cross-platform caution: the sticky CTA, checkout sheet, and toast/dialog behavior should follow each platform's idioms rather than a single forced pattern.
+- Payment-error and stock-change prompts should use platform-idiomatic dialogs rather than a transient web-style toast.
+
+## Unresolved assumptions
+- Cannot verify image quality, carousel cropping, or product-photo trust from text.
+- Cannot verify contrast of the orange stock text or small gray return terms from text.
+- Cannot verify tap-target sizes from the description.
+- Cannot call the urgency false or the flow legally deceptive; limited stock is stated, accuracy is not, and no conversion claim is made.
+
+## Next actions
+- Show an estimated total before the CTA, make substitution explicit opt-in, and add a stock-change recovery path before any visual polish.
+- Replace the payment toast with a persistent error state that preserves the form, summarize return terms near the CTA, and add a final review row.
+- Run a visual pass with large text and color-vision simulation to confirm the projected score.
+```
+
 ## Expected critique
 
 - The review should flag price transparency risk: base price is prominent, but total cost is delayed until checkout.
@@ -102,11 +230,15 @@ A marketplace product detail page includes a sticky "Buy now" action that can sk
 
 ## Severity expectations
 
-- High: delayed total cost, default substitution, no stock-change recovery, payment error toast only.
-- Medium: return terms de-emphasized, color-only stock urgency, seller-unavailable gap.
-- Low: media carousel quality and visual polish should remain qualified because no screenshot is provided.
+Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catastrophic; Medium to 2; Low to 1).
+
+- 3 (major): delayed total cost, default substitution, no stock-change recovery, payment error toast only.
+- 2 (minor): return terms de-emphasized, color-only stock urgency, seller-unavailable gap.
+- 1 (cosmetic): media carousel quality and visual polish should remain qualified because no screenshot is provided.
 
 ## Rubric score expectation
 
-- Expected current design-quality score: 2/5.
-- Reason: the buying path is clear, but fee transparency, inventory volatility, default opt-in, and recovery states create trust and checkout-risk gaps.
+- Expected score: current 2/5 -> projected up to 4/5 (conditional, provisional D2).
+- Reason for current: the buying path is clear, but fee transparency, inventory volatility, default opt-in, and recovery states create trust and checkout-risk gaps.
+- Reason for projected: showing total cost before the CTA, making substitution explicit opt-in, and adding stock-change and payment-error recovery can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because media quality, contrast, and spacing cannot be raised from a text-only description.
+- No Bold move is expected: the screen has unresolved severity-3 findings, so the Bold move trigger is not met.

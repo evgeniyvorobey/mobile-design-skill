@@ -35,76 +35,98 @@ Assumptions:
 - No section collapsing is currently implemented.
 
 ## Quick summary
-The screen appears functionally complete but structurally overloaded. The main risks are weak form clarity, poor error prevention, insufficient labeling, and fragile completion behavior on a long mobile form. The design is likely to create avoidable errors and unnecessary scrolling, especially for older users or users with larger text settings.
+The screen is functionally complete but structurally overloaded: weak form clarity, poor error prevention, insufficient labeling, and fragile completion behavior on a long mobile form. It will create avoidable errors and unnecessary scrolling, especially for older users or larger text settings. Current quality is low, but the structural fixes below have a clear, attributable path to a stronger score.
 
 ## Strengths
 - Common profile fields are present in one place.
 - The top title and profile image create basic orientation.
 - A single save action reduces ambiguity about how edits are finalized.
 
-## Usability issues
-- The form is too long without visible grouping, which increases scanning effort.
-- Save action only at the bottom creates completion friction and scroll dependency.
-- Required fields are discovered too late, which encourages preventable submission errors.
-- Unsaved-changes handling is unclear, creating exit anxiety.
+## Findings
 
-## Accessibility issues
-- Placeholder-only labeling is weak for comprehension and assistive technology support.
-- Error communication depends on red text, which is insufficient as the only cue.
-- Large-text users may struggle if the long stacked form becomes visually undifferentiated.
-- The screen likely needs better focus movement and error announcement behavior, though this cannot be verified from the description alone.
+### F1 — Required fields revealed only at submit
+- Lens: Usability
+- Observation: Required fields are not marked until the user submits; errors then appear in red text.
+- Violated principle: Nielsen #5 Error prevention; Wroblewski form-design (mark required before submit).
+- User consequence: Users complete the whole form, hit save, then back-track to fix errors — high-effort recovery on a long form, worse for older users.
+- Change: Mark required fields inline before submit; validate on blur with supportive helper text; pair errors with icon + text, not color alone.
+- Predicted effect: Should cut submit-time error bounce and re-scrolling; confidence M (D2 text-only — structural inference, not measured).
+- Severity: 3 (major) — frequent (every submit), high impact (rework), persistent (repeats each edit).
+- Moves: Production readiness 2→3; lifts cap: P1 (late required-field feedback).
 
-## Hierarchy and readability issues
-- All fields appear to have near-equal visual priority.
-- No sectional hierarchy means users must parse the entire form as one block.
-- Dense profile fields such as address and company info should be grouped or progressively disclosed where appropriate.
+### F2 — Placeholder text used as the only label
+- Lens: Accessibility
+- Observation: Placeholders are used in place of persistent field labels.
+- Violated principle: Nielsen #6 Recognition over recall; label semantics for assistive technology.
+- User consequence: Labels vanish once typing starts; recall load rises and assistive tech may not announce a stable field name.
+- Change: Add persistent visible labels above each field; keep placeholders only for format hints.
+- Predicted effect: Should reduce field-identification errors and improve screen-reader clarity; confidence M (semantics unverifiable from text).
+- Severity: 3 (major) — frequent, high impact, persistent.
+- Moves: Production readiness 2→3; lifts cap: P1 (placeholder-only labeling).
 
-## Design quality issues
-- Current design quality score: 2/5 — provisional structural score from text-only input; the screen has recognizable form structure, but grouping, hierarchy, save affordance, and state coverage are too weak to treat as shippable.
-- Description-only limitation: visual balance, exact spacing, contrast, and color quality cannot be verified without a screenshot or layout spec.
-- Probable quality risk: equal field priority and no grouping will make the form feel less crafted even if individual fields are visually polished.
-- The save action needs stronger discoverability through placement and persistence, not just visual styling.
-- Any visual refinement should first reinforce section grouping, required/optional distinction, error recovery, and unsaved-change behavior.
+### F3 — Flat, ungrouped long form
+- Lens: Hierarchy & readability
+- Observation: Seven fields (name, email, phone, birthday, address, company, job title) sit in one undifferentiated block.
+- Violated principle: Gestalt proximity / common region; Cognitive load (extraneous).
+- User consequence: The form reads as one long list; scanning effort and perceived length rise, especially at large text sizes.
+- Change: Group into Personal / Contact / Work / Address with section headers.
+- Predicted effect: Should reduce scanning effort and perceived length; confidence M.
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Attention path 2→3, Composition 2→4.
 
-## Navigation and interaction issues
-- Back arrow behavior is unclear when changes are unsaved.
-- Long-form completion likely feels fragile without a persistent save affordance or clear progress feedback.
-- If keyboard behavior is not carefully managed, bottom controls may become hard to reach.
+### F4 — Unclear unsaved-changes behavior on back
+- Lens: Navigation & interaction
+- Observation: A back arrow exists but unsaved-changes behavior is undefined.
+- Violated principle: Nielsen #5 Error prevention; Nielsen #3 User control and freedom.
+- User consequence: Users risk silently losing edits on a long form, which erodes trust and forces re-entry.
+- Change: On back with unsaved edits, prompt to save or discard; preserve entered data.
+- Predicted effect: Should prevent accidental data loss; confidence M.
+- Severity: 3 (major) — occasional but high impact, persistent across sessions.
+- Moves: Interaction polish 2→3.
 
-## Severity / priority
-- High:
-  - placeholder-only labels
-  - late required-field feedback
-  - unclear unsaved-changes handling
-- Medium:
-  - lack of grouping
-  - bottom-only save action
-  - error reliance on color
-- Low:
-  - visual hierarchy refinement after structural fixes
+## Design quality score (current → projected)
+- Current: 2/5 — provisional (D2 text-only). Pinned by late required-field feedback (F1) and placeholder-only labeling (F2), both P1-class.
+- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3+F4 to land AND a visual pass to confirm contrast/spacing. Doubly provisional (D2): visual dimensions are not raised from text.
+- Ceiling note: capped at 4/5 — resilience (large-text, dark mode, AT semantics) unverified from the description.
+- Largest single lever: F1 + F2 (they lift the P1 caps currently pinning the score at 2).
 
-## Recommended fixes
-- Replace placeholders with persistent field labels.
-- Group fields into sections such as Personal, Contact, Work, and Address.
-- Mark required fields before submission.
-- Add inline validation and supporting helper text where needed.
-- Use icon, text, and placement cues for errors rather than color alone.
-- Add a sticky or persistently reachable save action for long forms if appropriate.
-- Define explicit unsaved-changes behavior on back navigation.
-- Consider reducing scope by moving low-frequency fields into a secondary “More details” section if business rules allow.
+| Dimension | Now | Projected | Gated by (cap / ladder rung) | Confidence |
+|-----------|-----|-----------|------------------------------|------------|
+| Attention path & hierarchy | 2 | 3 | rung 2→3 (F3) | provisional |
+| Composition & spacing | 2 | 4 | rung 3→4 (F3) | not-from-text |
+| Production readiness | 2 | 3 | F1/F2 lift P1 caps | provisional |
+| Interaction polish & motion | 2 | 3 | rung 2→3 (F4) | provisional |
+| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
+- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+
+## Severity index
+- 4 (catastrophe): none
+- 3 (major): F1, F2, F4
+- 2 (minor): F3
+- 1 (cosmetic): none
+
+## Bold move (optional)
+- The move: Split the long form into a 3-step progressive flow (Personal → Contact → Work) with a persistent save and a visible step indicator.
+- Deviates from: the product's implied "edit everything on one screen" model.
+- Job served (JTBD): "When I update my profile occasionally, I want to finish without re-checking what I missed, so I can trust my data is correct." Outcome: minimize the number of fields visible at once while keeping completion obvious.
+- UX upside: Cuts per-screen cognitive load (Miller / Hick), makes required-field recovery local, fits one-handed older-user use.
+- Risk / cost: More taps; power users lose the single-scroll edit; dev cost of step state + partial save.
+- De-risk / validate: Prototype A/B vs. the grouped single form on completion rate + error rate; kill if completion drops. Must still pass large-text and focus-order checks.
+- Score impact: safe fixes (grouped single form) → 4/5; this stepped flow targets 5/5 on resilience but does NOT raise the score until validated.
+- Conviction: Worth a spike.
 
 ## Platform-convention mismatches
-- Cross-platform caution: back behavior must remain predictable and should not silently discard edits.
-- If the same screen is used on both iOS and Android, the save and exit patterns should still respect each platform’s navigation expectations rather than acting like a web form dropped into a phone.
+- Cross-platform caution: back behavior must remain predictable and must not silently discard edits.
+- If the same screen is used on iOS and Android, save and exit patterns should respect each platform's navigation expectations rather than acting like a web form dropped into a phone.
 
 ## Unresolved assumptions
 - Cannot verify field editability rules.
 - Cannot verify keyboard handling.
-- Cannot verify accessibility semantics or assistive technology announcements.
-- Cannot verify text scaling resilience from the description alone.
+- Cannot verify accessibility semantics or assistive-technology announcements.
+- Cannot verify text-scaling resilience from the description alone.
 
 ## Next actions
-- Restructure the form into grouped sections before polishing visuals.
-- Define unsaved-changes behavior explicitly.
-- Run a quick review with large text and error scenarios.
+- Restructure the form into grouped sections and add required-field marking before polishing visuals.
+- Define unsaved-changes behavior explicitly and preserve entered data.
+- Run a review with large text and error scenarios to confirm the projected score.
 ```

@@ -249,21 +249,21 @@ MODE_REQUIREMENTS = {
         "sections": [
             "Quick summary",
             "Strengths",
-            "Usability issues",
-            "Accessibility issues",
-            "Hierarchy and readability issues",
-            "Design quality issues",
-            "Navigation and interaction issues",
-            "Severity / priority",
-            "Recommended fixes",
+            "Findings",
+            "Design quality score (current → projected)",
+            "Severity index",
             "Platform-convention mismatches",
             "Unresolved assumptions",
             "Next actions",
         ],
-        "accessibility_sections": ["Accessibility issues"],
+        "accessibility_sections": ["Findings"],
         "requires_sub_case": True,
         "must_contain": [
-            ("Design quality issues", r"Current design quality score:.*\b[1-5]/5\b"),
+            ("Design quality score (current → projected)", r"Current:\s*\b[1-5]/5\b"),
+            (
+                "Design quality score (current → projected)",
+                r"Projected after High\+Medium findings:",
+            ),
         ],
     },
     "Create typography and spacing system": {
@@ -908,9 +908,14 @@ def validate_golden_examples() -> None:
         ]:
             if pattern not in text:
                 errors.append(f"{relative_path}: missing `{pattern}`")
-        if "Quality target:" not in text and "Current design quality score:" not in text:
+        if (
+            "Quality target:" not in text
+            and "Current design quality score:" not in text
+            and not re.search(r"Current:\s*[1-5]/5", text)
+        ):
             errors.append(
-                f"{relative_path}: missing `Quality target:` or `Current design quality score:`"
+                f"{relative_path}: missing `Quality target:`, "
+                "`Current design quality score:`, or `Current: n/5`"
             )
 
     for relative_path in GOLDEN_EXAMPLE_REFERENCE_FILES:

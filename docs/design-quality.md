@@ -189,6 +189,38 @@ Red flags:
 
 ---
 
+## Distinctiveness levers
+
+These operationalize "creative / distinctive / memorable / premium" as checkable levers — a count, a token, or a pass/fail question — so distinctiveness can be pushed without becoming aesthetic laundering. Each carries the guardrail that keeps it honest. The frameworks they rest on are non-authoritative creative-range references (see `docs/sources.md`): they inform visual direction, never usability or accessibility proof. In Mode D, these mainly feed the score (via the inert-screen test) and the `Bold move` block.
+
+### The inert-screen test (the anti-forgettable gate)
+- Ask: "If this screen lost its logo and brand color, would it still be distinguishable from a competitor's?"
+- If no, the screen is inert. A screen competent on all eight dimensions but failing this test is a 3/5 with an upside note, not a quiet 4/5 (see `docs/design-quality-rubric.md`).
+
+### Onlyness check (Neumeier, *Zag*)
+- Can the distinctive choice complete "This is the only [category] that [specific buildable move]…" without a taste word? If the blank fills only with "premium/modern/clean," it fails — that is polish, not a point of difference.
+
+### Distinctive-asset audit (Sharp & Romaniuk, *Building Distinctive Brand Assets*)
+- Count the screen's owned, name-independent assets (a color, shape, type treatment, motion signature, mascot). Forgettable = zero owned assets; distinctive = at least one that category competitors do not share.
+- Guardrail: an asset must be repeated and consistent to count — this rewards bold use of an existing owned asset and rejects one-off invented decoration, which keeps the no-novelty stance intact.
+
+### Delight-placement gate (Kano model)
+- A signature/delight moment is justified only on an *attractive* (delighter) feature — never on a must-be (a missing required affordance) and never instead of a linear performance improvement.
+
+### Norman level + cost check (Norman, *Emotional Design*)
+- Tag a signature moment visceral / behavioral / reflective, and confirm it does not raise behavioral cost (extra tap, delayed feedback). A visceral flourish bought with behavioral debt fails.
+
+### Brand-expression budget (Kholmatova, *Design Systems*)
+- Budget perceptual (expressive) deviation: about one signature perceptual move per screen, two per flow. Functional patterns (where the control is, what the gesture does) are out of budget and stay conventional (Jakob's Law).
+
+### Motion-personality tokens (Val Head, *Designing Interface Animation*)
+- Express motion character as values, not adjectives: a duration band (200–500ms), a named easing curve tied to a brand adjective, and exactly one recurring signature transition. Above 500ms or feedback-delaying motion fails; always ship a reduced-motion fallback.
+
+### Type-personality split (Lupton, *Thinking with Type*)
+- Confine a distinctive/personality typeface to display roles (headlines, hero); keep body and UI text on a readable face. Character bleeding into running text fails.
+
+---
+
 ## Design quality calibration section
 
 When the mode produces or packages a design artifact, include a concise quality calibration section.
@@ -260,6 +292,7 @@ Before returning a design proposal, ask:
 - Does density match the user's task and context?
 - Are motion and feedback purposeful, fast enough, and optional when needed?
 - Can this be translated into tokens, components, and QA acceptance checks?
+- Inert-screen test: with the logo and brand color removed, is this screen still distinguishable from a competitor's? If not, it is inert — flag it (3/5 with an upside note) rather than scoring it a quiet 4/5.
 
 If the answer is "no" or "not sure", revise the recommendation before returning it.
 
