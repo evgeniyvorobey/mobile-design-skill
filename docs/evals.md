@@ -28,7 +28,7 @@ Every response must satisfy the following, regardless of mode:
   - Mode A / E: `## Accessibility considerations`
   - Mode B: `## Accessibility and usability risks`
   - Mode C: `## Accessibility requirements`
-  - Mode D: `## Accessibility issues`
+  - Mode D: `## Findings` containing at least one finding with `Lens: Accessibility`
   - Mode F: `## Accessibility and usability considerations`
 - [ ] Contains a `## Next actions` section with at least 2 specific, testable items
 - [ ] Does not contain the compliance-claim tokens: `compliant`, `WCAG-compliant`, `passes accessibility` unless the user provided verified evidence
@@ -269,7 +269,7 @@ For generated concepts, UI specs, typography systems, and handoff:
 
 For reviews:
 
-- [ ] `Design quality score (current → projected)` includes both a current score and a projected score (e.g. `Current: 2/5 — ...` and `Projected after the recommended fixes: 4/5 — conditional ...`).
+- [ ] `Design quality score (current → projected)` includes both a current score and a projected score (e.g. `Current: 2/5 — ...` and `Projected: 3/5 — ...`). The projected number is a flat median of assessable dimensions, not "up to"; any higher post-visual-pass figure is confined to a `Ceiling note`.
 - [ ] The projection is conditional (IF fixes land AND assumptions hold) and capped at 4/5 unless resilience is named; a P0/Fail is not projected up to a number.
 - [ ] Text-only reviews label both scores as structural/provisional, and visual dimensions are not projected upward.
 - [ ] Score rationale references concrete dimensions: hierarchy, spacing, typography, color/state, interaction polish, brand/context fit, or production readiness.

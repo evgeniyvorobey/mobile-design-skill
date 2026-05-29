@@ -19,6 +19,13 @@ All notable changes to this project will be documented in this file.
 - Guardrail #4 carve-out: a product-contradicting recommendation is not aesthetic laundering when justified by a named usability/accessibility/hierarchy mechanism and surfaced in the Bold move block with its tradeoff and validation path.
 - Regenerated Mode D calibration to the new format: `examples/review-screen.md`, `examples/golden/settings.md`, all `examples/visual-review-fixtures/`, and `examples/case-studies/social-privacy-settings.md`.
 
+### Fixed (post senior-review hardening)
+- Projected score is now a **flat median of the assessable dimensions**, not an inflated "up to N/5"; any higher post-visual-pass figure is confined to a `Ceiling note`. Corrected the arithmetic in all nine Mode D examples (five drop honestly from 4/5 to 3/5). A `must_not_contain` validator guard blocks the "up to" phrasing from returning.
+- Reconciled the **Bold move trigger** with its examples: it requires current ≥3/5 AND no unresolved severity-3/4 finding. `examples/review-screen.md` (2/5) now correctly omits the Bold move; `examples/golden/settings.md` was made internally consistent (confirmed delete) so its Bold move is legitimately gated.
+- Closed the **D2 visual-overclaim backdoor**: visual dimensions stay `n/v` and are never projected upward from a text-only review (fixed `settings.md` Color/state and the `review-screen.md` Composition row).
+- Added a **severity crosswalk** (Nielsen 0–4 ↔ High/Med/Low ↔ P0–P3 ↔ quality-score caps) to `docs/heuristics.md`.
+- Fixed stale Mode D references in `docs/evals.md` (accessibility section, projected-line label) and converted the Anti-pattern 4 "Good" fragment to the Findings format. Added a compressed-finding example and an inert-screen-test finding to `examples/golden/settings.md`.
+
 ## [1.15.0] - 2026-04-25
 
 ### Added

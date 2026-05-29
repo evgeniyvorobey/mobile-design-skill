@@ -109,12 +109,14 @@
 
 **Литеральный шаблон (заменяет строку 283 в `skill/templates.md`):**
 
+> Note (post-senior-review v1.16.1): the projected line is a **flat median of the assessable dimensions**, not "up to N/5"; any higher post-visual-pass figure lives only in `Ceiling note`. Visual dimensions stay `n/v` in D2/D3 and are never projected upward.
+
 ```md
 ## Design quality score (current → projected)
 - Current: [n]/5 — [evidence-based reason; "provisional" for D2/D3]
-- Projected after High+Medium findings: [m]/5 — conditional: requires F[..] AND [assumptions]. [D2/D3: "doubly provisional — also depends on unverified visual properties."]
-- Ceiling note: projection capped at 4/5 unless resilience conditions are named and confirmable.
-- Largest single lever: [the one finding that moves the score most]
+- Projected: [m]/5 — median of the assessable projected dimensions once the listed fixes land; conditional: requires F[..] AND [assumptions]. Flat number, not "up to". [D2/D3: provisional — visual dimensions stay n/v.]
+- Ceiling note: with a visual pass confirming [x], the ceiling is [1-5]/5 (capped at 4/5 unless resilience is named).
+- Primary lever(s): [the one or two findings that move the score most]
 
 | Dimension | Now | Projected | Gated by (cap / ladder rung) | Confidence |
 |-----------|-----|-----------|------------------------------|------------|
@@ -126,7 +128,7 @@
 | Interaction polish & motion | [n] | [n] | … | … |
 | Context & brand fit | [n] | [n] | … | … |
 | Production readiness | [n] | [n] | … | … |
-- Overall = median of projected column, lowered if a critical task dimension stays weak. NOT the sum of per-dimension gains.
+- Projected overall = median of the assessable (non-n/v) projected dimensions, lowered if a critical task dimension stays weak. NOT the sum of per-dimension gains.
 ```
 
 **Сопутствующее:** обновить правило вывода ревью в `docs/design-quality-rubric.md:44-48` (требовать оба числа), и eval в `docs/evals.md:267-269` (проверять условную грамматику, потолок 4/5, provisional для D2/D3, отсутствие числа при Fail).
@@ -265,24 +267,26 @@
 
 ## Design quality score (current → projected)
 - Current: 2/5 — provisional (D2 text-only); pinned by late-required-fields (P1-class) + placeholder-as-label.
-- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3 (labels) AND a visual pass to confirm contrast/spacing. Doubly provisional (D2): visual dimensions not raised from text.
-- Ceiling note: capped at 4/5 — resilience (large-text, dark mode, AT semantics) unverified from description.
-- Largest single lever: F1 (lifts the P1 cap currently pinning the score at 2).
+- Projected: 3/5 — median of the assessable dimensions once F1–F3 land; conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
+- Ceiling note: with a visual pass confirming contrast/spacing/large-text, the ceiling is 4/5 (resilience such as dark mode and AT semantics still unverified from description).
+- Primary lever(s): F1 (lifts the P1 cap pinning the score at 2).
 
 | Dimension | Now | Projected | Gated by | Confidence |
 |-----------|-----|-----------|----------|------------|
 | Attention path & hierarchy | 2 | 3 | rung 2→3 (F2) | provisional |
-| Composition & spacing | 2 | 4 | rung 3→4 (F2) | not-from-text (cap) |
 | Production readiness | 2 | 3 | F1 lifts P1 cap | provisional |
+| Composition & spacing | n/v | n/v | not verifiable from text | not-from-text |
 | Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
+- Projected overall = median of the assessable (non-n/v) dimensions {3, 3} = 3. Visual dimensions are not projected upward from text.
 
-## Bold move (optional)
-- The move: Split the 8-field form into a 3-step progressive flow (Personal → Contact → Work) with a persistent save.
-- Deviates from: the product's "everything on one screen" edit model.
-- Job served (JTBD): "When I update my profile occasionally, I want to finish without re-checking what I missed, so I can trust my data is correct." Outcome: minimize the number of fields visible at once while keeping completion obvious.
-- UX upside: Cuts per-screen cognitive load (Miller/Hick), makes required-field recovery local, fits one-handed older-user use.
-- Risk / cost: More taps; power users lose the single-scroll edit; dev cost of step state + partial save.
-- De-risk / validate: Prototype A/B vs. grouped single form on completion rate + error rate; kill if completion drops. Must still pass large-text + focus-order checks.
+## Bold move
+- This 2/5 screen has unresolved severity-3 findings, so the trigger is NOT met — the real review defers the Bold move and fixes the foundation first. The block below is shown only to illustrate the Bold-move shape; it would appear once the screen is competent and inert:
+  - The move: Split the 8-field form into a 3-step progressive flow (Personal → Contact → Work) with a persistent save.
+  - Deviates from: the product's "everything on one screen" edit model.
+  - Job served (JTBD): "When I update my profile occasionally, I want to finish without re-checking what I missed, so I can trust my data is correct." Outcome: minimize the number of fields visible at once while keeping completion obvious.
+  - UX upside: Cuts per-screen cognitive load (Miller/Hick), makes required-field recovery local, fits one-handed older-user use.
+  - Risk / cost: More taps; power users lose the single-scroll edit; dev cost of step state + partial save.
+  - De-risk / validate: Prototype A/B vs. grouped single form on completion rate + error rate; kill if completion drops. Must still pass large-text + focus-order checks.
 - Score impact: safe fixes (grouped single form) → 4/5; this stepped flow targets 5/5 on resilience but does NOT raise the score until validated.
 - Conviction: Worth a spike.
 ```

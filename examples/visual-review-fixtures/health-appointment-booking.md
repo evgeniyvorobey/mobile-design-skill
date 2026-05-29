@@ -151,9 +151,9 @@ The screen supports a focused booking task — clinician, type, date, time, esti
 
 ## Design quality score (current → projected)
 - Current: 2/5 — provisional (D2 text-only). Pinned by the de-emphasized urgent boundary (F1), unexplained disabled slots (F2), and missing confirmation (F3).
-- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3 to land (plus F4/F5) AND a visual pass to confirm tone, contrast, and large-text behavior. Doubly provisional (D2): visual dimensions are not raised from text.
-- Ceiling note: capped at 4/5 — resilience (large-text, contrast of gray notices, dark mode) is unverified from the description.
-- Largest single lever: F1 + F3 (safety visibility and pre-booking confirmation, the two that most pin a health flow at 2).
+- Projected: 3/5 — median of the assessable dimensions once F1+F2+F3 land (plus F4/F5); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
+- Ceiling note: with a visual pass confirming tone, contrast, and large-text behavior, the ceiling is 4/5 (resilience such as contrast of gray notices and dark mode is still unverified from the description).
+- Primary lever(s): F1 + F3 (safety visibility and pre-booking confirmation, the two that most pin a health flow at 2).
 
 | Dimension | Now | Projected | Gated by | Confidence |
 |-----------|-----|-----------|----------|------------|
@@ -162,7 +162,7 @@ The screen supports a focused booking task — clinician, type, date, time, esti
 | Interaction polish & motion | 2 | 3 | F4 states (rung 2→3) | provisional |
 | Color, state & contrast | n/v | n/v | gray-text contrast not from text | not-from-text |
 | Typography craft | n/v | n/v | sizes/contrast not from text | not-from-text |
-- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+- Projected overall = median of the assessable (non-n/v) projected dimensions {3, 4, 3} = 3. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -215,7 +215,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 2/5 -> projected up to 4/5 (conditional, provisional D2).
+- Expected score: current 2/5 → projected 3/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
 - Reason for current: the structure supports booking, but safety escalation, state clarity, and appointment confidence are too weak for a health context.
 - Reason for projected: repositioning the urgent boundary, explaining disabled slots, and adding a pre-booking confirmation can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because visual tone, contrast of gray notices, and large-text behavior cannot be raised from a text-only description.
 - No Bold move is expected: the screen has unresolved severity-3 findings, so the Bold move trigger is not met.

@@ -257,15 +257,15 @@ At least one of:
 - Assumptions
 - Quick summary
 - Strengths
-- Findings — each finding is one causal chain with: Lens (Usability / Accessibility / Hierarchy & readability / Design quality / Navigation), Observation, Violated principle (named), User consequence, Change, Predicted effect (directional + confidence), Severity (Nielsen 0–4 = frequency × impact × persistence), Moves (which design-quality dimension it shifts, band→band)
-- Design quality score (current → projected) — current and projected scores plus a per-dimension table; the projection is conditional and capped at 4/5 unless resilience is named
+- Findings — each finding is one causal chain with: Lens (Usability / Accessibility / Hierarchy & readability / Design quality / Navigation & interaction), Observation, Violated principle (named), User consequence, Change, Predicted effect (directional + confidence), Severity (Nielsen 0–4 = frequency × impact × persistence), Moves (which design-quality dimension it shifts, band→band)
+- Design quality score (current → projected) — current and projected scores plus a per-dimension table; the projected number is the median of the assessable projected dimensions (visual dimensions are never projected upward from a text-only review), stated as a flat number; a higher number reachable only after a visual pass goes in a separate Ceiling note
 - Severity index — findings rolled up by Nielsen 0–4 level
 - Bold move (optional) — include only when the trigger is met (see below)
 - Platform-convention mismatches
 - Unresolved assumptions
 - Next actions
 
-The Bold move trigger: offer one only when there is no unresolved severity-3/4 finding, the screen is already at or near 3/5 but inert (loses no points yet has no point of view), and there is a concrete UX upside. Allowed in D1/D3; in D2 it may address structure/flow only; in D4 only if the new context unlocks it. It is not a fix and not required to ship; if the trigger is not met, omit the section. A recommendation that contradicts the stated product/task is a failure only when its justification is aesthetic — a contradiction justified by a named usability/accessibility/hierarchy mechanism and surfaced in the Bold move block with its tradeoff and validation path is encouraged, not penalized.
+The Bold move trigger: offer one only when ALL hold — the screen is already competent (current ≥3/5) but inert (loses no major points yet has no point of view); there is no unresolved severity-3 or severity-4 finding (fix those first); and there is a concrete UX upside. Allowed in D1/D3; in D2 it may address structure/flow only; in D4 only if the new context unlocks it. It is not a fix and not required to ship; if the trigger is not met, omit the section. A recommendation that contradicts the stated product/task is a failure only when its justification is aesthetic — a contradiction justified by a named usability/accessibility/hierarchy mechanism and surfaced in the Bold move block with its tradeoff and validation path is encouraged, not penalized.
 
 ### Validation checklist
 - Is the sub-case (D1 / D2 / D3 / D4) classified explicitly?
@@ -277,8 +277,8 @@ The Bold move trigger: offer one only when there is no unresolved severity-3/4 f
 - For D2: are visual claims qualified as unverifiable, or restricted to structure?
 - For D3: is diagnosis separated from assessment?
 - For D4: is the review framed as a delta against the changed context, not a full re-review?
-- Are both a current and a projected design-quality score exposed, with the projection written conditionally (IF the fixes land AND assumptions hold), capped at 4/5 unless resilience is named?
-- For D2/D3: is the projected score labeled provisional, and are visual dimensions kept out of the upward projection?
+- Are both a current and a projected design-quality score exposed, the projected number being the median of the assessable projected dimensions (a flat number, not "up to"), with any higher post-visual-pass figure confined to a Ceiling note?
+- For D2/D3: is the projected score labeled provisional, and are visual dimensions kept at n/v (never projected upward)?
 - If a Bold move is offered: is the trigger met, does it carry all required fields (deviation, JTBD job, upside, risk, validation path, score impact, conviction), and is it kept separate from the required fixes?
 - Was any UX-strengthening recommendation withheld only because it contradicts the current product? If so, is it moved to Bold move with its tradeoff?
 - Are platform mismatches called out, and typography/spacing reviewed where verifiable?

@@ -431,7 +431,19 @@ Elements within a visible container are perceived as grouped even if similar ele
 - Order findings by user impact, not by how much they bother you visually.
 - A catastrophe (irreversible data loss, blocked task) is a 4 even if rare; a cosmetic nit is a 1 even if frequent.
 
-**Source**: Nielsen, severity ratings for usability problems (NN/g, 1994).
+**Severity crosswalk** — the skill uses three scales for different jobs. A single finding may reference more than one; this table keeps them consistent:
+
+| Finding severity (Nielsen 0–4) | Coarse band | Weakness class (`docs/weaknesses.md`) | Effect on the 1–5 quality score (`docs/design-quality-rubric.md`) |
+|---|---|---|---|
+| 4 catastrophe (irreversible loss, blocked task) | High | P0/P1 | Fail or capped at 2/5 until fixed |
+| 3 major | High | P1 | capped at 2/5 until fixed |
+| 2 minor | Medium | P2 | lowers a dimension; rarely caps |
+| 1 cosmetic | Low | P3 | lowers a dimension at most |
+| 0 not a problem | — | — | none (omit from the Severity index) |
+
+So "lifts cap: P1" on a severity-3/4 finding and the Nielsen number describe the same defect at different granularities — they are not separate problems.
+
+**Source**: Nielsen, severity ratings for usability problems (NN/g, 1994); weakness classes and quality caps are this skill's own layers.
 
 ---
 

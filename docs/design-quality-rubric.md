@@ -45,10 +45,11 @@ For reviews, expose both a current and a projected score. The projection is cond
 
 ```md
 - Current: [1-5]/5 — [short evidence-based reason; "provisional" for D2/D3 text-only]
-- Projected after the recommended fixes: [1-5]/5 — conditional: requires the listed High+Medium fixes to land AND the named assumptions to hold; capped at 4/5 unless resilience conditions are named and confirmable. For D2/D3, doubly provisional — visual dimensions are not projected upward.
+- Projected: [1-5]/5 — the median of the assessable projected dimensions once the listed fixes land; conditional: requires those fixes AND the named assumptions to hold. State a flat number, not "up to". For D2/D3, provisional — visual dimensions stay unassessable (n/v) and are never projected upward.
+- Ceiling note: with a visual pass confirming [x], the ceiling is [1-5]/5 (capped at 4/5 unless resilience is named).
 ```
 
-The projected score is the median of the per-dimension projected column (not the sum of per-dimension gains); a cap lifts only when the specific fix that meets its condition is present, and a P0/Fail is never projected up to a number.
+The projected score is the median of the assessable (non-`n/v`) projected dimensions, not the sum of per-dimension gains; a cap lifts only when the specific fix that meets its condition is present; a P0/Fail is never projected up to a number; and a higher figure reachable only after a visual pass belongs in `Ceiling note`, never in the projected number.
 
 For generation, specs, typography systems, and handoff, expose the target only when useful:
 

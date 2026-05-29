@@ -171,9 +171,9 @@ The dashboard packs a useful financial overview into one screen, but it is struc
 
 ## Design quality score (current → projected)
 - Current: 2/5 — provisional (D2 text-only). Pinned by sensitive-data exposure (F1), stale-data ambiguity (F2), and color-only status (F3).
-- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3+F4 to land (plus F5/F6 grouping) AND a visual pass to confirm contrast, spacing, and large-text behavior. Doubly provisional (D2): visual dimensions are not raised from text.
-- Ceiling note: capped at 4/5 — resilience (large-text, dark mode, color-vision rendering) is unverified from the description.
-- Largest single lever: F1 + F2 + F3 (the trust trio that pins a money-status surface at 2).
+- Projected: 3/5 — median of the assessable dimensions once F1+F2+F3+F4 land (plus F5/F6 grouping); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
+- Ceiling note: with a visual pass confirming contrast, spacing, and large-text behavior, the ceiling is 4/5 (resilience such as dark mode and color-vision rendering is still unverified from the description).
+- Primary lever(s): F1 + F2 + F3 (the trust trio that pins a money-status surface at 2).
 
 | Dimension | Now | Projected | Gated by | Confidence |
 |-----------|-----|-----------|----------|------------|
@@ -182,7 +182,7 @@ The dashboard packs a useful financial overview into one screen, but it is struc
 | Interaction polish & motion | 2 | 3 | F4 states (rung 2→3) | provisional |
 | Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
 | Typography craft | n/v | n/v | sizes/contrast not from text | not-from-text |
-- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+- Projected overall = median of the assessable (non-n/v) projected dimensions {3, 4, 3} = 3. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -236,7 +236,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 2/5 -> projected up to 4/5 (conditional, provisional D2).
+- Expected score: current 2/5 → projected 3/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
 - Reason for current: the screen has a useful structure, but trust, hierarchy, state handling, and color semantics are weak enough to create material financial understanding risk.
 - Reason for projected: landing the major findings (privacy toggle, per-group freshness, non-color status, per-group error states) plus grouping fixes can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because visual dimensions (contrast, spacing, large-text rendering) cannot be raised from a text-only description.
 - No Bold move is expected: the screen has unresolved severity-3 findings, so the Bold move trigger is not met.

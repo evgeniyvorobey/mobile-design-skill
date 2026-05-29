@@ -1,6 +1,6 @@
 # Golden Example: Settings
 
-This is a compact, high-quality Mode D review used for taste and structure calibration. It shows the causal Finding format, a current→projected score, and a correctly-gated Bold move on an already-competent (3/5) screen.
+This is a compact, high-quality Mode D review used for taste and structure calibration. It shows the causal Finding format (including a compressed cosmetic finding), an honest current→projected score that does NOT inflate, the inert-screen test producing a finding, and a correctly-gated Bold move on a competent-but-inert (3/5) screen with no unresolved severity-3/4.
 
 ## Prompt
 
@@ -14,7 +14,7 @@ Screen description:
 - each row has a label and a chevron
 - some rows have current-value subtitles, some don't
 - toggles for some notification options
-- destructive "Delete account" at the very bottom in red
+- destructive "Delete account" at the very bottom in red, opening a confirmation sheet that states the consequence
 ```
 
 ## Golden output
@@ -28,36 +28,26 @@ Assumptions:
 - No search field in settings.
 
 ## Quick summary
-Solid, conventional iOS settings structure that users will navigate without friction. Main risks are an unconfirmed destructive action and inconsistent row subtitles — both fixable without restructuring. Competent today, with a clear path to strong.
+A sound, conventional iOS settings screen: the structure is correct and the destructive action is already confirmed, so there is no major risk here. The real ceiling is that it is competent but inert — indistinguishable from any other settings screen. The fixes below are minor; the larger opportunity is a deliberate point of view, captured as a Bold move.
 
 ## Strengths
 - Grouped categorization matches iOS conventions (Jakob's Law).
 - Chevrons correctly signal drill-in navigation.
-- Destructive action is visually distinct.
+- The destructive action already opens a confirmation sheet — error prevention is handled.
 
 ## Findings
 
-### F1 — Delete account likely has no confirmation
-- Lens: Navigation & interaction
-- Observation: "Delete account" sits at the bottom in red; no confirmation step is described.
-- Violated principle: Nielsen #5 Error prevention; Nielsen #3 User control and freedom.
-- User consequence: A single tap could trigger irreversible account loss with no chance to recover.
-- Change: Add a confirmation sheet stating the consequence explicitly before deletion; require deliberate confirmation.
-- Predicted effect: Should prevent accidental irreversible deletion; confidence M (behavior unverifiable from text).
-- Severity: 4 (catastrophe) — rare action, but maximal, irreversible impact.
-- Moves: Production readiness 3→4; lifts cap: P1 (destructive action without recovery).
-
-### F2 — Destructive cue relies on color alone
+### F1 — Destructive cue relies on color alone
 - Lens: Accessibility
-- Observation: The destructive action is signaled by red text only.
+- Observation: The Delete account row is signaled by red text only (the confirmation sheet aside).
 - Violated principle: WCAG use-of-color (color is not the only cue).
-- User consequence: Color-blind users may not perceive the row as destructive.
+- User consequence: Color-blind users may not perceive the row as destructive before tapping into the sheet.
 - Change: Reinforce with an icon or an explicit "irreversible" label alongside the red.
-- Predicted effect: Should make the destructive nature perceivable without relying on color; confidence M.
+- Predicted effect: Should make the destructive nature perceivable without relying on color; confidence M (rendering unverifiable from text).
 - Severity: 2 (minor) — affects a subset, moderate impact, persistent.
-- Moves: Color/state 3→4.
+- Moves: none numerically from text — Color/state stays n/v (the fix is structural; the dimension itself can't be scored from a description).
 
-### F3 — Inconsistent current-value subtitles
+### F2 — Inconsistent current-value subtitles
 - Lens: Hierarchy & readability
 - Observation: Some rows show a current-value subtitle, some don't.
 - Violated principle: Nielsen #4 Consistency and standards; Nielsen #6 Recognition over recall.
@@ -65,53 +55,59 @@ Solid, conventional iOS settings structure that users will navigate without fric
 - Change: Standardize current-value subtitles across all rows where a value exists.
 - Predicted effect: Should reduce drill-in just to read state; confidence M.
 - Severity: 2 (minor) — frequent, low-moderate impact, persistent.
-- Moves: Attention path 3→4.
+- Moves: Attention path & hierarchy 3→4.
+
+### F3 — Screen is competent but inert (compressed)
+- Observation: Strip the wordmark and brand color and this is indistinguishable from any iOS settings screen — zero owned distinctive assets (inert-screen test).
+- Change: Give the screen one ownable, low-risk distinctive moment — see Bold move; do not add decoration to functional rows.
+- Severity: 1 (cosmetic) — costs a quality point (Context & brand fit caps at 3), not a task failure.
 
 ## Design quality score (current → projected)
-- Current: 3/5 — provisional (D2 text-only). Conventional structure is sound; held below 4 by the unconfirmed destructive action and inconsistent subtitles.
-- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3 to land AND a visual pass to confirm contrast. Provisional (D2): visual dimensions not raised from text.
-- Ceiling note: capped at 4/5 — large-text and VoiceOver resilience unverified from the description.
-- Largest single lever: F1 (lifts the destructive-action cap holding structure at 3).
+- Current: 3/5 — provisional (D2 text-only). Conventional and correct, but inert; nothing here is broken.
+- Projected: 3/5 — the median of the assessable dimensions after F1+F2 land. The minor fixes remove friction but do not add a point of view, so the overall does not move; this is deliberately not inflated.
+- Ceiling note: with a visual pass confirming contrast and large-text behavior, the ceiling is 4/5. A distinctive point of view (the Bold move), once validated, is what would carry it toward 4–5 on Context & brand fit.
+- Primary lever(s): F2 lifts hierarchy; the score is otherwise gated by inertness (F3), which the safe fixes do not address.
 
 | Dimension | Now | Projected | Gated by | Confidence |
 |-----------|-----|-----------|----------|------------|
-| Attention path & hierarchy | 3 | 4 | rung 3→4 (F3) | provisional |
-| Color, state & contrast | 3 | 4 | rung 3→4 (F2) | not-from-text |
-| Production readiness | 3 | 4 | F1 lifts P1 cap | provisional |
-| Context & brand fit | 4 | 4 | iOS-conventional | provisional |
-- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+| Attention path & hierarchy | 3 | 4 | rung 3→4 (F2) | provisional |
+| Production readiness | 3 | 3 | confirmation already present; no open cap | provisional |
+| Context & brand fit | 3 | 3 | inert (F3); not lifted by safe fixes | provisional |
+| Color, state & contrast | n/v | n/v | not verifiable from text (F1 is structural) | not-from-text |
+- Projected overall = median of the assessable (non-n/v) dimensions {4, 3, 3} = 3. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
 
 ## Severity index
-- 4 (catastrophe): F1
+- 4 (catastrophe): none
 - 3 (major): none
-- 2 (minor): F2, F3
-- 1 (cosmetic): none
+- 2 (minor): F1, F2
+- 1 (cosmetic): F3
 
 ## Bold move (optional)
 - The move: Surface the one or two most-changed settings (e.g. Notifications, Privacy) as a pinned "Frequently used" group at the top, above the standard groups.
 - Deviates from: the conventional static iOS settings ordering.
 - Job served (JTBD): "When I open settings, I want to reach the control I came for fast, so I can get back to the task." Outcome: minimize taps-to-reach for the most-used controls.
-- UX upside: Cuts navigation cost for the common case (Hick's Law) without removing the familiar full list below.
+- UX upside: Cuts navigation cost for the common case (Hick's Law) without removing the familiar full list below; gives the screen a reason to exist beyond the default.
 - Risk / cost: Breaks a learned, stable location (Jakob's Law); a personalized top group can reduce spatial predictability.
 - De-risk / validate: Instrument which settings are opened most; A/B the pinned group on taps-to-reach; keep the full standard list intact below; ship only if reach improves without confusion.
-- Score impact: safe fixes → 4/5; this targets 5/5 on task-fit but does NOT raise the score until validated.
+- Score impact: safe fixes leave it at 3/5; this targets a distinctive 4/5 on Context & brand fit but does NOT raise the score until validated.
 - Conviction: Speculative.
 
 ## Platform-convention mismatches
 - None significant; structure aligns with iOS settings conventions.
 
 ## Unresolved assumptions
-- Cannot verify confirmation behavior from the description.
-- Cannot verify VoiceOver announcements for toggles.
+- Cannot verify the confirmation sheet's copy or VoiceOver announcements from the description.
+- Cannot verify contrast or large-text rendering.
 
 ## Next actions
-- Add destructive confirmation, standardize subtitles, and reinforce the destructive cue beyond color.
-- Verify assistive-tech labels for toggles, then confirm the projected score with a visual pass.
+- Standardize subtitles and reinforce the destructive cue beyond color.
+- Validate the "Frequently used" group against taps-to-reach before committing; confirm the 4/5 ceiling with a visual pass.
 ```
 
 ## Design-quality notes
 
-- Reward reviews that chain each finding observation → violated principle → user consequence → change → predicted effect, instead of listing problems and fixes separately.
-- Reward an honest current→projected score: the projection is conditional ("up to 4/5 IF F1+F2+F3 land"), capped at 4/5, and labeled provisional because the input is text-only.
-- Reward a correctly-gated Bold move: the screen is already 3/5 with no unresolved severity-3 finding (its one severity-4 has a concrete fix), so a speculative, clearly-separated bold move is allowed — and it states what it breaks (Jakob's Law), the job it serves, and its validation path.
-- Penalize visual-only critique on text-only input, generic "make it cleaner" advice, a flat fix list with no predicted effect, hidden destructive-action behavior, or a projected score asserted without conditions.
+- Reward reviews that chain each finding observation → violated principle → user consequence → change → predicted effect, and that use the compressed form (Observation → Change → Severity) for a cosmetic finding (F3) instead of padding it to eight fields.
+- Reward an honest current→projected score that does NOT inflate: here the projection stays 3/5 because the minor fixes don't add a point of view, with the 4/5 ceiling confined to a `Ceiling note`. A projection that equals the current score is correct when the fixes are minor — the value lives in the ceiling and the Bold move.
+- Reward the inert-screen test producing a real finding (F3) and gating `Context & brand fit`, then motivating the Bold move — the distinctiveness lever doing actual work in Mode D.
+- Reward a correctly-gated Bold move: the screen is competent (3/5) with NO unresolved severity-3/4 finding (the destructive action is already confirmed), so a speculative, clearly-separated bold move is allowed — it names what it breaks (Jakob's Law), the job it serves, and a validation path, and it does not bank the score.
+- Penalize visual-only critique on text-only input, numerically projecting a visual dimension upward from text (Color/state must stay n/v), a flat fix list with no predicted effect, an inflated "up to 4/5" projection, or a Bold move offered over an unresolved catastrophe.

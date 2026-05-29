@@ -167,9 +167,9 @@ The card-from-table conversion is a reasonable operational pattern and the densi
 
 ## Design quality score (current → projected)
 - Current: 3/5 — provisional (D2 text-only). The operational structure is workable, but it is held below 4 by an unguarded irreversible bulk action (F1) and missing conflict/permission states (F2, F3).
-- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3 to land (plus F4/F6) AND a visual pass to confirm readability at the intended density. Doubly provisional (D2): visual dimensions are not raised from text.
-- Ceiling note: capped at 4/5 — resilience (large-text legibility at density, offline, color-vision rendering) is unverified from the description.
-- Largest single lever: F1 (guarding the irreversible bulk Close is the single change that most unblocks the score).
+- Projected: 4/5 — median of the assessable dimensions once F1+F2+F3 land (plus F4/F6); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
+- Ceiling note: with a visual pass confirming readability at the intended density, the ceiling holds at 4/5 (resilience such as large-text legibility at density, offline, and color-vision rendering is still unverified from the description).
+- Primary lever(s): F1 (guarding the irreversible bulk Close is the single change that most unblocks the score).
 
 | Dimension | Now | Projected | Gated by | Confidence |
 |-----------|-----|-----------|----------|------------|
@@ -178,7 +178,7 @@ The card-from-table conversion is a reasonable operational pattern and the densi
 | Interaction polish & motion | 2 | 3 | F6 states (rung 2→3) | provisional |
 | Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
 | Density & rhythm | n/v | n/v | readability at density not from text | not-from-text |
-- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+- Projected overall = median of the assessable (non-n/v) projected dimensions {4, 4, 3} = 4. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): F1
@@ -233,7 +233,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 3/5 -> projected up to 4/5 (conditional, provisional D2).
+- Expected score: current 3/5 → projected 4/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
 - Reason for current: the core operational structure is workable, but status semantics, conflict handling, and bulk-action safety need stronger production detail.
 - Reason for projected: guarding the irreversible bulk Close and adding conflict/permission states can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because readability at the intended density, contrast, and large-text behavior cannot be raised from a text-only description.
 - No Bold move is expected: although the screen is already 3/5, it has an unresolved severity-4 finding (unguarded bulk Close), so the Bold move trigger (no unresolved severity-3/4 finding) is not met.

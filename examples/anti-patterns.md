@@ -198,20 +198,34 @@ Here's a dense analytics dashboard for a finance app. Our power users need to co
 - "Modern, premium feel" has no usability, readability, or accessibility justification — violates guardrail 4.
 - This is density bias: the response defaults to "sparse is better" without considering the task.
 
-### Good response (fragment)
+### Good response (fragment, new Findings format)
 ```md
-## Usability issues
-- High density is appropriate here because the primary task is cross-account comparison. The review respects that density is a feature, not a flaw.
-- Focus is on whether the dense layout still supports accurate scanning, quick differentiation between accounts, and recovery from mis-reads.
+## Quick summary
+High density is appropriate here: the primary task is cross-account comparison, and sparse layouts hurt comparison. The review keeps density and focuses on whether the dense layout still supports accurate scanning and recovery from mis-reads.
 
-## Recommended fixes
-- Increase typographic contrast between account name and primary metric so both can be parsed quickly without needing extra spacing.
-- Ensure number alignment is tabular (right-aligned or monospaced numerals) so users can compare amounts down a column without mental realignment.
-- Keep density, but introduce micro-dividers or background banding if adjacent rows currently blend visually.
-- Consider whether secondary metrics need to be visible on this screen or can appear on tap without removing the compare-five affordance.
+## Findings
 
-## Rationale
-The user task is comparison, and sparse layouts hurt comparison tasks. Fixes should improve scannability without removing the information the task requires.
+### F1 — Account name and primary metric compete for attention
+- Lens: Hierarchy & readability
+- Observation: Each card shows account name and primary metric at similar visual weight.
+- Violated principle: Von Restorff effect; attention path.
+- User consequence: The eye cannot lock onto the comparison value quickly, slowing cross-account scanning — the exact task.
+- Change: Increase typographic contrast between account name and primary metric (weight/size), no extra spacing.
+- Predicted effect: Should speed value scanning without reducing how many accounts fit; confidence M (D2 text-only).
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Attention path & hierarchy 3→4.
+
+### F2 — Amounts are not aligned for down-column comparison
+- Lens: Hierarchy & readability
+- Observation: Numbers appear without stated tabular alignment.
+- Violated principle: Gestalt continuity; comparison-task ergonomics.
+- User consequence: Users mentally re-align digits to compare amounts across accounts, adding effort to the core task.
+- Change: Use tabular (right-aligned or monospaced) numerals so amounts compare down a column.
+- Predicted effect: Should cut mental realignment when comparing accounts; confidence M.
+- Severity: 2 (minor) — frequent, moderate impact, persistent.
+- Moves: Composition & spacing 3→4.
+
+(Note: do NOT recommend "more whitespace", "softer palette", or "reduce visible accounts" — those are aesthetic changes or contradict the stated compare-five task.)
 ```
 
 ---

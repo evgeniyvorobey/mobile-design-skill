@@ -262,8 +262,12 @@ MODE_REQUIREMENTS = {
             ("Design quality score (current → projected)", r"Current:\s*\b[1-5]/5\b"),
             (
                 "Design quality score (current → projected)",
-                r"Projected after High\+Medium findings:",
+                r"Projected:\s*\b[1-5]/5\b",
             ),
+        ],
+        "must_not_contain": [
+            # The projected score must be a flat median, never an inflated "up to N/5".
+            ("Design quality score (current → projected)", r"Projected:\s*up to"),
         ],
     },
     "Create typography and spacing system": {
@@ -1285,6 +1289,13 @@ def validate_example_responses() -> None:
             if not re.search(pattern, body, re.IGNORECASE):
                 errors.append(
                     f"{relative_path}: `## {section}` must match /{pattern}/"
+                )
+
+        for section, pattern in requirements.get("must_not_contain", []):
+            body = extract_section(response, section)
+            if re.search(pattern, body, re.IGNORECASE):
+                errors.append(
+                    f"{relative_path}: `## {section}` must NOT match /{pattern}/"
                 )
 
         for pattern in BANNED_RESPONSE_PATTERNS:

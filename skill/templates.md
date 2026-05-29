@@ -271,7 +271,7 @@ Assumptions:
 > Each finding is one causal chain, ordered by severity. High-severity (3–4) findings use all fields. Low/cosmetic (0–2) may compress to Observation → Change → Severity. Never split an issue from its fix.
 
 ### F1 — [short title]
-- Lens: [Usability / Accessibility / Hierarchy & readability / Design quality / Navigation]
+- Lens: [Usability / Accessibility / Hierarchy & readability / Design quality / Navigation & interaction]
 - Observation: [what is there now — evidence-bound; for D2, structure & behavior only, no visual assertions]
 - Violated principle: [named — e.g. Nielsen #5 Error prevention · Hick's Law · Cognitive load (extraneous) · Gestalt proximity · Wroblewski form-design]
 - User consequence: [the mechanism by which it hurts the user — not a restatement of the observation]
@@ -280,7 +280,7 @@ Assumptions:
 - Severity: [0–4, Nielsen] — [frequency × impact × persistence, one line]
 - Moves: [dimension band→band, e.g. "Hierarchy 2→4"; + "lifts cap: …" if applicable]
 
-### F2 — [short title]
+### F2 — [short title]  (full form, repeat F1's fields)
 - Lens:
 - Observation:
 - Violated principle:
@@ -290,11 +290,16 @@ Assumptions:
 - Severity:
 - Moves:
 
+### F3 — [short title]  (compressed form for a cosmetic/severity-0–2 finding)
+- Observation: [what is there now]
+- Change: [the specific edit]
+- Severity: [0–2, Nielsen] — [one-line reason]
+
 ## Design quality score (current → projected)
 - Current: [1-5]/5 — [evidence-based reason; "provisional" for D2/D3]
-- Projected after High+Medium findings: [1-5]/5 — conditional: requires F[..] AND [assumptions]. [D2/D3: "doubly provisional — also depends on unverified visual properties."]
-- Ceiling note: projection capped at 4/5 unless resilience conditions are named and confirmable.
-- Largest single lever: [the one finding that moves the score most]
+- Projected: [1-5]/5 — the median of the assessable projected dimensions once the listed fixes land; conditional: requires F[..] AND [assumptions]. State a flat number, not "up to". [D2/D3: provisional — visual dimensions stay unassessable.]
+- Ceiling note: with a visual pass confirming [x], the ceiling is [1-5]/5 (capped at 4/5 unless resilience is named). Visual dimensions are never projected upward from a text-only review.
+- Primary lever(s): [the one or two findings that move the score most]
 
 | Dimension | Now | Projected | Gated by (cap / ladder rung) | Confidence |
 |-----------|-----|-----------|------------------------------|------------|
@@ -306,16 +311,17 @@ Assumptions:
 | Interaction polish & motion | [n] | [n] | | |
 | Context & brand fit | [n] | [n] | | |
 | Production readiness | [n] | [n] | | |
-- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+- Projected overall = the median of the assessable (non-`n/v`) projected dimensions, lowered if a critical task dimension stays weak. It is NOT the sum of per-dimension gains, and it is NOT raised by a dimension the input cannot verify. A higher number reachable only after a visual pass belongs in `Ceiling note`, not here.
 
 ## Severity index
+> A rollup for triage (0 = not a problem, omitted). Each finding already carries its severity inline.
 - 4 (catastrophe): [F..]
 - 3 (major): [F..]
 - 2 (minor): [F..]
 - 1 (cosmetic): [F..]
 
 ## Bold move (optional — omit unless the trigger is met)
-> Use only when: no unresolved severity-3/4 finding, the screen is already ≥3/5 but inert, and there is a concrete UX upside. Allowed in D1/D3; D2 = structure/flow only; D4 = only if the new context unlocks it. This is NOT a fix and NOT required to ship. At most one (two only if genuinely distinct). If unsure, omit.
+> Use only when ALL hold: the screen is already competent (current ≥3/5) but inert (loses no major points yet has no point of view); there is no unresolved severity-3 or severity-4 finding (fix those first); and there is a concrete UX upside. Allowed in D1/D3; D2 = structure/flow only; D4 = only if the new context unlocks it. This is NOT a fix and NOT required to ship. At most one (two only if genuinely distinct). If unsure, omit.
 
 - The move: [one buildable sentence — a component/layout/flow/interaction change, not an adjective]
 - Deviates from: [the product assumption / current direction / brand rule / platform convention it contradicts]

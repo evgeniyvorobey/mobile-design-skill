@@ -158,9 +158,9 @@ The results screen displays performance clearly, but learning recovery is weaker
 
 ## Design quality score (current → projected)
 - Current: 3/5 — provisional (D2 text-only). Held below 4 by missing submission recovery (F1) and an outcome-blind primary action (F2).
-- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2 to land (plus F3/F4/F5) AND a visual pass to confirm balance and tone. Doubly provisional (D2): visual dimensions are not raised from text.
-- Ceiling note: capped at 4/5 — resilience (large-text, color-filter rendering, screen-reader behavior) is unverified from the description.
-- Largest single lever: F2 (adapting the primary action to outcome turns a scoring screen into a learning screen), with F1 protecting completed work.
+- Projected: 4/5 — median of the assessable dimensions once F1+F2 land (plus F3/F4/F5); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
+- Ceiling note: with a visual pass confirming balance and tone, the ceiling holds at 4/5 (resilience such as large-text, color-filter rendering, and screen-reader behavior is still unverified from the description).
+- Primary lever(s): F2 (adapting the primary action to outcome turns a scoring screen into a learning screen), with F1 protecting completed work.
 
 | Dimension | Now | Projected | Gated by | Confidence |
 |-----------|-----|-----------|----------|------------|
@@ -169,7 +169,7 @@ The results screen displays performance clearly, but learning recovery is weaker
 | Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
 | Context & brand fit | n/v | n/v | tone/copy not from text | not-from-text |
 | Typography craft | n/v | n/v | sizes/balance not from text | not-from-text |
-- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+- Projected overall = median of the assessable (non-n/v) projected dimensions {4, 4} = 4. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -223,7 +223,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 3/5 -> projected up to 4/5 (conditional, provisional D2).
+- Expected score: current 3/5 → projected 4/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
 - Reason for current: the screen has a solid results structure and review path, but recovery, learning guidance, and state handling need more production-ready detail.
 - Reason for projected: adding submission recovery and an outcome-aware primary action, plus surfacing mistakes and objective mapping, can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because visual balance, tone, and rendering cannot be raised from a text-only description.
 - No Bold move is expected: despite the screen being 3/5, it has an unresolved severity-3 finding (missing result-submission recovery), so the Bold move trigger (no unresolved severity-3/4 finding) is not met.

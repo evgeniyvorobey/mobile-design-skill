@@ -96,16 +96,16 @@ The current structure is likely understandable at the row level but weak at priv
 
 ## Design quality score (current → projected)
 - Current: 2/5 — provisional (D2 text-only). Pinned by no audience preview (F1) and the destructive action sitting among reversible toggles (F2).
-- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3+F4 to land AND confirmation of the audience taxonomy and retention/recovery policy. Doubly provisional (D2): visual dimensions are not raised from text.
-- Ceiling note: capped at 4/5 — large-text, screen-reader, and preview-accuracy resilience unverified from the description.
-- Largest single lever: F1 + F2 (privacy comprehension and destructive-action separation pin the score at 2).
+- Projected: 3/5 — median of the assessable dimensions once F1+F2+F3+F4 land (and the audience taxonomy and retention/recovery policy are confirmed); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
+- Ceiling note: with a visual pass confirming large-text, screen-reader, and preview-accuracy resilience, the ceiling is 4/5 (still unverified from the description).
+- Primary lever(s): F1 + F2 (privacy comprehension and destructive-action separation pin the score at 2).
 
 | Dimension | Now | Projected | Gated by | Confidence |
 |-----------|-----|-----------|----------|------------|
 | Attention path & hierarchy | 2 | 3 | F1/F3 grouping (rung 2→3) | provisional |
 | Production readiness | 2 | 4 | F2/F4 lift caps | provisional |
 | Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
-- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+- Projected overall = median of the assessable (non-n/v) projected dimensions {3, 4} = 3 (3.5 rounded down, conservative). Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -124,7 +124,7 @@ The current structure is likely understandable at the row level but weak at priv
 
 ## Why this is stronger
 
-- Quality target after fixes: up to 4/5 — strong once audience taxonomy, retention policy, and moderation routes are confirmed.
+- Quality target after fixes: projected 3/5 (flat median of the assessable dimensions, conditional), with a 4/5 ceiling once a visual pass plus the audience taxonomy, retention policy, and moderation routes are confirmed.
 - Qualifies visual uncertainty from text-only input and keeps visual dimensions out of the upward projection.
 - Each finding is one causal chain (observation → violated principle → user consequence → change → predicted effect) with Nielsen 0–4 severity.
 - Separates reversible settings from destructive account actions.

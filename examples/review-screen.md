@@ -86,18 +86,18 @@ The screen is functionally complete but structurally overloaded: weak form clari
 
 ## Design quality score (current → projected)
 - Current: 2/5 — provisional (D2 text-only). Pinned by late required-field feedback (F1) and placeholder-only labeling (F2), both P1-class.
-- Projected after High+Medium findings: up to 4/5 — conditional: requires F1+F2+F3+F4 to land AND a visual pass to confirm contrast/spacing. Doubly provisional (D2): visual dimensions are not raised from text.
-- Ceiling note: capped at 4/5 — resilience (large-text, dark mode, AT semantics) unverified from the description.
-- Largest single lever: F1 + F2 (they lift the P1 caps currently pinning the score at 2).
+- Projected: 3/5 — the median of the assessable dimensions once F1–F4 land; conditional on those fixes. Provisional (D2): visual dimensions stay unassessable.
+- Ceiling note: with a visual pass confirming contrast, spacing, and large-text behavior, the ceiling is 4/5 (resilience such as dark mode and AT semantics is still unverified from the description).
+- Primary lever(s): F1 + F2 (they lift the P1 caps pinning the score at 2).
 
 | Dimension | Now | Projected | Gated by (cap / ladder rung) | Confidence |
 |-----------|-----|-----------|------------------------------|------------|
 | Attention path & hierarchy | 2 | 3 | rung 2→3 (F3) | provisional |
-| Composition & spacing | 2 | 4 | rung 3→4 (F3) | not-from-text |
 | Production readiness | 2 | 3 | F1/F2 lift P1 caps | provisional |
 | Interaction polish & motion | 2 | 3 | rung 2→3 (F4) | provisional |
+| Composition & spacing | n/v | n/v | not verifiable from text | not-from-text |
 | Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
-- Overall = median of projected column, lowered if a critical task dimension stays weak. Not the sum of per-dimension gains.
+- Projected overall = median of the assessable (non-n/v) projected dimensions {3, 3, 3} = 3. Not the sum of per-dimension gains, and visual dimensions are not projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -105,15 +105,8 @@ The screen is functionally complete but structurally overloaded: weak form clari
 - 2 (minor): F3
 - 1 (cosmetic): none
 
-## Bold move (optional)
-- The move: Split the long form into a 3-step progressive flow (Personal → Contact → Work) with a persistent save and a visible step indicator.
-- Deviates from: the product's implied "edit everything on one screen" model.
-- Job served (JTBD): "When I update my profile occasionally, I want to finish without re-checking what I missed, so I can trust my data is correct." Outcome: minimize the number of fields visible at once while keeping completion obvious.
-- UX upside: Cuts per-screen cognitive load (Miller / Hick), makes required-field recovery local, fits one-handed older-user use.
-- Risk / cost: More taps; power users lose the single-scroll edit; dev cost of step state + partial save.
-- De-risk / validate: Prototype A/B vs. the grouped single form on completion rate + error rate; kill if completion drops. Must still pass large-text and focus-order checks.
-- Score impact: safe fixes (grouped single form) → 4/5; this stepped flow targets 5/5 on resilience but does NOT raise the score until validated.
-- Conviction: Worth a spike.
+## Bold move
+- None. The Bold move trigger is not met: the screen is at 2/5 with unresolved severity-3 findings (F1, F2, F4). Fix the foundation first; a bold, product-contradicting move (e.g. splitting the form into a progressive flow) is only worth proposing once the screen is competent and inert.
 
 ## Platform-convention mismatches
 - Cross-platform caution: back behavior must remain predictable and must not silently discard edits.
