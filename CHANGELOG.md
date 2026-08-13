@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.1] - 2026-08-13
+
+Retires the third file claiming to be the workflow. Cleanup plus one guard; no capability change beyond the ported classification examples.
+
+### Removed
+- **`skill/skill.md` (489 lines).** No host loaded it: `agents/openai.yaml` carries only interface metadata and no file path, the Claude Code wrapper reads the root `SKILL.md` explicitly, and `README.md` tells Cursor users to copy the root `SKILL.md`. The 1.0 changelog entry — *"Main skill prompt in `skill/skill.md`"* — records what it was: the original prompt, superseded when the root `SKILL.md` became the entrypoint, and never retired.
+
+  It had drifted two releases behind, carrying **zero** occurrences of step 5.5, `Device class`, `adaptive-layout`, `outside the standard six`, `Signature move`, `Dimension read`, direction provenance, or the Distinctiveness dimension — so catching it up would have meant re-forking a workflow that now spans `SKILL.md`, `skill/modes.md`, `skill/templates.md` and thirty reference documents.
+
+  It was also generating contradictions rather than sitting inert: its scoring paragraph ended up holding the current derivation rule and the obsolete pre-1.16 review rule in one sentence, while its own output structure four hundred lines later specified the `current → projected` score with a per-dimension table. That is the drift class the 1.17.0 release was spent fixing, reproducing inside a single file.
+
+### Added
+- Six worked classification examples in `SKILL.md`'s mode section, ported from the retired file — more concrete than the abstract intent cues in `docs/workflow.md`, which had no request-to-mode examples. Its ban on vague advice was already guardrail 4, and its closing reminder duplicated `SKILL.md`'s.
+- `validate_single_workflow_source()` asserts that `## Required workflow` and `## Mode output requirements` appear in `SKILL.md` and nowhere else. Three files each claiming to be the workflow is the structural condition that let the 1.16.0 Mode D contract ship without reaching the entrypoint; this stops a third fork from quietly reappearing. Verified by injection.
+
+### Changed
+- Ten `skill/skill.md` entries removed from the validator's required-file and reference path lists, plus its lines in `skill/usage.md` and the `README.md` repository tree.
+
 ## [1.18.0] - 2026-08-13
 
 Closes the one thing v1.17.0 shipped unresolved: the fixed exploration space (acceptance criterion A3). Verified by six live runs — three of an identical prompt plus health, marketplace and education — scored by an independent gate, which passed all six criteria with no blocking issues.
