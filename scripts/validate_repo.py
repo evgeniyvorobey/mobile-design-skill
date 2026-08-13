@@ -762,8 +762,65 @@ def validate_design_quality_rubric_layer() -> None:
         )
 
     errors = dimension_table_shape_errors(rubric_doc)
+    errors.extend(band_five_closure_errors(rubric_doc))
     if errors:
         fail("Dimension table shape validation failed:\n" + "\n".join(errors))
+
+
+# Every surface that assigns a band, not just the one that defines them. The drafting side
+# and the judge both award band 5, and a gate present in one and absent in the other is the
+# file-scoped guard this repository keeps rebuilding.
+BAND_SCORING_SURFACES = (
+    "docs/design-quality-rubric.md",
+    "docs/self-review.md",
+    "docs/judged-mode.md",
+    ".claude/agents/mobile-design-judge.md",
+)
+CLOSURE_TEST_MARKERS = ("closure test", "the band is 4")
+# The four shapes measured to fail the test. Kept as diagnoses; a list of shapes that PASS
+# would be a template to satisfy, which is the rule-1 failure this repository has shipped
+# twice. If the list is ever inverted, that is the thing to catch.
+CLOSURE_FAILURE_SHAPES = (
+    "no anchor",
+    "no behaviour",
+    "no output",
+    "no threshold",
+)
+
+
+def band_five_closure_errors(rubric_doc: str) -> list[str]:
+    """Band 5 is awarded on a test that gets run, not on how the statement reads.
+
+    Measured: 63 statements from live output, three blind readers each, situations written
+    from band-stripped copies so probe difficulty could not track the arm. Band-5 statements
+    settled their unlisted case 11/28; band-4 statements 9/25; Fisher one-sided p = 0.52, and
+    the sign inverts once dimension is adjusted for. The boundary did not separate them, so
+    it cannot be operated by inspection.
+    """
+    errors: list[str] = []
+    if "### The band-5 closure test" not in rubric_doc:
+        errors.append(
+            "docs/design-quality-rubric.md: missing `### The band-5 closure test` — awarding "
+            "band 5 on how a statement reads was measured not to separate it from band 4"
+        )
+    missing_shapes = [shape for shape in CLOSURE_FAILURE_SHAPES if shape not in rubric_doc]
+    if missing_shapes:
+        errors.append(
+            "docs/design-quality-rubric.md: the closure test lost failure shape(s) "
+            + ", ".join(f"`{shape}`" for shape in missing_shapes)
+            + " — these are the four that account for the measured failures"
+        )
+
+    for relative_path in BAND_SCORING_SURFACES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8").lower()
+        if not any(marker in text for marker in CLOSURE_TEST_MARKERS):
+            errors.append(
+                f"{relative_path}: assigns design-quality bands but does not carry the "
+                "band-5 closure test; a gate on one scoring surface and not the other is "
+                "how a guard gets scoped to a file instead of to the class"
+            )
+
+    return errors
 
 
 BOUNDARY_HEADER = "| Dimension | 1 → 2 | 2 → 3 | 3 → 4 | 4 → 5 |"

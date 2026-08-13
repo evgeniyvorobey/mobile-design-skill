@@ -60,6 +60,9 @@ the band is the number of consecutive questions answered yes, plus one.
 The score is the median of the assessable bands, then clamped by caps.
 Mark a dimension n/v only when the evidence channel cannot carry the question;
 thin content inside the right channel is a low band, not n/v.
+Before allowing any band 5, run the closure test: take one ordinary case the draft
+does not list and state what its own statement returns for it. If you cannot write
+the answer, the band is 4, however well the statement reads.
 Do not rewrite the draft.
 Return only:
 - dimension read (all nine bands, with the median)

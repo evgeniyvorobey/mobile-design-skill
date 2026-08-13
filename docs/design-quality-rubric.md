@@ -99,6 +99,25 @@ The four boundaries ask the same four things of every dimension, and it helps to
 
 Two consequences worth stating outright. Band 3 is a decision test, not a completeness test: an artifact that decides which content takes which role has passed it even if it never prints a number, because deciding and specifying are different acts and only one of them is band 3. And band 5 always has the same shape — *does a stated rule decide a case the artifact does not itself list?* — because that is the one thing a longer draft cannot manufacture by writing more of what it already wrote. Enumerating the cases you thought of is band 4.
 
+### The band-5 closure test
+
+**Answering the `4 → 5` question by inspection does not work.** It was measured: 63 statements pulled from live output were handed to three readers who saw the statement and one unsettled case from its own product, and nothing else — no artifact, no dimension, no band. Statements scored 5 were judged to settle their case 11 times in 28; statements scored 4, nine times in 25. The boundary did not separate them, and 17 of the 28 band-5 statements were judged non-generative by two or more readers who never saw a score.
+
+So band 5 is not awarded on the reading. It is awarded on a closure test you actually run:
+
+> Take one ordinary case the artifact does not list. State what the statement returns for it. **If you cannot write the answer, the band is 4.**
+
+The case has to be ordinary — one a competent team meets in the first month — not an edge case chosen to be survivable. And the answer has to be the answer, not a restatement of the rule.
+
+Four shapes fail this test almost every time. They are listed as diagnoses, not as a menu to satisfy:
+
+- **A ratio or a floor with no anchor.** Adjacent-role ratios and a minimum step, with no absolute size and no mapping from content to role. A contrast floor with no colour. The scale is stated; nothing generates a value.
+- **A budget with no behaviour.** A duration ceiling that never says what the interaction does — on a re-tap, an early release, a duplicate input.
+- **A precedence ladder with no output.** *Safety over audience over platform*, with the terms never mapped to a visual consequence, so two contexts pulling opposite ways still have no tie-break.
+- **A requirement with no threshold.** "Stale must be visually distinct" with no staleness threshold; "parity with the lock screen" with no list of what has parity.
+
+Each of these reads like a rule and decides nothing. The common error underneath all four is **a closed-world statement presented as a generative one**: the enumeration is the rule, and outside the enumeration there is nothing.
+
 | Dimension | 1 → 2 | 2 → 3 | 3 → 4 | 4 → 5 |
 |-----------|-------|-------|-------|-------|
 | Attention path and hierarchy | Does anything carry visibly more weight than everything else? | Is the element carrying most weight the one the primary task needs first, with the order of first glance, second glance and action decided? | Is the mechanism producing that order stated — which of size, weight, position or colour does the work? | Does a stated rule decide the order when two signals compete in a case the artifact does not list? |
@@ -182,6 +201,7 @@ Before returning a design artifact, silently answer:
 - Did I write the bands before the number, and does the number I printed equal the median of the bands I wrote?
 - For each dimension, which boundary question did the artifact fail — and did I name it in the `Quality target` line rather than printing a bare number?
 - Can I answer that question with the information already available? If yes, do it and re-derive. If not, did I state the missing input clearly?
+- For every dimension I put at band 5: did I run the closure test — one ordinary unlisted case, and the answer the statement returns for it — or did I award it on how the statement reads?
 - Did every dimension land on the same band? If so, what made them agree — or did I stop reading once the number looked right?
 - Where I marked `n/v`, would a fuller instance of the same evidence type have settled it? If it would, that is a low band, not `n/v`.
 - Does this screen carry one owned asset, expressed as a token with repeat locations — or did I record honestly that it is inert?
