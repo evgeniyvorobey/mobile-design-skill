@@ -48,7 +48,8 @@ Incident queue with filtering, scannable status, and quick assignment for one in
 - Do not hide SLA-risk filters in overflow; this is core triage, not a utility setting.
 
 ## Design quality calibration
-- Quality target: 4/5 - operationally credible once permissions and exact incident states are confirmed.
+- Quality target: 5/5 - resilient at density: alignment, tabular numerals, filtered-empty recovery, and permission-aware states hold together under large text and long queues. Exact incident-state naming is a product decision, not a design gap.
+- Signature move: `layout.severity-rail` - a 4dp leading rail carrying severity on every incident row. Repeated in the list, the detail header, and the filtered-empty state, so severity is legible from the edge of the screen before any text is read, and never depends on color alone.
 - Enterprise quality means dense but organized: alignment, repeatable row rhythm, clear status semantics, and low ornament.
 - Use 16dp horizontal padding, 8-12dp row internals, and strong vertical alignment for metadata comparison.
 - Use tabular or consistently aligned numerals for age, counts, and SLA time remaining.

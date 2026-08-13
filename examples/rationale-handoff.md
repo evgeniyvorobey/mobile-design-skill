@@ -44,7 +44,7 @@ This screen serves patients immediately after booking an appointment. Many users
 - Kept next-step guidance explicit — alternative considered: relying on a generic success message — chosen because the screen must answer what happens next without requiring inference.
 
 ## Pattern choices and why
-- Summary-first layout over action-first layout because users need confirmation before optional follow-up actions.
+- Summary-first layout over action-first layout because a booked appointment is a fact the patient must verify before any follow-up option is worth evaluating, and an action-first screen forces that verification to happen after the decision.
 - Sectioned content over a single stacked paragraph because healthcare details are easier to parse when grouped by meaning.
 - Secondary actions lower on the screen over equal-weight top actions because reschedule/contact/calendar are important but not equal to the confirmation task.
 - Clear instructional text over icon-led hints because confirmation screens in high-trust contexts must reduce uncertainty, not merely announce success.

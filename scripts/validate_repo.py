@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import json
 import re
+import statistics
 import sys
+from collections import Counter
 from pathlib import Path
 
 
@@ -152,6 +154,7 @@ RUBRIC_EVAL_FIXTURES = [
     "examples/evals/rubric-score-3.json",
     "examples/evals/rubric-score-4.json",
     "examples/evals/rubric-score-5.json",
+    "examples/evals/rubric-score-2-adversarial.json",
 ]
 
 RUBRIC_DIMENSIONS = {
@@ -206,6 +209,10 @@ MODE_REQUIREMENTS = {
             "Next actions",
         ],
         "accessibility_sections": ["Accessibility considerations"],
+        "label_word_counts": [
+            ("Design quality calibration", "Attention path:", 12),
+            ("Design quality calibration", "Signature move:", 12),
+        ],
         "must_contain": [
             ("Design quality calibration", r"Attention path:"),
             ("Design quality calibration", r"Composition and spacing:"),
@@ -249,6 +256,10 @@ MODE_REQUIREMENTS = {
             "Next actions",
         ],
         "accessibility_sections": ["Accessibility requirements"],
+        "label_word_counts": [
+            ("Design quality requirements", "Attention path:", 12),
+            ("Design quality requirements", "Signature move:", 12),
+        ],
         "must_contain": [
             ("Spacing and layout notes", r"\b\d+\s?(dp|pt|sp|px)\b|space-\d+"),
             ("Typography rules", r"\b\d+\s?(sp|pt|px)\b|body|title|label|caption"),
@@ -308,6 +319,28 @@ MODE_REQUIREMENTS = {
         ],
     },
     "Prepare design rationale / handoff": {
+        "bullet_shapes": [
+            (
+                "Pattern choices and why",
+                {
+                    "pattern": r"^.+\s+over\s+.+\s+because\s+.+$",
+                    "min_bullets": 3,
+                    "tail_after": r"\bbecause\b",
+                    "tail_label": "because",
+                    "min_tail_words": 8,
+                },
+            ),
+            (
+                "Key design decisions",
+                {
+                    "pattern": r"alternative considered:",
+                    "min_bullets": 2,
+                    "tail_after": r"alternative considered:",
+                    "tail_label": "alternative considered:",
+                    "min_tail_words": 10,
+                },
+            ),
+        ],
         "sections": [
             "Design objective",
             "Target users and context",
@@ -325,7 +358,6 @@ MODE_REQUIREMENTS = {
         "accessibility_sections": ["Accessibility and usability considerations"],
         "must_contain": [
             ("Key design decisions", r"alternative considered:"),
-            ("Pattern choices and why", r"\bover\b"),
             ("Design quality rationale", r"mechanism:"),
             ("Design quality rationale", r"\b[1-5]/5\b"),
             ("Design quality rationale", SIGNATURE_MOVE_SHAPE),
@@ -340,14 +372,6 @@ BANNED_RESPONSE_PATTERNS = [
     r"\bfully accessible\b",
     r"\baccessibility compliant\b",
 ]
-GENERIC_NEXT_ACTIONS = {
-    "test it",
-    "validate",
-    "iterate",
-    "improve",
-    "build this design",
-}
-
 WEAKNESS_REFERENCE_FILES = [
     "SKILL.md",
     ".claude/skills/mobile-design-skill/SKILL.md",
@@ -706,6 +730,7 @@ def validate_design_quality_rubric_layer() -> None:
 
 def validate_rubric_eval_pack() -> None:
     seen_scores: set[int] = set()
+    spreads: dict[str, int] = {}
     errors: list[str] = []
 
     for relative_path in RUBRIC_EVAL_FIXTURES:
@@ -754,6 +779,24 @@ def validate_rubric_eval_pack() -> None:
                         f"{relative_path}: dimension `{dimension}` must be an integer 1..5"
                     )
 
+            values = [v for v in dimensions.values() if isinstance(v, int)]
+            if values and isinstance(score, int):
+                median = statistics.median(sorted(values))
+                floor_median = int(median)
+                spreads[relative_path] = max(values) - min(values)
+                capped = not str(fixture["expected_cap"]).strip().lower().startswith("no ")
+                if score > floor_median:
+                    errors.append(
+                        f"{relative_path}: expected_score {score} is above the median of "
+                        f"the dimension scores ({floor_median}); the final score is the "
+                        "median lowered by caps, never raised above it"
+                    )
+                elif score < floor_median and not capped:
+                    errors.append(
+                        f"{relative_path}: expected_score {score} is below the median "
+                        f"({floor_median}) with no cap recorded in expected_cap"
+                    )
+
         if not isinstance(fixture["hard_limits"], list):
             errors.append(f"{relative_path}: hard_limits must be a list")
         if not isinstance(fixture["expected_failed_dimensions"], list):
@@ -766,10 +809,19 @@ def validate_rubric_eval_pack() -> None:
             errors.append(f"{relative_path}: expected_rationale must not be empty")
 
     expected_scores = {1, 2, 3, 4, 5}
-    if seen_scores != expected_scores:
+    if not expected_scores.issubset(seen_scores):
         errors.append(
-            "Rubric eval fixtures must cover scores 1..5; found "
-            + ", ".join(str(score) for score in sorted(seen_scores))
+            "Rubric eval fixtures must cover scores 1..5; missing "
+            + ", ".join(str(score) for score in sorted(expected_scores - seen_scores))
+        )
+
+    # Before this check the fixtures had dimension spreads of 0,1,1,0,0 -- a judge
+    # that ignored the median rule and the caps passed the entire pack.
+    wide = [f for f, spread in spreads.items() if spread >= 2]
+    if len(wide) < 2:
+        errors.append(
+            "At least 2 rubric fixtures must have a dimension spread of 2 or more, so "
+            f"the median rule is actually exercised; found {len(wide)}"
         )
 
     before_after = (ROOT / "examples/rubric-before-after.md").read_text(encoding="utf-8")
@@ -992,8 +1044,10 @@ def validate_synthetic_case_studies() -> None:
             if section not in text:
                 errors.append(f"{relative_path}: missing `{section}`")
 
-        if "4/5" not in text:
-            errors.append(f"{relative_path}: missing `4/5` quality target marker")
+        # Any 1-5 score, not literally 4/5: requiring one score here was itself a
+        # monoculture generator -- it made "every case study is 4/5" a CI rule.
+        if not re.search(r"\b[1-5]/5\b", text):
+            errors.append(f"{relative_path}: missing a `[1-5]/5` quality target marker")
         if "real product" in text.lower() and "not" not in text.lower():
             errors.append(f"{relative_path}: must not imply real-product validation")
         regression_checks = extract_section(text, "Regression checks")
@@ -1286,6 +1340,85 @@ AUTH_WALLED_REFERENCE_FILES = [
 ]
 
 
+MAX_SINGLE_SCORE_SHARE = 0.75
+MIN_DISTINCT_SCORES = 3
+
+
+def label_body(section_text: str, label: str) -> str:
+    """Text belonging to a `- Label:` bullet: its own line plus indented continuations."""
+    lines = section_text.splitlines()
+    body: list[str] = []
+    for index, line in enumerate(lines):
+        if not re.match(rf"^\s*-\s*{re.escape(label)}", line):
+            continue
+        body.append(re.sub(rf"^\s*-\s*{re.escape(label)}", "", line))
+        for follow in lines[index + 1:]:
+            if not follow.strip():
+                break
+            if re.match(r"^\s+", follow) and not re.match(r"^-", follow):
+                body.append(re.sub(r"^\s*-\s*", "", follow))
+                continue
+            break
+        break
+    return " ".join(body).strip()
+
+
+def validate_calibration_corpus_diversity() -> None:
+    """The calibration corpus is loaded exactly when taste is being decided.
+
+    A corpus where almost every exemplar carries the same score teaches the model to
+    print that score. Before this check, 21 of 23 `Quality target:` values were 4/5.
+
+    Note on what is NOT checked here: a pairwise n-gram similarity check over the
+    calibration bodies was specified and then dropped. Measured against the real
+    corpus its median was 0.0 (max 0.043) because the blocks describe different
+    domains in different words — it would have passed vacuously forever while the
+    structural sameness it was meant to catch went unmeasured. Signature-move
+    distinctness below is the instrument that actually bites.
+    """
+    errors: list[str] = []
+    scores: list[str] = []
+    signatures: dict[str, str] = {}
+
+    for file_path in sorted((ROOT / "examples").rglob("*.md")):
+        relative_path = file_path.relative_to(ROOT).as_posix()
+        text = file_path.read_text(encoding="utf-8")
+        scores.extend(re.findall(r"Quality target:\s*\[?([1-5])/5", text))
+        for match in re.finditer(r"^\s*-?\s*Signature move:\s*(?P<body>\S.*)$", text, re.MULTILINE):
+            body = match.group("body")
+            if body.lower().lstrip().startswith(("none", "[")):
+                continue  # an honest "inert" record, or a template placeholder
+            key = re.sub(r"[^a-z0-9 ]", " ", body.lower())
+            key = " ".join(key.split()[:12])
+            if key in signatures and signatures[key] != relative_path:
+                errors.append(
+                    f"{relative_path}: `Signature move:` duplicates {signatures[key]} — "
+                    "an owned asset shared across two exemplars is not owned"
+                )
+            signatures.setdefault(key, relative_path)
+
+    if not scores:
+        errors.append("examples/: no `Quality target:` values found")
+    else:
+        counts = Counter(scores)
+        top_score, top_count = counts.most_common(1)[0]
+        share = top_count / len(scores)
+        if share > MAX_SINGLE_SCORE_SHARE:
+            errors.append(
+                f"examples/: {top_count} of {len(scores)} `Quality target:` values are "
+                f"{top_score}/5 ({share:.0%}); a calibration corpus above "
+                f"{MAX_SINGLE_SCORE_SHARE:.0%} on one score teaches the model to print it"
+            )
+        if len(counts) < MIN_DISTINCT_SCORES:
+            errors.append(
+                f"examples/: only {len(counts)} distinct `Quality target:` score(s); "
+                f"the corpus must demonstrate at least {MIN_DISTINCT_SCORES}"
+            )
+
+    if errors:
+        fail("Calibration corpus diversity validation failed:\n" + "\n".join(errors))
+
+
 def validate_skill_entrypoint_contract() -> None:
     """SKILL.md is the only always-loaded file, so capability lives or dies here.
 
@@ -1562,14 +1695,50 @@ def validate_example_responses() -> None:
         if bullet_count(next_actions) < 2:
             errors.append(f"{relative_path}: `## Next actions` must contain at least 2 bullets")
         for action in re.findall(r"(?m)^-\s+(.+)$", next_actions):
-            normalized = action.strip().rstrip(".").lower()
-            if normalized in GENERIC_NEXT_ACTIONS:
-                errors.append(f"{relative_path}: generic next action `{action}`")
+            # A denylist of five phrases caught "test it" and nothing else. What
+            # separates a real next action from a stock one is that it names an
+            # object: "validate" is one word, "Validate whether balance and blackout
+            # data are real-time or cached" is eleven. Word count is the shape test;
+            # requiring a digit or proper noun was tried and rejected, because it
+            # fails specific, well-written actions and rewards inserting a number.
+            if len(action.split()) < 6:
+                errors.append(
+                    f"{relative_path}: next action `{action.strip()}` is too short to "
+                    "name an object; say what is tested, defined, or confirmed"
+                )
 
         if requirements.get("requires_sub_case") and not re.search(
             r"^Sub-case:\s+\S", response, re.MULTILINE
         ):
             errors.append(f"{relative_path}: missing `Sub-case:` line")
+
+        for section, label, min_words in requirements.get("label_word_counts", []):
+            words = len(label_body(extract_section(response, section), label).split())
+            if words < min_words:
+                errors.append(
+                    f"{relative_path}: `## {section}` gives only {words} words after "
+                    f"`{label}` (minimum {min_words}) — a label is not a statement"
+                )
+
+        for section, spec in requirements.get("bullet_shapes", []):
+            body = extract_section(response, section)
+            bullets = re.findall(r"(?m)^-\s+(.+)$", body)
+            matching = [b for b in bullets if re.search(spec["pattern"], b, re.IGNORECASE)]
+            if len(matching) < spec["min_bullets"]:
+                errors.append(
+                    f"{relative_path}: `## {section}` needs at least "
+                    f"{spec['min_bullets']} bullets matching /{spec['pattern']}/; "
+                    f"found {len(matching)}"
+                )
+            for bullet in matching:
+                tail = re.split(spec["tail_after"], bullet, maxsplit=1, flags=re.IGNORECASE)
+                words = len(tail[-1].split()) if len(tail) > 1 else 0
+                if words < spec["min_tail_words"]:
+                    errors.append(
+                        f"{relative_path}: `## {section}` bullet gives only {words} "
+                        f"words after `{spec['tail_label']}` "
+                        f"(minimum {spec['min_tail_words']}): {bullet[:70]}"
+                    )
 
         for section, pattern in requirements.get("must_contain", []):
             body = extract_section(response, section)
@@ -1620,6 +1789,7 @@ def main() -> None:
     validate_benchmark_report_format()
     validate_rendered_output_qa()
     validate_mode_parity()
+    validate_calibration_corpus_diversity()
     validate_skill_entrypoint_contract()
     validate_unreadable_source_honesty()
     validate_inspiration_gate_parity()

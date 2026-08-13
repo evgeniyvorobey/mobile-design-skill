@@ -49,7 +49,8 @@ Move from first launch to one configured habit and a meaningful reminder with mi
 - Account creation skipped: continue without blocking first value if product policy permits.
 
 ## Design quality calibration
-- Quality target: 4/5 - strong onboarding flow once permission copy, account policy, and habit taxonomy are confirmed.
+- Quality target: 4/5 - strong onboarding flow; blocked from 5/5 by Context & brand fit until permission copy, account policy, and habit taxonomy are confirmed.
+- Signature move: `motion.commit` - one 300ms shared-element transition carries the habit name from the entry field into the confirmation card. Replayed at first completion and at each streak milestone, so the same gesture always means "this counted". Reduced-motion fallback: cross-fade, no translation.
 - Good onboarding earns each question; it should not ask for goals, motivation, demographics, and preferences before one useful habit exists.
 - Use calm, task-sized screens with one primary decision each.
 - The notification permission request should be preceded by a concrete reminder preview, not a generic permission pitch.

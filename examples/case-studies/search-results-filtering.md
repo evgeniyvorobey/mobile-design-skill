@@ -89,7 +89,7 @@ Find a manageable set of listings that match must-have constraints.
 - Large text should keep price, location, and availability visible before secondary amenities.
 
 ## Design quality calibration
-- Quality target: 4/5 - strong once filter taxonomy, availability freshness, and map behavior are confirmed.
+- Quality target: 3/5 - constraint transparency and recovery are handled well, but the screen is inert: with the logo removed it is interchangeable with any search-and-filter result list, and no owned asset was supplied or derived. Capped at 3/5 by the inert-screen test until one repeatable treatment exists; filter taxonomy, availability freshness, and map behavior still need confirming.
 - The craft is in constraint transparency and recovery, not just richer cards.
 
 ## Next actions

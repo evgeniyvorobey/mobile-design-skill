@@ -211,3 +211,11 @@ When adding a new rubric fixture:
 6. Run `python3 scripts/run_rubric_judge.py --dry-run`.
 7. Run `python3 scripts/run_rubric_judge.py --judge-command "python3 scripts/rubric_judge_oracle_agent.py"`.
 8. If you use a live judge agent, run `python3 scripts/run_rubric_judge.py --judge-command "<your-agent-command>"`.
+
+---
+
+## What the CI self-tests do and do not prove
+
+`scripts/rubric_judge_oracle_agent.py` echoes each fixture's expected values back on stdout. The CI steps that use it prove the JSONL contract — request shape, parser, stdin/stdout adapter — and nothing about design quality. No model runs in CI, and no generated response is scored there. A change to `SKILL.md` that degrades live output cannot fail these steps.
+
+Real semantic calibration requires the external-agent command path with an actual model behind it, run during maintenance. Reading a green CI badge as evidence of output quality is the mistake these step names now guard against.

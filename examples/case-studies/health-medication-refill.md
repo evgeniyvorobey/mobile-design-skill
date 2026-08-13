@@ -108,7 +108,7 @@ Single medication refill request from medication detail to request submitted.
 
 ## Why this is stronger
 
-- Quality target: 4/5 - strong once refill taxonomy, approved copy, and pharmacy integration behavior are confirmed.
+- Quality target: 5/5 - resilient: unknown, expired, unavailable and submitted states all have safe recovery, density and touch behavior adapt for older adults, and engineers get behavior rules plus QA cases. Refill taxonomy and pharmacy integration are product inputs, not design gaps.
 - Starts with clinical/pharmacy eligibility rather than a generic CTA.
 - Avoids medical advice and clearly labels backend-driven status.
 - Defines safe recovery for unknown, expired, unavailable, and submitted states.

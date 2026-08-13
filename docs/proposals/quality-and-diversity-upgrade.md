@@ -1,6 +1,6 @@
 # Proposal: quality ceiling and design diversity upgrade
 
-Status: **in progress** — Commits 1–5 landed, Commit 6 pending.
+Status: **build complete** — Commits 1–6 landed. Ready to cut v1.17.0.
 Baseline: v1.16.0 (`b192ecd`).
 Target release: v1.17.0 — *"the ceiling comes off"*.
 
@@ -138,10 +138,10 @@ validators do not block tablet (`Platform scope` is checked for non-emptiness, w
 | P1-1 | ✅ *landed in Commit 3* **Token-consequence schema for the art-direction catalog.** Convert the school/product list in place: base unit + ratio, type role split + pairing rule, colour-construction rule (neutral anchor + accent derivation + semantic roles held separate), radius/elevation/border posture, density posture, motion signature, iconography stance, "do not use for". Reconcile the motion bands first — `docs/design-quality.md` says 200–500 ms while `docs/quality-bars.md` caps navigation at 300–400 and tap feedback at 100–150, so the signature currently has no room. |
 | P1-2 | **Craft substrate:** `docs/color-system.md` (platform semantic roles first, derived ramp only on user-supplied brand, any printed ratio labelled as computed); a layout section in quality bars (margins by class, baseline grid tying line-height boxes to spacing steps, columns/gutters, optical-alignment rules); motion by cited platform curves (M3 easing tokens, SwiftUI spring presets, Compose stiffness/dampingRatio) with distance/size rules and stagger caps; type-scale ratio by density anchored at body 17/16, tracking-at-size, role → iOS text style / M3 type role mapping. Broaden Mode E to "typography, spacing, and colour". |
 | P1-3 | **Cross-file parity validator.** ✅ *landed in Commit 1* |
-| P1-4 | **Rebuild the golden `Design quality calibration` blocks** to carry a named direction as tokens plus one owned asset with repeat locations, guardrail lines intact. Assert a `Signature move:` line naming a token and a repeat location, pairwise-distinct across files. Do **not** require literal hex/typeface values — that would model the invented brand specifics the skill forbids. |
-| P1-5 | **Corpus diversity validator** over golden + example + case-study files: at most 60 % of `Quality target:` lines share a score (fails today at 32/33), and median pairwise 5-gram Jaccard of calibration-block bodies at most 0.15. First cross-response instrument in the repo. |
-| P1-6 | **Fix the tautological CI step and the flat fixtures.** Rename the oracle step so it stops claiming to validate quality. Current rubric fixtures are 31–52 words with dimension spreads of 0,1,1,0,0 — a judge ignoring the median rule passes the whole pack. Add an adversarial fixture with spread ≥ 2 and assert `expected_score == floor(median(dimension_scores))` unless a cap is present. |
-| P1-7 | **Shape assertions in the prose validator.** Replace bare-word matches (`\bover\b`) with bullet-count plus word-count-after-`because` assertions; replace the five-element generic-next-actions denylist with a positive test (each bullet contains a digit, a mid-sentence capitalized token, or a backticked identifier). Fix the examples, not the rules. |
+| P1-4 | ✅ *landed in Commit 6* **Rebuild the golden `Design quality calibration` blocks** to carry a named direction as tokens plus one owned asset with repeat locations, guardrail lines intact. Assert a `Signature move:` line naming a token and a repeat location, pairwise-distinct across files. Do **not** require literal hex/typeface values — that would model the invented brand specifics the skill forbids. |
+| P1-5 | ✅ *landed in Commit 6* **Corpus diversity validator** over golden + example + case-study files: at most 60 % of `Quality target:` lines share a score (fails today at 32/33), and median pairwise 5-gram Jaccard of calibration-block bodies at most 0.15. First cross-response instrument in the repo. |
+| P1-6 | ✅ *landed in Commit 6* **Fix the tautological CI step and the flat fixtures.** Rename the oracle step so it stops claiming to validate quality. Current rubric fixtures are 31–52 words with dimension spreads of 0,1,1,0,0 — a judge ignoring the median rule passes the whole pack. Add an adversarial fixture with spread ≥ 2 and assert `expected_score == floor(median(dimension_scores))` unless a cap is present. |
+| P1-7 | ✅ *landed in Commit 6* **Shape assertions in the prose validator.** Replace bare-word matches (`\bover\b`) with bullet-count plus word-count-after-`because` assertions; replace the five-element generic-next-actions denylist with a positive test (each bullet contains a digit, a mid-sentence capitalized token, or a backticked identifier). Fix the examples, not the rules. |
 | P1-8 | **Tablet full version** — see §4. |
 | P1-9 | **Selection rules for the unkeyed craft bands.** Add a "Selected by" column to line length, type ratio, easing, spacing steps, edge padding, loading thresholds, skeleton-vs-spinner; add a no-bucket fallback to context defaults. Any emitted craft value names the context variable that selected it, or is labelled `default`. Do **not** add a competing numeric authority next to `docs/context-defaults.md`. |
 | P1-10 | **Blocking gate in self-review.** Promote three non-template-satisfiable prompts (name the sentence you cut; name the rejected instinct; name the element that carries the direction) into a leading blocking gate answered in writing; demote the rest to a spot-check reference; cut the universal prompts to the ~8 that gate a rewrite and move the remainder to `docs/evals.md`. |
@@ -230,7 +230,7 @@ conflicts between context dimensions; device class rarely conflicts. The fix is 
 | 3 | Divergence: P0-2 immediately followed by P1-1, plus the motion-band reconciliation. | ✅ landed |
 | 4 | Tablet MVU: P0-7 plus `docs/adaptive-layout.md`, the large-screen bars, `Device class:` in the six template headers and in `MODE_REQUIREMENTS`. New sources added to `docs/sources.md`. | pending |
 | 5 | Honesty and scope: P0-8, P0-9. | ✅ landed |
-| 6 | Corpus and CI: P1-5 (land it knowing it fails at 32/33, then rebuild goldens per P1-4 until it passes), P1-6, P1-7. | pending |
+| 6 | Corpus and CI: P1-5, P1-4, P1-6, P1-7. | ✅ landed |
 
 Deferred to 1.18+: P1-2 (wants the direction step in production first, so the token fields are shaped by real
 use), P1-8, P1-9, P1-10, and the whole P2 tier. P1-11 awaits an owner decision.
@@ -413,6 +413,32 @@ The failure being fixed is specific: rounding a strategy question to Mode 1 prod
 - `validate_unreadable_source_honesty()` — both reference documents must state plainly that these sources cannot be opened, and the old "Did I use production references" prompt is blocked from returning.
 
 Both verified by injection.
+
+### Commit 6 — what landed
+
+**P1-5, revised after measurement.** The specified check was "median pairwise 5-gram Jaccard of the calibration bodies ≤ 0.15". Measured against the real corpus, the median is **0.0** and the maximum is 0.043 — the blocks describe different domains in different words, so word-level n-grams cannot see the structural sameness the audit found. Shipping that threshold would have added a check that passes vacuously forever while producing false confidence. It was dropped, and the reason is recorded in the validator's own docstring so nobody re-specifies it.
+
+What shipped instead, in `validate_calibration_corpus_diversity()`:
+
+- **Score distribution** — at least 3 distinct `Quality target:` scores, and no single score above **75 %**. The proposal said 60 %; on a 23-value corpus that would have forced ten exemplars off 4/5 and invited dishonest scores. 75 % still fails today's monoculture (91 %) by a wide margin.
+- **Signature-move distinctness** — `Signature move:` lines must be pairwise distinct after normalization. Two exemplars claiming the same owned asset is precisely the sameness failure, and this is the instrument that actually bites. Honest `none, this screen is inert` records are exempt.
+
+**A validator was itself generating the monoculture.** `validate_synthetic_case_studies()` required the literal string `4/5` in every case study — "every case study is 4/5" was a CI rule. Relaxed to any `[1-5]/5`.
+
+**P1-4, corpus rebuilt.** All six goldens gained a `Signature move:` line naming a distinct owned asset with repeat locations, none of which requires inventing brand values: `layout.hero-bleed` (premium-ui), `type.numeral-tabular` (fintech), `layout.value-unit-range` (health), `motion.commit` (onboarding), `layout.total-anchor` (checkout), `layout.severity-rail` (enterprise-saas). Their `Quality target` lines were rewritten to the Commit 2 shape and no longer close on the identical `4/5 — <adj> <noun> once <X, Y, Z> are confirmed` formula. `health.md` and `enterprise-saas.md` moved to **5/5** on their existing resilience content, `health-medication-refill.md` to **5/5** on its state coverage, and `search-results-filtering.md` honestly to **3/5** — a conventional search-and-filter list with no owned asset is what the inert cap is for. Distribution is now 17 × 4/5, 3 × 5/5, 2 × 3/5, 1 × 2/5 across four distinct scores.
+
+**P1-6.** New `examples/evals/rubric-score-2-adversarial.json`: a 150-word Mode C spec with concrete spacing and type values (three dimensions at 4, median 3) whose design-quality recommendations are aesthetic-only, so the cap drags it to 2/5. It is the first fixture that separates a judge applying the rubric from a judge reporting an average. `rubric-score-3.json` gained an honest spread matching its own recorded failed dimensions. The pack now asserts `expected_score ≤ floor(median)` always, `== floor(median)` when no cap is recorded, and that at least two fixtures carry a dimension spread ≥ 2 — before this, spreads were 0, 1, 1, 0, 0 and the median rule was never exercised. Coverage relaxed from set equality to a superset test.
+
+**P1-7.** Shape assertions replacing keyword and denylist checks:
+
+- `Pattern choices and why` needs ≥ 3 bullets matching `X over Y because Z` with ≥ 8 words after `because`, replacing a bare `\bover\b` match.
+- `alternative considered:` needs ≥ 10 words after the label.
+- `Attention path:` and `Signature move:` need ≥ 12 words, scoped by a `label_body()` helper — the first regex attempt leaked across newlines and silently counted the following bullets' words, which the injection test caught.
+- The five-phrase `GENERIC_NEXT_ACTIONS` denylist is gone. The positive test specified in the proposal (a digit, proper noun, or backticked identifier) was implemented and **rejected**: it failed thirteen specific, well-written next actions across five files and would have rewarded inserting a number. A ≥ 6-word minimum catches every denylist entry and passes every real action.
+
+Only one example needed strengthening rather than a rule needing loosening — a 7-word `because` clause in `rationale-handoff.md`.
+
+**CI honesty.** The oracle steps are renamed to *Self-test judge JSONL parser (round-trip, not a quality check)* and *Self-test judge command adapter (oracle, not a quality check)*, with inline comments and a new section in `docs/llm-judge-runner.md` stating plainly that no model runs in CI and a `SKILL.md` change that degrades live output cannot fail those steps.
 
 ### Acceptance
 

@@ -1,0 +1,37 @@
+{
+  "id": "rubric-score-2-adversarial-aesthetic-cap",
+  "rubric_version": "1.0",
+  "mode": "Create platform-aware UI spec",
+  "prompt": "Use the mobile-design-skill. Write a UI spec for the account overview screen of a consumer banking app. Make it feel more premium than our current one.",
+  "response_excerpt": "Structural zones: a balance header, a card carousel for accounts, a transaction list, and a bottom action bar. Use 16dp screen padding, 12dp between transaction rows, and 24dp before the action bar. Balance uses a 32sp display role, account names 16sp body, transaction metadata 13sp caption. To make the screen feel more premium, elevate the account cards, soften the corner radii, and introduce a richer gradient behind the balance so it reads as the hero. Use a more refined color story throughout, and tighten the visual rhythm so the screen feels calmer and more considered. Add subtle motion to the carousel so it feels fluid. States: default and loading are described; the spec notes that error and empty states should follow the existing design system. Platform notes say to follow iOS and Android conventions where they differ.",
+  "expected_score": 2,
+  "expected_verdict": "needs major revision",
+  "expected_cap": "2/5 cap from aesthetic-only recommendations that are never translated into task, accessibility, or implementation mechanisms",
+  "hard_limits": [
+    "Aesthetic-only recommendations cap the design-quality score at 2/5 until translated into mechanisms",
+    "Missing empty/error state definitions cap generated concepts and UI specs at 3/5"
+  ],
+  "dimension_scores": {
+    "attention_path_and_hierarchy": 4,
+    "composition_and_spacing": 4,
+    "typography_craft": 4,
+    "color_state_and_contrast": 2,
+    "density_and_rhythm": 3,
+    "interaction_polish_and_motion": 2,
+    "context_and_brand_fit": 3,
+    "production_readiness": 2,
+    "distinctiveness_and_owned_assets": 3
+  },
+  "expected_failed_dimensions": [
+    "color, state, and contrast",
+    "interaction polish and motion",
+    "production readiness"
+  ],
+  "expected_rationale": "This is the fixture that separates a judge applying the rubric from a judge reporting an average. The spacing and type values are genuinely concrete, so three dimensions score 4 and the median of the nine assessable dimensions is 3. The final score is still 2/5, because the design-quality recommendations that carry the request -- 'more premium', 'richer gradient', 'more refined color story', 'calmer', 'subtle motion so it feels fluid' -- are aesthetic-only and are never translated into a size, contrast ratio, duration, token, or state treatment. The aesthetic-only cap applies and overrides the median. Deferring error and empty states to 'the existing design system' is a second cap, not a delegation. A judge that returns 3/5 here has computed the median and skipped step 2.",
+  "improvement_suggestions": [
+    "Translate every taste word into a mechanism: replace 'richer gradient' with the surface role, its contrast ratio against the balance text, and its dark-mode variant.",
+    "Replace 'subtle motion so it feels fluid' with a named duration from the motion bands, an easing curve, and a reduced-motion fallback.",
+    "Define error and empty states inline rather than deferring them to an unnamed design system; a deferral is not a definition.",
+    "Name what the premium direction gives up -- an owned asset with repeat locations, not elevation plus radius plus gradient applied everywhere."
+  ]
+}

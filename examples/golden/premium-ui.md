@@ -49,7 +49,8 @@ Help the traveler judge value quickly: what the suite looks like, what makes it 
 - Sticky CTA must not cover policy text or safe-area controls.
 
 ## Design quality calibration
-- Quality target: 4/5 - premium, shippable screen structure once real imagery and policy copy are validated.
+- Quality target: 4/5 - premium, shippable screen structure; blocked from 5/5 by Production readiness until real imagery and policy copy are validated.
+- Signature move: `layout.hero-bleed` - the hero image bleeds under the status bar and condenses into a 96pt sticky header on scroll. Repeated at the hero, the gallery viewer, and the reservation confirmation, so the same bleed-to-condense gesture identifies the product across all three.
 - Premium feel comes from restraint, hierarchy, material quality, and photography, not decorative gradients or oversized type everywhere.
 - Use generous top imagery, then compact factual sections so the screen remains useful for a high-cost decision.
 - Keep typography elegant but readable: one strong title, body-sized facts, and smaller metadata only for noncritical support.

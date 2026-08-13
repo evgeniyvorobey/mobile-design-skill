@@ -20,11 +20,14 @@ jobs:
       - name: Validate repository structure, links, and examples
         run: python3 scripts/validate_repo.py
 
-      - name: Validate rubric judge runner fixtures
+      - name: Validate rubric fixture pack (schema, coverage, median rule)
         run: python3 scripts/run_rubric_judge.py --dry-run
 
-      - name: Validate rubric judge runner parser
+      # Round-trips the runner's own expected output. Proves the JSONL parser, NOT design quality.
+      - name: Self-test judge JSONL parser (round-trip, not a quality check)
         run: python3 scripts/run_rubric_judge.py --export-expected-output /tmp/rubric-judge-expected.jsonl --judge-output /tmp/rubric-judge-expected.jsonl
 
-      - name: Validate rubric judge external command adapter
+      # The oracle echoes each fixture's expected values back. Proves the stdin/stdout
+      # contract, NOT that any model scores correctly.
+      - name: Self-test judge command adapter (oracle, not a quality check)
         run: python3 scripts/run_rubric_judge.py --judge-command "python3 scripts/rubric_judge_oracle_agent.py"
