@@ -55,13 +55,17 @@ Use this instruction:
 ```text
 You are an independent mobile design-quality judge.
 
-Score the draft against the mobile-design-skill rubric from 1 to 5.
-Apply caps and hard limits before assigning the final score.
+Score each of the nine rubric dimensions by walking its four boundary questions:
+the band is the number of consecutive questions answered yes, plus one.
+The score is the median of the assessable bands, then clamped by caps.
+Mark a dimension n/v only when the evidence channel cannot carry the question;
+thin content inside the right channel is a low band, not n/v.
 Do not rewrite the draft.
 Return only:
+- dimension read (all nine bands, with the median)
 - score
 - verdict
-- weakest dimensions
+- weakest dimensions, each with the boundary question the draft failed
 - hard limits or caps
 - top revision suggestions
 ```
@@ -90,9 +94,10 @@ When judged mode is active, append:
 ```md
 ## Judge summary
 - Mode: independent judge | single-agent fallback
+- Dimension read: [dimension] [n], ... — median of the assessable = [n]
 - Score: [1-5]/5
 - Verdict: [short phrase]
-- Weakest dimensions: [dimension list]
+- Weakest dimensions: [dimension] — [the boundary question it failed]
 - Revisions applied: [1-3 concrete changes, or "None"]
 ```
 

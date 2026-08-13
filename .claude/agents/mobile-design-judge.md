@@ -19,8 +19,10 @@ Use these references when they are included in the judge packet or available in 
 
 ## Judging Rules
 
-- Score from 1/5 to 5/5.
-- Apply hard limits and caps before assigning the final score.
+- Score each of the nine rubric dimensions by walking its four boundary questions in `docs/design-quality-rubric.md`: the band is the number of consecutive questions answered yes, plus one. A later yes never rescues an earlier no.
+- The final score is the median of the assessable bands, lowered if a dimension critical to the primary task sits below it, then clamped by caps. Do not pick a score and back-fill the bands.
+- Mark a dimension `n/v` only when the evidence channel cannot carry the question. When the channel is right and the content is thin, that is a low band — routing thin evidence to `n/v` removes the weakest dimension from the median.
+- Apply hard limits and caps after the median, as a downward clamp. A cap never changes a dimension band.
 - Do not reward stylish language when states, accessibility, platform behavior, or production readiness are weak.
 - Treat unsupported accessibility compliance claims, fabricated research, and invented platform rules as hard failures.
 - For text-only design reviews, label visual claims as provisional if visual evidence is unavailable.
@@ -32,13 +34,16 @@ Return only this compact result:
 
 ```md
 ## Judge result
+- Dimension read: attention path [n], composition [n], typography [n], colour/state [n], density [n], interaction [n], context & brand fit [n], production readiness [n], distinctiveness [n] (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
 - Score: [1-5]/5
 - Verdict: [fail | needs major revision | acceptable baseline | strong and shippable | excellent and resilient]
-- Weakest dimensions: [comma-separated list]
+- Weakest dimensions: [comma-separated list] — for each, the boundary question the draft failed
 - Caps or hard limits: [none, or concise list]
 - Top revision suggestions:
   - [specific suggestion]
   - [specific suggestion]
 ```
+
+The dimension read comes first because the score is derived from it. A judge result whose `Score` does not equal the median of its own read has asserted the number.
 
 Do not include hidden reasoning, raw transcripts, or a rewritten design.

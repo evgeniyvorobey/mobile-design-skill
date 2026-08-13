@@ -274,7 +274,7 @@ For reviews:
 - [ ] `Design quality score (current → projected)` includes both a current score and a projected score, each on its own `Current:` / `Projected:` line. Both are flat medians of the assessable dimensions — the current over the bands as found, the projected over the bands once the fixes land — not "up to"; any higher post-visual-pass figure is confined to a `Ceiling note`.
 - [ ] The projection is conditional (IF fixes land AND assumptions hold) and capped at 4/5 unless resilience is named; a P0/Fail is not projected up to a number.
 - [ ] Text-only reviews label both scores as structural/provisional, and visual dimensions are not projected upward.
-- [ ] Score rationale references concrete dimensions: hierarchy, spacing, typography, color/state, interaction polish, brand/context fit, or production readiness.
+- [ ] The per-dimension table carries all nine rubric dimensions, distinctiveness included, and the score rationale references the concrete ones it moves.
 
 ### Rubric eval fixtures
 

@@ -271,7 +271,7 @@ At least one of:
 - Quick summary
 - Strengths
 - Findings — each finding is one causal chain with: Lens (Usability / Accessibility / Hierarchy & readability / Design quality / Navigation & interaction), Observation, Violated principle (named), User consequence, Change, Predicted effect (directional + confidence), Severity (Nielsen 0–4 = frequency × impact × persistence), Moves (which design-quality dimension it shifts, band→band)
-- Design quality score (current → projected) — current and projected scores plus a per-dimension table; the projected number is the median of the assessable projected dimensions (visual dimensions are never projected upward from a text-only review), stated as a flat number; a higher number reachable only after a visual pass goes in a separate Ceiling note
+- Design quality score (current → projected) — current and projected scores plus a per-dimension table carrying all nine rubric dimensions; both numbers are flat medians of the assessable bands in their column, the current over the bands as found and the projected over the bands once the fixes land (visual dimensions are never projected upward from a text-only review); a higher number reachable only after a visual pass goes in a separate Ceiling note
 - Severity index — findings rolled up by Nielsen 0–4 level
 - Bold move (optional) — include only when the trigger is met (see below)
 - Platform-convention mismatches
@@ -290,8 +290,9 @@ The Bold move trigger: offer one only when ALL hold — the screen is already co
 - For D2: are visual claims qualified as unverifiable, or restricted to structure?
 - For D3: is diagnosis separated from assessment?
 - For D4: is the review framed as a delta against the changed context, not a full re-review?
-- Are both a current and a projected design-quality score exposed, the projected number being the median of the assessable projected dimensions (a flat number, not "up to"), with any higher post-visual-pass figure confined to a Ceiling note?
+- Are both a current and a projected design-quality score exposed, each the median of the assessable bands in its own column of the nine-dimension table (a flat number, not "up to"), with any higher post-visual-pass figure confined to a Ceiling note?
 - For D2/D3: is the projected score labeled provisional, and are visual dimensions kept at n/v (never projected upward)?
+- Is every `n/v` there because the evidence channel cannot carry the question, rather than because the input was thin? Thin evidence inside the right channel is a low band; marking it n/v removes the weakest dimension from the median.
 - If a Bold move is offered: is the trigger met, does it carry all required fields (deviation, JTBD job, upside, risk, validation path, score impact, conviction), and is it kept separate from the required fixes?
 - Was any UX-strengthening recommendation withheld only because it contradicts the current product? If so, is it moved to Bold move with its tradeoff?
 - Are platform mismatches called out, and typography/spacing reviewed where verifiable?

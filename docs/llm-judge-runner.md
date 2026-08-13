@@ -205,7 +205,7 @@ When adding a new rubric fixture:
 
 1. Add a JSON fixture under `examples/evals/`.
 2. Include every required field used by `scripts/validate_repo.py`.
-3. Include all eight dimension scores.
+3. Include all nine dimension scores — the set in `RUBRIC_DIMENSIONS` in `scripts/validate_repo.py`, which the rubric's dimension table matches row for row.
 4. Add at least two improvement suggestions.
 5. Run `python3 scripts/validate_repo.py`.
 6. Run `python3 scripts/run_rubric_judge.py --dry-run`.
