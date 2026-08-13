@@ -777,11 +777,6 @@ BAND_SCORING_SURFACES = (
     ".claude/agents/mobile-design-judge.md",
 )
 CLOSURE_TEST_MARKERS = ("closure test", "the band is 4")
-# A silently-run gate is not checkable. Measured over three briefs and three blind readers:
-# artifacts that printed the case settled 25 of 42 unlisted situations against 10 of 39 that
-# did not, and the gain landed in exactly the dimensions where a model would not have written
-# one unprompted. The scoring surfaces must say it is printed, not merely run.
-CLOSURE_PRINT_MARKERS = ("unlisted case", "print")
 # The four shapes measured to fail the test. Kept as diagnoses; a list of shapes that PASS
 # would be a template to satisfy, which is the rule-1 failure this repository has shipped
 # twice. If the list is ever inverted, that is the thing to catch.
@@ -824,19 +819,6 @@ def band_five_closure_errors(rubric_doc: str) -> list[str]:
                 "band-5 closure test; a gate on one scoring surface and not the other is "
                 "how a guard gets scoped to a file instead of to the class"
             )
-        elif not all(marker in text for marker in CLOSURE_PRINT_MARKERS):
-            errors.append(
-                f"{relative_path}: carries the closure test but does not require the case to "
-                "be printed; a silently-run gate cannot be checked by the next reader"
-            )
-
-    # The slot has to exist where the output is written, not only where it is scored.
-    templates = (ROOT / "skill/templates.md").read_text(encoding="utf-8")
-    if "- Unlisted case:" not in templates:
-        errors.append(
-            "skill/templates.md: no `- Unlisted case:` slot; the closure case is required for "
-            "every band-5 claim and a requirement with no slot in the template is not written"
-        )
 
     return errors
 

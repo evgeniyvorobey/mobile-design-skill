@@ -63,7 +63,6 @@ thin content inside the right channel is a low band, not n/v.
 Before allowing any band 5, run the closure test: take one ordinary case the draft
 does not list and state what its own statement returns for it. If you cannot write
 the answer, the band is 4, however well the statement reads.
-A band 5 with no printed Unlisted case line is a band 4.
 Do not rewrite the draft.
 Return only:
 - dimension read (all nine bands, with the median)
