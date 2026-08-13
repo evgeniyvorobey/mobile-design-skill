@@ -1519,9 +1519,13 @@ def parse_dimension_read(line: str) -> list[int | None]:
     core = re.split(r"Median of", match.group("body"), maxsplit=1)[0]
     bands: list[int | None] = []
     for chunk in core.split(","):
-        pair = DIMENSION_READ_PAIR.match(chunk.strip().rstrip("."))
+        # First band token in the chunk, not the whole chunk anchored. A live run appended
+        # prose after the last dimension ("... distinctiveness 5. All nine assessable --
+        # nothing is `n/v` ...") and an anchored match dropped that dimension silently,
+        # which is the failure mode where a parser under-counts instead of erroring.
+        pair = re.search(r"\b([1-5]|n/v)\b(?=[.,;]|\s|$)", chunk.strip(), re.IGNORECASE)
         if pair:
-            band = pair.group("band").lower()
+            band = pair.group(1).lower()
             bands.append(None if band == "n/v" else int(band))
     return bands
 

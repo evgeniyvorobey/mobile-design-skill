@@ -442,14 +442,14 @@ The vector is what a response now exposes machine-readably: the catalog entries 
 | `vector_similarity` | **none** | no baseline exists; reported only |
 | `distinct_dimension_bands` | **none** | how many of the five bands the run's dimension reads actually use; the committed corpus used four before this release and two in live acceptance |
 | `dimension_min` / `dimension_max` | **none** | which end of the scale is unused |
-| `share_in_middle_bands` | **none** | the reported symptom as one number: the fraction of bands sitting on 3 or 4 |
+| `adjacent_pair_share` | **none** | the largest share held by any two adjacent bands — how much of the scale the run never uses, without assuming which end it collapses toward |
 | `dimension_range_median` | **none** | within-response spread, independent of spread across responses |
 | `flat_vector_share` | **none** | responses that emitted one band nine times |
 
 The six dimension measures are reported and never asserted: no live run has produced a
 baseline for any of them, and inventing one is how this repository once shipped a threshold
 that failed by construction. What the self-test asserts instead is **separation** — that
-`share_in_middle_bands` reads higher, and `distinct_dimension_bands` and
+`adjacent_pair_share` reads higher, and `distinct_dimension_bands` and
 `dimension_range_median` read lower, on a deliberately uniform corpus than on a varied one.
 That is a property of the metric rather than a claim about the model, so it needs no
 measured bar. `examples/evals/diversity-fixtures.json` carries both corpora, and the uniform

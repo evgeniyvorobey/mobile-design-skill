@@ -107,7 +107,7 @@ DIMENSION_FIELDS = (
     "distinct_dimension_bands",
     "dimension_min",
     "dimension_max",
-    "share_in_middle_bands",
+    "adjacent_pair_share",
     "dimension_range_median",
     "flat_vector_share",
 )
@@ -129,9 +129,13 @@ def dimension_read(body: str) -> list[int | None]:
     core = re.split(r"Median of", match.group("body"), maxsplit=1)[0]
     bands: list[int | None] = []
     for chunk in core.split(","):
-        pair = DIMENSION_READ_PAIR.match(chunk.strip().rstrip("."))
+        # First band token in the chunk, not the whole chunk anchored. A live run appended
+        # prose after the last dimension ("... distinctiveness 5. All nine assessable --
+        # nothing is `n/v` ...") and an anchored match dropped that dimension silently,
+        # which is the failure mode where a parser under-counts instead of erroring.
+        pair = re.search(r"\b([1-5]|n/v)\b(?=[.,;]|\s|$)", chunk.strip(), re.IGNORECASE)
         if pair:
-            band = pair.group("band").lower()
+            band = pair.group(1).lower()
             bands.append(None if band == "n/v" else int(band))
     return bands
 
@@ -239,8 +243,18 @@ def measure(vectors: list[dict[str, Any]]) -> dict[str, Any]:
         "distinct_dimension_bands": len(set(bands)),
         "dimension_min": min(bands) if bands else 0,
         "dimension_max": max(bands) if bands else 0,
-        # The reported symptom as one number: how much of the scale the answers never use.
-        "share_in_middle_bands": round(sum(1 for b in bands if b in (3, 4)) / len(bands), 3) if bands else 0.0,
+        # How much of the scale the answers never use, stated without assuming WHERE the
+        # collapse sits. The first version of this field counted the share on bands 3 and 4,
+        # which is the shape the defect had when it was found -- and the live acceptance run
+        # for this release came back 93% on bands 4 and 5, a collapse the field could not
+        # see. Largest share held by any two adjacent bands, so it catches either end.
+        "adjacent_pair_share": round(
+            max(
+                (sum(1 for b in bands if b in (low, low + 1)) for low in (1, 2, 3, 4)),
+                default=0,
+            ) / len(bands),
+            3,
+        ) if bands else 0.0,
         # Within-response flatness, independent of spread across responses.
         "dimension_range_median": round(statistics.median(ranges), 3) if ranges else 0.0,
         "flat_vector_share": round(sum(1 for r in ranges if r == 0) / len(ranges), 3) if ranges else 0.0,
@@ -323,7 +337,7 @@ def self_test() -> None:
             "the `varied` fixture corpus fails the thresholds: "
             + "; ".join(check(varied))
         )
-    for name in ("score_concentration", "provenance_concentration", "share_in_middle_bands"):
+    for name in ("score_concentration", "provenance_concentration", "adjacent_pair_share"):
         if uniform[name] <= varied[name]:
             errors.append(
                 f"{name} does not separate the corpora "
@@ -381,7 +395,7 @@ def ck(metrics: dict[str, Any]) -> str:
         f"classes={metrics['asset_class_count']} "
         f"similarity={metrics['vector_similarity']} "
         f"bands={metrics['distinct_dimension_bands']} "
-        f"mid_share={metrics['share_in_middle_bands']} "
+        f"pair_share={metrics['adjacent_pair_share']} "
         f"range={metrics['dimension_range_median']}"
     )
 
