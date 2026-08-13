@@ -100,6 +100,13 @@ Single detail screen for one tracked package, optimized for status comprehension
 - Preserve the last known delivery state when live refresh fails.
 - Timeline items should be readable individually without requiring expansion for basic status meaning.
 
+## Color and state rules
+- Four status roles, each a container/on-container pair rather than a single hue: in-transit uses the neutral surface with default on-surface text; delivered uses the success container with on-success text; delayed uses the warning container with on-warning text; failed and address-issue use the error container with on-error text.
+- Every pair carries a text label and a step icon, so removing colour loses emphasis and never loses meaning. Delayed and failed must remain distinguishable without hue, since both sit in the same alert container position.
+- Contrast floor: 4.5:1 for status text on its container, 3:1 for the progress tracker's step fills and the container edge against the screen background.
+- Dark theme is one transform, not a second palette: containers drop to the low-emphasis tonal step and the on-container roles take the light text token, with the same four pairings and the same floors. Increased contrast raises each container one tonal step and keeps the on-container role fixed.
+- The alert container keeps its own pair when it moves above the detail zone; it does not inherit the surface it lands on.
+
 ## Content guidance
 - Use plain status language before internal logistics terminology.
 - Make timestamp formatting concise and consistent.
@@ -129,8 +136,8 @@ Single detail screen for one tracked package, optimized for status comprehension
 
 ## Design quality requirements
 - Direction: structured-neutral — status colour held apart from brand colour so a wrong status read is never a branding accident (from: baseline) — committed over the editorial and perceived-speed directions in `Key decision tradeoffs`
-- Dimension read: attention path 4, composition 4, typography 4, colour/state 3, density 4, interaction 4, context & brand fit 3, production readiness 3, distinctiveness 4. Median of the assessable = 4.
-- Quality target: 4/5 — shippable Android detail screen, blocked from 5/5 by Colour and state, Context & brand fit and Production readiness, which all sit at band 3. Colour and state is the nearest lift and stays there until a foreground/background pair is stated per status role, together with what each pair becomes in dark theme.
+- Dimension read: attention path 4, composition 4, typography 4, colour/state 5, density 4, interaction 4, context & brand fit 3, production readiness 3, distinctiveness 4. Median of the assessable = 4.
+- Quality target: 4/5 — shippable Android detail screen, blocked from 5/5 by Context & brand fit and Production readiness, both at band 3, until the spec states a departure budget for what brand may override and gives the remaining values token names with their state-to-component mapping.
 - Attention path:
   - First glance must land on current status and ETA; second glance moves to exception/support actions; timeline is tertiary.
 - Composition and spacing:
@@ -138,7 +145,7 @@ Single detail screen for one tracked package, optimized for status comprehension
 - Typography:
   - Keep the status headline at 22-24sp and timeline body at 16sp so the status does not compete with historical events.
 - Color and state:
-  - Use semantic status color only with a text label and icon; delayed/failed states should not rely on red or amber alone.
+  - Four status roles as container/on-container pairs with stated contrast floors, and dark and increased-contrast derived as one transform over those roles rather than a second palette, so a new status role inherits its appearance behaviour without a hand-made variant.
 - Interaction polish:
   - Refresh and support actions need pressed, loading, success, and error states; background refresh should preserve the last known status.
 - Signature move:
