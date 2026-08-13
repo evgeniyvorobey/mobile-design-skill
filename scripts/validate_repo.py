@@ -1269,6 +1269,81 @@ def validate_mode_parity() -> None:
         )
 
 
+def validate_inspiration_gate_parity() -> None:
+    """The inspiration gate in SKILL.md must not be narrower than the layer it guards.
+
+    Before this check, SKILL.md listed 4 trigger signals while
+    docs/inspiration-sources.md declared 9 — so requests like "make it feel premium"
+    never reached the layer whose own trigger list names that exact phrase, and the
+    direction vocabulary behind it stayed unreachable.
+    """
+    doc = (ROOT / "docs/inspiration-sources.md").read_text(encoding="utf-8")
+    section = re.search(
+        r"^## When to use inspiration\s*$(?P<body>.*?)(?=^## |\Z)",
+        doc,
+        re.DOTALL | re.MULTILINE,
+    )
+    if not section:
+        fail("docs/inspiration-sources.md: missing `## When to use inspiration` section")
+
+    signals = re.findall(r'^-\s+"(?P<signal>[^"]+)"', section.group("body"), re.MULTILINE)
+    if len(signals) < 5:
+        fail(
+            "docs/inspiration-sources.md: expected the trigger list to enumerate the "
+            f"inspiration signals as quoted bullets; found {len(signals)}"
+        )
+
+    skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+    missing = [signal for signal in signals if signal.lower() not in skill.lower()]
+    if missing:
+        fail(
+            "Inspiration gate is narrower than the layer it guards. SKILL.md does not "
+            "carry these signals from docs/inspiration-sources.md: "
+            + ", ".join(f'"{signal}"' for signal in missing)
+        )
+
+
+def validate_motion_band_consistency() -> None:
+    """One authority for motion durations.
+
+    `docs/design-quality.md` used to declare a 200-500ms "personality band" while
+    `docs/quality-bars.md` capped full-screen navigation at 400ms, so a motion
+    signature had no legal room and the two files disagreed silently.
+    """
+    errors: list[str] = []
+
+    bars = (ROOT / "docs/quality-bars.md").read_text(encoding="utf-8")
+    if not re.search(r"^### Signature transition\s*$", bars, re.MULTILINE):
+        errors.append(
+            "docs/quality-bars.md: missing `### Signature transition` — the motion "
+            "signature needs a band defined where the durations live"
+        )
+
+    quality = (ROOT / "docs/design-quality.md").read_text(encoding="utf-8")
+    motion = re.search(r"^### Motion-personality tokens.*?(?=^###|\Z)", quality, re.DOTALL | re.MULTILINE)
+    if not motion:
+        errors.append("docs/design-quality.md: missing `### Motion-personality tokens`")
+    elif "quality-bars.md" not in motion.group(0):
+        errors.append(
+            "docs/design-quality.md: the motion-personality section must defer to "
+            "`docs/quality-bars.md` rather than declaring its own duration band"
+        )
+
+    for relative_path, text in (
+        ("docs/design-quality.md", quality),
+        ("docs/quality-bars.md", bars),
+    ):
+        for number, line in enumerate(text.splitlines(), start=1):
+            if re.search(r"\b(?:4[1-9]\d|[5-9]\d\d|\d{4,})\s?ms\b", line):
+                errors.append(
+                    f"{relative_path}:{number}: motion duration above the 400 ms "
+                    "signature ceiling"
+                )
+
+    if errors:
+        fail("Motion band validation failed:\n" + "\n".join(errors))
+
+
 def validate_projected_score_lines() -> None:
     """The projected score is a flat median, never a ceiling and never `up to N/5`."""
     errors: list[str] = []
@@ -1477,6 +1552,8 @@ def main() -> None:
     validate_benchmark_report_format()
     validate_rendered_output_qa()
     validate_mode_parity()
+    validate_inspiration_gate_parity()
+    validate_motion_band_consistency()
     validate_projected_score_lines()
     validate_documentation_hygiene()
     validate_links()

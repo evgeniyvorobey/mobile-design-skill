@@ -166,6 +166,39 @@ Use the source hierarchy in this order:
 
 ---
 
+## Step 4.5: Set the design direction (Modes A, C, E)
+
+Before drafting a generated artifact, name three candidate directions internally, then commit to one. The step sits between grounding and building so divergence happens *before* the evidence gauntlet, not instead of it.
+
+Each direction is a thesis line plus token consequences:
+
+| Field | What it fixes |
+|-------|---------------|
+| Base unit and scale ratio | spacing base (4 or 8) and type ratio — makes density differ measurably |
+| Type role split | which roles carry character; which stay on the readable system face |
+| Colour-construction rule | how neutral anchor, accent, and semantic roles are derived and held apart |
+| One composition move | the single structural gesture the screen is built around |
+| Motion signature | one recurring transition, duration from `quality-bars.md`, reduced-motion fallback |
+
+Then:
+
+1. Rank the three against user goal, task, context defaults, platform conventions, and accessibility.
+2. Commit to one.
+3. Move the two rejects into `Alternatives considered` (Mode A) or `Key decision tradeoffs` (Mode C), each with the mechanism that killed it.
+
+Rules:
+
+- Directions must differ in at least two token fields; three variants of one structure is one direction.
+- The step is internal — the response commits to one direction and never presents a menu.
+- Divergence is perceptual and compositional. Functional patterns stay convergent (see Step 7, "Choose from known patterns, do not invent").
+- Token values are directional defaults, not invented brand facts. Work inside a supplied design system when there is one; say so when there is not.
+- Mode F names the direction the delivered design already embodies; it does not generate new ones or invent rejected alternatives the user never described.
+- When the input supports only one direction, state that under `Assumptions` rather than inventing two throwaway rejects.
+
+Vocabulary and the long form of this step live in `docs/inspiration-sources.md`.
+
+---
+
 ## Step 5: Build the response by mode
 
 Use the response structure defined in `skill/templates.md`.

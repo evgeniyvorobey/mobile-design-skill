@@ -106,6 +106,7 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Are the suggested components buildable on the named platform (native components or a common UI kit)?
 - Have I addressed what happens when the screen has zero data, partial data, stale data, and full data?
 - Did I commit to one layout rather than describing three possible layouts without choosing?
+- Did I name three directions with different token consequences before drafting, or did I justify the first idea after the fact? Two directions that differ only in adjectives are one direction.
 - Are the two entries under `Alternatives considered` structurally different from the chosen layout, or are they variants of the same structure wearing different labels?
 - Does `Signature move` name an owned asset as a token with the places it repeats — or did I record honestly that the screen is inert and what would change that?
 
@@ -122,6 +123,7 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Are spacing and typography values concrete (tokens, pixels, dp), not relative ("more", "tighter")?
 - For cross-platform: are iOS and Android sections meaningfully different, or did I duplicate shared content to look thorough?
 - Does the spec reference a design system (named or assumed), or does it invent component names without grounding?
+- Did the direction set precede the spec, and do the rejected directions in `Key decision tradeoffs` differ from the chosen one in at least two token fields?
 - Does `Key decision tradeoffs` say what each contested choice gave up, or does it only restate what was chosen? A tradeoff with no cost named is a preference.
 
 ### Mode D: Review screen for usability/accessibility
@@ -138,6 +140,7 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Are type roles named (Display, Title, Body, etc.), not just a list of sizes?
 - Does the scale support Dynamic Type on iOS and font-scale on Android, or did I ignore scaling?
 - Is the spacing scale systematic (4- or 8-based, or explicit token names)?
+- Did I choose the base unit and scale ratio as a direction decision with a stated reason, or did I emit the default 4/8/12/16/24/32/40 ladder by reflex?
 - Did I state minimum touch targets (44pt iOS / 48dp Android)?
 - If multilingual was requested, did I address script-specific adjustments (CJK, Arabic, Devanagari)?
 

@@ -152,7 +152,7 @@ Use `docs/synthetic-case-studies.md` and `examples/case-studies/` during mainten
 
 Use `docs/clarification-policy.md` when the request is underspecified, risky, or precision-sensitive. Ask only when the answer would change the design decision; otherwise proceed with assumptions and surface the unknowns in the appropriate section.
 
-If the user asks for visual inspiration, moodboards, benchmark references, or "best-in-class" examples, use `docs/inspiration-sources.md` as a separate non-authoritative layer. Inspiration sources can inform visual direction and comparison examples, but they must not justify usability, accessibility, platform, or compliance claims.
+Use `docs/inspiration-sources.md` as a separate non-authoritative layer whenever the request carries any of its trigger signals: "give me references", "visual inspiration", "make it feel premium", "modern app examples", "best-in-class examples", "benchmark competitors", "moodboard", "visual direction", or "explore a few styles". This list is the same one the document itself declares — keep the two in sync, because a gate narrower than the capability it guards silently disables the layer. It is also loaded by step 5.5 below for the direction vocabulary. Inspiration sources can inform visual direction and comparison examples, but they must not justify usability, accessibility, platform, or compliance claims.
 
 Use `docs/visual-benchmark-playbooks.md` when the user asks for Mobbin, Page Flows, Apple Design Awards, Awwwards, or source-specific benchmark guidance. Extract visual and flow inspiration, then translate it into implementable mechanisms. Never treat benchmark sources as evidence for usability, accessibility, platform correctness, compliance, user preference, or business performance.
 
@@ -163,6 +163,32 @@ Use `docs/visual-review-fixtures.md` only as calibration/evaluation material for
 Use `docs/rendered-output-qa.md` only when a rendered artifact exists or the user asks for post-implementation QA. Do not block normal design generation waiting for screenshots, builds, or Playwright. When no artifact exists, list rendered QA as a next action.
 
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
+
+### 5.5 Set the design direction (Modes 1, 3, 5)
+Before drafting a generated artifact, name three candidate directions internally, then commit to one. This runs after grounding and before building: it widens the option set without loosening any evidence rule.
+
+Each direction is one thesis line plus its token consequences:
+
+- **Base unit and scale ratio** — the spacing base (4 or 8) and the type ratio, so density and rhythm differ measurably rather than rhetorically
+- **Type role split** — which roles carry character, and which stay on the readable system face
+- **Colour-construction rule** — how the neutral anchor, the accent, and the semantic roles are derived and held apart
+- **One composition move** — the single structural gesture (full-bleed hero, asymmetric grid, bottom-anchored action, dense two-column list, single-focus card)
+- **Motion signature** — one recurring transition, its duration taken from `docs/quality-bars.md`, with a reduced-motion fallback
+
+Rank the three against user goal, task, context defaults, platform conventions, and accessibility. Commit to one. The two rejects are not discarded: they populate `Alternatives considered` in Mode 1 or `Key decision tradeoffs` in Mode 3, each with the mechanism that killed it.
+
+Four constraints keep this from becoming theatre:
+
+- Directions must differ in **at least two token fields**. Three variants of one structure wearing different adjectives is one direction, not three.
+- The step is **internal**. The response commits to a single direction; it never hands the user three options to choose between, and it never turns into a visual-design essay.
+- Divergence is **perceptual and compositional only**. Functional pattern selection stays convergent — keep choosing from `docs/patterns-catalog.md`, and never invent a novel pattern where an established one applies.
+- Token values are **directional defaults, not invented brand facts**. When the user supplied a design system or brand, the direction works inside it; when they did not, say so rather than asserting a palette as if it were given.
+
+Use `docs/inspiration-sources.md` for the vocabulary: its compositional schools and point-of-view products carry token consequences, and its generative direction method is the long form of this step when the request explicitly asks for fresh direction or references.
+
+For Mode 6 the direction already exists — name the direction the delivered design embodies and the alternatives its authors rejected only where the input supports that. Do not invent rejected alternatives the user never described.
+
+When the input genuinely supports only one direction (spec completion, an extension bound to an existing design system), state that in one line under `Assumptions` instead of inventing two throwaway rejects.
 
 ### 6. Build the response by mode
 Load the classified mode's section in `skill/modes.md` and follow both its `### Output structure` and its `### Validation checklist`. Use the matching skeleton from `skill/templates.md`.

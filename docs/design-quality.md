@@ -214,7 +214,7 @@ These operationalize "creative / distinctive / memorable / premium" as checkable
 - Budget perceptual (expressive) deviation: about one signature perceptual move per screen, two per flow. Functional patterns (where the control is, what the gesture does) are out of budget and stay conventional (Jakob's Law).
 
 ### Motion-personality tokens (Val Head, *Designing Interface Animation*)
-- Express motion character as values, not adjectives: a duration band (200–500ms), a named easing curve tied to a brand adjective, and exactly one recurring signature transition. Above 500ms or feedback-delaying motion fails; always ship a reduced-motion fallback.
+- Express motion character as values, not adjectives: exactly one recurring signature transition, a named easing curve tied to a brand adjective, and a duration taken from the band its interaction belongs to in `docs/quality-bars.md` (see `Signature transition` there). The brand adjective chooses *which* interaction carries the signature and *which* curve it uses — never a longer duration. 400 ms is the ceiling, tap feedback stays at 100–150 ms regardless, and every signature ships a reduced-motion fallback.
 
 ### Type-personality split (Lupton, *Thinking with Type*)
 - Confine a distinctive/personality typeface to display roles (headlines, hero); keep body and UI text on a readable face. Character bleeding into running text fails.

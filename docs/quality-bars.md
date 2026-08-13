@@ -112,6 +112,17 @@ Bars are drawn from Apple Human Interface Guidelines, Material Design 3, WCAG 2.
 - Elements entering and exiting together: ease-in-out (standard curve).
 - Avoid linear motion for user-initiated interactions; it feels mechanical.
 
+### Signature transition
+
+A product may designate **one** recurring transition as its motion signature — the mechanism behind "motion personality" in `docs/design-quality.md`.
+
+- It takes the top of its own band from the table above (300 ms for a screen-level transition, 350 ms for a sheet, 400 ms for full-screen navigation). It never borrows a band above itself, and 400 ms is the ceiling for any signature.
+- It never applies to tap feedback, which stays at 100–150 ms. Feedback that waits on a signature is a defect, not a personality.
+- One signature per product, repeated in named places. A second one is decoration.
+- It ships with a reduced-motion fallback like every other transition.
+
+The bands in this table are the authority. A brand adjective selects *which* interaction carries the signature and *which* easing curve it uses — never a longer duration.
+
 ### Reduced motion
 
 - Respect the OS "Reduce motion" setting on iOS and "Remove animations" on Android.

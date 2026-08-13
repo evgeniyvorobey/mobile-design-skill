@@ -1,6 +1,6 @@
 # Proposal: quality ceiling and design diversity upgrade
 
-Status: **in progress** — Commits 1–2 landed, Commits 3–6 pending.
+Status: **in progress** — Commits 1–3 landed, Commits 4–6 pending.
 Baseline: v1.16.0 (`b192ecd`).
 Target release: v1.17.0 — *"the ceiling comes off"*.
 
@@ -122,7 +122,7 @@ validators do not block tablet (`Platform scope` is checked for non-emptiness, w
 | # | Change | Files |
 |---|--------|-------|
 | P0-1 | **Un-nail the 4/5.** Replace the pre-printed target with `[score]/5 — [what makes it that, and the one dimension holding it back]`. Add a rubric rule: at 4/5, name the dimension blocking 5/5 and whether the input supports lifting it; if yes, lift it before returning. ✅ *landed in Commit 2* | `skill/templates.md`, `docs/design-quality.md`, `docs/design-quality-rubric.md` |
-| P0-2 | **Widen the divergence gate + add Step 5.5 "Direction set."** Gate widened to the document's own nine signals. New binding step for Modes A/C/E/F: name three directions, each a thesis line plus token consequences (base unit + ratio, type role split, colour-construction rule, one composition move, motion signature); rank against task/context/platform/accessibility; commit to one; the two rejects populate `Alternatives considered`. Output stays one direction plus two named rejects. | `SKILL.md`, `docs/workflow.md`, `docs/self-review.md` |
+| P0-2 | ✅ *landed in Commit 3* **Widen the divergence gate + add Step 5.5 "Direction set."** Gate widened to the document's own nine signals. New binding step for Modes A/C/E/F: name three directions, each a thesis line plus token consequences (base unit + ratio, type role split, colour-construction rule, one composition move, motion signature); rank against task/context/platform/accessibility; commit to one; the two rejects populate `Alternatives considered`. Output stays one direction plus two named rejects. | `SKILL.md`, `docs/workflow.md`, `docs/self-review.md` |
 | P0-3 | **Repair the Mode D drift at the entrypoint.** ✅ *landed in Commit 1* | `SKILL.md`, `skill/modes.md`, `docs/self-review.md`, `docs/workflow.md` |
 | P0-4 | **Distinctiveness gets a score, a rung, and a slot.** Ninth rubric dimension (1–2 interchangeable once the logo is removed; 3 asserted but not tokenized; 4–5 owned asset expressed as a token with named repeat locations), `n/v` for text-only D2/D3 with the median exclusion stated explicitly. Rewrite the 3→4 ladder rung in the inert cap's own words. Add a `Signature move:` slot to the calibration blocks in Templates A/C/F. ✅ *landed in Commit 2* | `docs/design-quality-rubric.md`, `skill/templates.md`, `docs/design-quality.md` |
 | P0-5 | **Sections are a maximum, not a minimum.** Only `Mode:`, `Platform scope:`, `Assumptions:`, `Next actions:` are always on; include any other section only when it carries a decision the input supports; omit — never stub — and name the omission in one line. ✅ *landed in Commit 2* | `SKILL.md`, `docs/self-review.md` |
@@ -135,7 +135,7 @@ validators do not block tablet (`Platform scope` is checked for non-emptiness, w
 
 | # | Change |
 |---|--------|
-| P1-1 | **Token-consequence schema for the art-direction catalog.** Convert the school/product list in place: base unit + ratio, type role split + pairing rule, colour-construction rule (neutral anchor + accent derivation + semantic roles held separate), radius/elevation/border posture, density posture, motion signature, iconography stance, "do not use for". Reconcile the motion bands first — `docs/design-quality.md` says 200–500 ms while `docs/quality-bars.md` caps navigation at 300–400 and tap feedback at 100–150, so the signature currently has no room. |
+| P1-1 | ✅ *landed in Commit 3* **Token-consequence schema for the art-direction catalog.** Convert the school/product list in place: base unit + ratio, type role split + pairing rule, colour-construction rule (neutral anchor + accent derivation + semantic roles held separate), radius/elevation/border posture, density posture, motion signature, iconography stance, "do not use for". Reconcile the motion bands first — `docs/design-quality.md` says 200–500 ms while `docs/quality-bars.md` caps navigation at 300–400 and tap feedback at 100–150, so the signature currently has no room. |
 | P1-2 | **Craft substrate:** `docs/color-system.md` (platform semantic roles first, derived ramp only on user-supplied brand, any printed ratio labelled as computed); a layout section in quality bars (margins by class, baseline grid tying line-height boxes to spacing steps, columns/gutters, optical-alignment rules); motion by cited platform curves (M3 easing tokens, SwiftUI spring presets, Compose stiffness/dampingRatio) with distance/size rules and stagger caps; type-scale ratio by density anchored at body 17/16, tracking-at-size, role → iOS text style / M3 type role mapping. Broaden Mode E to "typography, spacing, and colour". |
 | P1-3 | **Cross-file parity validator.** ✅ *landed in Commit 1* |
 | P1-4 | **Rebuild the golden `Design quality calibration` blocks** to carry a named direction as tokens plus one owned asset with repeat locations, guardrail lines intact. Assert a `Signature move:` line naming a token and a repeat location, pairwise-distinct across files. Do **not** require literal hex/typeface values — that would model the invented brand specifics the skill forbids. |
@@ -227,7 +227,7 @@ conflicts between context dimensions; device class rarely conflicts. The fix is 
 |--------|----------|--------|
 | 1 | Entrypoint repair (P0-3) + parity validator and projected-line guard (P1-3). Must land first: everything else edits the same files. | ✅ landed |
 | 2 | Scoring and slots: P0-1, P0-4, P0-6, P0-5, plus the committed generation examples. | ✅ landed |
-| 3 | Divergence: P0-2 immediately followed by P1-1. Shipping the direction step without the token vocabulary produces three identically-tokened directions and would look like the feature failed. | pending |
+| 3 | Divergence: P0-2 immediately followed by P1-1, plus the motion-band reconciliation. | ✅ landed |
 | 4 | Tablet MVU: P0-7 plus `docs/adaptive-layout.md`, the large-screen bars, `Device class:` in the six template headers and in `MODE_REQUIREMENTS`. New sources added to `docs/sources.md`. | pending |
 | 5 | Honesty and scope: P0-8, P0-9. | pending |
 | 6 | Corpus and CI: P1-5 (land it knowing it fails at 32/33, then rebuild goldens per P1-4 until it passes), P1-6, P1-7. | pending |
@@ -322,6 +322,54 @@ legitimate pass.
 All three new guards were verified by injection: reverting a `Quality target` line to a bare number, reducing
 `Signature move` to a label, and dropping the ninth dimension from a fixture each fail the validator. Both
 validators green.
+
+### Commit 3 — what landed
+
+**P0-2 (widen the gate + Step 5.5 "Direction set").**
+
+- The inspiration gate in `SKILL.md` now carries all nine signals the document itself declares, including
+  `"make it feel premium"`, `"visual direction"` and `"explore a few styles"` — the three that most reliably
+  mean "the user wants a direction" and that the old four-signal gate excluded.
+- New `### 5.5 Set the design direction (Modes 1, 3, 5)` in `SKILL.md`, mirrored as `## Step 4.5` in
+  `docs/workflow.md`. Three candidate directions, each a thesis line plus five token consequences (base unit
+  and ratio, type role split, colour-construction rule, one composition move, motion signature), ranked and
+  reduced to one; the two rejects populate `Alternatives considered` or `Key decision tradeoffs`.
+- Four constraints keep it from becoming theatre: directions must differ in **at least two token fields**; the
+  step is internal so the response never hands the user a menu; divergence is perceptual and compositional
+  only, with functional pattern selection still convergent; and token values are directional defaults, never
+  invented brand facts. Mode 6 names the direction the delivered design already embodies rather than
+  generating new ones. Single-direction inputs are declared under `Assumptions` instead of padded with
+  throwaway rejects.
+- Self-review prompts added for Modes A, C and E, including one that catches the reflex 4/8/12/16/24/32/40
+  spacing ladder being emitted without a reason.
+
+**P1-1 (token-consequence schema).** The four compositional schools in `docs/inspiration-sources.md` are no
+longer a reading list: each now carries base unit and ratio, type role split, colour rule, shape posture,
+density, composition move, motion signature, icon stance and "do not use for". The nine point-of-view products
+gained a **token consequence** column — what actually changes in the output when you take that principle. The
+whole block is explicitly framed as *this skill's translation into mobile product terms, not a historical
+claim about the school*, and as directional defaults overridden by any design system the user supplied.
+
+**Motion band reconciliation.** `docs/design-quality.md` declared a 200–500 ms "personality band" while
+`docs/quality-bars.md` capped full-screen navigation at 400 ms — a signature had no legal room. Quality bars
+gained a `### Signature transition` section (one signature per product; top of its own band, never a band
+above; never applies to tap feedback, which stays 100–150 ms; 400 ms ceiling), and the design-quality bullet
+now defers to it: a brand adjective chooses *which* interaction and *which* curve, never a longer duration.
+
+**Enforcement.** Two more cross-file contract checks in `scripts/validate_repo.py`:
+
+- `validate_inspiration_gate_parity()` — every quoted trigger signal in the document's own list must appear in
+  `SKILL.md`. This is the check that would have caught the root cause of sameness.
+- `validate_motion_band_consistency()` — quality bars must define `Signature transition`, the design-quality
+  motion section must defer to it, and neither file may state a motion duration above the 400 ms ceiling.
+
+Both verified by injection: narrowing the gate back to four signals lists the seven missing signals, and
+restoring the 200–500 ms band fails on both the deferral rule and the ceiling.
+
+**Corpus.** `examples/generate-screen.md` and `examples/ui-spec.md` now show direction-level rejections with
+token consequences alongside the existing pattern-level ones — the visible output of step 5.5. The shape
+assertion on alternatives (word count after `because`) belongs to P1-7 in Commit 6 rather than a vocabulary
+regex here.
 
 ### Acceptance
 
