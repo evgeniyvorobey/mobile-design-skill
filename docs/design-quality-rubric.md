@@ -35,33 +35,34 @@ Mode B user flows normally do not need a visual quality score unless screen paci
 
 ## Output rule
 
+**The dimension read is the output; the score is a footnote to it.** Write the bands first, then take the median. A number written before the bands exist is retrieved, not derived.
+
 For generated or specified design artifacts, the score is primarily internal:
 
-- derive the score: median of the assessable dimensions, then caps. Do not aim at a number — a draft that lands at 3/5 reports 3/5 with its blocking dimension named
-- if the draft scores **3/5 or below** and the missing context is not blocking, revise the design before returning
-- if missing input prevents a 4/5 recommendation, state the limitation in `Assumptions` or `Unresolved assumptions`
+- derive the score: bands per dimension, median of the assessable ones, then caps as a downward clamp
+- if the derivation lands **at or below the midpoint** and the missing context is not blocking, revise the design and re-derive before returning
+- if missing input prevents lifting a dimension past the boundary question it failed, state the limitation in `Assumptions` or `Unresolved assumptions`
 
-For reviews, expose both a current and a projected score. The projection is conditional and is derived from the improvement ladder below — never asserted as achieved:
+For reviews, expose both a current and a projected score. Both are medians of the same dimension table — the current over the bands as found, the projected over the bands once the listed fixes land:
 
 ```md
-- Current: [1-5]/5 — [short evidence-based reason; "provisional" for D2/D3 text-only]
+- Current: [1-5]/5 — the median of the assessable dimensions as found; [short evidence-based reason; "provisional" for D2/D3 text-only]
 - Projected: [1-5]/5 — the median of the assessable projected dimensions once the listed fixes land; conditional: requires those fixes AND the named assumptions to hold. State a flat number, not "up to". For D2/D3, provisional — visual dimensions stay unassessable (n/v) and are never projected upward.
 - Ceiling note: with a visual pass confirming [x], the ceiling is [1-5]/5 (capped at 4/5 unless resilience is named).
 ```
 
-The projected score is the median of the assessable (non-`n/v`) projected dimensions, not the sum of per-dimension gains; a cap lifts only when the specific fix that meets its condition is present; a P0/Fail is never projected up to a number; and a higher figure reachable only after a visual pass belongs in `Ceiling note`, never in the projected number.
+Both numbers are derived the same way, and the current one is derived too: a review that states a current score without a band per dimension has asserted it. The projected score is the median of the assessable (non-`n/v`) projected dimensions, not the sum of per-dimension gains; a cap lifts only when the specific fix that meets its condition is present; a P0/Fail is never projected up to a number; and a higher figure reachable only after a visual pass belongs in `Ceiling note`, never in the projected number.
 
-For generation, specs, typography systems, and handoff, expose the target only when useful:
+For generation, specs, typography systems, and handoff, expose the read and the target together:
 
 ```md
-- Quality target: [derived]/5 — median of the assessable dimensions {[dimension]: [n], ...}; [outlying dimension] sits at [n]; blocked from [next]/5 by [that dimension] until [named input or fix]
+- Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
+- Quality target: [derived]/5 — [either: blocked from [next]/5 by [dimension] until [named input or fix] | or, when nothing blocks the top band: nothing blocks 5/5 — [the resilience the bands record]]
 ```
 
 Derive the bracketed values. Do not reuse the dimension named in any example you have read — if `Context & brand fit` is the blocker in three consecutive answers, it is being retrieved, not assessed.
 
-**Name the blocker.** At 4/5, state which dimension prevents 5/5 and whether the available input supports lifting it. If it does, lift it before returning. If it does not, say what input is missing. A 4/5 with no named blocker is a default, not a score — see `SKILL.md` on flagging defaults as such.
-
-This applies in both directions: 5/5 is reachable by a stated route, not a decorative aspiration, and a score below 4 must name what it would take to get there rather than shipping with an apology.
+**Name the blocker, at every level.** Below the top band, state which dimension holds the score there and whether the available input supports lifting it past the boundary question it failed. If it does, lift it and re-derive before returning. If it does not, say what input is missing. A score with no named blocker is a default, not a score — see `SKILL.md` on flagging defaults as such. When no dimension blocks the top band, say that instead of manufacturing a blocker to fill the slot.
 
 Do not let the score replace the reasoning. The score is a compression of the critique, not the critique itself.
 
@@ -69,39 +70,56 @@ Do not let the score replace the reasoning. The score is a compression of the cr
 
 ## 1-5 score levels
 
-| Score | Label | Meaning |
-|-------|-------|---------|
-| 1/5 | Broken or misleading | The design obscures the primary task, invents unsupported claims, violates hard guardrails, or creates serious accessibility/usability risk. |
-| 2/5 | Structurally weak | The screen or recommendation has visible structure, but hierarchy, state handling, platform fit, or evidence boundaries are weak enough that users or implementers will struggle. |
-| 3/5 | Acceptable baseline | The design can work, but it is mostly competent rather than strong. It handles the main task and basics, but lacks sharper hierarchy, stronger state coverage, or production-ready details. |
-| 4/5 | Strong and shippable | The design is specific to the task and context, has clear hierarchy, usable density, concrete states, accessibility-aware decisions, platform alignment, and buildable mechanisms. |
-| 5/5 | Excellent and resilient | The design is not just shippable; it anticipates edge cases, adapts across platform/context/accessibility settings, preserves brand without weakening semantics, and is ready for design-system scaling. |
+This table is a **reading key for a derived number**, not a second test to score against. The number comes from the dimension bands below; these labels say what a given median means and which verdict word to use. Do not score an artifact by picking the row that sounds right.
+
+| Score | Label | What this median means |
+|-------|-------|------------------------|
+| 1/5 | Broken or misleading | Most dimensions failed their first boundary question, or a hard limit fired: the design obscures the primary task, invents unsupported claims, violates hard guardrails, or creates serious accessibility/usability risk. |
+| 2/5 | Structurally weak | Most dimensions have the thing present but unstated — named without values, rules, or mappings — so users or implementers will have to guess. A cap can also land an artifact here whose bands sit higher. |
+| 3/5 | Acceptable baseline | Most dimensions state their defaults but stop before the variations: the design can work, and the first non-default case raises a question the artifact does not answer. |
+| 4/5 | Strong and shippable | Most dimensions state their behaviour across the variations the artifact's own scope declares — states, appearances, text sizes, platforms — so two implementers building only from this produce the same screen. |
+| 5/5 | Excellent and resilient | Most dimensions carry a rule that decides cases the artifact does not itself list, so the design extends without re-asking the designer. |
 
 ---
 
 ## Dimension scoring
 
-Score each relevant dimension from 1-5.
+Score each relevant dimension from 1-5 by walking four boundary questions. A boundary question has a yes/no answer against the artifact in front of you; it is not a description to match against.
 
-| Dimension | 1-2 signals | 3 signals | 4-5 signals |
-|-----------|-------------|-----------|-------------|
-| Attention path and hierarchy | unclear first glance; competing focal points | main task visible but secondary hierarchy is rough | first glance, second glance, and action path are deliberate and visible |
-| Composition and spacing | grouping depends on decoration or breaks with large text | spacing mostly works but lacks rhythm | spacing, grouping, alignment, and safe-area behavior communicate structure |
-| Typography craft | ad-hoc sizes, weak readability, too many styles | basic roles exist | role-based type, line-height, scaling, truncation, and emphasis rules are clear |
-| Color, state, and contrast | color carries meaning alone or weakens contrast | semantic colors are mostly present | color roles, non-color cues, dark/increased-contrast implications, and state treatments are defined |
-| Density and rhythm | density fights the task | density is acceptable | density matches context and repeats predictably across groups/screens |
-| Interaction polish and motion | missing feedback or motion hides problems | basic feedback exists | pressed/loading/saving/success/error feedback is clear, fast, and reduced-motion-aware |
-| Context and brand fit | visual language contradicts trust, domain, or platform | broadly appropriate | brand supports task, trust, and platform conventions without overriding semantics |
-| Production readiness | vague handoff; no tokens/states/QA | enough to discuss | token-ready values, component/state mapping, platform notes, and QA checks are present |
-| Distinctiveness and owned assets | zero owned assets; interchangeable with a competitor once the logo is removed | one asset asserted but not tokenized, not repeated, or still an adjective | at least one owned asset expressed as a token, with named repeat locations, passing the delight-placement and brand-expression-budget gates |
+**How to read the table.** Start at the left. **The band is the number of consecutive questions answered yes, plus one.** Fail the first question and the dimension is 1; answer the first two yes and the third no and it is 3; answer all four yes and it is 5. A later yes never rescues an earlier no — the boundary you fail is where the dimension sits, because a design that skipped a rung did skip it. This is deliberately not an average: averaging a dimension whose parts disagree is how a mixed reading becomes a middling number.
 
-Mark a dimension `n/v` when the given input cannot verify it — visual dimensions in a text-only D2/D3 review, or Distinctiveness when the user supplied no brand context and asked for structure only. `n/v` is not a low score; see the final scoring method for how it is handled.
+Every fourth question has the same shape on purpose: **does a stated rule decide a case the artifact does not itself list?** That is the one thing a longer draft cannot manufacture by writing more of what it already wrote. Enumerating the cases you thought of is band 4; stating the rule that settles the ones you did not is band 5.
+
+| Dimension | 1 → 2 | 2 → 3 | 3 → 4 | 4 → 5 |
+|-----------|-------|-------|-------|-------|
+| Attention path and hierarchy | Does anything carry visibly more weight than everything else? | Is the element carrying most weight the one the primary task needs first? | Is the order of first glance, second glance and action stated together with the mechanism that produces it? | Does a stated rule decide the order when two signals compete in a case the artifact does not list? |
+| Composition and spacing | Do the groups read as groups without borders, shadows or fill doing the work? | Are the spacing values inside a group and between groups stated, with inside smaller than between? | Are alignment, safe-area and inset behaviour stated for every region the layout reaches? | Does a stated rule produce the spacing for a section the artifact does not list? |
+| Typography craft | Are type roles named at all, rather than a size chosen per element? | Does every named role carry both a size and a weight? | Are line height, wrapping or truncation, and text-size scaling stated per role? | Does a stated rule decide which role new content joins, and what a new role must satisfy to exist? |
+| Color, state, and contrast | Is every meaning carried by colour also carried by a second cue? | Are the semantic roles named, each with a foreground/background pair for the default appearance? | Is the pair each role takes in dark and increased-contrast appearances stated, along with the pair each component state takes? | Is that appearance behaviour expressed as one transform over the roles, rather than as a second hand-made set? |
+| Density and rhythm | Can the primary task be completed without the density hiding it? | Is the repeat unit named, and the interval that recurs down the screen stated? | Is the layout stated at both ends of the content range the screen can actually receive? | Does a stated rule decide the density for a content volume the artifact does not list? |
+| Interaction polish and motion | Does every action that can fail or take time produce feedback at all? | Are the feedback states named per action rather than as one shared list? | Are duration, curve and the reduced-motion fallback stated per transition, with where focus and the assistive-technology announcement land? | Does a stated rule assign a curve and duration band to an interaction class the artifact does not list? |
+| Context and brand fit | Does the visual language avoid contradicting the domain's trust expectations and the platform's conventions? | Are the conventions being followed named, and each departure named with its reason? | Is the departure budget stated — what brand may override, and what semantics it may never override? | Does a stated rule decide the treatment for a context-sensitive decision class the artifact does not list? |
+| Production readiness | Is there enough here for an implementer to start a conversation? | Does every value carry a token name beside it, and every component its variants and states? | Are state-to-component mapping, platform differences and QA checks stated closely enough that two implementers produce the same screen? | Does the handoff say which values are negotiable and which are hard bars, so a change can be judged without re-asking the designer? |
+| Distinctiveness and owned assets | Is any owned asset present at all, or is the screen interchangeable once the logo is removed? | Is the asset a stated treatment rather than an adjective? | Is it a token with repeat locations named on this screen and on its siblings, passing the delight-placement and brand-expression-budget gates? | Does a stated rule decide where the asset applies and where it never does, on a surface the artifact does not list? |
+
+### When the answer is `n/v`, and when it is a low band
+
+These are two different findings and the corpus has historically confused them.
+
+- **`n/v` — the evidence channel cannot carry the question.** Visual dimensions in a text-only D2/D3 review; Distinctiveness when no brand context was supplied and structure only was asked for. An unanswerable question is not a no.
+- **A low band — the channel is right and the content is thin.** A spec that could have stated a contrast pair and did not is scored on what it stated. Absence inside the right channel is evidence, and routing it to `n/v` is an evasion that quietly removes the weakest dimension from the median.
+
+Ask which one applies with: *would a fuller instance of this same evidence type have settled it?* If yes, the input was thin and the answer is a low band. If no — a screenshot can never state a token name — it is `n/v`.
+
+### Reading a screen instead of a document
+
+The questions ask what the artifact *states*. A screenshot or a screen description states things by showing them, so in Mode D read "is X stated" as "can X be determined from the evidence in front of you". A screenshot showing one contrast pair answers the default-appearance question yes and leaves the dark-appearance question `n/v`.
 
 ---
 
 ## Caps and hard limits
 
-Apply these caps before calculating the final score:
+**A cap clamps the artifact score downward, after the median. It never changes a dimension band** — a band records what the artifact states, and a cap records a consequence of that. Applying a cap by lowering a band destroys the evidence the cap was derived from.
 
 - Any P0 weakness from `docs/weaknesses.md` makes the response **Fail**, not a score.
 - Any P1 weakness caps score at **2/5** until fixed.
@@ -110,33 +128,37 @@ Apply these caps before calculating the final score:
 - Visual assertions from text-only review input cap Mode D score confidence; label the score as provisional or restrict it to structural quality.
 - Aesthetic-only recommendations cap the design-quality score at **2/5** until translated into task, accessibility, or implementation mechanisms.
 - Platform flattening in materially different iOS/Android behavior caps cross-platform outputs at **3/5**.
-- An inert screen — competent on all dimensions but failing the inert-screen test in `docs/design-quality.md` — caps at **3/5** with an upside note (not a quiet 4/5) until it carries at least one owned distinctive asset or a justified signature moment. The exit is the `3 → 4 (inert cap)` rung in the improvement ladder below, and only that rung: adding mechanisms, platform notes or QA checks does not lift this cap.
+- **Inert screen:** when `Distinctiveness and owned assets` sits below band 4, the artifact caps at **3/5** with an upside note, not a quiet 4/5. The requirement is stated once, in that dimension's `3 → 4` boundary question, and nowhere else. The exit is the `3 → 4 (inert cap)` rung in the improvement ladder below, and only that rung: adding mechanisms, platform notes or QA checks does not lift it, because the cap is about having a point of view, not about having enough content.
 
 ---
 
 ## Final scoring method
 
-1. Score all relevant dimensions, marking unverifiable ones `n/v`.
-2. Apply caps and hard limits.
-3. Use the median of the **assessable** dimension scores as the starting point. A dimension marked `n/v` is excluded from the median entirely — it is neither counted as low nor projected upward. Excluding it changes the median, so state which dimensions were assessable when the count is not obvious.
-4. Lower the final score if one critical dimension is weaker than the median and affects the primary task.
-5. Raise to 5/5 only when resilience is demonstrated across states, accessibility settings, platform behavior, and implementation handoff.
+1. Walk the four boundary questions for each relevant dimension, marking `n/v` where the evidence channel cannot carry them.
+2. Write the dimension read. It is the output; steps 3-5 only compress it.
+3. Take the median of the **assessable** bands. A dimension marked `n/v` is excluded entirely — it is neither counted as low nor projected upward. Excluding it changes the median, so state which dimensions were assessable when the count is not obvious. With an even number of assessable dimensions the median falls between two bands: report the lower one.
+4. Lower the result if one dimension critical to the primary task sits below the median.
+5. Apply the caps as a downward clamp. There is no matching raise step: a 5/5 is what a median of 5 gives, and the resilience that earns it is already recorded in the `4 → 5` questions the dimensions answered.
 
-Do not average away a serious flaw. A beautiful 5/5 visual direction with 2/5 state handling is not a 4/5 design; it is a risky design with polish.
+Do not average away a serious flaw. A beautiful 5/5 visual direction with 2/5 state handling is not a 4/5 design; it is a risky design with polish — step 4 exists to say so.
+
+**Never adjust a band to move the median.** The band answers a question about the artifact; the median answers nothing on its own. If the number that falls out is uncomfortable, the fix is in the design, not in the read.
 
 ---
 
 ## Improvement ladder
 
-Use this ladder when a draft is below the target:
+**To lift a dimension, answer the boundary question it failed.** That is the whole ladder at dimension level — the question you could not answer yes to *is* the work, stated as a test rather than as advice. The `Moves:` notation in a Mode D finding names that movement (`[dimension] [n]→[n]`).
+
+The rungs below are the **artifact-level** ladder, for the score the median produced:
 
 - 1 → 2: remove misleading claims, fix hard guardrails, define the actual user task
-- 2 → 3: clarify hierarchy, add states, qualify assumptions, remove aesthetic-only advice
-- 3 → 4: add concrete mechanisms, alternatives, platform notes, accessibility behavior, and production checks
-- 3 → 4 **when the inert cap applies**: name one owned asset with its token and its repeat locations, or one justified signature moment. Nothing else lifts this cap — more mechanism detail, more platform notes and more QA checks all leave it at 3/5, because the cap is about having a point of view, not about having enough content. This rung is the exit condition stated in the inert cap above; the two must always say the same thing.
-- 4 → 5: add resilience across edge cases, tokenization, dark/large-text behavior, localization, and design-system scaling
+- 2 → 3: turn what is named into stated values, rules and mappings for the default case; qualify assumptions; remove aesthetic-only advice
+- 3 → 4: state the behaviour across the variations the artifact's own scope declares — states, appearances, text sizes, platforms — plus the production checks that make it buildable
+- 3 → 4 **when the inert cap applies**: bring `Distinctiveness and owned assets` to band 4 by answering its `3 → 4` question. Nothing else lifts this cap — more mechanism detail, more platform notes and more QA checks all leave it at 3/5. This rung and the inert cap above name one condition between them, and the requirement itself lives in the dimension table.
+- 4 → 5: replace enumerations with rules that decide the cases the artifact does not list
 
-**4/5 is the usual outcome of a good draft, not a target to aim at, and not a ceiling.** Derive the score; do not choose it. If the derivation lands at 3/5, report 3/5 and name what would lift it. If the input supports the resilience described above, report 5/5. A corpus where every artifact scores the same number is evidence the score is being asserted rather than computed.
+**Derive the score; do not choose it.** If the derivation lands at 3/5, report 3/5 and name the boundary question that would lift the blocking dimension. If the bands support the top level, report 5/5 without inventing a blocker to look modest. A corpus where every artifact scores the same number is evidence the score is being asserted rather than computed — and so is a dimension read where every dimension carries the same band across every artifact.
 
 ---
 
@@ -144,14 +166,15 @@ Use this ladder when a draft is below the target:
 
 Before returning a design artifact, silently answer:
 
-- What score would I give this draft before revision?
-- Which dimension prevents it from reaching the next level — and did I name it in the `Quality target` line rather than printing a bare number?
-- Can I raise that dimension with the information already available?
-- If not, did I state the missing input clearly?
+- Did I write the bands before the number, and does the number I printed equal the median of the bands I wrote?
+- For each dimension, which boundary question did the artifact fail — and did I name it in the `Quality target` line rather than printing a bare number?
+- Can I answer that question with the information already available? If yes, do it and re-derive. If not, did I state the missing input clearly?
+- Did every dimension land on the same band? If so, what made them agree — or did I stop reading once the number looked right?
+- Where I marked `n/v`, would a fuller instance of the same evidence type have settled it? If it would, that is a low band, not `n/v`.
 - Does this screen carry one owned asset, expressed as a token with repeat locations — or did I record honestly that it is inert?
 - Did I avoid using the score as a substitute for concrete design mechanisms?
 
-If the draft is below 4/5 and can be improved without inventing facts, revise it before returning. If it is at 4/5 and the input supports the resilience needed for 5/5, lift it rather than stopping at the default.
+If the derivation lands at or below the midpoint and can be improved without inventing facts, revise it and re-derive before returning. If the bands support the top level, report it rather than trimming to look modest.
 
 ---
 
