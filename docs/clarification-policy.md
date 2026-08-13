@@ -52,7 +52,7 @@ Proceed with assumptions when:
 
 - the platform can be treated as cross-platform without hiding meaningful differences
 - the audience can be treated as general consumer
-- the screen can be treated as phone-first
+- the screen can be treated as compact width (phone), stated as a reversible assumption rather than a closed statement
 - the missing brand direction does not affect core usability
 - exact product policy can be flagged as an assumption
 - a provisional review can be limited to structure and behavior

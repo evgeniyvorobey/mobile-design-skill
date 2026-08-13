@@ -397,7 +397,7 @@ Avoid:
 When missing information blocks precision, use the smallest assumption possible.
 
 Good examples:
-- `Assumption: This is a phone-first flow, not tablet-first.`
+- `Assumption: Compact width (phone) only; a regular-width layout can be added on request.`
 - `Assumption: Cross-platform output is acceptable unless native divergence is required.`
 - `Assumption: The screen includes authenticated users only.`
 

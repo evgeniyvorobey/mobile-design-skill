@@ -54,6 +54,7 @@ At least one of:
 - Empty / loading / error states
 - Platform-specific notes
 - Accessibility considerations
+- Adaptive behavior — include only when device class is not phone; omit entirely for phone-only work
 - Design quality calibration
 - Rationale for major choices
 - Alternatives considered — two structurally different layout approaches, one committed to, with the mechanism that kills the other
@@ -70,6 +71,7 @@ At least one of:
 - Does `Signature move` name an owned asset as a token with repeat locations, or honestly record the screen as inert?
 - Are the two alternatives structurally different from the chosen layout, and is the mechanism that kills each one named?
 - Are platform differences called out if relevant?
+- If device class is not phone, does the concept give the layout at compact and regular width, name a canonical layout, and change navigation with width?
 - Is accessibility included by default?
 - Are invented details labeled as assumptions?
 
@@ -171,6 +173,7 @@ At least one of:
 - Spacing and layout notes
 - Typography rules
 - Accessibility requirements
+- Adaptive behavior — include only when device class is not phone; omit entirely for phone-only work
 - Design quality requirements
 - Platform-specific implementation notes — split into iOS-specific and Android-specific subsections when conventions materially differ
 - Key decision tradeoffs — for each contested choice, what was given up and why that cost is acceptable here
@@ -183,6 +186,7 @@ At least one of:
 - Are spacing and typography included?
 - Are content constraints included?
 - Are platform notes split where conventions differ?
+- If device class is not phone, does `Adaptive behavior` name the breakpoint, canonical layout, collapse rule, detail-pane empty state, and what survives a multitasking resize?
 - Are accessibility requirements concrete?
 - Are visual hierarchy, spacing, typography, color/state, and production quality requirements concrete?
 - Does the `Quality target` line name the dimension blocking the next level, rather than printing a bare number?

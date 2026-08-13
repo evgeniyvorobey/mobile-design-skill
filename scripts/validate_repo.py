@@ -26,6 +26,7 @@ REQUIRED_FILES = [
     "skill/usage.md",
     "docs/clarification-policy.md",
     "docs/context-defaults.md",
+    "docs/adaptive-layout.md",
     "docs/benchmark-report-format.md",
     "docs/design-quality.md",
     "docs/design-quality-rubric.md",
@@ -1171,7 +1172,7 @@ def validate_rendered_output_qa() -> None:
 
 # Contract elements are emitted by every mode, so they live in the output contract
 # rather than in the per-mode lists. Parity compares only the mode-specific fields.
-CONTRACT_ELEMENTS = {"mode", "platform scope", "assumptions", "next actions"}
+CONTRACT_ELEMENTS = {"mode", "platform scope", "device class", "assumptions", "next actions"}
 
 
 def normalize_output_field(text: str) -> str:
@@ -1475,6 +1476,17 @@ def validate_example_responses() -> None:
 
         if not re.search(r"^Platform scope:\s+\S", response, re.MULTILINE):
             errors.append(f"{relative_path}: missing `Platform scope:` line")
+
+        device_class = re.search(r"^Device class:\s+(?P<value>\S.*)$", response, re.MULTILINE)
+        if not device_class:
+            errors.append(f"{relative_path}: missing `Device class:` line")
+        elif "phone" not in device_class.group("value").lower():
+            # Anything wider than a phone must say what the layout does at each width.
+            if not re.search(r"^## Adaptive behavior\s*$", response, re.MULTILINE):
+                errors.append(
+                    f"{relative_path}: `Device class: {device_class.group('value')}` "
+                    "requires an `## Adaptive behavior` section"
+                )
 
         assumptions = extract_assumptions(response)
         if bullet_count(assumptions) < 2:

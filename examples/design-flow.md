@@ -19,6 +19,7 @@ Inputs:
 ```md
 Mode: Design mobile user flow
 Platform scope: iOS
+Device class: Phone (compact width only; a regular-width layout can be added on request)
 Assumptions:
 - Users can browse marketing content before sign-up but must authenticate before connecting an account.
 - Account connection uses a secure third-party provider.

@@ -61,6 +61,7 @@ response_contract:
   classify_mode_first: true
   choose_exactly_one_primary_mode: true
   determine_platform_scope: true
+  determine_device_class: true
   apply_clarification_policy: true
   support_judged_mode_flag: true
   require_minimal_labeled_assumptions: true
@@ -184,6 +185,23 @@ design_quality_rubric:
     - distinctiveness and owned assets
   unverifiable_dimension_marker: "n/v"
   unverifiable_dimensions_excluded_from_median: true
+adaptive_layout:
+  role: tablet, foldable, and adaptive layout layer beyond phone-first design
+  documentation: docs/adaptive-layout.md
+  device_classes:
+    - phone
+    - tablet
+    - foldable
+    - adaptive
+  width_classes:
+    compact: "< 600dp"
+    medium: "600-839dp"
+    expanded: ">= 840dp"
+  canonical_layouts:
+    - list-detail
+    - supporting pane
+    - feed
+  device_class_is_trigger_not_precedence_rank: true
 llm_judge_runner:
   role: LLM-agnostic semantic rubric calibration runner with external-agent command support
   script: scripts/run_rubric_judge.py

@@ -38,6 +38,7 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/context-defaults.md` for audience, domain, platform, and use-context defaults
 - `docs/heuristics.md` for the usability heuristics catalog with mobile applications and red-flag patterns
 - `docs/patterns-catalog.md` for mobile pattern decision matrices (navigation, overlays, lists, inputs, feedback, forms, search, auth)
+- `docs/adaptive-layout.md` for tablet, foldable, and adaptive layout: width classes, canonical layouts, navigation by width, multitasking, and input
 - `docs/inspiration-sources.md` for visual inspiration and production reference sources, used only after UX/platform/accessibility reasoning is grounded
 - `docs/visual-benchmark-playbooks.md` for source-specific Mobbin, Page Flows, Apple Design Awards, and Awwwards benchmark checklists
 - `docs/benchmark-report-format.md` and `examples/benchmark-report.md` for turning 3-5 references into borrow / do-not-copy / token-component-state guidance
@@ -93,19 +94,36 @@ Apply the context-aware defaults in `docs/context-defaults.md`. Precedence when 
 
 If the request matches fintech, health, SaaS, marketplace, social, or education, load the closest domain pack from `docs/domain-packs/` before drafting. Domain packs are synthetic calibration material: they can shape hierarchy, trust language, states, and handoff checks, but they do not prove compliance, user preference, safety, or business performance.
 
-### 3. Determine platform scope
-Identify whether the request is:
+### 3. Determine platform scope and device class
+Scope has two independent axes. Resolve both.
+
+**Platform scope** — which OS:
 - iOS
 - Android
 - cross-platform
 - unspecified
 
+**Device class** — how much width the layout gets and what input is available:
+- phone (the default)
+- tablet
+- foldable
+- adaptive (one layout serves every width)
+
+Resolve to tablet, foldable, or adaptive — and load `docs/adaptive-layout.md` before drafting — when the request names any of: iPad, iPadOS, tablet, Chromebook, large screen; Split View, Slide Over, Stage Manager, multi-window, multitasking; foldable, Fold, hinge, dual-screen, posture; external display, hardware keyboard, Apple Pencil, stylus; or a use context implying a mounted or two-handed device (kiosk, point of sale, clinician or bedside, field technician, warehouse, classroom, studio, control room).
+
+An iOS tablet and an Android tablet share more layout structure with each other than either shares with its own phone, which is why this is a second axis and not a fifth platform value.
+
 If platform is unspecified:
 - ask only if it is necessary to avoid misleading guidance
 - otherwise continue with a minimal labeled assumption
 
-Good example:
+If device class is unspecified, stay phone-first — but state it as a **reversible assumption**, never as a closed statement. Phone-first is a default, so flag it as one.
+
+Good examples:
 - `Assumption: Cross-platform output requested unless native divergence is later specified.`
+- `Assumption: Compact width (phone) only; a regular-width layout can be added on request.`
+
+Device class does not enter the context-defaults precedence order — it is a trigger, not a rank.
 
 ### 4. Check information sufficiency and clarification need
 Apply `docs/clarification-policy.md`.
@@ -250,6 +268,7 @@ Run the pass defined in `docs/self-review.md`. Silently answer every prompt. If 
 Every response must:
 - begin with `Mode:`
 - include `Platform scope:`
+- include `Device class:`
 - include `Assumptions:`
 - include accessibility considerations by default
 - include platform-specific notes when relevant
@@ -282,6 +301,7 @@ Include:
 - Empty/loading/error states
 - Platform-specific notes
 - Accessibility considerations
+- Adaptive behavior — include only when device class is not phone; omit entirely for phone-only work
 - Design quality calibration
 - Rationale for major choices
 - Alternatives considered — name two structurally different layout approaches, commit to one, and state the mechanism that kills the other. Two variants of the same structure is not an alternative.
@@ -309,6 +329,7 @@ Include:
 - Spacing and layout notes
 - Typography rules
 - Accessibility requirements
+- Adaptive behavior — include only when device class is not phone; omit entirely for phone-only work
 - Design quality requirements
 - Platform-specific implementation notes
 - Key decision tradeoffs — for each contested choice, what was given up and why that cost is acceptable here
@@ -381,6 +402,16 @@ When platform scope is iOS:
 
 When platform scope is Android:
 - align with Material and Android navigation behavior
+
+When device class is tablet, foldable, or adaptive, load `docs/adaptive-layout.md` and additionally:
+- give the layout at compact **and** regular width, naming the breakpoint that separates them
+- name the canonical layout (list-detail, supporting pane, or feed) rather than describing a bespoke one
+- change navigation with width: bottom bar at compact, navigation rail at medium, sidebar at expanded
+- state multitasking behavior — iPadOS Split View / Slide Over / Stage Manager and Android multi-window can hand the app compact width at any moment, and resize must not lose state
+- treat pointer, hardware keyboard, drag-and-drop, and stylus as additive; touch minimums are unchanged and every drag has a non-drag path
+- give the detail pane its own empty state, and define back-navigation in both the two-pane and the collapsed state
+
+Never map a layout to a device model. Map it to a width class, then state what happens at each width the product supports.
 
 ## Accessibility policy
 

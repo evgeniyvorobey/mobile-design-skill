@@ -13,6 +13,7 @@ Use this only when `docs/clarification-policy.md` says missing information block
 ```md
 Mode: [best inferred mode]
 Platform scope: [known / unspecified / assumed]
+Device class: [known / assumed phone / assumed adaptive]
 Assumptions:
 - [known fact or minimal assumption]
 - [what cannot be safely assumed]
@@ -40,6 +41,7 @@ Assumptions:
 ```md
 Mode: Generate mobile screen concept
 Platform scope: [iOS / Android / Cross-platform / Assumed]
+Device class: [Phone / Tablet / Foldable / Adaptive]
 Assumptions:
 - [assumption 1]
 - [assumption 2]
@@ -87,6 +89,16 @@ Assumptions:
 - [consideration]
 - [consideration]
 
+## Adaptive behavior
+<!-- Include only when Device class is not Phone. Omit entirely for phone-only work. -->
+- Breakpoint: [compact < 600dp / medium 600-839dp / expanded >= 840dp — name the ones this product supports]
+- Canonical layout: [list-detail / supporting pane / feed] — [why this one]
+- Navigation by width: [bottom bar at compact / rail at medium / sidebar at expanded]
+- Collapse rule: [what the two-pane layout becomes at compact, and what back does in each state]
+- Detail-pane empty state: [placeholder with an action / default selection]
+- Multitasking: [Split View / Slide Over / Stage Manager / multi-window — what survives a resize]
+- Input additions: [pointer / hardware keyboard / drag-and-drop / stylus] — touch minimums unchanged, every drag has a non-drag path
+
 ## Design quality calibration
 - Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
 - Attention path:
@@ -117,6 +129,7 @@ Assumptions:
 ```md
 Mode: Design mobile user flow
 Platform scope: [iOS / Android / Cross-platform / Assumed]
+Device class: [Phone / Tablet / Foldable / Adaptive]
 Assumptions:
 - [assumption 1]
 - [assumption 2]
@@ -172,6 +185,7 @@ Assumptions:
 ```md
 Mode: Create platform-aware UI spec
 Platform scope: [iOS / Android / Cross-platform / Assumed]
+Device class: [Phone / Tablet / Foldable / Adaptive]
 Assumptions:
 - [assumption 1]
 - [assumption 2]
@@ -224,6 +238,16 @@ Assumptions:
 - [requirement]
 - [requirement]
 
+## Adaptive behavior
+<!-- Include only when Device class is not Phone. Omit entirely for phone-only work. -->
+- Breakpoint: [compact < 600dp / medium 600-839dp / expanded >= 840dp — name the ones this product supports]
+- Canonical layout: [list-detail / supporting pane / feed] — [why this one]
+- Navigation by width: [bottom bar at compact / rail at medium / sidebar at expanded]
+- Collapse rule: [what the two-pane layout becomes at compact, and what back does in each state]
+- Detail-pane empty state: [placeholder with an action / default selection]
+- Multitasking: [Split View / Slide Over / Stage Manager / multi-window — what survives a resize]
+- Input additions: [pointer / hardware keyboard / drag-and-drop / stylus] — touch minimums unchanged, every drag has a non-drag path
+
 ## Design quality requirements
 - Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
 - Attention path:
@@ -257,6 +281,7 @@ Assumptions:
 ```md
 Mode: Review screen for usability/accessibility
 Platform scope: [iOS / Android / Cross-platform / Assumed]
+Device class: [Phone / Tablet / Foldable / Adaptive]
 Sub-case: [D1 visual provided / D2 description only / D3 problem statement / D4 context change]
 Assumptions:
 - [assumption 1]
@@ -354,6 +379,7 @@ Assumptions:
 ```md
 Mode: Create typography and spacing system
 Platform scope: [iOS / Android / Cross-platform / Assumed]
+Device class: [Phone / Tablet / Foldable / Adaptive]
 Assumptions:
 - [assumption 1]
 - [assumption 2]
@@ -425,6 +451,7 @@ Assumptions:
 ```md
 Mode: Prepare design rationale / handoff
 Platform scope: [iOS / Android / Cross-platform / Assumed]
+Device class: [Phone / Tablet / Foldable / Adaptive]
 Assumptions:
 - [assumption 1]
 - [assumption 2]

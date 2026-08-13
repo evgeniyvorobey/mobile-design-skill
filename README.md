@@ -223,6 +223,7 @@ Keep these files loaded alongside the active prompt for full skill behavior:
 - `docs/context-defaults.md`
 - `docs/heuristics.md`
 - `docs/patterns-catalog.md`
+- `docs/adaptive-layout.md`
 - `docs/design-quality.md`
 - `docs/design-quality-rubric.md`
 - `docs/golden-examples.md`
@@ -260,7 +261,8 @@ for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
             "docs/principles.md", "docs/guardrails.md",
             "docs/sources.md", "docs/quality-bars.md",
             "docs/context-defaults.md", "docs/heuristics.md",
-            "docs/patterns-catalog.md", "docs/design-quality.md",
+            "docs/patterns-catalog.md", "docs/adaptive-layout.md",
+            "docs/design-quality.md",
             "docs/design-quality-rubric.md", "docs/golden-examples.md",
             "docs/synthetic-case-studies.md", "docs/domain-packs/index.md",
             "docs/weaknesses.md", "docs/inspiration-sources.md",
@@ -329,6 +331,7 @@ for (const ref of [
   "docs/context-defaults.md",
   "docs/heuristics.md",
   "docs/patterns-catalog.md",
+  "docs/adaptive-layout.md",
   "docs/design-quality.md",
   "docs/design-quality-rubric.md",
   "docs/golden-examples.md",
@@ -523,6 +526,7 @@ mobile-design-skill/
 │   │   └── education.md                  Education mobile design playbook
 │   ├── heuristics.md                     Fitts, Hick, Jakob, Zeigarnik, Nielsen, Gestalt — with mobile applications
 │   ├── patterns-catalog.md               Mobile pattern decision matrices
+│   ├── adaptive-layout.md                Tablet, foldable, and adaptive layout: width classes and canonical layouts
 │   ├── inspiration-sources.md            Non-authoritative inspiration and reference layer
 │   ├── visual-benchmark-playbooks.md     Mobbin, Page Flows, Apple Design Awards, Awwwards benchmark playbooks
 │   ├── llm-judge-runner.md               JSONL contract for semantic rubric judge runs
@@ -653,6 +657,7 @@ Fork the repository, edit the files that govern skill behavior, and run the inst
 - [`docs/weaknesses.md`](docs/weaknesses.md) — tune known weakness patterns and prevention checks for recurring output regressions
 - [`docs/llm-judge-runner.md`](docs/llm-judge-runner.md) — tune semantic judge runner contract and pass criteria
 - [`docs/patterns-catalog.md`](docs/patterns-catalog.md) — add patterns unique to your product area
+- [`docs/adaptive-layout.md`](docs/adaptive-layout.md) — tune width classes, canonical layouts, and the device-class signal list
 - [`docs/inspiration-sources.md`](docs/inspiration-sources.md) — tune visual inspiration, production reference, and moodboard sources
 - [`docs/visual-benchmark-playbooks.md`](docs/visual-benchmark-playbooks.md) — tune source-specific benchmark checklists
 - [`skill/templates.md`](skill/templates.md) — adjust output structure for your team's handoff format

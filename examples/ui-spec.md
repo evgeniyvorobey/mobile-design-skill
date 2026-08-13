@@ -25,6 +25,7 @@ Inputs:
 ```md
 Mode: Create platform-aware UI spec
 Platform scope: Android
+Device class: Phone (compact width only; a regular-width layout can be added on request)
 Assumptions:
 - This screen is reached from a shipment list or push notification.
 - Shipment status updates are near real-time.

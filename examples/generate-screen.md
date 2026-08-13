@@ -19,10 +19,11 @@ Inputs:
 ```md
 Mode: Generate mobile screen concept
 Platform scope: Cross-platform
+Device class: Phone (compact width only; a regular-width layout can be added on request)
 Assumptions:
 - The user is already authenticated.
 - Manager approval rules are handled after submission, not edited on this screen.
-- The primary device is phone-sized, not tablet-first.
+- Compact width (phone) only; a regular-width layout can be added on request.
 
 ## Screen goal
 Help employees submit a time-off request with enough context to avoid preventable errors and policy confusion.

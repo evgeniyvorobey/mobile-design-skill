@@ -25,6 +25,7 @@ Inputs:
 ```md
 Mode: Prepare design rationale / handoff
 Platform scope: Cross-platform with iOS and Android notes
+Device class: Phone (compact width only; a regular-width layout can be added on request)
 Assumptions:
 - The booking is already successfully completed before this screen appears.
 - Secondary actions include reschedule, add to calendar, and contact clinic.

@@ -1,6 +1,6 @@
 # Proposal: quality ceiling and design diversity upgrade
 
-Status: **in progress** — Commits 1–3 landed, Commits 4–6 pending.
+Status: **in progress** — Commits 1–4 landed, Commits 5–6 pending.
 Baseline: v1.16.0 (`b192ecd`).
 Target release: v1.17.0 — *"the ceiling comes off"*.
 
@@ -127,7 +127,7 @@ validators do not block tablet (`Platform scope` is checked for non-emptiness, w
 | P0-4 | **Distinctiveness gets a score, a rung, and a slot.** Ninth rubric dimension (1–2 interchangeable once the logo is removed; 3 asserted but not tokenized; 4–5 owned asset expressed as a token with named repeat locations), `n/v` for text-only D2/D3 with the median exclusion stated explicitly. Rewrite the 3→4 ladder rung in the inert cap's own words. Add a `Signature move:` slot to the calibration blocks in Templates A/C/F. ✅ *landed in Commit 2* | `docs/design-quality-rubric.md`, `skill/templates.md`, `docs/design-quality.md` |
 | P0-5 | **Sections are a maximum, not a minimum.** Only `Mode:`, `Platform scope:`, `Assumptions:`, `Next actions:` are always on; include any other section only when it carries a decision the input supports; omit — never stub — and name the omission in one line. ✅ *landed in Commit 2* | `SKILL.md`, `docs/self-review.md` |
 | P0-6 | **Named output slots for alternatives** in Modes 1, 3 and 6, with Mode 1 forcing two structurally different layout approaches. ✅ *landed in Commit 2* | `SKILL.md`, `skill/modes.md`, `docs/self-review.md` |
-| P0-7 | **Tablet MVU** — see §4. | `SKILL.md`, `skill/templates.md`, `docs/adaptive-layout.md`, `docs/quality-bars.md`, `docs/clarification-policy.md` |
+| P0-7 | ✅ *landed in Commit 4* **Tablet MVU** — see §4. | `SKILL.md`, `skill/templates.md`, `docs/adaptive-layout.md`, `docs/quality-bars.md`, `docs/clarification-policy.md` |
 | P0-8 | **No-fit escape hatch.** `Mode: outside the standard six — <what it is>` instead of rounding paywall/notification-frequency/whole-app-IA requests to the nearest template. | `SKILL.md`, `docs/workflow.md`, `docs/self-review.md` |
 | P0-9 | **Auth-wall honesty.** State that Mobbin / Page Flows / UI Sources / Pttrns / Screenlane cannot be opened. Rewrite the self-review prompt that currently asks whether the model used them — it is a standing invitation to describe a screen it never saw. Add a guardrail marking version-bound rows as current-as-of-last-review. | `docs/inspiration-sources.md`, `docs/visual-benchmark-playbooks.md`, `docs/self-review.md`, `docs/guardrails.md` |
 
@@ -370,6 +370,30 @@ restoring the 200–500 ms band fails on both the deferral rule and the ceiling.
 token consequences alongside the existing pattern-level ones — the visible output of step 5.5. The shape
 assertion on alternatives (word count after `because`) belongs to P1-7 in Commit 6 rather than a vocabulary
 regex here.
+
+### Commit 4 — what landed (tablet MVU, P0-7)
+
+All six MVU items from §4, markdown-only as predicted.
+
+1. **Two-axis scope.** `SKILL.md` step 3 is now "Determine platform scope **and device class**": platform answers *which OS*, device class answers *how much width the layout gets and what input is available*. Device class is phone / tablet / foldable / adaptive, with a 20-signal trigger list (iPad, Split View, Stage Manager, multi-window, foldable, hinge, external display, Apple Pencil, plus mounted/two-handed use contexts: kiosk, POS, clinician, field technician, warehouse, classroom, studio, control room). Stated rationale for it being a second axis rather than a fifth platform value: an iOS tablet and an Android tablet share more layout structure with each other than either shares with its own phone.
+2. **`Device class:` in the output contract** and a fourth Platform-policy branch requiring layout at compact *and* regular width with the breakpoint named, a canonical layout named, navigation changing with width, multitasking behaviour, additive input, and the detail pane's own empty state. Plus the rule that breaks most tablet work: **never map a layout to a device model — map it to a width class.**
+3. **New `docs/adaptive-layout.md`** (10 sections), loaded from step 3 whenever device class is not phone: device-class signals, width classes, canonical layouts with collapse rules, navigation by width, multitasking and posture, input as additive, what does not change, common failures, evidence limits, sources.
+4. **`## Large-screen and adaptive bars` in `docs/quality-bars.md`**: width classes (600 / 840 dp, Android's official breakpoints, with the note that Slide Over returns a tablet to compact at runtime); reading column 640–720 pt; list pane 320–400 pt; rail 80 dp; sidebar 240–360 dp; margins 16 / 24 / 24–32; columns 2 / 4–6 / 6–8; touch minimums unchanged at every width; resize-without-state-loss.
+5. **`Device class:` in all six template headers** plus a conditional `## Adaptive behavior` block in Templates A and C, mirrored into the `SKILL.md` and `skill/modes.md` mode lists (parity holds) with the conditional stated in the em-dash tail.
+6. **Phone-first un-suppressed.** `skill/skill.md`'s `"phone-first flow, not tablet-first"`, `docs/clarification-policy.md`'s "can be treated as phone-first", and `examples/generate-screen.md`'s assumption are now reversible statements: *compact width only; a regular-width layout can be added on request.* Phone-first is a default, so it is flagged as one.
+
+Also: seven canonical sources added to `docs/sources.md` under a new **Adaptive layout and large screens** heading; `adaptive_layout` block in `skill/metadata.yaml`; device-class prompts in `docs/self-review.md` and the Mode A/C validation checklists; `docs/workflow.md` step 2 resolves the axis; README reference lists updated.
+
+**Enforcement.** The response contract check now requires a `Device class:` line, and — the part that matters — **when that line is not phone, an `## Adaptive behavior` section is required**. That directly blocks the "tablet claimed, never specified" failure: a spec that says `Device class: Tablet` with no breakpoint, canonical layout, or navigation change fails the validator. `Device class` was added to `CONTRACT_ELEMENTS` so mode parity keeps ignoring it, like `Platform scope`.
+
+Both rules verified by injection:
+
+```
+examples/ui-spec.md: missing `Device class:` line
+examples/ui-spec.md: `Device class: Tablet` requires an `## Adaptive behavior` section
+```
+
+**Known limit.** The corpus is still phone-only, so the conditional rule is proven by injection rather than by a committed artifact. The tablet golden and the stretched-phone review fixture stay in P1-8, along with `patterns-catalog.md` §15 — which remains the single highest-value tablet item after this commit, because it is what stops the model confidently choosing bottom navigation at 1366 pt.
 
 ### Acceptance
 

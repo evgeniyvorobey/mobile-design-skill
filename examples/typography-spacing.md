@@ -18,6 +18,7 @@ Inputs:
 ```md
 Mode: Create typography and spacing system
 Platform scope: Cross-platform
+Device class: Phone (compact width only; a regular-width layout can be added on request)
 Assumptions:
 - The product will use a neutral system-compatible font stack until brand typography is finalized.
 - The primary surfaces are phone screens, with possible later adaptation to tablet.

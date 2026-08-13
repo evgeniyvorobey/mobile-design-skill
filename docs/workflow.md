@@ -78,7 +78,7 @@ Extract or infer:
 
 ### Useful context prompts internally
 - What is the user trying to accomplish?
-- Is this phone-first or broader adaptive/mobile?
+- Is this phone-first or broader adaptive/mobile? Resolve device class (phone / tablet / foldable / adaptive) as a second axis alongside platform scope, and load `docs/adaptive-layout.md` when it is anything but phone.
 - Is the product consumer, enterprise, high-trust, regulated, or utility-focused?
 - Does this require platform divergence?
 - Is readability or density a major concern?

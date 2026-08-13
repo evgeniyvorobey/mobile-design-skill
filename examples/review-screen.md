@@ -28,6 +28,7 @@ Constraints:
 ```md
 Mode: Review screen for usability/accessibility
 Platform scope: Cross-platform
+Device class: Phone (compact width only; a regular-width layout can be added on request)
 Sub-case: D2 description only (text description provided, no visual asset)
 Assumptions:
 - This is a phone-first screen.

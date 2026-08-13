@@ -279,6 +279,47 @@ Every screen or spec covering interactive content must address:
 
 ---
 
+## Large-screen and adaptive bars
+
+Apply these whenever the resolved device class is anything other than phone-only. Full guidance lives in `docs/adaptive-layout.md`; these are the numbers.
+
+### Width classes
+
+| Class | Width | Panes |
+|-------|-------|-------|
+| Compact | < 600 dp (iOS: compact size class) | 1 |
+| Medium | 600–839 dp | 1, or 2 if the detail pane stays ≥ 320 dp |
+| Expanded | ≥ 840 dp | 2, plus a supporting pane above ~1200 dp |
+
+The 600 / 840 dp values are Android's official window size class breakpoints. iPadOS Slide Over and narrow Split View return a tablet to **compact** width at runtime, so a compact layout is never optional on tablet.
+
+### Pane and column sizes
+
+| Element | Size |
+|---------|------|
+| Reading column (body text) | 640–720 pt maximum — the 45–75 character bar, expressed as width |
+| List pane in a list-detail layout | 320–400 pt |
+| Navigation rail (medium width) | 80 dp |
+| Sidebar / standard drawer (expanded width) | 240–360 dp |
+| Screen margin | 16 pt compact / 24 pt medium / 24–32 pt expanded |
+| Grid columns | 2 compact / 4–6 medium / 6–8 expanded |
+
+Wider screens get **more columns or wider margins, never longer lines**. A single column stretched to 1000 pt fails the line-length bar at every text size.
+
+### Input and touch
+
+- Touch minimums are unchanged at every width: 44 pt (iOS) / 48 dp (Android). A pointer being more precise is never a reason to shrink a target.
+- Hover states are additive; hover is never the only path to an action.
+- Every drag-and-drop affordance has a non-drag equivalent.
+
+### Resize
+
+- Scroll position, selection, in-progress input, and open sheets survive a width change. Multitasking resize is frequent, not exceptional.
+- Both the two-pane state and its collapsed state define back-navigation behaviour.
+- The detail pane has its own empty state; a blank pane at launch is a defect.
+
+---
+
 ## How to apply these bars
 
 1. When generating a design (Mode A, C, E), use these values as defaults unless the user has provided stronger constraints.

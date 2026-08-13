@@ -53,6 +53,12 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Have I made a visual claim (contrast, spacing value, typography treatment) when only a text description was provided? If yes, move it to `Unresolved assumptions`.
 - Have I echoed a user-provided compliance claim (for example, "WCAG AA") as fact? If yes, add the "cannot independently verify" qualifier.
 
+### Device class
+- Did I resolve device class as its own axis, or did I let "cross-platform" stand in for "phone"?
+- If I defaulted to phone, did I state it as a reversible assumption rather than a closed statement?
+- If the device class is not phone: did I map the layout to width classes rather than to a device model, name a canonical layout, change navigation with width, and say what survives a multitasking resize?
+- Did I keep touch minimums unchanged at every width, and give every drag-and-drop a non-drag path?
+
 ### Context fit
 - Have I applied the relevant defaults from `docs/context-defaults.md` (audience, domain, platform, use-context)?
 - When context signals conflicted, did I resolve them using the documented precedence (safety/accessibility > regulated domain > use-context > audience > platform) and surface the resolution in `Assumptions`?
