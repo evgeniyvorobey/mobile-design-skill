@@ -37,7 +37,7 @@ Mode B user flows normally do not need a visual quality score unless screen paci
 
 For generated or specified design artifacts, the score is primarily internal:
 
-- target **4/5** before returning the answer
+- derive the score: median of the assessable dimensions, then caps. Do not aim at a number — a draft that lands at 3/5 reports 3/5 with its blocking dimension named
 - if the draft scores **3/5 or below** and the missing context is not blocking, revise the design before returning
 - if missing input prevents a 4/5 recommendation, state the limitation in `Assumptions` or `Unresolved assumptions`
 
@@ -134,7 +134,7 @@ Use this ladder when a draft is below the target:
 - 3 → 4 **when the inert cap applies**: name one owned asset with its token and its repeat locations, or one justified signature moment. Nothing else lifts this cap — more mechanism detail, more platform notes and more QA checks all leave it at 3/5, because the cap is about having a point of view, not about having enough content. This rung is the exit condition stated in the inert cap above; the two must always say the same thing.
 - 4 → 5: add resilience across edge cases, tokenization, dark/large-text behavior, localization, and design-system scaling
 
-**4/5 is the default target, not the ceiling.** Reach for 5/5 whenever the available input supports the resilience described above; when it does not, name the blocking dimension and the missing input rather than settling silently at 4/5.
+**4/5 is the usual outcome of a good draft, not a target to aim at, and not a ceiling.** Derive the score; do not choose it. If the derivation lands at 3/5, report 3/5 and name what would lift it. If the input supports the resilience described above, report 5/5. A corpus where every artifact scores the same number is evidence the score is being asserted rather than computed.
 
 ---
 

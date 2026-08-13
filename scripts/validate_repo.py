@@ -209,6 +209,20 @@ MODE_REQUIREMENTS = {
             "Next actions",
         ],
         "accessibility_sections": ["Accessibility considerations"],
+        "bullet_shapes": [
+            (
+                "Alternatives considered",
+                {
+                    # A direction-level alternative names token consequences, which are
+                    # inherently numeric or named. Shape, not phrasing.
+                    "pattern": r"\d|`[^`]+`",
+                    "min_bullets": 2,
+                    "tail_after": r"because",
+                    "tail_label": "because",
+                    "min_tail_words": 6,
+                },
+            ),
+        ],
         "label_word_counts": [
             ("Design quality calibration", "Attention path:", 12),
             ("Design quality calibration", "Signature move:", 12),
@@ -1419,6 +1433,37 @@ def validate_calibration_corpus_diversity() -> None:
         fail("Calibration corpus diversity validation failed:\n" + "\n".join(errors))
 
 
+PRESCRIBED_SCORE_PATTERNS = [
+    r"target\s+\**4/5\**\s+before",
+    r"internally target 4/5",
+    r"target 4/5 quality",
+]
+
+
+def validate_score_is_derived_not_prescribed() -> None:
+    """A prescribed target is not a score.
+
+    Live acceptance for v1.17.0 produced 4/5 on five of five runs while every
+    structural validator passed: the template slot had been un-nailed, but seven
+    instruction sites still told the model to aim at 4/5, so it aimed and hit.
+    """
+    errors: list[str] = []
+    for file_path in iter_markdown_files():
+        relative_path = file_path.relative_to(ROOT).as_posix()
+        if relative_path.startswith("docs/proposals/") or relative_path == "CHANGELOG.md":
+            continue  # these record the history of the defect
+        text = file_path.read_text(encoding="utf-8")
+        for pattern in PRESCRIBED_SCORE_PATTERNS:
+            if re.search(pattern, text, re.IGNORECASE):
+                errors.append(
+                    f"{relative_path}: /{pattern}/ prescribes the score instead of "
+                    "deriving it from the assessable dimensions"
+                )
+
+    if errors:
+        fail("Prescribed-score validation failed:\n" + "\n".join(errors))
+
+
 def validate_skill_entrypoint_contract() -> None:
     """SKILL.md is the only always-loaded file, so capability lives or dies here.
 
@@ -1790,6 +1835,7 @@ def main() -> None:
     validate_rendered_output_qa()
     validate_mode_parity()
     validate_calibration_corpus_diversity()
+    validate_score_is_derived_not_prescribed()
     validate_skill_entrypoint_contract()
     validate_unreadable_source_honesty()
     validate_inspiration_gate_parity()

@@ -12,7 +12,7 @@ Each mode includes:
 
 All modes also use `docs/weaknesses.md` as a failure-mode preflight. The goal is to prevent outputs that are structurally complete but generic, overconfident, aesthetic-only, platform-flattened, or weakly buildable.
 
-Modes that propose, specify, review, or rationalize a design artifact also use `docs/design-quality-rubric.md`. Generated/specification outputs should internally target 4/5; reviews should expose both a current and a projected (conditional) score with evidence limits.
+Modes that propose, specify, review, or rationalize a design artifact also use `docs/design-quality-rubric.md`. Generated/specification outputs derive the score from the assessable dimensions rather than aiming at a number; reviews expose both a current and a projected (conditional) score with evidence limits.
 
 All modes use `docs/clarification-policy.md` before drafting. Ask clarifying questions only when missing information would materially change the recommendation; otherwise proceed with minimal labeled assumptions.
 

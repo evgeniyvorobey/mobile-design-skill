@@ -161,7 +161,7 @@ The 1-5 design-quality scoring rubric is defined separately in [`design-quality-
 
 Use it to:
 
-- target 4/5 quality before returning generated design artifacts
+- derive the quality score from the assessable dimensions before returning generated design artifacts, rather than aiming at a number
 - expose current quality score in design reviews
 - prevent serious weaknesses from being averaged away by visual polish
 - define the improvement ladder from baseline to strong and resilient

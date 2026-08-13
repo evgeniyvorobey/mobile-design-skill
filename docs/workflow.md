@@ -163,7 +163,7 @@ Use the source hierarchy in this order:
 - Use Fluent 2 and related guidance when cross-platform type hierarchy needs coherence.
 - Use Figma Variables guidance when outputs need token-friendly structure.
 - Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes a design artifact's hierarchy, composition, density, typography craft, color semantics, interaction polish, brand expression, or production readiness.
-- Use `docs/design-quality-rubric.md` when the output needs a 1-5 quality target or review score. Generated/specification outputs should internally target 4/5; Mode D reviews should expose the current score.
+- Use `docs/design-quality-rubric.md` when the output needs a 1-5 quality target or review score. Generated/specification outputs derive the score from the assessable dimensions; Mode D reviews expose both a current and a projected score.
 - Use `docs/domain-packs/index.md` and the closest pack in `docs/domain-packs/` when fintech, health, SaaS, marketplace, social, or education materially changes trust, safety, hierarchy, state coverage, or handoff requirements.
 - Use `docs/synthetic-case-studies.md` and `examples/case-studies/` during maintenance or quality-sensitive calibration to compare weak vs strong response shapes. Do not treat synthetic cases as real-world validation.
 - Use `docs/inspiration-sources.md` only when the user asks for visual inspiration, moodboards, benchmarks, or "best-in-class" examples. Treat it as a non-authoritative layer for visual range and production references, not as evidence for usability, accessibility, platform behavior, or compliance.
@@ -345,7 +345,7 @@ Keep this calibration concise. It should make the design more buildable, not tur
 
 Use `docs/design-quality-rubric.md` after calibration:
 
-- For generated concepts, UI specs, typography systems, and handoff: internally target 4/5 before returning.
+- For generated concepts, UI specs, typography systems, and handoff: derive the score as the median of the assessable dimensions, then apply caps. Do not aim at a number; report what the dimensions give.
 - If the draft scores 3/5 or below and context is sufficient, revise the weak dimension before returning.
 - If context prevents a 4/5 recommendation, state the missing input under `Assumptions`, `Unresolved assumptions`, or `Open questions`.
 - For Mode D reviews: expose both a current and a projected score inside `Design quality score (current → projected)`. The exact contract — flat median of the assessable dimensions, `n/v` handling, `Ceiling note`, and the Bold move trigger — lives in the Mode D section of `skill/modes.md`. Follow it there rather than a summary here.

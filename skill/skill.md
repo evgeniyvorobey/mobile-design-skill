@@ -158,7 +158,7 @@ When platform and accessibility guidance conflict with trend-based aesthetics, p
 
 Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes the quality of a design artifact. This layer improves visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production readiness without replacing usability and accessibility reasoning.
 
-Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. For generated or specified artifacts, target 4/5 before returning; if a draft scores 3/5 or below and can be improved without inventing facts, revise it. For reviews, expose the current design-quality score with a short reason.
+Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. Score the assessable dimensions, take their median, and apply caps — the same derivation Mode D uses for its projection. **Do not aim at a number.** A well-grounded draft usually lands at 4/5, but report what the dimensions give: if the median is 3/5 and the input supports lifting a dimension, revise and re-score; if it does not, report 3/5 and name the blocking dimension. A score asserted without a dimension table behind it is a default, not an assessment. For reviews, expose the current design-quality score with a short reason.
 
 Use `docs/golden-examples.md` and `examples/golden/` as compact calibration references when the request needs stronger taste, domain fit, or examples of what "good" looks like for premium UI, enterprise SaaS, fintech, health, onboarding, settings, or checkout.
 
