@@ -745,3 +745,74 @@ So the hypothesis is **supported on the one clean case** and untested by the sec
 ### Backlog effect
 
 "Band-5 statements are more load-bearing than band-4 statements" closes as a measured null and should not be re-run in this form. Any next measurement must stratify on dimension **by design** — fixed dimension, statements varied by shape — because at seven probes per dimension against a 71-pp dimension spread, this design cannot see a band effect smaller than 28 pp however many artifacts are added.
+
+---
+
+## 15. Backlog item 2 measured — the questions are fine, two of them were asking the wrong thing
+
+The item read: *determinacy is a property of the dimension, not the band — distinctiveness 6/7 and attention path 5/7 against typography 1/7 and interaction 1/7. Worth asking whether some dimensions can reach band 5 at all as their `4 → 5` question is written.*
+
+### Design
+
+Two explanations were standing. **(A)** the question is unsatisfiable for that dimension; **(B)** it is satisfiable and live output does not supply what it needs. These are separable: ask for the best statement anyone can write against that question, and test it the same blind way.
+
+Nine dimensions, **one fixed product** — an EV charging session screen, a domain absent from the corpus. Fixing the product removes artifact-of-origin, which moved determinacy 17× more than band did, by construction rather than by adjustment. Two statements per dimension: `best` (a serious attempt, by an agent that had read the rubric and the four known failure shapes) and `typical` (a well-written specimen of those shapes — a strawman proves nothing). Two situations per dimension written from the brief alone by agents who never saw a statement or an arm, and **the same two used for both arms**, so the comparison is paired on dimension and on case. Three blind appliers.
+
+### Result
+
+`best` 12/18 cells, `typical` 5/18. Restricted to the five dimensions whose cases were on-question: **best 10/10, typical 1/10, sign test p = 0.0039.**
+
+| dimension | live | best | typical | |
+|---|---|---|---|---|
+| attention | 5/7 | 2/2 | 1/2 | satisfiable |
+| density | 3/7 | 2/2 | 0/2 | satisfiable |
+| composition | 2/7 | 2/2 | 0/2 | satisfiable |
+| context | 2/7 | 2/2 | 0/2 | satisfiable |
+| interaction | **1/7** | **2/2** | 0/2 | satisfiable |
+
+**Explanation (A) survives in 0 of 9 dimensions.** Interaction is tied for the lowest live rate and its best statement cleared 6/6 unanimously. Satisfiability has zero variance across a 5× spread in live determinacy: the questions are fine and the corpus is thin.
+
+The length confound was real at the arm level — `best` averaged 135 words against 85 — and is killed by the within-arm split: statements that *failed* were marginally longer in both arms (134.5 vs 136.0; 85.0 vs 86.0). Length separates the arms and predicts nothing inside them.
+
+### The structural hypothesis was wrong, and the replacement is better
+
+I had proposed that questions asking for **a boundary over a bounded set** are satisfiable while those asking for **a mapping from an open input space** are not. Contradicted: three of the six clearing statements are open-input mappings and cleared unanimously, and the two lowest live dimensions both have bounded output sets.
+
+What separates perfectly is **output-type match**. Six best statements return the type their cell asks for — 36/36 judgements. Three return a different type — 1/18. No overlap, and both of the failing three carry the full generative kit (a classifier on evaluable inputs, named outputs, a residual clause, a tie-break). Having the machinery is not the thing; returning the asked-for type is.
+
+### Two defects in the table, found by that
+
+- **`Color, state, and contrast` graded the form of a statement rather than what it returns.** *"Is that appearance behaviour expressed as one transform over the roles, rather than as a second hand-made set?"* The closure test asks you to write down what the statement returns; that cell never asks for an output, so the test structurally could not run on it. Three readers unanimously called a complete OKLCh transform underdetermined because the case asked something the cell never posed. Replaced with *"Does a stated rule return the dark and increased-contrast values for a role the artifact does not list?"* — same intent, only a transform can pass, and now gradeable.
+- **`Production readiness` was a completeness test over listed values.** *"Does the handoff say which values are negotiable and which are hard bars…"* — band-4 shaped, and its output is an authority class, not an answer to a case. Replaced with *"Does a stated test return hard-bar or negotiable for a value the handoff does not list?"*
+
+### Confirmation, with the predictions registered first
+
+Same six statements, new cases drawn from the rewritten cells.
+
+| cell | before | after |
+|---|---|---|
+| colour-best | 0/6 | **5/6** |
+| production-best | 1/6 | **6/6** |
+| typography-best | 0/6 | **6/6** |
+| typography-typical | **6/6** | **0/6** |
+| colour-typical | 0/6 | 0/6 |
+| production-typical | 0/6 | 3/6 |
+
+Arm separation moved from **−5/18** — the typical arm outscoring the best arm — to **+14/18**.
+
+**One prediction was refuted.** `production-typical` was predicted to stay underdetermined and cleared 3/6: the case landed inside a class the statement enumerates outright ("layout and spacing values are a considered starting point"), so it could not separate the arms. No applier erred; the premise was right about the precedence ladder and wrong about the statement, which also carried a categorical enumeration.
+
+The typography result is the cleanest thing in either run: statements unchanged, cases changed, and the verdict inverted by twelve judgements. The previous 6/6 was won by quotation — an unconditional "All numerals are tabular" answered a figure-style case — and the appliers named the escape as closed.
+
+### What shipped
+
+Three constraints on the closure test's case, not one: it must be an instance of the unlisted thing the cell names; its answer must not already be printed in the statement; and it must fix every input the rule needs except the one under test. The first two are strongly evidenced; the third rests on a single 2–1 split and is recorded as the weaker of the three.
+
+The guard is scoped to the defect class rather than the two cells: a `4 → 5` cell may not use form-grading vocabulary and must carry a returning verb, so the closure test always has an output to write down.
+
+### What did not resolve
+
+- **`Production readiness`'s rewrite rests on one clean case.** Its 6/6 headline is half quotation — one situation names a value the statement already enumerates. Re-run with two fresh unlisted-value cases screened against the statement's own enumerations.
+- **`Typography`'s two cases are one probe run twice.** Both traverse the same two binary questions, land on the same role, and refuse a new role on the same test. Effective n = 1.
+- **The non-quotability constraint is only partly enforceable in a measurement pipeline**, because a case writer blind to the statements cannot know which classes they enumerate — 2 of 6 cases leaked, a ~33% rate. It *is* enforceable in the rubric, where the model reads its own statement before picking a case. Future measurement runs need a post-write screen; the instruction does not.
+- **Typography's cell is a null.** It was answered correctly by the best statement in all three readers' words and scored zero anyway because the cases probed figure style. No edit was warranted and none was made.
