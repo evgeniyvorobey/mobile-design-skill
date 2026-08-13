@@ -95,6 +95,18 @@ The tiers above are a *retrieval* layer — places to see what exists. These are
 | Shopify Polaris | Stated reasoning behind dense/admin patterns | Assuming Polaris reasoning transfers to your platform |
 | Smashing Magazine; A List Apart | Technique deep-dives and durable craft principles | Authoritative standards (defer to WCAG/HIG/Material) |
 
+### How step 5.5 samples this catalog
+
+`SKILL.md` step 5.5 draws **two of its three candidate directions from the two catalogs below** — one compositional school, one point-of-view product. This is the mechanism that stops the option set collapsing to the model's modal answer for a surface: a free-generated candidate set is unimodal, a sampled one is not.
+
+The selection rule, restated here because this is the file the step loads:
+
+1. Discard entries whose `Do NOT use for` line disqualifies them for the domain, audience, and use context at hand.
+2. From the survivors, pick the entry whose token consequences differ **most** from the conventional baseline — not the first that fits.
+3. Carry the entry's name into the output as `from:` provenance.
+
+**Asset classes**, for the divergence rule on the committed direction's owned asset: colour, geometry/shape, type treatment, motion signature, layout structure, illustration/mascot. Three answers reaching for a layout-structure meter under three names is one retrieved asset, not three owned ones.
+
 ### Editorial / typographic / compositional schools (range beyond platform defaults)
 
 These are the direction vocabulary for step 5.5 in `SKILL.md`. Each entry carries **token consequences**, because a direction that exists only as a school name produces three drafts that differ in adjectives and not in output.

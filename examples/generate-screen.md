@@ -124,8 +124,8 @@ Choose dates, review request impact, and submit with confidence.
 - Policy-first layout — rejected because employees need to enter dates before the policy guidance can become specific and actionable.
 - Full multi-step wizard — rejected because this is an occasional enterprise task, but the field count is still small enough to keep visible in one structured screen.
 - Hiding balance and policy impact behind a details link — rejected because those details directly affect whether the request can be submitted.
-- Direction rejected: a calm, generous direction (base unit 8, ratio 1.2, section gap 32, one focal element per screen) — rejected because the policy block needs three values visible simultaneously for comparison, and the larger rhythm pushes the balance summary below the fold on a 4.7-inch device.
-- Direction rejected: a dense modular direction (base unit 4, ratio 1.333, two-column metadata rows) — rejected because this is an occasional task for non-expert users, where scanning speed matters less than error avoidance, and tighter rows raise mis-tap risk around date selection.
+- Direction rejected — calm and generous (from: Headspace / Calm): base unit 8, ratio 1.2, section gap 32, one focal element per screen, motion signature at the slow end of its band — rejected because the policy block needs three values visible simultaneously for comparison, and the larger rhythm pushes the balance summary below the fold on a 4.7-inch device.
+- Direction rejected — dense modular (from: Müller-Brockmann, Grid Systems): base unit 4, ratio 1.333, two-column metadata rows, near-monochrome with one signal colour reserved for policy state, 150 ms cross-fade only — rejected because this is an occasional task for non-expert users, where scanning speed matters less than error avoidance, and tighter rows raise mis-tap risk around date selection.
 
 ## Next actions
 - Confirm whether partial-day requests, attachments, or delegate coverage are in scope.

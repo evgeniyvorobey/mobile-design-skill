@@ -194,7 +194,21 @@ Use `docs/rendered-output-qa.md` only when a rendered artifact exists or the use
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
 
 ### 5.5 Set the design direction (Modes 1, 3, 5)
-Before drafting a generated artifact, name three candidate directions internally, then commit to one. This runs after grounding and before building: it widens the option set without loosening any evidence rule.
+Before drafting a generated artifact, build three candidate directions internally, then commit to one. This runs after grounding and before building: it widens the option set without loosening any evidence rule.
+
+**Two of the three are drawn from a catalog, not invented.** Free-generating three directions collapses to the same modal answer every time — the option set has to come from somewhere the model has to go and look:
+
+| | Direction | Source |
+|---|---|---|
+| D1 | The conventional baseline | what `docs/patterns-catalog.md` and the domain pack imply for this surface |
+| D2 | A compositional school | one **named entry** from the schools in `docs/inspiration-sources.md` |
+| D3 | A point-of-view product | one **named entry** from the products in `docs/inspiration-sources.md` |
+
+Selecting D2 and D3:
+
+1. Read each entry's `Do NOT use for` line and discard the entries it disqualifies for this domain, audience, and use context. A regulated or safety-critical surface rules out several; say which one you discarded and why when that exclusion is load-bearing.
+2. From the entries that survive, do not take the first that fits. Name the surviving set, then pick the one whose token consequences differ **most** from D1 — the point is to widen the spread, not to find a second version of the baseline.
+3. Record the provenance. Every direction carries `from:` its source (`baseline`, or the catalog entry's name). A candidate set with no provenance is a candidate set that was never sampled.
 
 Each direction is one thesis line plus its token consequences:
 
@@ -204,16 +218,19 @@ Each direction is one thesis line plus its token consequences:
 - **One composition move** — the single structural gesture (full-bleed hero, asymmetric grid, bottom-anchored action, dense two-column list, single-focus card)
 - **Motion signature** — one recurring transition, its duration taken from `docs/quality-bars.md`, with a reduced-motion fallback
 
-Rank the three against user goal, task, context defaults, platform conventions, and accessibility. Commit to one. The two rejects are not discarded: they populate `Alternatives considered` in Mode 1 or `Key decision tradeoffs` in Mode 3, each with the mechanism that killed it.
+Rank the three against user goal, task, context defaults, platform conventions, and accessibility. Commit to one — the baseline wins often, and that is a legitimate outcome; what is not legitimate is never having considered anything else. The two rejects are not discarded: they populate `Alternatives considered` in Mode 1 or `Key decision tradeoffs` in Mode 3, each with its `from:` provenance and the mechanism that killed it.
+
+**Asset-class divergence.** The committed direction's owned asset (its `Signature move`) must not be the same **asset class** as the one carried by the nearest golden example in `examples/golden/` for this domain. The six classes are colour, geometry/shape, type treatment, motion signature, layout structure, and illustration/mascot. Three answers in a row reaching for a layout-structure meter under three different names is one retrieved asset wearing three labels, not three owned assets.
 
 Four constraints keep this from becoming theatre:
 
 - Directions must differ in **at least two token fields**. Three variants of one structure wearing different adjectives is one direction, not three.
+- The candidate set is **auditable**. If the same two rejects appear for every product in a domain, the catalog is not being sampled — it is being bypassed.
 - The step is **internal**. The response commits to a single direction; it never hands the user three options to choose between, and it never turns into a visual-design essay.
 - Divergence is **perceptual and compositional only**. Functional pattern selection stays convergent — keep choosing from `docs/patterns-catalog.md`, and never invent a novel pattern where an established one applies.
 - Token values are **directional defaults, not invented brand facts**. When the user supplied a design system or brand, the direction works inside it; when they did not, say so rather than asserting a palette as if it were given.
 
-Use `docs/inspiration-sources.md` for the vocabulary: its compositional schools and point-of-view products carry token consequences, and its generative direction method is the long form of this step when the request explicitly asks for fresh direction or references.
+`docs/inspiration-sources.md` is a **required load** for this step, not an optional one: D2 and D3 cannot be selected without it. Its generative direction method is the long form of this step when the request explicitly asks for fresh direction or references.
 
 For Mode 6 the direction already exists — name the direction the delivered design embodies and the alternatives its authors rejected only where the input supports that. Do not invent rejected alternatives the user never described.
 
@@ -315,7 +332,7 @@ Include:
 - Adaptive behavior — include only when device class is not phone; omit entirely for phone-only work
 - Design quality calibration
 - Rationale for major choices
-- Alternatives considered — the two rejected directions from step 5.5. Each entry must carry at least two of that direction's token consequences (base unit and ratio, type role split, colour-construction rule, composition move, motion signature) plus the mechanism that kills it. A layout described in layout words is not a direction, and two variants of one structure are not two alternatives.
+- Alternatives considered — the two rejected directions from step 5.5. Each entry carries its `from:` provenance (the catalog entry it was derived from, or `baseline`), at least two of that direction's token consequences (base unit and ratio, type role split, colour-construction rule, composition move, motion signature), and the mechanism that kills it. A layout described in layout words is not a direction, and two variants of one structure are not two alternatives.
 
 ### Mode 2: Design mobile user flow
 Include:

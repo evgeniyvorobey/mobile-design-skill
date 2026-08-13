@@ -176,7 +176,9 @@ Use the source hierarchy in this order:
 
 ## Step 4.5: Set the design direction (Modes A, C, E)
 
-Before drafting a generated artifact, name three candidate directions internally, then commit to one. The step sits between grounding and building so divergence happens *before* the evidence gauntlet, not instead of it.
+Before drafting a generated artifact, build three candidate directions internally, then commit to one. The step sits between grounding and building so divergence happens *before* the evidence gauntlet, not instead of it.
+
+**Two of the three come from a catalog, not from instinct.** D1 is the conventional baseline implied by `patterns-catalog.md` and the domain pack; D2 is a named compositional school and D3 a named point-of-view product, both from `inspiration-sources.md`. Discard entries their `Do NOT use for` line disqualifies, then from the survivors take the one whose token consequences differ *most* from D1 — not the first that fits. Every direction carries `from:` its source into the output. A free-generated candidate set is unimodal; that is why this is a retrieval step and not a brainstorm.
 
 Each direction is a thesis line plus token consequences:
 

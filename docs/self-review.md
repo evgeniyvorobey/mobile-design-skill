@@ -115,6 +115,9 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Have I addressed what happens when the screen has zero data, partial data, stale data, and full data?
 - Did I commit to one layout rather than describing three possible layouts without choosing?
 - Did I name three directions with different token consequences before drafting, or did I justify the first idea after the fact? Two directions that differ only in adjectives are one direction.
+- Were D2 and D3 actually **drawn from the catalog** in `docs/inspiration-sources.md`, with their entry names recorded as `from:` provenance — or did I generate three candidates from instinct and cite the catalog afterwards?
+- Would this same candidate set appear for any other product in this domain? If yes, the catalog was bypassed, not sampled.
+- Is the committed direction's owned asset a different **asset class** from the nearest golden example's, or did I reach for the same class under a new name?
 - Are the two entries under `Alternatives considered` structurally different from the chosen layout, or are they variants of the same structure wearing different labels?
 - Does `Signature move` name an owned asset as a token with the places it repeats — or did I record honestly that the screen is inert and what would change that?
 

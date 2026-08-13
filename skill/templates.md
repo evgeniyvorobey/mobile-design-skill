@@ -115,8 +115,8 @@ Assumptions:
 - [decision] because [reason]
 
 ## Alternatives considered
-- Direction rejected — [thesis]: [base unit / ratio], [type role split], [colour rule], [composition move], [motion signature] — rejected because [mechanism tied to user goal, task, platform, accessibility, or implementation]
-- Direction rejected — [thesis]: [at least two token consequences] — rejected because [mechanism]
+- Direction rejected — [thesis] (from: [catalog entry name / baseline]): [base unit / ratio], [type role split], [colour rule], [composition move], [motion signature] — rejected because [mechanism tied to user goal, task, platform, accessibility, or implementation]
+- Direction rejected — [thesis] (from: [catalog entry name / baseline]): [at least two token consequences] — rejected because [mechanism]
 
 ## Next actions
 - [action]

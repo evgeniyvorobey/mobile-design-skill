@@ -1382,6 +1382,82 @@ def label_body(section_text: str, label: str) -> str:
     return " ".join(body).strip()
 
 
+def catalog_entry_tokens() -> set[str]:
+    """Distinctive names from the two catalogs step 5.5 samples.
+
+    Parsed from docs/inspiration-sources.md rather than hard-coded, so adding a
+    school or a point-of-view product automatically widens what provenance is
+    accepted — the catalog is the single source of truth for the option set.
+    """
+    doc = (ROOT / "docs/inspiration-sources.md").read_text(encoding="utf-8")
+    names: list[str] = re.findall(r"^#### (?P<name>.+?)\s*$", doc, re.MULTILINE)
+
+    products = re.search(
+        r"^### Point-of-view products.*?$(?P<body>.*?)(?=^### |^---|\Z)",
+        doc,
+        re.DOTALL | re.MULTILINE,
+    )
+    if products:
+        for row in re.findall(r"^\|\s*(?P<cell>[^|]+?)\s*\|", products.group("body"), re.MULTILINE):
+            if cell_is_header(row):
+                continue
+            names.append(row)
+
+    tokens = {"baseline"}
+    for name in names:
+        cleaned = re.sub(r"[*_`]", "", name)
+        for part in re.split(r"[/,;]| and ", cleaned):
+            part = part.strip().strip(".").lower()
+            if len(part) > 3:
+                tokens.add(part)
+    return tokens
+
+
+def cell_is_header(cell: str) -> bool:
+    stripped = cell.strip().lower()
+    return stripped in {"product", "source", "school", ""} or set(stripped) <= set("-: ")
+
+
+def validate_direction_provenance() -> None:
+    """Two of step 5.5's three directions come from the catalog, and say so.
+
+    Live acceptance for v1.17.0 showed four runs of one prompt generating the same
+    candidate pair and committing to the same winner: a free-generated candidate set
+    is unimodal. Requiring the provenance makes a bypassed catalog visible in the
+    output instead of hidden in the reasoning.
+    """
+    tokens = catalog_entry_tokens()
+    if len(tokens) < 8:
+        fail(
+            "docs/inspiration-sources.md: could not parse the direction catalog "
+            f"(found {len(tokens)} usable entry tokens); step 5.5 has nothing to sample"
+        )
+
+    errors: list[str] = []
+    for relative_path in ("examples/generate-screen.md", "examples/ui-spec.md"):
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        section = extract_section(text, "Alternatives considered") or extract_section(
+            text, "Key decision tradeoffs"
+        )
+        provenances = re.findall(r"from:\s*(?P<src>[^)\n,;]+)", section, re.IGNORECASE)
+        if len(provenances) < 2:
+            errors.append(
+                f"{relative_path}: rejected directions must carry `from:` provenance "
+                f"for the catalog entry they were derived from; found {len(provenances)}"
+            )
+            continue
+        for source in provenances:
+            normalized = re.sub(r"[*_`]", "", source).strip().lower()
+            if not any(tok in normalized or normalized in tok for tok in tokens):
+                errors.append(
+                    f"{relative_path}: `from: {source.strip()}` is not an entry in the "
+                    "direction catalog in docs/inspiration-sources.md"
+                )
+
+    if errors:
+        fail("Direction provenance validation failed:\n" + "\n".join(errors))
+
+
 def validate_calibration_corpus_diversity() -> None:
     """The calibration corpus is loaded exactly when taste is being decided.
 
@@ -1846,6 +1922,7 @@ def main() -> None:
     validate_benchmark_report_format()
     validate_rendered_output_qa()
     validate_mode_parity()
+    validate_direction_provenance()
     validate_calibration_corpus_diversity()
     validate_score_is_derived_not_prescribed()
     validate_skill_entrypoint_contract()
