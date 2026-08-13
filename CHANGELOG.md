@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [1.24.0] - 2026-08-13
 
+> **Reverted in 1.25.0.** The measurement below does not replicate: six briefs and 54 paired cells, at 98.8% power for the effect cited here, return 27/54 against 28/54 with McNemar p = 1.000. The three-brief result was produced by an extraction defect that suppressed the control arm and left the treated arm untouched.
+
+
 The band-5 closure test was a **silent** gate: run it, and if the rule returns nothing, drop to band 4. Silently-run gates are not checkable, and measurement says they are also not run.
 
 Three briefs through the skill three times, nine design-quality statements extracted per artifact, each paired with a situation **written from the brief before any artifact existed** by agents who saw no statement and no arm. The same 27 situations test all three arms, so difficulty is identical by construction, and all three arms were re-judged in one pass by one cohort of blind raters.

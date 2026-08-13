@@ -821,6 +821,9 @@ The guard is scoped to the defect class rather than the two cells: a `4 → 5` c
 
 ## 16. Backlog item 3 measured — the gap is closed by printing the case, not by naming the shapes
 
+> **Superseded by §17. Three claims below are contradicted, not merely unsupported, by a six-brief re-measurement with the extraction defect fixed: that the defect was *"symmetric across arms"* (it fell on the control and doubled it); that the worked case is *"a mediator, not a quotation artifact"* (presence is a marker — mandating it moved 13/17 against 10/17, p = 0.453); and colour/state as the *"largest gain"* at 3/3 (it inverts to 2/6 against 3/6). The change §16 recommends was shipped as v1.24.0 and reverted in v1.25.0. The section is kept as written because the reasoning it records is what a reader needs in order to see how a well-run measurement produced a wrong answer.**
+
+
 The item read: *live output is the thing that falls short, not the questions. Untested: whether the closure test alone closes that gap, or whether the drafting instructions need the failure shapes stated where the artifact is being written rather than where it is being scored.*
 
 The whole closure test was written as scoring language — "band 5 is not awarded on the reading, it is awarded on a test you run". The rubric is reachable from step 5, but step 6, where the artifact is written, sees how the statement will be judged and not what to write.
@@ -872,3 +875,63 @@ One further asymmetry, not pre-registered: C's verdicts are far more rater-stabl
 - **Nothing separates "the requirement worked" from "arm C's generator happened to be better."** That needs an effort-matched control the design does not have — though C is +0.5% on length over B, so the C-vs-B contrast is at least not an effort story.
 - **A measurement defect worth fixing before the next run**: where a rule lives in a table, the extractor can take the lead-in and miss the table. Verified to have cost C three cells and B at least one, symmetrically across arms, so every rate above is an underestimate and the arm contrast is compressed rather than inflated.
 - **All three distinctiveness situations presuppose a placeable mark**, which is ill-formed for a type-treatment asset. Second run in a row; the dimension returned 1/6 across arms and should be rewritten before it is measured again.
+
+---
+
+## 17. The powered re-measurement — v1.24.0 reverted, and the instrument was the effect
+
+§16's change shipped on three briefs. This is the six-brief run it asked for, with the three instrument defects fixed first, and it refutes the change.
+
+**A point worth stating before the numbers: the configuration that shipped had never been measured.** The measured arm printed a worked case under *every* dimension; what shipped printed it only under band-5 claims, narrowed because the blanket form collapsed calibration. So this run tests the live configuration for the first time.
+
+### The six-brief result
+
+| arm | load-bearing |
+|---|---|
+| v1.23.0 baseline | 27/54 = 50.0% |
+| shipped v1.24.0 | 28/54 = 51.9% |
+
+McNemar exact two-sided **p = 1.000** (11 D-only against 10 A-only). 95% CI on the paired difference **[−15.7, +18.9]** points — the earlier +33.3 lies outside it. Power to detect that earlier effect: **98.8%**. Leave-one-brief-out and leave-one-dimension-out: no cut produces the treated arm ahead at p < 0.5. Four of six briefs are exact ties, one favours each arm, and no rater ranks the treated arm first — where in the three-brief run every rater did.
+
+### Why the earlier result happened, and the note that was wrong
+
+§16 recorded the extraction defect as *"symmetric across arms, so the arm contrast is compressed rather than inflated."* **That was wrong, and it is the whole story.**
+
+| | earlier run | this run |
+|---|---|---|
+| baseline arm, briefs p1–p3 | 7/27 = 25.9% | **14/27 = 51.9%** |
+| treated arm, same briefs | 16/27 = 59.3% | 14/27 = 51.9% |
+
+The same three briefs' baseline artifacts **double** when the extractor is told to quote a rule complete, including the table its values live in. The treated arm does not move. The mechanism fits: a printed `Unlisted case: … → value` is one inline sentence that survives extraction intact, while an untreated rule more often lives in a table whose lead-in the extractor took and whose body it dropped. The +33 points measured how legible each arm's rules were to the extraction step, not how often they closed.
+
+### The cost that was real
+
+Against no measured benefit, the change carried measured harm, all against the concurrent control rather than against the reverted blanket form:
+
+| | baseline | shipped |
+|---|---|---|
+| band-5 claim rate | 15/54 | 23/54 |
+| precision | 0.733 | 0.652 |
+| over-claims | 4 | 8 |
+| φ | 0.289 | 0.230 |
+
+And the gate never fired. All 23 band-5 claims carry a case, so *"a band 5 with no printed case is a band 4"* demoted **0 of 23** — while 8 of the 23 it passed are underdetermined on the raters' reading. A 100% pass rate with a 35% false-positive rate is not a gate.
+
+Scoping the case to band-5 claims also made the two the same variable in **54 of 54** cells, so the mediation the requirement rests on is not measurable at all under the shipped form. And the mediator claim itself does not survive: presence predicts (pooled p = 0.037) while assignment does not (p = 1.000), which is the signature of a **marker**. Unprompted, the baseline printed a case in 10 cells and 7 closed. Mandated on the 17 cells where the baseline printed none, the treated arm went 13/17 against 10/17 — p = 0.453.
+
+### Reverted
+
+Commit `e0dfe8c` reverted in full: five instruction surfaces and the guard. **Kept:** the closure test itself, the four failure shapes, the `4 → 5` returning-verb guard, and the defect-class scoping — nothing here touches those, and all three were re-verified by injection after the revert.
+
+### Three instrument findings, two of them new defects
+
+- **The distinctiveness fix worked and overshot.** From 1/6 across arms twice running to **11/12 pooled**, the highest of the nine — and now at ceiling, separating nothing. All 11 wins are settled by checking whether the asked surface appears on the statement's own repeat list, which is quotation-shaped: the rewritten situations ask whether X is on a list rather than what a rule returns for an unlisted X. It is also the single largest contributor to the pooled printed-case association; removing it and context & brand fit takes that from p = 0.037 to p = 0.637.
+- **Context & brand fit is the new floor at 1/12**, and it is the same class of defect. Across 11 underdetermined cells all three raters give the same reason: the situation asks about copy voice, bystander privacy or house-versus-native chrome, and the cell returns a precedence order — which decides which default wins, not what the screen looks like. A scope mismatch between the situation writer and the cell.
+- **Production readiness at 3/12** is third: nine of twelve fail because the situation demands a hard-bar test most statements do not contain, and the three that close are exactly the three whose statements carry an explicit hard-bar list.
+
+### What §17 did not resolve
+
+- **Whether the earlier +33 is recoverable at all**, or was entirely extraction. The clean test is the blanket arm re-measured on this harness; if it also lands near 50%, the whole of §16 was instrumental.
+- **Typography is the one live hypothesis** — baseline 2/6 against treated 4/6, coverage 0/6 against 4/6. Four discordant pairs, exact p = 0.625: a hypothesis, not a subgroup result.
+- **Nothing separates "the requirement works" from "the generator differed."** That still needs an effort-matched control this design does not have.
+- Six briefs floor brief-level inference at 0.031 two-sided even with a clean sweep; observed was 1–1–4. Per-dimension inference is impossible at six pairs each.
