@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.18.0] - 2026-08-13
+
+Closes the one thing v1.17.0 shipped unresolved: the fixed exploration space (acceptance criterion A3). Verified by six live runs — three of an identical prompt plus health, marketplace and education — scored by an independent gate, which passed all six criteria with no blocking issues.
+
+### Changed
+- **Step 5.5 draws two of its three candidate directions from a catalog instead of inventing them.** D1 is the conventional baseline implied by `docs/patterns-catalog.md` and the domain pack; D2 is a named compositional school and D3 a named point-of-view product, both from the 13 entries in `docs/inspiration-sources.md`. Selection is a rule rather than a preference: discard the entries each `Do NOT use for` line disqualifies for this domain, audience and use context, then from the survivors take the entry whose token consequences differ **most** from the baseline — not the first that fits.
+
+  The diagnosis behind the change: v1.17.0 told the model to use the catalog "for the vocabulary", which nothing required it to do, so it generated three candidates from its own prior. **A free-generated candidate set is unimodal.** Four runs of one prompt produced the same two rejects and one owned asset under three names. Two rounds of instruction text failed to move it; making the step a retrieval worked on the first pass.
+- **Every direction carries `from:` provenance into the output, including the committed one.** A bypassed catalog is now visible in the response rather than hidden in the reasoning, and labelling only the rejects would leave the third candidate slot unverifiable.
+- **The asset-class rule now argues against the surface, not against the golden.** The committed direction's owned asset still may not share an asset class with the nearest golden's, but the response must name the class it chose and say why at least two of the other five fit this surface worse. Picking whichever class the golden did not use is how a six-class palette collapses into two. The rule also states the real test: three answers reaching for the same notch-on-a-track under three token names is one retrieved asset wearing three labels — the objects must differ, not the names.
+- `docs/inspiration-sources.md` is a **required load** for step 5.5 rather than an optional vocabulary reference, and states the sampling contract in the file the step actually loads. It also now defines the six asset classes.
+
+### Added
+- `validate_direction_provenance()` parses the catalog entry names out of `docs/inspiration-sources.md` rather than hard-coding them, so adding a school or a point-of-view product automatically widens what provenance is accepted, and requires the committed examples to cite real entries. Verified by injection in three directions: provenance stripped, provenance naming something outside the catalog, and the catalog itself gutted.
+- `Direction:` and `Dimension read:` slots in Templates A/C/F, both enforced, so the committed direction's provenance and the score's derivation are auditable from the response.
+
+### Acceptance
+- **The option set moves with the domain.** The four different-domain runs cite disjoint catalog sets — 7 distinct entries out of 13 — and the disqualification filter visibly does the work rather than decorating: a streak mechanic discarded for a medication screen because "a streak turns a missed dose into a broken achievement", an expressive direction discarded for a marketplace because "its own `Do NOT use for` line excludes any screen whose hierarchy must stay unambiguous under stress".
+- The v1.17.0 layout-structure meter is absent from all six runs, and outputs now argue their asset class explicitly.
+- No quality regression: no expressive direction was committed anywhere, and every run kept a full accessibility section, a full state set, and an honestly derived score.
+
+### Known limits
+- Two runs of the *identical* budgeting prompt converged on the same catalog entry with near-identical token sets. The third drew a different entry from the same prompt, and the cross-domain spread rules out a frozen set, so this is not the v1.17.0 failure recurring — but within-prompt divergence remains unmeasured and is the metric this repo's own planning called premature for lack of a sampling-temperature contract.
+- Across the runs sampled, only two of the six asset classes appeared. Colour, motion signature and illustration remain unrepresented in practice.
+- Dimension reads still cluster on 3 and 4, so a derived median lands on 4 more often than a five-point scale implies. The fix is upstream in the rubric's willingness to score 2 or 5, not in the median rule.
+
 ## [1.17.0] - 2026-08-13
 
 Theme: **the ceiling comes off.** The structural work landed and is verified by live acceptance; cross-run design variance is **not** achieved and is tracked for 1.18.0 — see *Known limits* below before reading the diversity items as solved. A six-dimension audit with an adversarial verification pass produced 38 surviving findings; the plan of record, the causes, and the explicit non-goals are recorded in [`docs/proposals/quality-and-diversity-upgrade.md`](docs/proposals/quality-and-diversity-upgrade.md).
