@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.22.0] - 2026-08-13
+
+Band 5 was being awarded by reading a statement and judging whether it looked like a rule that decides unlisted cases. That was measured, twice, and it does not work.
+
+63 statements pulled from live output were each paired with one ordinary unsettled case from their own product and handed to three readers who saw the pair and nothing else — no artifact, no dimension, no band. Statements scored 5 settled their case **11 times in 28**; statements scored 4, **9 times in 25**. Fisher one-sided p = 0.52, and 17 of the 28 band-5 statements were judged non-generative by two or more readers who never saw a score.
+
+The first version of this experiment reported 50% against 30% and was **thrown away**: the agent that wrote each situation also knew which arm the statement came from, so probe difficulty tracked the arm. In the matched re-run both rates moved toward each other — band 5 down 10.7 pp, controls up 10.0 pp — which is the signature of the removed confound rather than of an effect appearing.
+
+The remaining confounds all fail in the direction that *flatters* band 5: its arm carries the two highest-yield dimensions (distinctiveness 6/7, attention path 5/7) while band 4 carries composition 2/7 and interaction 1/7. Stratified on dimension, the odds ratio drops from 1.15 to 0.735 — adjusting flips the sign. The near-null is a ceiling on the band effect, not a signal under noise. Dimension identity moves determinacy 21× more than band does; artifact of origin, 17×.
+
+### Changed
+- **Band 5 is awarded on a closure test that gets run, not on how a statement reads.** Take one ordinary case the artifact does not list, state what the statement returns for it, and if you cannot write the answer the band is 4. The band descriptors are unchanged — nothing in the data says band 5 is described wrongly relative to band 4; the failure was in operating the question by inspection.
+- Four failure shapes are recorded as **diagnoses**, accounting for 34 of the 38 non-generative statements: a ratio or floor with no anchor, a budget with no behaviour, a precedence ladder with no output, a requirement with no threshold. The shapes that *pass* are deliberately not listed — that would be a template to satisfy, which is the failure mode this repository has shipped twice.
+- The gate is carried by every surface that assigns a band: the rubric, the self-review checklist, judged mode, and the judge agent.
+
+### Added
+- `validate_band_five_closure_test()` — checks the closure test is present on all four scoring surfaces and that the failure-shape list is intact. A gate present in the drafting instructions and absent from the judge is the file-scoped guard this series keeps rebuilding. Verified by injection on each surface.
+
 ## [1.21.0] - 2026-08-13
 
 The design-quality scale asked for a number from 1 to 5 and gave **three columns to pick it from**: `1-2 signals | 3 signals | 4-5 signals`. Two of the three were bands, and the document supplied within-band discrimination for exactly one of them — there was no text anywhere in the repository distinguishing 1 from 2. So the decision procedure a model could execute was "pick a column", and the committed corpus shows the result: 63 dimension values across seven `Dimension read:` lines, holding `1`×1, **`2`×0**, `3`×14, `4`×45, `5`×3.
