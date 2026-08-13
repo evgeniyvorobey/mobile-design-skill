@@ -107,6 +107,16 @@ So band 5 is not awarded on the reading. It is awarded on a closure test you act
 
 > Take one ordinary case the artifact does not list. State what the statement returns for it. **If you cannot write the answer, the band is 4.**
 
+**Print it.** For every dimension you put at band 5, the case and its answer go in the response, on their own line under that dimension's band:
+
+```md
+- Unlisted case: [the case the artifact does not list] → [the value the rule returns for it]
+```
+
+A silently-run test is not checkable and a printed one is. This is the difference the measurement found: across three briefs, artifacts that printed the case had 25 of 42 dimensions settle an unlisted situation put to blind readers, against 10 of 39 where no case was printed — and the effect landed precisely in the dimensions where a model would not have written one unprompted. Printing it is also what makes the gate self-enforcing: a rule that returns nothing has nowhere to hide once you have to write down what it returned.
+
+**Only for band-5 claims.** Printing a case under every dimension regardless of band was measured too, and it collapsed the score's own information: 24 of 27 dimensions came back claimed at band 5, because writing a case, seeing output and awarding 5 becomes one motion. The case is a gate on the top band, not a section to fill in.
+
 The case has to be ordinary — one a competent team meets in the first month — not an edge case chosen to be survivable. And the answer has to be the answer, not a restatement of the rule.
 
 Two constraints on the case, both of which cost a measurement to learn:
@@ -207,7 +217,7 @@ Before returning a design artifact, silently answer:
 - Did I write the bands before the number, and does the number I printed equal the median of the bands I wrote?
 - For each dimension, which boundary question did the artifact fail — and did I name it in the `Quality target` line rather than printing a bare number?
 - Can I answer that question with the information already available? If yes, do it and re-derive. If not, did I state the missing input clearly?
-- For every dimension I put at band 5: did I run the closure test — one ordinary unlisted case, and the answer the statement returns for it — or did I award it on how the statement reads?
+- For every dimension I put at band 5: did I **print** the closure case and what the rule returned for it, or did I award the band on how the statement reads? A band-5 claim with no printed case is a band-4 claim.
 - Did every dimension land on the same band? If so, what made them agree — or did I stop reading once the number looked right?
 - Where I marked `n/v`, would a fuller instance of the same evidence type have settled it? If it would, that is a low band, not `n/v`.
 - Does this screen carry one owned asset, expressed as a token with repeat locations — or did I record honestly that it is inert?

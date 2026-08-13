@@ -81,7 +81,7 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Did I apply the 1-5 rubric from `docs/design-quality-rubric.md`?
 - For generated/specification outputs, does the number I printed equal the median of the dimension read I actually wrote — and for each dimension below the top band, did I answer the boundary question it failed or state the missing input?
 - For Mode D reviews, did I expose both a current and a projected (conditional) design-quality score with a reason and evidence limits?
-- For every dimension I put at band 5: did I run the closure test — take one ordinary case the artifact does not list, and state what my own statement returns for it? If I cannot write that answer, the band is 4, however well the statement reads.
+- For every dimension I put at band 5: did I print the `Unlisted case:` line — one ordinary case this response does not list, and the value my own rule returns for it? If I cannot write that answer the band is 4, and if I did not print it the claim is not checkable.
 - Did I define the intended attention path rather than only listing components?
 - Did I translate visual quality into concrete mechanisms such as size, spacing, alignment, color role, density, motion, state treatment, or tokens?
 - Did I avoid using "premium", "clean", "modern", "delightful", or "polished" as unexplained taste words?

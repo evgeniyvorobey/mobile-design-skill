@@ -102,6 +102,7 @@ Assumptions:
 ## Design quality calibration
 - Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
+- Unlisted case: [for each dimension at band 5 only — the case this response does not list] → [the value that dimension's rule returns for it]
 - Quality target: [derived]/5 — [below the top band: blocked from [next]/5 by [outlying dimension] until [named input or fix] | at the top band: nothing blocks 5/5 — [the resilience the bands record]]
 - Attention path:
 - Composition and spacing:
@@ -253,6 +254,7 @@ Assumptions:
 ## Design quality requirements
 - Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
+- Unlisted case: [for each dimension at band 5 only — the case this response does not list] → [the value that dimension's rule returns for it]
 - Quality target: [derived]/5 — [below the top band: blocked from [next]/5 by [outlying dimension] until [named input or fix] | at the top band: nothing blocks 5/5 — [the resilience the bands record]]
 - Attention path:
 - Composition and spacing:
@@ -428,6 +430,7 @@ Assumptions:
 ## Visual rhythm rules
 - Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
+- Unlisted case: [for each dimension at band 5 only — the case this response does not list] → [the value that dimension's rule returns for it]
 - Quality target: [derived]/5 — [below the top band: blocked from [next]/5 by [outlying dimension] until [named input or fix] | at the top band: nothing blocks 5/5 — [the resilience the bands record]]
 - [rule]
 - [rule]
@@ -481,6 +484,7 @@ Assumptions:
 ## Design quality rationale
 - Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
+- Unlisted case: [for each dimension at band 5 only — the case this response does not list] → [the value that dimension's rule returns for it]
 - Quality target: [derived]/5 — [below the top band: blocked from [next]/5 by [outlying dimension] until [named input or fix] | at the top band: nothing blocks 5/5 — [the resilience the bands record]]
 - Signature move: [owned asset as a token] repeated at [locations] — or: none, this design is inert because [reason], and [what would change it]
 - [quality decision] — [mechanism: size/spacing/alignment/color/density/motion/token] — [why it fits context]
