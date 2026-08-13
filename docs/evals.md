@@ -419,3 +419,35 @@ Three things a committed file cannot be wrong about, but a live run can:
 ```bash
 python3 scripts/run_generation_eval.py --dry-run
 ```
+
+---
+
+## Diversity eval — measuring sameness instead of reading for it
+
+Sameness is the symptom this line of work started from, and it has only ever been assessed by reading outputs by hand. `scripts/run_diversity_eval.py` extracts a **decision vector** from each generated response and reports the spread across a set.
+
+The vector is what a response now exposes machine-readably: the catalog entries it sampled (`from:`), the asset class of its `Signature move`, the score it derived, the dimension it named as the blocker, and the base units and ratios it emitted.
+
+**Why vectors and not prose.** A pairwise 5-gram similarity over the calibration bodies was specified once during 1.17.0 and measured at a median of **0.0** — those blocks describe different domains in different words, so word-level overlap cannot see structural sameness. A small structured vector can.
+
+### What is asserted and what is only reported
+
+| Measure | Threshold | Where the number comes from |
+|---------|-----------|------------------------------|
+| `score_concentration` | ≤ 0.75 | 4 of 4 runs scored 4/5 in the 1.17.0 pass |
+| `provenance_concentration` | ≤ 0.50 | 7 distinct catalog entries across 4 domain runs in the 1.18.0 pass |
+| `blocker_concentration` | ≤ 0.75 | 2 distinct blocking dimensions across 4 runs in the 1.17.0 pass |
+| `asset_class_count` | ≥ 3 at ≥ 6 samples | 2 of 6 classes across 6 runs in the 1.18.0 pass |
+| `vector_similarity` | **none** | no baseline exists; reported only |
+
+Thresholds are asserted only where this repository has measured data. Guessing one produces either a check that passes vacuously forever or a check that forces dishonest output — both have already happened here. Report-only is the default; `--assert` enforces.
+
+Within-prompt divergence is deliberately not measured. There is no sampling-temperature contract, so a threshold on it would be unjustifiable, and a deterministic skill giving one well-grounded answer to one prompt is defensible. What is not defensible is never considering anything else — which is what the provenance and asset-class measures capture.
+
+### Self-test
+
+```bash
+python3 scripts/run_diversity_eval.py --self-test
+```
+
+`examples/evals/diversity-fixtures.json` holds two corpora: `uniform` reproduces the failure the 1.17.0 acceptance actually found, and `varied` is what a sampled catalog looks like. The self-test asserts the measurements **separate** them, and that the extractor reads score, provenance and blocker out of a real committed response. A self-test that only proves the pipe works is worth nothing — this repository shipped a green oracle over a broken function once already.

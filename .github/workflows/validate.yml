@@ -41,3 +41,9 @@ jobs:
 
       - name: Validate generation prompt pack
         run: python3 scripts/run_generation_eval.py --dry-run
+
+      # Asserts the diversity metric SEPARATES a deliberately uniform corpus from a
+      # varied one, and that the extractor reads a real committed response. Unlike an
+      # oracle replay this can fail when the measurement stops discriminating.
+      - name: Self-test diversity metric (discriminating, still not a model run)
+        run: python3 scripts/run_diversity_eval.py --self-test

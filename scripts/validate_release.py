@@ -197,6 +197,10 @@ def release_tmp_dir() -> Path:
 def run_release_checks() -> None:
     run_step("Repository validation", [sys.executable, "scripts/validate_repo.py"])
     run_step(
+        "Diversity metric self-test",
+        [sys.executable, "scripts/run_diversity_eval.py", "--self-test"],
+    )
+    run_step(
         "Generation eval prompt pack",
         [sys.executable, "scripts/run_generation_eval.py", "--dry-run"],
     )

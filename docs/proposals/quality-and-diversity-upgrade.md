@@ -152,7 +152,7 @@ validators do not block tablet (`Platform scope` is checked for non-emptiness, w
 | # | Change |
 |---|--------|
 | P2-1 | ✅ *shipped in v1.19.0* `scripts/run_generation_eval.py` reusing the proven `--judge-command` stdin/stdout contract and importing `MODE_REQUIREMENTS` unchanged; ~10 prompts × N runs. First validator that reads generated text. |
-| P2-2 | `scripts/run_diversity_eval.py` — decision-vector extraction (pattern name, hierarchy sequence, component set, named alternative, emitted numbers, owned asset), cross-prompt uniqueness, rejected-alternative entropy, frame repetition. Drop within-prompt divergence from the first cut: no sampling-temperature contract exists, so a threshold is unjustifiable until baseline data exists. |
+| P2-2 | ✅ *shipped in v1.20.0* `scripts/run_diversity_eval.py` — decision-vector extraction (pattern name, hierarchy sequence, component set, named alternative, emitted numbers, owned asset), cross-prompt uniqueness, rejected-alternative entropy, frame repetition. Drop within-prompt divergence from the first cut: no sampling-temperature contract exists, so a threshold is unjustifiable until baseline data exists. |
 | P2-3 | **Mode G: design system + information architecture.** Destination graph, token architecture, component inventory with anatomy/variants/states/a11y contract, themeable-vs-structural split, governance, platform token mapping. Mode E stops at type and spacing, so "define our design system" currently falls into the no-fit trap and returns a type scale with no colour attached. |
 | P2-4 | **Render-and-critique loop**, host-conditional: materialize a Mode A/C output as a self-contained HTML mock at 393×852 and 360×800 across default/loading/empty/error using the exact token names stated, run `docs/rendered-output-qa.md` against it, fix, return. That document is a 359-line workflow whose entry condition is an artifact the skill is never told to produce. |
 | P2-5 | **`## Artifacts` block in Templates C and E** — DTCG-shaped `$value`/`$type` JSON for dimension, fontFamily, fontWeight, duration, colour, light + dark sets. Not Template A: a screen concept is pre-token by design. |
@@ -539,3 +539,23 @@ Note that criterion A3 as written — *the same prompt must produce different de
 All verified by injection: an inflated score, an invented provenance, and a phone answer to the iPad prompt each produce exactly one precise failure.
 
 **A bug the refactor introduced and injection caught:** the extracted function's `label` parameter was shadowed by the loop variable in the `label_word_counts` check, so failures were reported against `Attention path:` instead of the file. Fixed before commit. That is the second time in this initiative that a validator written to catch drift had to be tested by breaking it on purpose — the discipline is not optional.
+
+
+---
+
+## 11. P2-2 shipped — sameness is now measured, not read for
+
+`scripts/run_diversity_eval.py` extracts a decision vector per response — catalog provenance, asset class, derived score, named blocker, base units, ratios — and reports the spread. This is only possible because v1.18.0 pushed provenance and asset class into the output as machine-readable fields; before that there was nothing to measure but prose.
+
+**Thresholds are asserted only where measured data exists.** Four come from this session's live acceptance passes; `vector_similarity` has no baseline and is reported without assertion. The rule is stated in the script itself: guessing a threshold produces either a check that passes vacuously forever or one that forces dishonest output, and both have already happened in this repository.
+
+**Within-prompt divergence stays unmeasured,** as §P2-2 originally required. A deterministic skill giving one well-grounded answer to one prompt is defensible; never considering anything else is not, and that is what the provenance and asset-class measures capture.
+
+**The self-test discriminates rather than replays.** `examples/evals/diversity-fixtures.json` holds a deliberately uniform corpus reproducing the exact 1.17.0 failure and a varied one, and the test asserts the measurements separate them:
+
+```
+uniform  score_conc=1.0 prov_conc=1.0 classes=1 similarity=0.714
+varied   score_conc=0.5 prov_conc=0.1 classes=5 similarity=0.077
+```
+
+It also asserts the extractor reads score, provenance and blocker out of a real committed response. Both halves were verified by injection: loosening the thresholds until the uniform corpus passes fails the test with *"the metric does not discriminate"*, and breaking the score regex fails it with *"extractor read score `None`"*. That design is a direct response to shipping a green oracle over a broken function in v1.19.0 — a self-test that only proves the pipe is worth nothing.

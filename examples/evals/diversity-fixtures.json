@@ -1,0 +1,116 @@
+{
+  "schema": "diversity-fixtures/v1",
+  "notes": "Two decision-vector corpora for scripts/run_diversity_eval.py --self-test. `uniform` reproduces the failure the 1.17.0 live acceptance actually found — every run scoring 4/5, one catalog entry, one asset class, one blocking dimension. `varied` is what a sampled catalog looks like. The self-test asserts the measurements SEPARATE them: a self-test that only proves the pipe works is worth nothing, and this repository has already shipped a green oracle over a broken function once.",
+  "uniform": [
+    {
+      "id": "u1",
+      "provenance": ["müller-brockmann, grid systems"],
+      "asset_class": "layout structure",
+      "score": "4",
+      "blocker": "context & brand fit",
+      "base_units": ["8"],
+      "ratios": ["1.25"]
+    },
+    {
+      "id": "u2",
+      "provenance": ["müller-brockmann, grid systems"],
+      "asset_class": "layout structure",
+      "score": "4",
+      "blocker": "context & brand fit",
+      "base_units": ["8"],
+      "ratios": ["1.25"]
+    },
+    {
+      "id": "u3",
+      "provenance": ["müller-brockmann, grid systems"],
+      "asset_class": "layout structure",
+      "score": "4",
+      "blocker": "context & brand fit",
+      "base_units": ["8"],
+      "ratios": ["1.2"]
+    },
+    {
+      "id": "u4",
+      "provenance": ["müller-brockmann, grid systems"],
+      "asset_class": "layout structure",
+      "score": "4",
+      "blocker": "production readiness",
+      "base_units": ["8"],
+      "ratios": ["1.25"]
+    },
+    {
+      "id": "u5",
+      "provenance": ["müller-brockmann, grid systems"],
+      "asset_class": "layout structure",
+      "score": "4",
+      "blocker": "context & brand fit",
+      "base_units": ["8"],
+      "ratios": ["1.25"]
+    },
+    {
+      "id": "u6",
+      "provenance": ["müller-brockmann, grid systems"],
+      "asset_class": "layout structure",
+      "score": "4",
+      "blocker": "context & brand fit",
+      "base_units": ["8"],
+      "ratios": ["1.25"]
+    }
+  ],
+  "varied": [
+    {
+      "id": "v1",
+      "provenance": ["spotify wrapped"],
+      "asset_class": "geometry",
+      "score": "3",
+      "blocker": "distinctiveness",
+      "base_units": ["8"],
+      "ratios": ["1.2"]
+    },
+    {
+      "id": "v2",
+      "provenance": ["vignelli, the vignelli canon", "headspace / calm"],
+      "asset_class": "type treatment",
+      "score": "4",
+      "blocker": "production readiness",
+      "base_units": ["8"],
+      "ratios": ["1.25"]
+    },
+    {
+      "id": "v3",
+      "provenance": ["müller-brockmann, grid systems", "teenage engineering"],
+      "asset_class": "colour",
+      "score": "4",
+      "blocker": "colour, state & contrast",
+      "base_units": ["4"],
+      "ratios": ["1.333"]
+    },
+    {
+      "id": "v4",
+      "provenance": ["linear", "brutalist / editorial web craft"],
+      "asset_class": "motion signature",
+      "score": "5",
+      "blocker": "interaction polish",
+      "base_units": ["8"],
+      "ratios": ["1.2"]
+    },
+    {
+      "id": "v5",
+      "provenance": ["superhuman"],
+      "asset_class": "layout structure",
+      "score": "4",
+      "blocker": "production readiness",
+      "base_units": ["4"],
+      "ratios": ["1.125"]
+    },
+    {
+      "id": "v6",
+      "provenance": ["swiss", "things"],
+      "asset_class": "geometry",
+      "score": "3",
+      "blocker": "density & rhythm",
+      "base_units": ["8"],
+      "ratios": ["1.25"]
+    }
+  ]
+}
