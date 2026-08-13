@@ -82,14 +82,19 @@ def build_user_prompt(fixture: dict[str, Any]) -> str:
         f"Prompt: {fixture['prompt']}\n\n"
         "# Response excerpt to judge\n"
         f"{fixture['response_excerpt']}\n\n"
+        # Every number here is a placeholder, never a literal. A filled example
+        # outweighs a prose instruction, and this skeleton is the slot the judge
+        # fills -- shipping `1` nine times taught the judge what a vector looks like.
         "# Required JSON output\n"
+        "Replace every <...> placeholder. Derive each dimension score from the "
+        "rubric's boundary questions, then take their median for `score`.\n"
         "{\n"
-        '  "score": 1,\n'
+        '  "score": <1-5>,\n'
         '  "verdict": "fail | needs major revision | acceptable baseline | strong and shippable | excellent and resilient",\n'
         '  "cap": "string describing cap or No cap",\n'
         '  "hard_limits": ["string"],\n'
         '  "dimension_scores": {\n'
-        + ",\n".join(f'    "{dimension}": 1' for dimension in DIMENSIONS)
+        + ",\n".join(f'    "{dimension}": <1-5>' for dimension in DIMENSIONS)
         + "\n"
         "  },\n"
         '  "failed_dimensions": ["string"],\n'

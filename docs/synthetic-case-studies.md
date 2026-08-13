@@ -2,7 +2,7 @@
 
 This pack gives `mobile-design-skill` synthetic calibration examples for common mobile design tasks. The examples are intentionally not based on real products, proprietary workflows, copyrighted screenshots, or business metrics.
 
-Use these files to compare a weak but plausible response against a stronger 4/5 response. The goal is to train judgment: task specificity, state coverage, accessibility, platform awareness, alternatives, and handoff usefulness.
+Use these files to compare a weak but plausible response against a stronger one, each carrying its own derived score. The goal is to train judgment: task specificity, state coverage, accessibility, platform awareness, alternatives, and handoff usefulness.
 
 ## Research Basis
 
@@ -43,7 +43,7 @@ These sources inform the checks, but the case studies do not claim compliance or
 
 - Read `Weak response` to understand the plausible regression.
 - Read `Why this is weak` to identify which weakness pattern is present.
-- Read `Strong response` as the target shape for a 4/5 answer, not a universal template.
+- Read `Strong response` as one worked answer with its own dimension read, not a universal template and not a score to aim at.
 - Use `Regression checks` when reviewing future changes to the skill.
 
 ## Boundaries

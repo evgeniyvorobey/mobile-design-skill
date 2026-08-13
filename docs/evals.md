@@ -264,13 +264,14 @@ Structural/content evals answer "does the response satisfy the skill contract?" 
 For generated concepts, UI specs, typography systems, and handoff:
 
 - [ ] The score is derived from a visible dimension read, not asserted; a run of identical scores across unrelated artifacts is evidence of retrieval.
-- [ ] The `Quality target` line names the dimension blocking the next level and what would lift it, rather than printing a bare number.
-- [ ] Any dimension below 4/5 is either revised or clearly blocked by missing input.
+- [ ] The `Quality target` line names the dimension blocking the next level and what would lift it, rather than printing a bare number — or, at the top band, says that nothing blocks it instead of manufacturing a blocker.
+- [ ] Every dimension whose failed boundary question the available input could answer was lifted and re-derived; every dimension left where it is has its missing input named. A band is reported at whatever the artifact states, including a low one.
 - [ ] The output does not average away a serious flaw such as missing states, weak accessibility behavior, or platform flattening.
+- [ ] The dimension read spans more than one band, or the response says what made every dimension agree.
 
 For reviews:
 
-- [ ] `Design quality score (current → projected)` includes both a current score and a projected score (e.g. `Current: 2/5 — ...` and `Projected: 3/5 — ...`). The projected number is a flat median of assessable dimensions, not "up to"; any higher post-visual-pass figure is confined to a `Ceiling note`.
+- [ ] `Design quality score (current → projected)` includes both a current score and a projected score, each on its own `Current:` / `Projected:` line. Both are flat medians of the assessable dimensions — the current over the bands as found, the projected over the bands once the fixes land — not "up to"; any higher post-visual-pass figure is confined to a `Ceiling note`.
 - [ ] The projection is conditional (IF fixes land AND assumptions hold) and capped at 4/5 unless resilience is named; a P0/Fail is not projected up to a number.
 - [ ] Text-only reviews label both scores as structural/provisional, and visual dimensions are not projected upward.
 - [ ] Score rationale references concrete dimensions: hierarchy, spacing, typography, color/state, interaction polish, brand/context fit, or production readiness.

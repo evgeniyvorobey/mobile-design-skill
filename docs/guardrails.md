@@ -229,7 +229,7 @@ Do not:
 Better:
 - apply caps from the rubric
 - score the weak dimension explicitly
-- revise generated artifacts below 4/5 when the context supports improvement
+- revise a generated artifact when a dimension's failed boundary question can be answered with the context at hand, then re-derive
 - for reviews, attach the score to a short evidence-based reason
 
 ---

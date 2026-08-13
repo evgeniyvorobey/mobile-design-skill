@@ -196,7 +196,15 @@ RUBRIC_FIXTURE_REQUIRED_FIELDS = {
 # satisfied by the label alone or by a single adjective.
 SIGNATURE_MOVE_SHAPE = r"Signature move:\s*(?:\S+\s+){7,}\S+"
 # `Quality target:` must name what blocks the next level, not just print a number.
-QUALITY_TARGET_SHAPE = r"Quality target:[^\n]*\bblocked from\b[^\n]*\buntil\b"
+# The alternation is score-conditional on purpose: requiring `blocked from ... until`
+# unconditionally made 5/5 unreachable in Modes A and C by test suite, since a top-band
+# read has no blocker to name and inventing one to fill the slot is the defect this
+# shape exists to prevent. Below the top band the blocker is still mandatory.
+QUALITY_TARGET_SHAPE = (
+    r"Quality target:\s*\**"
+    r"(?:5/5[^\n]*\bnothing blocks 5/5\b"
+    r"|[1-4]/5[^\n]*\bblocked from\b[^\n]*\buntil\b)"
+)
 # The score must be traceable to named dimensions, or "derived" is unfalsifiable.
 DIMENSION_READ_SHAPE = r"Dimension read:[^\n]*[1-5][^\n]*[1-5]"
 # Labelling only the rejects leaves the third candidate slot unverifiable.

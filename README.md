@@ -439,7 +439,7 @@ Use `--judge` when you want a second rubric pass in the same interactive session
 /mobile-design-skill --judge create a platform-aware UI spec for a fitness tracker app, cross-platform
 ```
 
-The skill drafts privately, asks an independent judge agent when the host supports subagents, revises if the result is below `4/5`, and returns the final answer with a compact `Judge summary`. See [`docs/judged-mode.md`](docs/judged-mode.md).
+The skill drafts privately, asks an independent judge agent when the host supports subagents, revises any dimension the judge leaves short of a question the input can answer, and returns the final answer with a compact `Judge summary`. See [`docs/judged-mode.md`](docs/judged-mode.md).
 
 ---
 

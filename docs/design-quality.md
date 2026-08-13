@@ -195,7 +195,7 @@ These operationalize "creative / distinctive / memorable / premium" as checkable
 
 ### The inert-screen test (the anti-forgettable gate)
 - Ask: "If this screen lost its logo and brand color, would it still be distinguishable from a competitor's?"
-- If no, the screen is inert. A screen competent on all eight dimensions but failing this test is a 3/5 with an upside note, not a quiet 4/5 (see `docs/design-quality-rubric.md`).
+- If no, the screen is inert: `Distinctiveness and owned assets` sits below band 4, and the inert cap in `docs/design-quality-rubric.md` clamps the artifact score with an upside note however well the other dimensions read.
 
 ### Onlyness check (Neumeier, *Zag*)
 - Can the distinctive choice complete "This is the only [category] that [specific buildable move]…" without a taste word? If the blank fills only with "premium/modern/clean," it fails — that is polish, not a point of difference.
@@ -298,7 +298,7 @@ Before returning a design proposal, ask:
 - Does density match the user's task and context?
 - Are motion and feedback purposeful, fast enough, and optional when needed?
 - Can this be translated into tokens, components, and QA acceptance checks?
-- Inert-screen test: with the logo and brand color removed, is this screen still distinguishable from a competitor's? If not, it is inert — flag it (3/5 with an upside note) rather than scoring it a quiet 4/5.
+- Inert-screen test: with the logo and brand color removed, is this screen still distinguishable from a competitor's? If not, it is inert — record `Distinctiveness and owned assets` below band 4 and let the inert cap clamp the score with an upside note.
 
 If the answer is "no" or "not sure", revise the recommendation before returning it.
 

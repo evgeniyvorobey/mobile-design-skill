@@ -116,8 +116,8 @@ judged_mode:
   preferred_execution: independent judge agent in same host session
   fallback: single-agent rubric self-review when subagents are unavailable
   final_section: Judge summary
-  target_score: "4/5"
-  revision_rule: revise below target when issues can be fixed without inventing facts
+  score_is_derived_not_targeted: true
+  revision_rule: revise when the judge's dimension read shows a boundary question the available input can answer
 design_quality:
   role: visual hierarchy composition density typography color motion brand and production-readiness calibration
   dimensions:
@@ -131,8 +131,9 @@ design_quality:
     - production readiness
 design_quality_rubric:
   role: 1-5 scoring system for raising proposed design quality and reviewing existing design quality
-  default_generated_target: "4/5"
-  target_is_default_not_ceiling: true
+  score_is_median_of_assessable_dimension_bands: true
+  band_is_consecutive_boundary_questions_answered_yes: true
+  caps_clamp_the_artifact_score_never_a_dimension_band: true
   quality_target_names_blocking_dimension: true
   expose_review_score: true
   expose_generated_target_when_useful: true

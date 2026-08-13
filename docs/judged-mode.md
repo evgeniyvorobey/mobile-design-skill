@@ -40,7 +40,7 @@ The runner remains useful for CI, fixtures, and external command validation. Jud
    - relevant fail conditions from `docs/evals.md` and `docs/weaknesses.md`
 4. If the host environment supports a separate agent, subagent, or parallel reviewer, send the packet to that judge agent. In Claude Code, prefer the companion `mobile-design-judge` custom agent when available.
 5. The judge agent must only score and critique. It must not rewrite the design.
-6. If the judge score is below 4/5 and the issue can be fixed without inventing facts, revise the draft and re-check the affected dimensions.
+6. If the judge's read leaves a dimension short of a boundary question the available input can answer, revise the draft, re-check the affected dimensions, and re-derive the score. Do not revise toward a number.
 7. Return the final response, not the rough draft.
 8. Add a compact `Judge summary` section at the end.
 

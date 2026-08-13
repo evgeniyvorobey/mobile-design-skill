@@ -377,7 +377,7 @@ At minimum, confirm:
 - States include at minimum default, loading, empty, error.
 - Spacing values come from the canonical scale, not ad-hoc numbers.
 - Design-quality calibration does not contradict task clarity, accessibility, quality bars, or platform conventions.
-- Design-quality rubric target or score is applied when relevant; generated artifacts below 4/5 are revised unless missing input blocks improvement.
+- The design-quality rubric is applied when relevant, and the score printed is the median of the dimension read written above it; a dimension whose failed boundary question the input can answer is lifted and the score re-derived.
 - Known weakness patterns from `docs/weaknesses.md` are addressed before self-review.
 
 When the mode does not produce concrete values (Mode B flow, Mode F rationale), this check is lighter — confirm that the output does not contradict any bar.

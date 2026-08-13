@@ -203,9 +203,9 @@ Use these fixtures when tuning prompts, judging generated responses, or adding L
 
 For human calibration, use `examples/rubric-before-after.md`. It shows the upgrade path from a 2/5 template-complete UI spec to a 4/5 shippable spec.
 
-For taste and domain calibration, use `docs/golden-examples.md` and `examples/golden/`. These examples show compact 4/5-style patterns for premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
+For taste and domain calibration, use `docs/golden-examples.md` and `examples/golden/`. These examples show compact worked patterns for premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout, each with its own derived score rather than a shared one.
 
-For broader synthetic calibration, use `docs/synthetic-case-studies.md` and `examples/case-studies/`. These cases show plausible weak responses, stronger 4/5 responses, and regression checks across domains and modes. They are not real-world validation.
+For broader synthetic calibration, use `docs/synthetic-case-studies.md` and `examples/case-studies/`. These cases show plausible weak responses, stronger responses, and regression checks across domains and modes. They are not real-world validation.
 
 For domain-aware calibration, use `docs/domain-packs/index.md` and `docs/domain-packs/`. Domain packs raise quality by improving hierarchy, state coverage, trust language, and handoff checks for fintech, health, SaaS, marketplace, social, and education. They do not prove compliance or business impact.
 

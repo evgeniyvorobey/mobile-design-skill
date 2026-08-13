@@ -79,13 +79,13 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 ### Design quality calibration
 - If the response proposes, specifies, reviews, or rationalizes a design artifact, did I apply the relevant lenses from `docs/design-quality.md`?
 - Did I apply the 1-5 rubric from `docs/design-quality-rubric.md`?
-- For generated/specification outputs, would the draft score at least 4/5? If not, did I revise the weak dimension or state the missing input?
+- For generated/specification outputs, does the number I printed equal the median of the dimension read I actually wrote — and for each dimension below the top band, did I answer the boundary question it failed or state the missing input?
 - For Mode D reviews, did I expose both a current and a projected (conditional) design-quality score with a reason and evidence limits?
 - Did I define the intended attention path rather than only listing components?
 - Did I translate visual quality into concrete mechanisms such as size, spacing, alignment, color role, density, motion, state treatment, or tokens?
 - Did I avoid using "premium", "clean", "modern", "delightful", or "polished" as unexplained taste words?
 - Did visual expression support task clarity and accessibility rather than hide missing states, weak hierarchy, or inaccessible interactions?
-- Inert-screen test: if this screen lost its logo and brand color, would it still be distinguishable from a competitor's? If not, flag it as inert (3/5 with an upside note), not a quiet 4/5.
+- Inert-screen test: if this screen lost its logo and brand color, would it still be distinguishable from a competitor's? If not, `Distinctiveness and owned assets` sits below band 4 and the inert cap applies — record it with an upside note rather than letting the median stand.
 
 ### Inspiration handling
 - If I used inspiration sources, are they clearly separated from UX rationale, platform guidance, accessibility requirements, and compliance language?
