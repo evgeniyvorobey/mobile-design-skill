@@ -680,3 +680,68 @@ The 4/5 pin is gone in both regimes and the two carriers cover 1..5 between them
 **Band 2 is absent from generation output, and that is probably correct.** The revise trigger lifts any dimension whose failed boundary the input can answer; in generation the model authors the artifact, so nearly every band-2 failure is liftable. Band 2 is a review reading, and review now produces it. This should be confirmed rather than assumed.
 
 **The golden examples read lower than their label.** Five of seven artifacts land at median 3 — they decide but rarely state values across variations, which is what `docs/golden-examples.md` implies they demonstrate. `examples/ui-spec.md` was given the colour rules it should always have had; the rest were left alone rather than inflated.
+
+---
+
+## 14. Backlog item 1 (post-1.21.0) measured — the band contrast is a null
+
+The item read: *band 5 is cheap in generation — 23 of 42 live bands were 5, `adjacent_pair_share` sits at 0.911 on `{4,5}`. Needs a judge panel to test whether those rules are load-bearing, not another instruction edit.* It also carried a second half: *confirm the hypothesis that band 2's absence from generation is correct-by-design.*
+
+### The instrument
+
+The `4 → 5` question asks whether a stated rule decides a case the artifact does not list. That is mechanically testable: **apply the rule.** Hand a reader the statement and one unsettled case from the same product, with no artifact, no dimension name and no band, and ask whether the statement forces one specific answer. Convergence across independent readers means load-bearing; divergence or "underdetermined" means the statement only reads like a rule.
+
+### First design, and why its result was thrown away
+
+24 band-5 statements against 10 controls drawn from band-3/4 dimensions, three blind readers each. Result: 50% against 30%, Fisher one-sided p = 0.25.
+
+The adjudicator refused it and named the confound in its own design: **the agent that wrote each situation also knew which arm the statement came from.** A situation landing inside a statement's enumeration returns `determined` almost mechanically; one chosen just outside returns `underdetermined` just as mechanically. Probe difficulty was never matched between arms. Supporting evidence that the design was measuring the wrong thing: the artifact-of-origin spread was 17%–86%, larger in magnitude than the band contrast it was competing with, and the sign reversed inside two of five artifacts.
+
+### Second design
+
+Situations written from band-stripped copies of the artifacts — the calibration block removed and verified leak-free — one per dimension for all nine, under an instruction identical across dimensions, by agents who never saw a band, a score, or a statement. The control arm grew from 10 mixed probes to a full band-4 arm drawn from the same seven artifacts and the same nine dimensions. 63 pairs, three blind readers, 88.9% unanimous, and zero probes where two readers said `determined` but named conflicting answers — in both runs.
+
+| arm | load-bearing | rate |
+|---|---|---|
+| band 5 | 11/28 | 39.3% |
+| band 4 | 9/25 | 36.0% |
+| band ≤3 | 5/10 | 50.0% |
+
+Fisher one-sided p = 0.516; 95% CI on the difference +3.3 pp [−22.8, +29.4]. Band 5 would need 18/28 to reach significance against band 4 fixed at 9/25 — roughly nine times the observed gap.
+
+Against the first run, **both rates moved toward each other**: band 5 down 10.7 pp, controls up 10.0 pp, closing 84% of the gap. Equal and opposite is the signature of a removed confound rather than of a real effect appearing or vanishing.
+
+### Why this is a null and not "underpowered"
+
+All three confound checks still fail, but **they fail in the direction that flatters band 5.** The band-5 arm is loaded with the two highest-yield dimensions — distinctiveness 6/7, attention path 5/7 — while the band-4 arm carries composition 2/7 and interaction 1/7. Mantel–Haenszel stratified on dimension, the odds ratio drops from 1.15 to **0.735**: adjusting flips the sign. The near-null is therefore a ceiling on the band effect, not a signal buried under noise.
+
+The effects that are real in this corpus are not the band. Dimension identity spans 14.3%–85.7% (21× the band contrast); artifact of origin spans 22.2%–77.8% (17×). Leave-one-artifact-out moves the band gap between −7.5 pp and +15.4 pp — which artifacts are in the corpus matters about seven times more than which band a statement was given.
+
+**What is licensed:** 17 of 28 statements scored at band 5, and 38 of all 63 statements, were judged non-generative by two or more readers who never saw a score. The weakness is at the level, not at the boundary.
+
+**What is not licensed:** "band 5 over-claims relative to band 4" — measured and unsupported. Also unresolvable by this design: whether the `4 → 5` distinction is empty or real-but-loosely-applied, since the only band labels in existence are the scorer's own. Those two are observationally identical here.
+
+### What shipped, and why it is not a descriptor rewrite
+
+Nothing in the data says band 5 is *described* wrongly relative to band 4, so the descriptors were left alone. What the data says is that the question was being answered by reading. It is now answered by running a test:
+
+> Take one ordinary case the artifact does not list. State what the statement returns for it. If you cannot write the answer, the band is 4.
+
+Four failure shapes account for 34 of the 38 performative statements and are recorded as diagnoses — a ratio or floor with no anchor, a budget with no behaviour, a precedence ladder with no output, a requirement with no threshold. The shapes that *pass* were deliberately not listed: that would be a template to satisfy, which is the rule-1 failure this repository has shipped twice.
+
+The gate sits on all four surfaces that assign a band — rubric, self-review checklist, judged mode, judge agent — and `validate_band_five_closure_test()` checks all four, because a gate present in the drafting instructions and absent from the judge is the file-scoped guard this series keeps rebuilding.
+
+This also makes the next measurement informative: with the test enforced, the two surviving hypotheses stop being observationally identical.
+
+### The second half: band 2 in generation
+
+Two generation runs where the user's own constraint blocked a dimension from being lifted.
+
+- **"Do not pick components — the library is being replaced"** → `production readiness 2`, on exactly the constrained dimension, with the rest of the read between 3 and 5. The hypothesis holds: band 2 appears in generation when the revise trigger genuinely cannot fire.
+- **"No palette, no typeface, no motion language, no visual signature of any kind; structure and behaviour only"** → `distinctiveness 4`, with a `layout.now-next` signature move of asset class *layout structure*. On inspection this is a defensible reading rather than a violation — the constraint permitted structure, and the model found an owned asset inside the permitted space.
+
+So the hypothesis is **supported on the one clean case** and untested by the second, which turned out not to be a constraint on the dimension it was aimed at. n = 1 is not a confirmation; a follow-up should constrain three dimensions across more runs.
+
+### Backlog effect
+
+"Band-5 statements are more load-bearing than band-4 statements" closes as a measured null and should not be re-run in this form. Any next measurement must stratify on dimension **by design** — fixed dimension, statements varied by shape — because at seven probes per dimension against a 71-pp dimension spread, this design cannot see a band effect smaller than 28 pp however many artifacts are added.
