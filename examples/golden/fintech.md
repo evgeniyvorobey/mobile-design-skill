@@ -50,7 +50,8 @@ Explain current portfolio risk in plain language while preserving enough detail 
 - Error state preserves last known summary if available and labels it clearly.
 
 ## Design quality calibration
-- Quality target: 4/5 - shippable concept; blocked from 5/5 by Production readiness until metric definitions, disclaimers, and data-freshness rules are approved.
+- Dimension read: attention path 4, composition 4, typography 5, colour/state 4, density 4, interaction 4, context & brand fit 4, production readiness 3, distinctiveness 4. Median of the nine = 4.
+- Quality target: 4/5 - shippable concept; blocked from 5/5 by Production readiness (3) until metric definitions, disclaimers, and data-freshness rules are approved.
 - Signature move: `type.numeral-tabular` - tabular lining numerals on every monetary and risk value. Repeated in the summary figure, the chart axis labels, and the holdings rows, so digits align vertically across all three and column scanning works without gridlines.
 - Fintech trust comes from clarity, traceability, and restrained emphasis, not from dramatic red/green scoring.
 - Overall risk gets the strongest hierarchy; charts are supporting evidence, not decoration.

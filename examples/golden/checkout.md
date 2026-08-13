@@ -50,7 +50,8 @@ Single checkout review screen with editable sections for address, delivery slot,
 - Error: preserve last known checkout data and offer retry.
 
 ## Design quality calibration
-- Quality target: 4/5 - shippable checkout structure; blocked from 5/5 by Production readiness until fee rules, slot expiry, and substitution policy are confirmed.
+- Dimension read: attention path 4, composition 4, typography 4, colour/state 4, density 4, interaction 3, context & brand fit 4, production readiness 3, distinctiveness 4. Median of the nine = 4.
+- Quality target: 4/5 - shippable checkout structure; blocked from 5/5 by Interaction polish (3) until slot-expiry and payment-failure behaviour are defined, since those states are what the feedback design has to carry.
 - Signature move: `layout.total-anchor` - the running total occupies the same bottom-anchored position at cart, slot selection, and place-order. Its position never moves across the flow, so under time pressure the user's eye never has to search for the number that decides the purchase.
 - Checkout quality is confidence under time pressure: users must see where the order goes, when it arrives, what happens if items are missing, and what they will pay.
 - The total and Place order action can be sticky, but they must not hide fee disclosure or editable sections.
