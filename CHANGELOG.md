@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.19.0] - 2026-08-13
+
+The first check in this repository that reads generated text. Everything before it read markdown a maintainer wrote.
+
+### Added
+- **`scripts/run_generation_eval.py`** — asks a model to answer real prompts and holds the answers to **exactly** the contract the committed examples are held to. It imports `check_response()` from `scripts/validate_repo.py` rather than reimplementing it, so corpus rules and output rules cannot drift apart. That reuse matters here more than anywhere: drift between two files claiming one contract is the failure this repository has now shipped twice.
+
+  It exists because three acceptance passes during 1.17.0 found two defects that all 29 structural validators passed over — an instruction that produced token consequences while the slot receiving them still asked for layouts, and a filled-in illustrative line in a reference doc that outweighed the prose instruction telling the model to derive its score.
+- **Three eval-only checks**, none of which a committed file can be wrong about but a live run can:
+  - *Derived score* — `Quality target: N/5` may not exceed the median of the dimension scores the response itself prints. Pure arithmetic, no model required. This is the check that would have caught the asserted-score defect on the first acceptance pass instead of the third.
+  - *Provenance* — a rejected direction citing a source that is not an entry in the catalog in `docs/inspiration-sources.md`.
+  - *Prompt expectations* — a tablet prompt answered with `Device class: Phone`, or a no-fit prompt rounded into a standard mode instead of opening `Mode: outside the standard six`.
+- **`examples/evals/generation-prompts.json`** — ten prompts covering all six modes, three domains, the tablet path and the no-fit branch. Six carry a `reference_example` and are replayable by the deterministic oracle. Adding a prompt is the cheapest way to turn a field bug into a standing regression check.
+- **`scripts/generation_oracle_agent.py`** — replays committed examples through the scorer so CI can prove the stdin/stdout adapter and the JSONL parser without a model.
+- A `## Generation eval` section in `docs/evals.md`, and a `workflow_dispatch` trigger on the CI workflow for manual runs.
+
+### Changed
+- `validate_example_responses()` refactored into `check_response(response, mode, label)`. The corpus validates identically; the function is now the single definition of what a skill response must be, whether it was committed or just generated.
+- The release gate (`scripts/validate_release.py`) and CI both run the prompt-pack validation and the oracle replay. Both CI steps are named so nobody reads them as evidence about design quality — **no model runs in CI**, and generation needs one while scoring does not. That split is what makes the scorer CI-safe.
+
+### Fixed
+- The refactor introduced a variable-shadowing bug that injection caught: the extracted function's `label` parameter was shadowed by the loop variable in the `label_word_counts` check, so failures were reported against `Attention path:` rather than the file being checked. The oracle replay passed green while this was broken — only the negative test exposed it.
+
 ## [1.18.1] - 2026-08-13
 
 Retires the third file claiming to be the workflow. Cleanup plus one guard; no capability change beyond the ported classification examples.
