@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.21.0] - 2026-08-13
+
+The design-quality scale asked for a number from 1 to 5 and gave **three columns to pick it from**: `1-2 signals | 3 signals | 4-5 signals`. Two of the three were bands, and the document supplied within-band discrimination for exactly one of them — there was no text anywhere in the repository distinguishing 1 from 2. So the decision procedure a model could execute was "pick a column", and the committed corpus shows the result: 63 dimension values across seven `Dimension read:` lines, holding `1`×1, **`2`×0**, `3`×14, `4`×45, `5`×3.
+
+The collapse was bimodal and the two halves hid each other. Generation was pinned to `{3,4}`; Mode D was pinned to `{2,3}` — twenty 2s and five 3s in its `Now` column, zero 1s, 4s or 5s. The union across both carriers looked wider than either.
+
+### Changed
+- **Four boundary questions per dimension replace the three descriptions.** Each is one yes/no test against the artifact; the band is the number of consecutive questions answered yes from the left, plus one, and a later yes never rescues an earlier no. Four boundaries define five bands exhaustively — under the old table a typography treatment with sizes but no weights matched no cell at all. The ladder separates four acts: named (2), decided for the default case (3), stated with values surviving one declared variation (4), and a rule that settles the cases the artifact does not list (5).
+- **5 is a per-dimension property.** The old step 5 gated every 5 behind resilience "across states, accessibility settings, platform behavior, and implementation handoff" — a four-way conjunction spanning four different dimensions, so `Typography craft` could not satisfy it and no single dimension was ever 5.
+- **Caps clamp the artifact score after the median instead of before it,** and never change a dimension band. A cap applied first has nothing to clamp; a cap applied to a band destroys the evidence it was derived from.
+- **`n/v` and a low band are separated on two axes:** `n/v` when the evidence channel cannot carry the question, a low band when the channel is right and the content is thin. Every visual dimension in every committed review had been routed to `n/v`, shrinking the assessable set to three or four structural dimensions that all moved on the same findings — a median over correlated values is not a median, it is the shared value.
+- **Mode D gained the ninth dimension and a derivation for its current score.** `Distinctiveness and owned assets` was missing from the review template, so the one row whose old cells contained a real ladder was scored in zero of nine reviews. And `Current:` had no derivation rule while `Projected:` had one, in the same code block, across five files.
+- The `1-5 score levels` table is relabelled a reading key for a derived number. It sat four lines above the dimension table describing 4/5 as "clear hierarchy, usable density, concrete states, accessibility-aware decisions, platform alignment" — a second, competing definition of the same digits.
+- The whole committed corpus was re-derived under the new boundaries, and `examples/ui-spec.md` gained the colour rules a status-comprehension spec should always have had: four status roles as container/on-container pairs, contrast floors, and dark plus increased contrast as one transform over those roles.
+
+### Fixed
+- **`QUALITY_TARGET_SHAPE` forbade 5/5 by test suite.** It required `blocked from … until` unconditionally and is a `must_contain` for Modes A and C, applied to live output through the generation eval — so a response deriving 5/5 could not satisfy it without inventing a blocker. Now score-conditional: below the top band the blocker stays mandatory; at 5/5 the response says nothing blocks it.
+- **`docs/evals.md` carried a per-dimension floor at 4** — "Any dimension below 4/5 is either revised or clearly blocked by missing input" — handed verbatim to the fixture judge in its prompt. Every revision trigger is now expressed as a test on the artifact rather than a comparison against 4.
+- **`validate_score_is_derived_not_prescribed()` matched zero lines inside its own scope.** All five patterns require the token `target` adjacent to `4/5`, and every live anchor had drifted to "usually lands at", "4/5-style", "At 4/5,", "not a quiet 4/5". It was a synonym list accumulated one defect at a time; the class is now stated once, with the discriminator *is this sentence's truth value knowable before the dimension read exists?*
+- **`compare_judgement` never compared `dimension_scores` to anything.** A judge returning nine 3s and a score of 5 passed all fixtures.
+- Dimension-set drift of 9/8/8 across `skill/metadata.yaml`, `docs/llm-judge-runner.md` and `docs/evals.md`, in every case dropping `Distinctiveness`.
+- `docs/evals.md` still documented `asset_class_count` as an asserted threshold after 1.20.0 demoted it in code.
+
+### Added
+- **Eleven validator assertions, each verified by injection**, scoped per carrier rather than to the merged set: the union of `Dimension read:` bands covers 1..5; every dimension takes more than one band across the corpus; at least one line carries both a `≤2` and a `≥5`; at least two lines span three or more bands; each Mode D column takes at least three distinct bands; no flat fixture vector; at least one fixture vector spanning `≤2` and `≥5`; every dimension taking three or more bands across the fixture pack; the judge's score never above the median of its own vector; and a band table of four boundary columns whose every cell is a question naming no score level.
+- **The anchor class**, with four sub-shapes (frequency, exemplar label, presupposition, and a floor on the derivation's inputs) and three exclusions each documented beside the false positive that motivated it. Scope moved from a directory allowlist to line-shape exclusion, which is what reaches `skill/metadata.yaml` and `.claude/agents/*.md`.
+- **`run_diversity_eval.py` reads the dimension vector.** Six reported-only fields; the self-test asserts the metric *separates* a uniform corpus from a varied one rather than clearing an invented bar, and the extractor check re-derives the median from its own parse instead of replaying a known answer.
+
 ## [1.20.1] - 2026-08-13
 
 A pre-handoff sweep found the repository **validating clean while eight instruction-level contradictions survived**. Cause: every guard added across 1.17.0–1.20.0 was scoped to the *file* where its defect was first seen rather than to the *class* of defect, so each survivor sat one directory outside a check that would otherwise have caught it. That generalization is the release.
