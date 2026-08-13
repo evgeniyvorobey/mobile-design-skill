@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.23.0] - 2026-08-13
+
+Determinacy in live output varied 14%–86% **by dimension** and barely at all by band, which raised the question of whether some dimensions can reach band 5 at all as their `4 → 5` question is written. Measured: nine dimensions, one fixed product absent from the corpus (so artifact-of-origin is removed by construction rather than adjusted for), two statements each — a serious attempt at the question, and a well-written specimen of the failure shapes live output actually produces — paired against the same two situations, written from the brief alone by agents who never saw a statement or an arm.
+
+**The hypothesis survives in 0 of 9 dimensions.** Restricted to the five whose cases were on-question, the serious attempts cleared 10/10 and the specimens 1/10, sign test p = 0.0039. Interaction is tied for the lowest live rate (1/7) and its best statement cleared 6/6 unanimously. The questions are satisfiable; live output is what falls short.
+
+What the measurement did expose is that **two cells were not asking what the other seven ask.**
+
+### Changed
+- **`Color, state, and contrast`'s `4 → 5` graded the form of a statement rather than what it returns** — *"is that appearance behaviour expressed as one transform over the roles, rather than as a second hand-made set?"* The closure test asks you to write down what the statement returns, and that cell never asked for an output, so the test structurally could not be run on it: three blind readers unanimously judged a complete OKLCh transform underdetermined because the case asked something the cell never posed. Now *"Does a stated rule return the dark and increased-contrast values for a role the artifact does not list?"*
+- **`Production readiness`'s `4 → 5` was a completeness test over listed values** — *"does the handoff say which values are negotiable and which are hard bars"* — which is band-4 shaped, and whose output is an authority class rather than an answer to a case. Now *"Does a stated test return hard-bar or negotiable for a value the handoff does not list?"*
+- **The closure test carries three constraints on the case, not one.** It must be an instance of the unlisted thing the cell names; its answer must not already be printed in the statement (a case can be unlisted while its answer is listed, and the statement then closes it by quotation); and it must fix every input the rule needs except the one under test.
+
+Confirmed by re-running the same statements against cases drawn from the rewritten cells, predictions registered first: colour 0/6 → 5/6, production 1/6 → 6/6, typography 0/6 → 6/6, and the typography specimen — which had been clearing 6/6 by quoting an unconditional "all numerals are tabular" — 6/6 → **0/6**. Arm separation moved from −5/18, the specimen arm outscoring the serious arm, to +14/18. One prediction was refuted: the production specimen was predicted to stay underdetermined and cleared 3/6, because its case landed inside a class the statement enumerates outright.
+
+### Added
+- A `4 → 5` cell may not use form-grading vocabulary and must carry a returning verb, so the closure test always has an output to write down. Scoped to the class rather than to the two cells that failed, and verified by injection in both directions.
+
 ## [1.22.0] - 2026-08-13
 
 Band 5 was being awarded by reading a statement and judging whether it looked like a rule that decides unlisted cases. That was measured, twice, and it does not work.

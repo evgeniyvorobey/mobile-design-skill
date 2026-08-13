@@ -810,7 +810,7 @@ Three constraints on the closure test's case, not one: it must be an instance of
 
 The guard is scoped to the defect class rather than the two cells: a `4 → 5` cell may not use form-grading vocabulary and must carry a returning verb, so the closure test always has an output to write down.
 
-### What did not resolve
+### What section 15 did not resolve
 
 - **`Production readiness`'s rewrite rests on one clean case.** Its 6/6 headline is half quotation — one situation names a value the statement already enumerates. Re-run with two fresh unlisted-value cases screened against the statement's own enumerations.
 - **`Typography`'s two cases are one probe run twice.** Both traverse the same two binary questions, land on the same role, and refuse a new role on the same test. Effective n = 1.
