@@ -172,9 +172,9 @@ The buying path is clear and media-first, but it carries several trust and recov
 - Moves: Production readiness 2→3.
 
 ## Design quality score (current → projected)
-- Current: 2/5 — provisional (D2 text-only). Pinned by delayed total cost (F1), default substitution (F2), no stock-change recovery (F3), and toast-only payment errors (F4).
-- Projected: 3/5 — median of the assessable dimensions once F1+F2+F3+F4 land (plus F5/F6/F7); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
-- Ceiling note: with a visual pass confirming media quality, contrast, and spacing, the ceiling is 4/5 (resilience such as large-text, contrast of small gray/orange text, and dark mode is still unverified from the description).
+- Current: 2/5 — median of the assessable Now bands {1, 1, 2, 2, 2, 3}; pinned by delayed total cost (F1), default substitution (F2), no stock-change recovery (F3), and toast-only payment errors (F4).
+- Projected: 3/5 — median of the assessable projected bands {1, 3, 3, 3, 3, 4} once F1+F2+F3+F4 land (plus F5/F6/F7); held there by the typography and distinctiveness bands no finding touches.
+- Ceiling note: with a visual pass confirming media quality, contrast, and spacing the leading band reaches 4, but the inert-screen cap holds the artifact at 3/5 until the page carries one owned asset (large-text, contrast of small gray/orange text, and dark mode are still unverified from the description).
 - Primary lever(s): F1 + F2 (cost transparency and explicit substitution, the trust pair that most pins a checkout edge at 2).
 
 | Dimension | Now | Projected | Gated by | Confidence |
@@ -182,9 +182,10 @@ The buying path is clear and media-first, but it carries several trust and recov
 | Production readiness | 2 | 4 | F1/F2/F3/F7 lift trust caps | provisional |
 | Attention path & hierarchy | 2 | 3 | F5 return terms (rung 2→3) | provisional |
 | Interaction polish & motion | 2 | 3 | F4 error state (rung 2→3) | provisional |
-| Color, state & contrast | n/v | n/v | orange/gray contrast not from text | not-from-text |
-| Typography craft | n/v | n/v | sizes/contrast not from text | not-from-text |
-- Projected overall = median of the assessable (non-n/v) projected dimensions {4, 3, 3} = 3. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
+| Color, state & contrast | 1 | 3 | stock urgency is orange-only, so the second-cue test fails (F6); 3→4 needs stated pairs and their dark-theme values | provisional |
+| Typography craft | 3 | 3 | eight roles carry stated sizes and weights; 3→4 needs the behaviour named when text scales up, which no finding supplies | provisional |
+| Distinctiveness & owned assets | 1 | 1 | inert — a canonical product-detail page once the logo is removed, and no finding adds an owned asset | provisional |
+- Projected overall = median of the assessable projected dimensions {4, 3, 3, 3, 3, 1} = 3. Not the sum of per-dimension gains; colour stops at 3 because a description states no pair, and that rung is never projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -238,7 +239,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 2/5 → projected 3/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
-- Reason for current: the buying path is clear, but fee transparency, inventory volatility, default opt-in, and recovery states create trust and checkout-risk gaps.
-- Reason for projected: showing total cost before the CTA, making substitution explicit opt-in, and adding stock-change and payment-error recovery can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because media quality, contrast, and spacing cannot be raised from a text-only description.
+- Expected score: current 2/5 → projected 3/5 (flat median of the assessable dimensions, conditional, provisional D2).
+- Reason for current: the buying path is clear and the type roles are decided, but fee transparency, inventory volatility, default opt-in, orange-only urgency, and recovery states create trust and checkout-risk gaps.
+- Reason for projected: showing total cost before the CTA, making substitution explicit opt-in, and adding stock-change and payment-error recovery lift production readiness to 4 — but typography stays at 3 because no finding names the text-scaling behaviour, the page owns no asset, and media quality, contrast, and spacing cannot be raised from a text-only description.
 - No Bold move is expected: the screen has unresolved severity-3 findings, so the Bold move trigger is not met.

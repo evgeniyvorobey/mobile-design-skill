@@ -95,17 +95,18 @@ The current structure is likely understandable at the row level but weak at priv
 - Moves: Production readiness 2→3.
 
 ## Design quality score (current → projected)
-- Current: 2/5 — provisional (D2 text-only). Pinned by no audience preview (F1) and the destructive action sitting among reversible toggles (F2).
-- Projected: 3/5 — median of the assessable dimensions once F1+F2+F3+F4 land (and the audience taxonomy and retention/recovery policy are confirmed); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
-- Ceiling note: with a visual pass confirming large-text, screen-reader, and preview-accuracy resilience, the ceiling is 4/5 (still unverified from the description).
+- Current: 2/5 — median of the assessable Now bands {1, 2, 2, 2}; pinned by no audience preview (F1) and the destructive action sitting among reversible toggles (F2).
+- Projected: 3/5 — median of the assessable projected bands {1, 3, 3, 4} once F1+F2+F3+F4 land and the audience taxonomy and retention/recovery policy are confirmed.
+- Ceiling note: with a visual pass confirming large-text, screen-reader, and preview-accuracy resilience the dimension bands reach 4, but the inert-screen cap holds the artifact at 3/5 until the screen carries one owned asset.
 - Primary lever(s): F1 + F2 (privacy comprehension and destructive-action separation pin the score at 2).
 
 | Dimension | Now | Projected | Gated by | Confidence |
 |-----------|-----|-----------|----------|------------|
 | Attention path & hierarchy | 2 | 3 | F1/F3 grouping (rung 2→3) | provisional |
 | Production readiness | 2 | 4 | F2/F4 lift caps | provisional |
-| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
-- Projected overall = median of the assessable (non-n/v) projected dimensions {3, 4} = 3 (3.5 rounded down, conservative). Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
+| Color, state & contrast | 2 | 3 | toggle state is not colour-only, but the description decides no colour role; F2/F4 decide destructive and warning, and 3→4 needs stated pairs | provisional |
+| Distinctiveness & owned assets | 1 | 1 | inert — a bare toggle list, and no finding adds an owned asset | provisional |
+- Projected overall = median of the assessable projected dimensions {3, 4, 3, 1} = 3. Not the sum of per-dimension gains; colour stops at 3 because a description cannot state a pair or its dark-theme value, and that rung is never projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -124,8 +125,8 @@ The current structure is likely understandable at the row level but weak at priv
 
 ## Why this is stronger
 
-- Quality target after fixes: projected 3/5 (flat median of the assessable dimensions, conditional), with a 4/5 ceiling once a visual pass plus the audience taxonomy, retention policy, and moderation routes are confirmed.
-- Qualifies visual uncertainty from text-only input and keeps visual dimensions out of the upward projection.
+- Quality target after fixes: projected 3/5 (flat median of the assessable dimensions, conditional); the bands reach 4 once a visual pass plus the audience taxonomy, retention policy, and moderation routes are confirmed, but the inert-screen cap holds the artifact at 3/5 until it carries an owned asset.
+- Qualifies visual uncertainty from text-only input and keeps the rendered properties — stated contrast pairs, dark-theme values — out of the upward projection.
 - Each finding is one causal chain (observation → violated principle → user consequence → change → predicted effect) with Nielsen 0–4 severity.
 - Separates reversible settings from destructive account actions.
 - Exposes both a current and a conditional projected score; no Bold move is offered because unresolved severity-3 findings remain.
@@ -137,5 +138,5 @@ The current structure is likely understandable at the row level but weak at priv
 - Does it include at least one real strength?
 - Is each finding a single causal chain with a named violated principle and a predicted effect?
 - Does it separate audience visibility from safety and account actions?
-- Does it avoid visual overclaim about spacing or contrast, and keep visual dimensions out of the projection?
+- Does it avoid visual overclaim about spacing or contrast, and keep the rendered properties (stated contrast pairs, dark-theme values) out of the projection?
 - Does it expose a current and a conditional projected score, and correctly omit the Bold move while severity-3 findings are unresolved?

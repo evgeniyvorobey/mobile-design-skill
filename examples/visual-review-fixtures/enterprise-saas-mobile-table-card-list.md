@@ -86,7 +86,7 @@ Assumptions:
 - "Close" is the only potentially irreversible bulk action described.
 
 ## Quick summary
-The card-from-table conversion is a reasonable operational pattern and the density fits power-user work, but safety and traceability need stronger production detail: bulk "Close" can act on many records (and across mixed permissions) without confirmation, conflict and partial-permission states are undefined, status meaning rides on color alone, and empty/error copy is thin. The structure is workable, so the projected ceiling is high, but visual readability cannot be judged from text.
+The card-from-table conversion is a reasonable operational pattern and the density fits power-user work, but safety and traceability need stronger production detail: bulk "Close" can act on many records (and across mixed permissions) without confirmation, conflict and partial-permission states are undefined, status meaning rides on color alone, and empty/error copy is thin. The structure is workable and the leading bands project to 4, but the queue carries no owned asset, so the artifact stays at 3/5 after the fixes, and visual readability cannot be judged from text.
 
 ## Strengths
 - Converts the desktop table into mobile cards without abandoning record traceability.
@@ -143,7 +143,7 @@ The card-from-table conversion is a reasonable operational pattern and the densi
 - Change: Protect the identifying fields (ID, customer, SLA, owner, last-updated) from truncation, allow controlled wrapping, and verify at large text — without abandoning intended density.
 - Predicted effect: Should preserve record traceability while keeping density; confidence L (exact readability not verifiable from text).
 - Severity: 2 (minor) — frequent, moderate impact, persistent; keep qualified (no screenshot).
-- Moves: Density & rhythm n/v→n/v (not raised from text).
+- Moves: Density & rhythm 3→4 — the fix supplies the crowded-end rule the repeat unit and 112 px interval currently lack; whether it actually reads at that interval still needs a screenshot.
 
 ### F6 — Weak empty and error copy
 - Lens: Usability
@@ -166,9 +166,9 @@ The card-from-table conversion is a reasonable operational pattern and the densi
 - Moves: Attention path & hierarchy 2→3.
 
 ## Design quality score (current → projected)
-- Current: 3/5 — provisional (D2 text-only). The operational structure is workable, but it is held below 4 by an unguarded irreversible bulk action (F1) and missing conflict/permission states (F2, F3).
-- Projected: 4/5 — median of the assessable dimensions once F1+F2+F3 land (plus F4/F6); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
-- Ceiling note: with a visual pass confirming readability at the intended density, the ceiling holds at 4/5 (resilience such as large-text legibility at density, offline, and color-vision rendering is still unverified from the description).
+- Current: 2/5 — median of the assessable Now bands {1, 1, 2, 2, 3, 3}; pinned by an unguarded irreversible bulk action (F1) and missing conflict/permission states (F2, F3).
+- Projected: 3/5 — median of the assessable projected bands {1, 3, 3, 4, 4, 4} once F1+F2+F3 land (plus F4/F5/F6); held there by the inert Distinctiveness band no finding lifts.
+- Ceiling note: with a visual pass confirming readability at the intended density the leading bands hold at 4, but the inert-screen cap holds the artifact at 3/5 until the queue carries one owned asset (large-text legibility at density, offline, and color-vision rendering are still unverified from the description).
 - Primary lever(s): F1 (guarding the irreversible bulk Close is the single change that most unblocks the score).
 
 | Dimension | Now | Projected | Gated by | Confidence |
@@ -176,9 +176,10 @@ The card-from-table conversion is a reasonable operational pattern and the densi
 | Production readiness | 2 | 4 | F1/F2/F3 lift safety caps | provisional |
 | Attention path & hierarchy | 3 | 4 | F7 ordering (rung 3→4) | provisional |
 | Interaction polish & motion | 2 | 3 | F6 states (rung 2→3) | provisional |
-| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
-| Density & rhythm | n/v | n/v | readability at density not from text | not-from-text |
-- Projected overall = median of the assessable (non-n/v) projected dimensions {4, 4, 3} = 4. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
+| Color, state & contrast | 1 | 3 | status rides on hue alone, so the second-cue test fails (F4); 3→4 needs stated pairs and their dark-theme values | provisional |
+| Density & rhythm | 3 | 4 | repeat unit and 112 px interval are already stated; F5 supplies the crowded-end rule (rung 3→4) | provisional |
+| Distinctiveness & owned assets | 1 | 1 | inert — a generic card queue once the logo is removed, and no finding adds an owned asset | provisional |
+- Projected overall = median of the assessable projected dimensions {4, 4, 3, 3, 4, 1} = 3 (even count, lower middle). Not the sum of per-dimension gains; colour stops at 3 because a description cannot state a pair, and whether the 112 px interval actually reads is still a screenshot question.
 
 ## Severity index
 - 4 (catastrophe): F1
@@ -233,7 +234,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 3/5 → projected 4/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
-- Reason for current: the core operational structure is workable, but status semantics, conflict handling, and bulk-action safety need stronger production detail.
-- Reason for projected: guarding the irreversible bulk Close and adding conflict/permission states can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because readability at the intended density, contrast, and large-text behavior cannot be raised from a text-only description.
-- No Bold move is expected: although the screen is already 3/5, it has an unresolved severity-4 finding (unguarded bulk Close), so the Bold move trigger (no unresolved severity-3/4 finding) is not met.
+- Expected score: current 2/5 → projected 3/5 (flat median of the assessable dimensions, conditional, provisional D2).
+- Reason for current: the core operational structure is workable and density is already decided, but colour-only status, conflict handling, and bulk-action safety pull the median to 2.
+- Reason for projected: guarding the irreversible bulk Close, adding conflict/permission states, and supplying the crowded-end rule lift production readiness, attention path and density to 4 — but the screen owns no asset, so the inert-screen cap holds the artifact at 3/5, and readability at the intended density still cannot be raised from a text-only description.
+- No Bold move is expected: the screen is at 2/5 with an unresolved severity-4 finding (unguarded bulk Close), so the Bold move trigger (competent, with no unresolved severity-3/4 finding) is not met.

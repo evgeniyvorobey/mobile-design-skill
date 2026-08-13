@@ -150,9 +150,9 @@ The screen supports a focused booking task — clinician, type, date, time, esti
 - Moves: Production readiness 2→3.
 
 ## Design quality score (current → projected)
-- Current: 2/5 — provisional (D2 text-only). Pinned by the de-emphasized urgent boundary (F1), unexplained disabled slots (F2), and missing confirmation (F3).
-- Projected: 3/5 — median of the assessable dimensions once F1+F2+F3 land (plus F4/F5); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
-- Ceiling note: with a visual pass confirming tone, contrast, and large-text behavior, the ceiling is 4/5 (resilience such as contrast of gray notices and dark mode is still unverified from the description).
+- Current: 2/5 — median of the assessable Now bands {1, 1, 2, 2, 2, 3}; pinned by the de-emphasized urgent boundary (F1), unexplained disabled slots (F2), and missing confirmation (F3).
+- Projected: 3/5 — median of the assessable projected bands {1, 3, 3, 3, 3, 4} once F1+F2+F3 land (plus F4/F5); held there by the typography and distinctiveness bands no finding touches.
+- Ceiling note: with a visual pass confirming tone, contrast, and large-text behavior the leading band reaches 4, but the inert-screen cap holds the artifact at 3/5 until the screen carries one owned asset (contrast of gray notices and dark mode are still unverified from the description).
 - Primary lever(s): F1 + F3 (safety visibility and pre-booking confirmation, the two that most pin a health flow at 2).
 
 | Dimension | Now | Projected | Gated by | Confidence |
@@ -160,9 +160,10 @@ The screen supports a focused booking task — clinician, type, date, time, esti
 | Attention path & hierarchy | 2 | 3 | F1 reposition (rung 2→3) | provisional |
 | Production readiness | 2 | 4 | F2/F3/F5 lift task-safety caps | provisional |
 | Interaction polish & motion | 2 | 3 | F4 states (rung 2→3) | provisional |
-| Color, state & contrast | n/v | n/v | gray-text contrast not from text | not-from-text |
-| Typography craft | n/v | n/v | sizes/contrast not from text | not-from-text |
-- Projected overall = median of the assessable (non-n/v) projected dimensions {3, 4, 3} = 3. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
+| Color, state & contrast | 1 | 3 | unavailable is gray with no other cue, so the second-cue test fails (F2); 3→4 needs stated pairs and their increased-contrast values | provisional |
+| Typography craft | 3 | 3 | seven roles carry stated sizes and weights; 3→4 needs the behaviour named when text scales up, which no finding supplies | provisional |
+| Distinctiveness & owned assets | 1 | 1 | inert — "calm and simple" is an adjective, not an owned asset, and no finding adds one | provisional |
+- Projected overall = median of the assessable projected dimensions {3, 4, 3, 3, 3, 1} = 3. Not the sum of per-dimension gains; colour stops at 3 because a description states no pair, and that rung is never projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -215,7 +216,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 2/5 → projected 3/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
-- Reason for current: the structure supports booking, but safety escalation, state clarity, and appointment confidence are too weak for a health context.
-- Reason for projected: repositioning the urgent boundary, explaining disabled slots, and adding a pre-booking confirmation can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because visual tone, contrast of gray notices, and large-text behavior cannot be raised from a text-only description.
+- Expected score: current 2/5 → projected 3/5 (flat median of the assessable dimensions, conditional, provisional D2).
+- Reason for current: the structure supports booking and the type roles are decided, but safety escalation, state clarity, unexplained gray disabled slots, and appointment confidence are too weak for a health context.
+- Reason for projected: repositioning the urgent boundary, explaining disabled slots, and adding a pre-booking confirmation lift production readiness to 4 — but typography stays at 3 because no finding names the text-scaling behaviour, the screen owns no asset, and visual tone and contrast of gray notices cannot be raised from a text-only description.
 - No Bold move is expected: the screen has unresolved severity-3 findings, so the Bold move trigger is not met.

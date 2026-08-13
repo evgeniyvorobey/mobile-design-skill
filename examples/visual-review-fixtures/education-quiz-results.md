@@ -87,7 +87,7 @@ Assumptions:
 - The motivational copy is described in role only; exact wording is unknown.
 
 ## Quick summary
-The results screen displays performance clearly, but learning recovery is weaker than the score display: explanations are collapsed by default, the primary action is "Continue" even after a failure, missed questions are not grouped or mapped to objectives, and there is no recovery if result submission fails. The structure is solid, so the ceiling is good, but visual balance and exact tone cannot be judged from text, and the indicators are not color-only because icons are described.
+The results screen displays performance clearly, but learning recovery is weaker than the score display: explanations are collapsed by default, the primary action is "Continue" even after a failure, missed questions are not grouped or mapped to objectives, and there is no recovery if result submission fails. The structure is solid and the two leading bands project to 4, but the brand voice is named without ever being stated, so the artifact stays at 3/5; visual balance and exact tone cannot be judged from text, and the indicators are not color-only because icons are described.
 
 ## Strengths
 - Shows a clear score, pass/fail status, and time spent in a prominent summary.
@@ -154,22 +154,23 @@ The results screen displays performance clearly, but learning recovery is weaker
 - Change: Ensure failure copy is supportive and outcome-aware; pair it with a constructive next step rather than a generic "Continue."
 - Predicted effect: Should reduce discouragement after failure; confidence L (cannot evaluate unseen copy). Does not invent or assert the exact wording.
 - Severity: 1 (cosmetic) — occasional, low-to-moderate impact, persistent; keep qualified.
-- Moves: Context & brand fit n/v→n/v (tone not verifiable from text).
+- Moves: Context & brand fit 2→2, Distinctiveness & owned assets 2→2 — the fix asks for supportive, outcome-aware copy but names no convention, no departure and no stated treatment, so neither band moves; the copy itself stays unseen.
 
 ## Design quality score (current → projected)
-- Current: 3/5 — provisional (D2 text-only). Held below 4 by missing submission recovery (F1) and an outcome-blind primary action (F2).
-- Projected: 4/5 — median of the assessable dimensions once F1+F2 land (plus F3/F4/F5); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
-- Ceiling note: with a visual pass confirming balance and tone, the ceiling holds at 4/5 (resilience such as large-text, color-filter rendering, and screen-reader behavior is still unverified from the description).
+- Current: 2/5 — median of the assessable Now bands {2, 2, 2, 3, 3, 3}; held down by missing submission recovery (F1), an outcome-blind primary action (F2), and a brand voice that is named but never stated.
+- Projected: 3/5 — median of the assessable projected bands {2, 2, 3, 3, 4, 4} once F1+F2 land (plus F3/F4/F5); held there by the context and distinctiveness bands no finding states a treatment for.
+- Ceiling note: with a visual pass confirming balance and tone the leading bands hold at 4, but the artifact stays at 3/5 until the motivational moment becomes a stated treatment (large-text, color-filter rendering, and screen-reader behavior are still unverified from the description).
 - Primary lever(s): F2 (adapting the primary action to outcome turns a scoring screen into a learning screen), with F1 protecting completed work.
 
 | Dimension | Now | Projected | Gated by | Confidence |
 |-----------|-----|-----------|----------|------------|
 | Attention path & hierarchy | 3 | 4 | F2/F3 (rung 3→4) | provisional |
 | Production readiness | 2 | 4 | F1/F4/F5 lift recovery/AT caps | provisional |
-| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
-| Context & brand fit | n/v | n/v | tone/copy not from text | not-from-text |
-| Typography craft | n/v | n/v | sizes/balance not from text | not-from-text |
-- Projected overall = median of the assessable (non-n/v) projected dimensions {4, 4} = 4. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
+| Color, state & contrast | 3 | 3 | check/x icons and the pass/fail label are second cues and the roles are decided; 3→4 needs stated pairs, which a description does not carry | provisional |
+| Context & brand fit | 2 | 2 | no convention is named and no departure carries a reason; F6 asks for supportive copy without naming either | provisional |
+| Typography craft | 3 | 3 | six roles carry stated sizes and weights; 3→4 needs the behaviour named when text scales up, which no finding supplies | provisional |
+| Distinctiveness & owned assets | 2 | 2 | the motivational message is a named asset whose treatment is never stated (F6) — an adjective, not a token | provisional |
+- Projected overall = median of the assessable projected dimensions {4, 4, 3, 2, 3, 2} = 3. Not the sum of per-dimension gains; colour stops at 3 because a description states no pair, and that rung is never projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -223,7 +224,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 3/5 → projected 4/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
-- Reason for current: the screen has a solid results structure and review path, but recovery, learning guidance, and state handling need more production-ready detail.
-- Reason for projected: adding submission recovery and an outcome-aware primary action, plus surfacing mistakes and objective mapping, can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because visual balance, tone, and rendering cannot be raised from a text-only description.
-- No Bold move is expected: despite the screen being 3/5, it has an unresolved severity-3 finding (missing result-submission recovery), so the Bold move trigger (no unresolved severity-3/4 finding) is not met.
+- Expected score: current 2/5 → projected 3/5 (flat median of the assessable dimensions, conditional, provisional D2).
+- Reason for current: the screen has a solid results structure, decided colour and type roles, and a working review path, but recovery, learning guidance, and state handling need more production-ready detail, and the motivational voice is named without being stated.
+- Reason for projected: adding submission recovery and an outcome-aware primary action, plus surfacing mistakes and objective mapping, lift attention path and production readiness to 4 — but context and distinctiveness stay at 2 until the motivational moment becomes a stated treatment, and visual balance, tone, and rendering cannot be raised from a text-only description.
+- No Bold move is expected: the screen is at 2/5 with an unresolved severity-3 finding (missing result-submission recovery), so the Bold move trigger (competent, with no unresolved severity-3/4 finding) is not met.

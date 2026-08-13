@@ -167,12 +167,12 @@ The dashboard packs a useful financial overview into one screen, but it is struc
 - Change: Raise minimum label sizes, allow wrapping or progressive disclosure instead of hard truncation, and verify behavior at large text settings.
 - Predicted effect: Should improve label legibility and reduce truncation loss at large text; confidence L (exact sizes/contrast not verifiable from text).
 - Severity: 1 (cosmetic) — frequent, low-to-moderate impact, persistent; keep qualified (no screenshot).
-- Moves: Typography craft n/v→n/v (not raised from text).
+- Moves: Typography craft 3→4 — the fix names the behaviour when text scales up, which the six stated roles currently lack; rendered legibility at those sizes still needs a screenshot.
 
 ## Design quality score (current → projected)
-- Current: 2/5 — provisional (D2 text-only). Pinned by sensitive-data exposure (F1), stale-data ambiguity (F2), and color-only status (F3).
-- Projected: 3/5 — median of the assessable dimensions once F1+F2+F3+F4 land (plus F5/F6 grouping); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
-- Ceiling note: with a visual pass confirming contrast, spacing, and large-text behavior, the ceiling is 4/5 (resilience such as dark mode and color-vision rendering is still unverified from the description).
+- Current: 2/5 — median of the assessable Now bands {1, 1, 2, 2, 2, 3}; pinned by sensitive-data exposure (F1), stale-data ambiguity (F2), and color-only status (F3).
+- Projected: 3/5 — median of the assessable projected bands {1, 3, 3, 3, 4, 4} once F1+F2+F3+F4 land (plus F5/F6/F7); held there by the inert Distinctiveness band no finding lifts.
+- Ceiling note: with a visual pass confirming contrast, spacing, and large-text behavior the leading bands hold at 4, but the inert-screen cap holds the artifact at 3/5 until the dashboard carries one owned asset (dark mode and color-vision rendering are still unverified from the description).
 - Primary lever(s): F1 + F2 + F3 (the trust trio that pins a money-status surface at 2).
 
 | Dimension | Now | Projected | Gated by | Confidence |
@@ -180,9 +180,10 @@ The dashboard packs a useful financial overview into one screen, but it is struc
 | Attention path & hierarchy | 2 | 3 | F5/F6 grouping (rung 2→3) | provisional |
 | Production readiness | 2 | 4 | F1/F2/F3/F4 lift trust caps | provisional |
 | Interaction polish & motion | 2 | 3 | F4 states (rung 2→3) | provisional |
-| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
-| Typography craft | n/v | n/v | sizes/contrast not from text | not-from-text |
-- Projected overall = median of the assessable (non-n/v) projected dimensions {3, 4, 3} = 3. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
+| Color, state & contrast | 1 | 3 | movement, due-today and chart categories ride on hue alone (F3); 3→4 needs stated pairs and the dark theme the fixture leaves undescribed | provisional |
+| Typography craft | 3 | 4 | six roles carry stated sizes; F7 supplies the large-text behaviour they lack (rung 3→4) | provisional |
+| Distinctiveness & owned assets | 1 | 1 | inert — "premium dense summary" is an adjective, not an owned asset, and no finding adds one | provisional |
+- Projected overall = median of the assessable projected dimensions {3, 4, 3, 3, 4, 1} = 3. Not the sum of per-dimension gains; colour stops at 3 because a description states no pair and dark mode is undescribed, and that rung is never projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -236,7 +237,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 2/5 → projected 3/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
-- Reason for current: the screen has a useful structure, but trust, hierarchy, state handling, and color semantics are weak enough to create material financial understanding risk.
-- Reason for projected: landing the major findings (privacy toggle, per-group freshness, non-color status, per-group error states) plus grouping fixes can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because visual dimensions (contrast, spacing, large-text rendering) cannot be raised from a text-only description.
+- Expected score: current 2/5 → projected 3/5 (flat median of the assessable dimensions, conditional, provisional D2).
+- Reason for current: the screen has a useful structure and decided type roles, but trust, hierarchy, state handling, and hue-only color semantics are weak enough to create material financial understanding risk.
+- Reason for projected: landing the major findings (privacy toggle, per-group freshness, non-color status, per-group error states) plus the grouping and text-scaling fixes lift production readiness and typography to 4 — but the dashboard owns no asset, so the inert-screen cap holds the artifact at 3/5, and contrast, spacing, and large-text rendering cannot be raised from a text-only description.
 - No Bold move is expected: the screen has unresolved severity-3 findings, so the Bold move trigger is not met.

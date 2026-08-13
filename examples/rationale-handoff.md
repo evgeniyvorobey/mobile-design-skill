@@ -51,8 +51,8 @@ This screen serves patients immediately after booking an appointment. Many users
 
 ## Design quality rationale
 - Direction: calm confirmation — restraint carries the trust this screen needs, with the accent doing one job (from: Vignelli, The Vignelli Canon) — committed over an action-first and a celebratory direction
-- Dimension read: attention path 4, composition 4, typography 4, colour/state 4, density 4, interaction 3, context & brand fit 5, production readiness 3, distinctiveness 4. Median of the nine = 4.
-- Quality target: 4/5 — strong handoff quality; blocked from 5/5 by Production readiness until real appointment-data variability and large-text behavior are validated.
+- Dimension read: attention path 4, composition 4, typography 3, colour/state 3, density 4, interaction 3, context & brand fit 4, production readiness 3, distinctiveness 4. Median of the assessable = 4.
+- Quality target: 4/5 — strong handoff quality; blocked from 5/5 by Production readiness until token names and the state-to-component mapping are stated for the listed states, so two implementers produce the same screen.
 - Signature move: the confirmation accent token is the owned asset — `color.accent-confirm` appears in exactly three places (the confirmation checkmark, the primary next-step button, and the success toast) and nowhere else, so recognition builds through repetition rather than through decoration. Kano check: it sits on a delighter, not on a missing affordance; brand-expression budget: one perceptual move on this screen.
 - Confirmation summary prominence — mechanism: larger title/body contrast, top placement, and 24dp/24pt separation from secondary actions — fits the high-trust healthcare context because patients need fast confirmation before exploring options.
 - Calm section rhythm — mechanism: repeated section headers, 16dp/16pt internal spacing, and 24dp/24pt section gaps — supports anxious and older users by making the screen predictable.

@@ -98,8 +98,8 @@ Choose dates, review request impact, and submit with confidence.
 
 ## Design quality calibration
 - Direction: policy-adjacent baseline — the balance block sits directly under the inputs it depends on (from: baseline) — committed over the calm and dense-modular directions in `Alternatives considered`
-- Dimension read: attention path 4, composition 4, typography 4, colour/state 3, density 3, interaction 3, context & brand fit 3, production readiness 3, distinctiveness 1. Median of the nine = 3.
-- Quality target: 3/5 — production-ready screen structure, but blocked from 4/5 by Distinctiveness until the screen carries one owned asset; policy edge cases and platform-specific date controls still need validation.
+- Dimension read: attention path 4, composition 4, typography 3, colour/state 3, density 4, interaction 3, context & brand fit 3, production readiness 2, distinctiveness 1. Median of the assessable = 3.
+- Quality target: 3/5 — blocked from 4/5 by Production readiness, stalled at its 2→3 boundary until leave type is decided as one control rather than offered as segmented control or selection list. Typography, colour/state, interaction and context & brand fit each stop at their 3→4 boundary — no value on the title role, no foreground/background pair, no duration or curve, no departure budget — so the median holds at 3 even once the inert cap lifts.
 - Attention path:
   - First glance: date range and leave type; second glance: balance/policy impact; final action: Submit request.
 - Composition and spacing:
@@ -111,7 +111,7 @@ Choose dates, review request impact, and submit with confidence.
 - Interaction polish:
   - Recalculate balance with inline feedback rather than a blocking spinner so the form remains stable.
 - Signature move:
-  - None. With the logo removed this screen is interchangeable with any HR leave form, so it is inert and capped at 3/5 rather than scored a quiet 4/5. No brand palette, type, or motion token was supplied, and inventing one here would be fabrication. Exit: supply the design-system accent and one repeatable treatment — for example a `balance-impact` band reused on the request row, the confirmation sheet, and the approval notification — and this lifts to 4/5.
+  - None. With the logo removed this screen is interchangeable with any HR leave form, so it is inert and the artifact caps at 3/5. No brand palette, type, or motion token was supplied, and inventing one here would be fabrication. Exit: supply the design-system accent and one repeatable treatment — for example a `balance-impact` band reused on the request row, the confirmation sheet, and the approval notification — and the inert cap lifts.
 - Production checks:
   - Verify Dynamic Type/font-scale, sticky CTA safe-area spacing, offline balance failure, and unsaved-change back behavior.
 

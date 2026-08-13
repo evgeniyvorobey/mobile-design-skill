@@ -129,8 +129,8 @@ Single detail screen for one tracked package, optimized for status comprehension
 
 ## Design quality requirements
 - Direction: structured-neutral — status colour held apart from brand colour so a wrong status read is never a branding accident (from: baseline) — committed over the editorial and perceived-speed directions in `Key decision tradeoffs`
-- Dimension read: attention path 4, composition 4, typography 4, colour/state 4, density 4, interaction 4, context & brand fit 3, production readiness 3, distinctiveness 4. Median of the nine = 4.
-- Quality target: 4/5 — shippable Android detail screen; blocked from 5/5 by Production readiness until live shipment exceptions and carrier data limits are validated.
+- Dimension read: attention path 4, composition 4, typography 4, colour/state 3, density 4, interaction 4, context & brand fit 3, production readiness 3, distinctiveness 4. Median of the assessable = 4.
+- Quality target: 4/5 — shippable Android detail screen, blocked from 5/5 by Colour and state, Context & brand fit and Production readiness, which all sit at band 3. Colour and state is the nearest lift and stays there until a foreground/background pair is stated per status role, together with what each pair becomes in dark theme.
 - Attention path:
   - First glance must land on current status and ETA; second glance moves to exception/support actions; timeline is tertiary.
 - Composition and spacing:

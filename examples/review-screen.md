@@ -73,7 +73,7 @@ The screen is functionally complete but structurally overloaded: weak form clari
 - Change: Group into Personal / Contact / Work / Address with section headers.
 - Predicted effect: Should reduce scanning effort and perceived length; confidence M.
 - Severity: 2 (minor) — frequent, moderate impact, persistent.
-- Moves: Attention path 2→3, Composition 2→4.
+- Moves: Attention path 2→3, Composition 2→3.
 
 ### F4 — Unclear unsaved-changes behavior on back
 - Lens: Navigation & interaction
@@ -86,9 +86,9 @@ The screen is functionally complete but structurally overloaded: weak form clari
 - Moves: Interaction polish 2→3.
 
 ## Design quality score (current → projected)
-- Current: 2/5 — provisional (D2 text-only). Pinned by late required-field feedback (F1) and placeholder-only labeling (F2), both P1-class.
-- Projected: 3/5 — the median of the assessable dimensions once F1–F4 land; conditional on those fixes. Provisional (D2): visual dimensions stay unassessable.
-- Ceiling note: with a visual pass confirming contrast, spacing, and large-text behavior, the ceiling is 4/5 (resilience such as dark mode and AT semantics is still unverified from the description).
+- Current: 2/5 — median of the assessable Now bands {1, 1, 2, 2, 2, 2}; provisional (D2 text-only), pinned by late required-field feedback (F1) and placeholder-only labeling (F2).
+- Projected: 3/5 — median of the assessable projected bands {1, 3, 3, 3, 3, 3} once F1–F4 land; held there by the inert Distinctiveness band that no finding lifts.
+- Ceiling note: with a visual pass confirming contrast, spacing, and large-text behavior the dimension bands reach 4, but the inert-screen cap holds the artifact at 3/5 until this screen carries one owned asset (resilience such as dark mode and AT semantics is still unverified from the description).
 - Primary lever(s): F1 + F2 (they lift the P1 caps pinning the score at 2).
 
 | Dimension | Now | Projected | Gated by (cap / ladder rung) | Confidence |
@@ -96,9 +96,10 @@ The screen is functionally complete but structurally overloaded: weak form clari
 | Attention path & hierarchy | 2 | 3 | rung 2→3 (F3) | provisional |
 | Production readiness | 2 | 3 | F1/F2 lift P1 caps | provisional |
 | Interaction polish & motion | 2 | 3 | rung 2→3 (F4) | provisional |
-| Composition & spacing | n/v | n/v | not verifiable from text | not-from-text |
-| Color, state & contrast | n/v | n/v | not verifiable from text | not-from-text |
-- Projected overall = median of the assessable (non-n/v) projected dimensions {3, 3, 3} = 3. Not the sum of per-dimension gains, and visual dimensions are not projected upward from text.
+| Composition & spacing | 2 | 3 | seven fields in one undifferentiated block (F3); 3→4 needs stated spacing values | provisional |
+| Color, state & contrast | 1 | 3 | errors are red-only, so the second-cue test fails (F1); 3→4 needs stated foreground/background pairs | provisional |
+| Distinctiveness & owned assets | 1 | 1 | inert — nothing here survives removing the logo, and no finding adds an owned asset | provisional |
+- Projected overall = median of the assessable projected dimensions {3, 3, 3, 3, 3, 1} = 3. Not the sum of per-dimension gains; colour stops at 3 because a description cannot state a pair or its dark-theme value, and that rung is never projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none

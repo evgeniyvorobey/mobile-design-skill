@@ -45,7 +45,7 @@ A sound, conventional iOS settings screen: the structure is correct and the dest
 - Change: Reinforce with an icon or an explicit "irreversible" label alongside the red.
 - Predicted effect: Should make the destructive nature perceivable without relying on color; confidence M (rendering unverifiable from text).
 - Severity: 2 (minor) — affects a subset, moderate impact, persistent.
-- Moves: none numerically from text — Color/state stays n/v (the fix is structural; the dimension itself can't be scored from a description).
+- Moves: Color, state & contrast 1→3 — the fix supplies the missing second cue; the stated pair and its dark-theme value stay out of reach of a description, so the band stops at 3.
 
 ### F2 — Inconsistent current-value subtitles
 - Lens: Hierarchy & readability
@@ -63,9 +63,9 @@ A sound, conventional iOS settings screen: the structure is correct and the dest
 - Severity: 1 (cosmetic) — costs a quality point (Context & brand fit caps at 3), not a task failure.
 
 ## Design quality score (current → projected)
-- Current: 3/5 — provisional (D2 text-only). Conventional and correct, but inert; nothing here is broken.
-- Projected: 3/5 — the median of the assessable dimensions after F1+F2 land. The minor fixes remove friction but do not add a point of view, so the overall does not move; this is deliberately not inflated.
-- Ceiling note: with a visual pass confirming contrast and large-text behavior, the ceiling is 4/5. A distinctive point of view (the Bold move), once validated, is what would carry it toward 4–5 on Context & brand fit.
+- Current: 3/5 — median of the assessable Now bands {1, 1, 3, 3, 3}; conventional and correct, but inert and reliant on colour alone for the one destructive row.
+- Projected: 3/5 — median of the assessable projected bands {1, 3, 3, 3, 4} after F1+F2 land; the minor fixes remove friction without adding a point of view, so the overall does not move.
+- Ceiling note: with a visual pass confirming contrast and large-text behavior the dimension bands reach 4, but the inert-screen cap holds the artifact at 3/5 until the screen carries one owned asset — the Bold move, once validated, is that asset.
 - Primary lever(s): F2 lifts hierarchy; the score is otherwise gated by inertness (F3), which the safe fixes do not address.
 
 | Dimension | Now | Projected | Gated by | Confidence |
@@ -73,8 +73,9 @@ A sound, conventional iOS settings screen: the structure is correct and the dest
 | Attention path & hierarchy | 3 | 4 | rung 3→4 (F2) | provisional |
 | Production readiness | 3 | 3 | confirmation already present; no open cap | provisional |
 | Context & brand fit | 3 | 3 | inert (F3); not lifted by safe fixes | provisional |
-| Color, state & contrast | n/v | n/v | not verifiable from text (F1 is structural) | not-from-text |
-- Projected overall = median of the assessable (non-n/v) dimensions {4, 3, 3} = 3. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
+| Color, state & contrast | 1 | 3 | destructive row is red-only, so the second-cue test fails (F1); 3→4 needs stated pairs and their dark-theme values | provisional |
+| Distinctiveness & owned assets | 1 | 1 | inert (F3); the Bold move is the only candidate asset and it is not banked until validated | provisional |
+- Projected overall = median of the assessable projected dimensions {4, 3, 3, 3, 1} = 3. Not the sum of per-dimension gains; colour stops at 3 because a description cannot state a pair or its dark-theme value, and that rung is never projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -110,4 +111,4 @@ A sound, conventional iOS settings screen: the structure is correct and the dest
 - Reward an honest current→projected score that does NOT inflate: here the projection stays 3/5 because the minor fixes don't add a point of view, with the 4/5 ceiling confined to a `Ceiling note`. A projection that equals the current score is correct when the fixes are minor — the value lives in the ceiling and the Bold move.
 - Reward the inert-screen test producing a real finding (F3) and gating `Context & brand fit`, then motivating the Bold move — the distinctiveness lever doing actual work in Mode D.
 - Reward a correctly-gated Bold move: the screen is competent (3/5) with NO unresolved severity-3/4 finding (the destructive action is already confirmed), so a speculative, clearly-separated bold move is allowed — it names what it breaks (Jakob's Law), the job it serves, and a validation path, and it does not bank the score.
-- Penalize visual-only critique on text-only input, numerically projecting a visual dimension upward from text (Color/state must stay n/v), a flat fix list with no predicted effect, an inflated "up to 4/5" projection, or a Bold move offered over an unresolved catastrophe.
+- Penalize visual-only critique on text-only input, numerically projecting a rendered property upward from text (Color/state may reach band 3 on decided roles, but never band 4, because a description states no foreground/background pair and no dark-theme value), a flat fix list with no predicted effect, an inflated "up to 4/5" projection, or a Bold move offered over an unresolved catastrophe.

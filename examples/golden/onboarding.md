@@ -49,8 +49,8 @@ Move from first launch to one configured habit and a meaningful reminder with mi
 - Account creation skipped: continue without blocking first value if product policy permits.
 
 ## Design quality calibration
-- Dimension read: attention path 4, composition 4, typography 4, colour/state 4, density 5, interaction 4, context & brand fit 3, production readiness 4, distinctiveness 4. Median of the nine = 4.
-- Quality target: 4/5 - strong onboarding flow; blocked from 5/5 by Context & brand fit (3) until the habit taxonomy is settled, because what the product may ask for and in what tone is a product decision this screen cannot make for it.
+- Dimension read: attention path 3, composition 3, typography 1, colour/state 3, density 3, interaction 3, context & brand fit 3, production readiness 2, distinctiveness 5. Median of the assessable = 3.
+- Quality target: 3/5 - a decided flow carrying one owned motion signature; blocked from 4/5 by Typography (1), which names no type role at all, and by the six dimensions that stop at the same 3 -> 4 boundary until the flow puts values on its decisions - type roles, spacing, contrast pairs, and the curve for `motion.commit`.
 - Signature move: `motion.commit` - one 300ms shared-element transition carries the habit name from the entry field into the confirmation card. Replayed at first completion and at each streak milestone, so the same gesture always means "this counted". Reduced-motion fallback: cross-fade, no translation.
 - Good onboarding earns each question; it should not ask for goals, motivation, demographics, and preferences before one useful habit exists.
 - Use calm, task-sized screens with one primary decision each.

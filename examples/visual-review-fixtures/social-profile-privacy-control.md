@@ -149,9 +149,9 @@ The screen gathers the right privacy controls in one place, but it under-deliver
 - Moves: Production readiness 2→3.
 
 ## Design quality score (current → projected)
-- Current: 2/5 — provisional (D2 text-only). Pinned by default-on contact sync (F1), privacy-model ambiguity (F2), and a low-context destructive action (F3).
-- Projected: 3/5 — median of the assessable dimensions once F1+F2+F3 land (plus F4/F5); conditional on those fixes. Provisional (D2): visual dimensions stay n/v.
-- Ceiling note: with a visual pass confirming tone, contrast, and control sizing, the ceiling is 4/5 (resilience such as large-text, contrast of gray/red text, and dark mode is still unverified from the description).
+- Current: 2/5 — median of the assessable Now bands {1, 2, 2, 2, 3, 3}; pinned by default-on contact sync (F1), privacy-model ambiguity (F2), and a low-context destructive action (F3).
+- Projected: 3/5 — median of the assessable projected bands {1, 3, 3, 3, 3, 4} once F1+F2+F3 land (plus F4/F5); held there by the colour, typography and distinctiveness bands no finding touches.
+- Ceiling note: with a visual pass confirming tone, contrast, and control sizing the leading band reaches 4, but the inert-screen cap holds the artifact at 3/5 until the screen carries one owned asset (large-text, contrast of gray/red text, and dark mode are still unverified from the description).
 - Primary lever(s): F2 (separating controls by audience/data type is what most unlocks privacy comprehension), closely tied with F1.
 
 | Dimension | Now | Projected | Gated by | Confidence |
@@ -159,9 +159,10 @@ The screen gathers the right privacy controls in one place, but it under-deliver
 | Attention path & hierarchy | 2 | 3 | F2 grouping (rung 2→3) | provisional |
 | Production readiness | 2 | 4 | F1/F3/F5 lift consent/safety caps | provisional |
 | Interaction polish & motion | 2 | 3 | F4 live preview (rung 2→3) | provisional |
-| Color, state & contrast | n/v | n/v | red/gray contrast not from text | not-from-text |
-| Typography craft | n/v | n/v | sizes/contrast not from text | not-from-text |
-- Projected overall = median of the assessable (non-n/v) projected dimensions {3, 4, 3} = 3. Not the sum of per-dimension gains; visual dimensions are not projected upward from text.
+| Color, state & contrast | 3 | 3 | roles are decided and the private state pairs gray with a lock icon; 3→4 needs stated pairs, which a description does not carry | provisional |
+| Typography craft | 3 | 3 | six roles carry stated sizes and weights; 3→4 needs the behaviour named when text scales up, which no finding supplies | provisional |
+| Distinctiveness & owned assets | 1 | 1 | inert — preview card and rows are interchangeable once the logo is removed, and no finding adds an owned asset | provisional |
+- Projected overall = median of the assessable projected dimensions {3, 4, 3, 3, 3, 1} = 3. Not the sum of per-dimension gains; colour and typography do not move because no finding states a pair or a text-scaling behaviour, and neither rung is projected upward from text.
 
 ## Severity index
 - 4 (catastrophe): none
@@ -214,7 +215,7 @@ Severity uses the Nielsen 0-4 scale (High maps to 3, or 4 if irreversible/catast
 
 ## Rubric score expectation
 
-- Expected score: current 2/5 → projected 3/5 (flat median, conditional, provisional D2; 4/5 ceiling after a visual pass).
-- Reason for current: the screen has a useful settings inventory, but privacy comprehension, consent clarity, and destructive-action safeguards are not strong enough.
-- Reason for projected: making contact sync explicit opt-in, regrouping controls by audience/data type, and adding deactivation safeguards can lift it toward 4/5, but it is capped at 4/5 and doubly provisional because tone, contrast, and control sizing cannot be raised from a text-only description.
+- Expected score: current 2/5 → projected 3/5 (flat median of the assessable dimensions, conditional, provisional D2).
+- Reason for current: the screen has a useful settings inventory and already decides its colour and type roles, but privacy comprehension, consent clarity, and destructive-action safeguards are not strong enough.
+- Reason for projected: making contact sync explicit opt-in, regrouping controls by audience/data type, and adding deactivation safeguards lift production readiness to 4 — but colour and typography stay at 3 because no finding states a pair or a text-scaling behaviour, the screen owns no asset, and tone, contrast, and control sizing cannot be raised from a text-only description.
 - No Bold move is expected: the screen has unresolved severity-3 findings, so the Bold move trigger is not met.
