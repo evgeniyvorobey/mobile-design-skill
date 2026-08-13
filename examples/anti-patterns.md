@@ -113,10 +113,9 @@ Assumptions:
 - Only field list is provided; layout, spacing, and visual treatment are unknown.
 - Assessment is limited to structural and behavioral concerns that can be reasoned about from the field list.
 
-## Usability issues (based on structure, not visuals)
-- A single email field on a payment form is unusual; confirm whether email is needed for this transaction or belongs on a prior step.
-- Typical iOS payment flows benefit from Apple Pay as a pre-filled alternative; confirm whether it is offered above the manual form.
-- Card number + expiry + CVV on one screen is standard, but without knowing keyboard type and auto-fill configuration, input friction cannot be assessed.
+## Findings
+- **F1 — Usability.** Observation: the form asks for an email address alongside card details. Violated principle: Nielsen #8, aesthetic and minimalist design — every field on a payment screen competes with the one that completes the purchase. User consequence: an extra field at the moment of payment measurably raises abandonment, and if the email is already known the ask reads as a data grab. Change: remove the field, or move it to the step where the account is identified. Predicted effect: fewer fields between intent and completion; directional, low confidence without funnel data. Severity: 2 (minor — frequent, low impact per occurrence). Moves: Attention path 3 → 4.
+- **F2 — Usability.** Observation: no platform payment method is described above the manual form. Violated principle: Jakob's Law — iOS users expect Apple Pay first on a payment sheet. User consequence: users who could have paid in one authentication retype a card instead. Change: offer Apple Pay above the manual form, with the manual path intact below. Predicted effect: shorter path for the majority case; directional. Severity: 3 (major — affects the primary task on every visit). Moves: Attention path 3 → 4. **Unverified:** whether Apple Pay is offered is not stated in the description; confirm before acting.
 
 ## Unresolved assumptions (cannot be verified from the description)
 - Spacing, contrast, typography, and touch-target sizes.
@@ -160,8 +159,8 @@ Assumptions:
 - The product reports WCAG 2.2 AA compliance. This review cannot independently verify that claim from the provided description.
 - This review still performs an accessibility pass and flags risks that could exist even in an audited system, because screens change faster than audits.
 
-## Accessibility issues
-[Concrete observations based on the described screen, with no dependency on the compliance claim.]
+## Findings
+- **F1 — Accessibility.** Observation: [concrete structural observation from the described screen]. Violated principle: [named WCAG criterion or platform requirement]. User consequence: [who is blocked and from what]. Change: [the specific fix]. Predicted effect: [outcome, directional]. Severity: [0–4]. Moves: [dimension, band → band]. Stated independently of the compliance claim, which this review cannot verify.
 
 ## Unresolved assumptions
 - Whether the reported WCAG 2.2 AA compliance covers this specific screen and its current state.

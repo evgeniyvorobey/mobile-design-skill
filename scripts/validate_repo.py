@@ -120,12 +120,15 @@ MARKDOWN_GLOBS = [
     ".claude/skills/*/SKILL.md",
     ".claude/agents/*.md",
     "docs/*.md",
+    "docs/**/*.md",
+    "CHANGELOG.md",
     "skill/*.md",
     "examples/*.md",
     "examples/**/*.md",
 ]
 
 DUPLICATE_HEADING_ALLOWED_FILES = {
+    "CHANGELOG.md",
     "docs/evals.md",
     "docs/visual-benchmark-playbooks.md",
     "skill/modes.md",
@@ -1522,8 +1525,11 @@ PRESCRIBED_SCORE_PATTERNS = [
     # acceptance showed three of four runs reproducing the doc's example blocker
     # near-verbatim. Reference docs carry the derivation form, never a filled score.
     r"Quality target:\s*[1-5]/5\s*[-—]",
+    # A pre-handoff sweep found two survivors the first three patterns could not
+    # reach, in files the scope did not cover. Widen both together or neither.
+    r"target(?:ing)?\s+(?:at least\s+)?\**4/5",
 ]
-PRESCRIBED_SCORE_SCOPE = ("docs/", "skill/templates.md")
+PRESCRIBED_SCORE_SCOPE = ("docs/", "skill/", "SKILL.md")
 
 
 def validate_score_is_derived_not_prescribed() -> None:
@@ -1552,6 +1558,64 @@ def validate_score_is_derived_not_prescribed() -> None:
         fail("Prescribed-score validation failed:\n" + "\n".join(errors))
 
 
+def validate_modes_carry_contract_elements() -> None:
+    """The authoritative file must not teach a shape the scorers reject.
+
+    `SKILL.md` names `skill/modes.md` the tiebreaker, and its `### Output structure`
+    blocks are what a model copies. All six omitted `Device class` while both the
+    response validator and the generation eval hard-failed any response without it —
+    invisible to mode parity, because contract elements are stripped before comparing.
+    """
+    doc = (ROOT / "skill/modes.md").read_text(encoding="utf-8")
+    blocks = re.findall(
+        r"^### Output structure\s*$(?P<body>.*?)(?=^### |\Z)", doc, re.DOTALL | re.MULTILINE
+    )
+    if len(blocks) != 6:
+        fail(f"skill/modes.md: expected 6 `### Output structure` blocks, found {len(blocks)}")
+
+    errors: list[str] = []
+    for index, body in enumerate(blocks, start=1):
+        listed = {normalize_output_field(line) for line in body.splitlines() if line.startswith("- ")}
+        missing = sorted(CONTRACT_ELEMENTS - listed - {"sub-case (d1 or d2 or d3 or d4)"})
+        if missing:
+            errors.append(
+                f"skill/modes.md: output structure #{index} omits contract element(s) "
+                + ", ".join(f"`{m}`" for m in missing)
+            )
+
+    if errors:
+        fail("Mode contract-element validation failed:\n" + "\n".join(errors))
+
+
+BANNED_MODE_D_HEADERS = ("## Usability issues", "## Accessibility issues", "## Recommended fixes", "## Severity or priority")
+
+
+def validate_calibration_teaches_current_shape() -> None:
+    """A banned shape may appear as a counterexample, never as a model answer.
+
+    examples/anti-patterns.md loads as calibration (SKILL.md), and two of its
+    "Good response" fragments still carried the pre-1.16 Mode D bucket shape that
+    SKILL.md explicitly bans. The changelog for 1.17.0 documents that a filled-in
+    example outweighs a prose instruction three runs in four; this was that failure,
+    live, inside the file meant to demonstrate correctness.
+    """
+    text = (ROOT / "examples/anti-patterns.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+    good = False
+    for number, line in enumerate(text.splitlines(), start=1):
+        if re.match(r"^### (Good|Bad) response", line):
+            good = line.startswith("### Good")
+            continue
+        if good and any(line.startswith(h) for h in BANNED_MODE_D_HEADERS):
+            errors.append(
+                f"examples/anti-patterns.md:{number}: `{line.strip()}` is the pre-1.16 "
+                "Mode D shape and must not appear under a `### Good response`"
+            )
+
+    if errors:
+        fail("Calibration-shape validation failed:\n" + "\n".join(errors))
+
+
 def validate_single_workflow_source() -> None:
     """Exactly one file may claim to be the workflow.
 
@@ -1575,7 +1639,11 @@ def validate_single_workflow_source() -> None:
             for f in iter_markdown_files()
             if marker in f.read_text(encoding="utf-8")
         ]
-        holders = [h for h in holders if not h.startswith("docs/proposals/")]
+        # The changelog and the proposal quote these headings when describing changes.
+        holders = [
+            h for h in holders
+            if not h.startswith("docs/proposals/") and h != "CHANGELOG.md"
+        ]
         if holders != [owner]:
             errors.append(
                 f"`{marker}` must appear in {owner} and nowhere else; found in "
@@ -1973,6 +2041,8 @@ def main() -> None:
     validate_direction_provenance()
     validate_calibration_corpus_diversity()
     validate_score_is_derived_not_prescribed()
+    validate_modes_carry_contract_elements()
+    validate_calibration_teaches_current_shape()
     validate_single_workflow_source()
     validate_skill_entrypoint_contract()
     validate_unreadable_source_honesty()

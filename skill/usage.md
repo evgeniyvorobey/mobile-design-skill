@@ -46,7 +46,7 @@ The skill will:
 7. return a structured mode-specific output
 8. include accessibility and usability by default
 9. include design-quality calibration for visual hierarchy, rhythm, craft, and production readiness when producing design artifacts
-10. apply a 1-5 design-quality rubric, targeting 4/5 for generated artifacts and exposing current score in reviews
+10. apply a 1-5 design-quality rubric, deriving the score from a visible dimension read for generated artifacts and exposing both a current and a projected score in reviews
 11. use `examples/evals/`, `examples/rubric-before-after.md`, `examples/golden/`, and `examples/case-studies/` as calibration references when tuning quality and taste
 12. use domain packs for fintech, health, SaaS, marketplace, social, and education when the product category materially changes risk, hierarchy, state coverage, or trust language
 13. use visual benchmark playbooks and benchmark report format to keep references separate from evidence claims

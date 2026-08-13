@@ -324,7 +324,7 @@ Every response must:
 
 ### Sections are a maximum, not a minimum
 
-`Mode:`, `Platform scope:`, `Assumptions:` and `Next actions:` are always on. Every other section listed under `## Mode output requirements` is included only when it carries a decision the input actually supports.
+`Mode:`, `Platform scope:`, `Device class:`, `Assumptions:` and `Next actions:` are always on. Every other section listed under `## Mode output requirements` is included only when it carries a decision the input actually supports.
 
 Omit — never stub — a section you would otherwise fill with a placeholder, a restatement of the request, or a generic caution, and name the omission in one line under `Assumptions` so the reader knows it was a choice rather than an oversight. A short request deserves a short answer: a filled-in section with nothing decided in it is worse than an absent one, because it reads as coverage.
 

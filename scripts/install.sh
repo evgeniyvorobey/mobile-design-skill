@@ -227,10 +227,13 @@ case "$METHOD" in
         # For a self-contained copy install, inline the canonical SKILL.md and
         # supporting files into the wrapper so the ../../../ references in the
         # wrapper do not break.
-        mkdir -p "$TARGET_DIR/skill" "$TARGET_DIR/docs"
+        mkdir -p "$TARGET_DIR/skill" "$TARGET_DIR/docs" "$TARGET_DIR/examples"
         cp "$REPO_ROOT/SKILL.md" "$TARGET_DIR/SKILL.md.canonical"
         cp -R "$REPO_ROOT/skill/." "$TARGET_DIR/skill/"
         cp -R "$REPO_ROOT/docs/." "$TARGET_DIR/docs/"
+        # SKILL.md and docs/evals.md reference examples/ in twenty-plus places; without
+        # this the copy install degrades silently instead of failing.
+        cp -R "$REPO_ROOT/examples/." "$TARGET_DIR/examples/"
         # Replace the wrapper SKILL.md with one whose paths point to the inlined files.
         sed -e 's|${CLAUDE_SKILL_DIR}/../../../SKILL.md|${CLAUDE_SKILL_DIR}/SKILL.md.canonical|g' \
             -e 's|${CLAUDE_SKILL_DIR}/../../../skill/|${CLAUDE_SKILL_DIR}/skill/|g' \

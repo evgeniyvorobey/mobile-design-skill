@@ -1,6 +1,8 @@
 # Proposal: quality ceiling and design diversity upgrade
 
-Status: **released as v1.17.0.** Commits 1–6 plus three acceptance-driven fix commits. Cross-run variance (acceptance criterion A3) is unresolved and carried to v1.18.0.
+Status: **complete through v1.20.0.** Every P0, every P1 and P2-1/P2-2 have shipped; see §§7–11 for what each release achieved and §12 for what remains. Releases: v1.17.0 (ceiling, tablet, honesty), v1.18.0 (A3 — catalog retrieval), v1.18.1 (`skill/skill.md` retired), v1.19.0 (generation eval), v1.20.0 (diversity eval).
+
+**Read §12 first if you are picking this up cold.** The P-tables below record the plan as written; several rows were corrected after measurement and the correction, not the row, is what shipped.
 Baseline: v1.16.0 (`b192ecd`).
 Target release: v1.17.0 — *"the ceiling comes off"*.
 
@@ -228,12 +230,11 @@ conflicts between context dimensions; device class rarely conflicts. The fix is 
 | 1 | Entrypoint repair (P0-3) + parity validator and projected-line guard (P1-3). Must land first: everything else edits the same files. | ✅ landed |
 | 2 | Scoring and slots: P0-1, P0-4, P0-6, P0-5, plus the committed generation examples. | ✅ landed |
 | 3 | Divergence: P0-2 immediately followed by P1-1, plus the motion-band reconciliation. | ✅ landed |
-| 4 | Tablet MVU: P0-7 plus `docs/adaptive-layout.md`, the large-screen bars, `Device class:` in the six template headers and in `MODE_REQUIREMENTS`. New sources added to `docs/sources.md`. | pending |
+| 4 | Tablet MVU: P0-7 plus `docs/adaptive-layout.md`, the large-screen bars, `Device class:` in the six template headers and in `MODE_REQUIREMENTS`. New sources added to `docs/sources.md`. | ✅ landed |
 | 5 | Honesty and scope: P0-8, P0-9. | ✅ landed |
 | 6 | Corpus and CI: P1-5, P1-4, P1-6, P1-7. | ✅ landed |
 
-Deferred to 1.18+: P1-2 (wants the direction step in production first, so the token fields are shaped by real
-use), P1-8, P1-9, P1-10, and the whole P2 tier. P1-11 awaits an owner decision.
+Deferred at the time of writing: P1-2, P1-8, P1-9, P1-10 and the P2 tier. **Since then P1-11 (§9), P2-1 (§10) and P2-2 (§11) have all shipped**; P1-2, P1-8, P1-9, P1-10 and P2-3…P2-6 remain — see §12.
 
 Release notes are written into `CHANGELOG.md` when the release is cut, not accumulated in an
 `[Unreleased]` section: `scripts/validate_release.py` requires the top changelog entry to be a semver
@@ -559,3 +560,47 @@ varied   score_conc=0.5 prov_conc=0.1 classes=5 similarity=0.077
 ```
 
 It also asserts the extractor reads score, provenance and blocker out of a real committed response. Both halves were verified by injection: loosening the thresholds until the uniform corpus passes fails the test with *"the metric does not discriminate"*, and breaking the score regex fails it with *"extractor read score `None`"*. That design is a direct response to shipping a green oracle over a broken function in v1.19.0 — a self-test that only proves the pipe is worth nothing.
+
+
+---
+
+## 12. Where to pick this up
+
+State at hand-off: `main` == `origin/main`, HEAD `68412ed` plus the pre-handoff fix commit, tags `v1.17.0` … `v1.20.0`, working tree clean, both validators green.
+
+### Corrections that outrank the P-tables above
+
+Three planned items were changed after measurement. The correction shipped, not the row:
+
+- **P1-5's Jaccard check was dropped.** Measured median over the real corpus was 0.0 (max 0.043) — word-level n-grams cannot see structural sameness across domains. Signature-move distinctness replaced it. Its 60 % score-share threshold was also relaxed to 75 %, because 60 % on a 23-value corpus forces dishonest scores.
+- **P1-7's positive next-action test was rejected.** Requiring a digit, proper noun or backticked identifier failed thirteen specific, well-written actions and would reward inserting a number. A ≥ 6-word minimum replaced it.
+- **P2-2's within-prompt divergence stays unmeasured**, as the row itself required. Provenance and asset-class spread carry the signal instead.
+
+### What a pre-handoff sweep found that the validators could not
+
+The guards added across these releases were scoped to the *files* where each defect was first seen rather than to the *class* of defect, so the repository validated clean while eight instruction-level contradictions survived. All six blockers were fixed before hand-off, and each guard was widened to its defect class:
+
+- `skill/modes.md` — the file `SKILL.md` names as authoritative — omitted `Device class` from all six `### Output structure` blocks while both scorers hard-failed any response missing it. Invisible to mode parity, which strips contract elements before comparing. Now checked by `validate_modes_carry_contract_elements()`.
+- Two live "aim at 4/5" instructions survived in `skill/usage.md` and `skill/modes.md`, outside `PRESCRIBED_SCORE_SCOPE` and matching none of its patterns. Scope widened to `skill/` and `SKILL.md`, pattern added.
+- `examples/anti-patterns.md` taught the banned pre-1.16 Mode D bucket shape inside two **Good response** fragments — the exact "a filled-in example beats a prose instruction" failure this release documented, live inside the file meant to demonstrate correctness. Now guarded by `validate_calibration_teaches_current_shape()`.
+- `MARKDOWN_GLOBS` used `docs/*.md`, so seven required domain packs and the changelog were never link-checked.
+- `install.sh --method copy` never copied `examples/`, while `SKILL.md` references it in ten places.
+- `run_diversity_eval.py` asserted `asset_class_count ≥ 3` against its own recorded measurement of 2 — a threshold that fails by construction. Demoted to reported-only; the measurement is the floor to move, not a bar the output clears.
+
+**The generalizable lesson: when a guard is added for a defect, scope it to the defect class, not to the file the defect was found in.** Every survivor above sat one directory outside a guard that would otherwise have caught it.
+
+### Ranked backlog
+
+1. **Compressed dimension range.** Every dimension read in live acceptance landed on 3 or 4 — no 2s, no 5s — so a derived median is structurally stuck at 4. Fix upstream in `docs/design-quality-rubric.md`'s willingness to score 2 and 5, not in the median rule.
+2. **Asset-class spread** — 2 of 6 classes appeared in practice. Colour, motion signature and illustration never did.
+3. **P1-8** — `docs/patterns-catalog.md` §15 in the existing Use-when / Avoid-when matrix shape, plus a tablet golden and a stretched-phone review fixture. The highest-value remaining tablet item: it is what stops the model confidently choosing bottom navigation at 1366 pt.
+4. **P1-2** craft substrate — `docs/color-system.md`, a layout section in the quality bars, motion by cited platform curves, type-scale math.
+5. **Consistency debt the sweep flagged as should-fix**: `docs/workflow.md` step numbering is off by one against `SKILL.md` (its direction step is `4.5`, everywhere else it is `5.5`); `Device class:` is missing from output-contract statements in `skill/usage.md`, `docs/workflow.md`, `docs/clarification-policy.md` and `docs/evals.md` — better solved by demoting those to pointers than by patching five copies; `docs/commands.md` documents the pre-1.16 Mode 4 output; Templates E and F reference an `Alternatives considered` section they do not have.
+6. P1-9, P1-10, P2-3 (Mode G), P2-4 (render-and-critique loop), P2-5 (DTCG artifacts), P2-6 (surface axes).
+
+### How to work on this repository
+
+- **Verify every new rule by injection** — break it, watch the validator fail, restore. A green positive run proves nothing until the negative is shown. Two guards in this series were themselves broken and passing.
+- **Never `git checkout <file>` to restore after an injection test on a dirty tree.** It silently reverts uncommitted work; copy to a scratchpad instead.
+- **Build self-tests that discriminate**, not ones that replay a known-good answer. v1.19.0 shipped a green oracle over a variable-shadowing bug; v1.20.0's fixtures instead assert the metric separates a bad corpus from a good one.
+- **Run live acceptance before any release that touches instruction text.** Agents executing `SKILL.md` against real prompts, scored by an independent judge, found every defect the validators missed.

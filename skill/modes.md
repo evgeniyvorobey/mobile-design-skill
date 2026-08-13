@@ -44,6 +44,7 @@ At least one of:
 ### Output structure
 - Mode
 - Platform scope
+- Device class
 - Assumptions
 - Screen goal
 - Primary user task
@@ -108,6 +109,7 @@ At least one of:
 ### Output structure
 - Mode
 - Platform scope
+- Device class
 - Assumptions
 - Flow goal
 - Entry points
@@ -163,6 +165,7 @@ At least one of:
 ### Output structure
 - Mode
 - Platform scope
+- Device class
 - Assumptions
 - Screen or flow scope
 - Structural zones
@@ -262,6 +265,7 @@ At least one of:
 ### Output structure
 - Mode
 - Platform scope
+- Device class
 - Sub-case (D1 / D2 / D3 / D4)
 - Assumptions
 - Quick summary
@@ -327,6 +331,7 @@ At least one of:
 ### Output structure
 - Mode
 - Platform scope
+- Device class
 - Assumptions
 - Type roles
 - Size hierarchy
@@ -346,7 +351,7 @@ At least one of:
 - Does it cover spacing as a system?
 - Does it relate density to content and task needs?
 - Does it define visual rhythm and role limits so the system can be applied consistently?
-- Does it target at least 4/5 design quality through rhythm, density, scaling, and production-ready values?
+- Is the score derived from a visible dimension read rather than aimed at, and does rhythm, density, scaling, and production-ready value coverage support it?
 - Does it note touch implications?
 - Does it remain plausible across platforms?
 - Are accessibility constraints included?
@@ -385,6 +390,7 @@ At least one of:
 ### Output structure
 - Mode
 - Platform scope
+- Device class
 - Assumptions
 - Design objective
 - Target users and context
