@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.25.0] - 2026-08-14
+
+**1.24.0's change is reverted. It does not replicate.**
+
+That release required a band-5 claim to print its closure case, on evidence from three briefs: 7/27 → 16/27 load-bearing statements, McNemar p = 0.011. Re-measured at six briefs, 54 paired cells, one rater cohort, and with the extraction step fixed:
+
+| | load-bearing |
+|---|---|
+| 1.23.0 baseline | 27/54 = 50.0% |
+| 1.24.0 as shipped | 28/54 = 51.9% |
+
+McNemar exact two-sided **p = 1.000**. Power to detect the effect it shipped on was **98.8%**, the 95% CI on the paired difference is [−15.7, +18.9], no cut of briefs or dimensions favours the treated arm, and no rater ranks it first — where in the three-brief run every rater did.
+
+**The earlier result was produced by the measuring instrument.** The extractor used to quote a rule's bolded lead-in and drop the table carrying its values, and 1.24.0's own notes called that defect symmetric across arms. It was not. Fixed, the baseline arm on the same three briefs **doubles** — 7/27 to 14/27 — while the treated arm does not move: a printed `Unlisted case: … → value` is one inline sentence that survives extraction intact, where an untreated rule more often lives in a table the extractor amputated. The +33 points measured how legible each arm's rules were to the extraction step, not how often they closed.
+
+Against no measured benefit, the change carried measured cost: band-5 claims 15/54 → 23/54, precision 0.733 → 0.652, over-claims 4 → 8, φ 0.289 → 0.230. And the gate never fired — all 23 band-5 claims carried a case, so "a band 5 with no printed case is a band 4" demoted **0 of 23**, while 8 of the 23 it passed were underdetermined on the raters' reading.
+
+### Changed
+- Reverted the printed-case requirement across all five instruction surfaces and its guard: the rubric's closure-test block, the self-review checklist, judged mode, the judge agent, and the four `- Unlisted case:` template slots.
+
+### Unchanged, and re-verified by injection after the revert
+- The band-5 closure test itself, the four failure shapes, the `4 → 5` returning-verb guard, and the defect-class scoping of the closure gate across every band-assigning surface. Nothing in this measurement touches them.
+
 ## [1.24.0] - 2026-08-13
 
 > **Reverted in 1.25.0.** The measurement below does not replicate: six briefs and 54 paired cells, at 98.8% power for the effect cited here, return 27/54 against 28/54 with McNemar p = 1.000. The three-brief result was produced by an extraction defect that suppressed the control arm and left the treated arm untouched.
