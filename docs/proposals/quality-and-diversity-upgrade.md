@@ -816,3 +816,59 @@ The guard is scoped to the defect class rather than the two cells: a `4 → 5` c
 - **`Typography`'s two cases are one probe run twice.** Both traverse the same two binary questions, land on the same role, and refuse a new role on the same test. Effective n = 1.
 - **The non-quotability constraint is only partly enforceable in a measurement pipeline**, because a case writer blind to the statements cannot know which classes they enumerate — 2 of 6 cases leaked, a ~33% rate. It *is* enforceable in the rubric, where the model reads its own statement before picking a case. Future measurement runs need a post-write screen; the instruction does not.
 - **Typography's cell is a null.** It was answered correctly by the best statement in all three readers' words and scored zero anyway because the cases probed figure style. No edit was warranted and none was made.
+
+---
+
+## 16. Backlog item 3 measured — the gap is closed by printing the case, not by naming the shapes
+
+The item read: *live output is the thing that falls short, not the questions. Untested: whether the closure test alone closes that gap, or whether the drafting instructions need the failure shapes stated where the artifact is being written rather than where it is being scored.*
+
+The whole closure test was written as scoring language — "band 5 is not awarded on the reading, it is awarded on a test you run". The rubric is reachable from step 5, but step 6, where the artifact is written, sees how the statement will be judged and not what to write.
+
+### The three arms
+
+Three briefs, run through the skill three times. Nine statements extracted per artifact, each paired with a situation **written from the brief before any artifact existed**, by agents who saw no statement and no arm. The same 27 situations test all three arms, so difficulty is identical by construction — the confound that invalidated the first run of item 1 — and any quotable case leaks into every arm equally. All three arms were re-judged in one pass by one cohort of blind raters, so rater drift is not confounded with the arm.
+
+- **A** — the skill as it ships.
+- **B** — plus a drafting-time instruction: name the case before writing the statement, and four shapes that read like rules and return nothing.
+- **C** — plus a requirement to print the worked case (`Unlisted case: … → the value the rule returns`) for every dimension.
+
+| arm | load-bearing | McNemar vs A |
+|---|---|---|
+| A | 7/27 = 26% | — |
+| B | 12/27 = 44% | p = 0.151 |
+| C | **16/27 = 59%** | **p = 0.011** |
+
+C survives every robustness cut — unanimity 0.046, quotation-leaks excluded 0.006, distinctiveness dropped 0.019, worst case 0.055 under the most adversarial double exclusion — with no sign reversal in any brief and every rater ranking C first.
+
+### The correction to §16's predecessor
+
+**Arm B's headline from the first pass does not replicate.** Re-judged by the same cohort it moves from Fisher p = 0.043 to 0.127, on a drift of two statements out of 54. It was never significant on the pre-registered paired test in either pass (0.059, then 0.151). The honest restatement is not "B was wrong" but **"B's advantage was one statement wide."** Any earlier writeup citing 0.043 should carry both numbers.
+
+B also reproduced, a second time and under new judging, the exact defect it was warned about: colour/state 0/3, all nine rater judgements underdetermined, "a ratio or floor with no anchor". Arm C recovered it 3/3 — its largest gain and its only dimension clearing in every brief.
+
+### Mediator, not quotation — the question the previous run left open
+
+Of C's 16 wins, **11 derive a value the worked case does not contain**, and two are the case's explicit complement, which quotation cannot produce: one case works the off-focus branch and says "no haptic" while the situation is in-focus and the raters return "instant swap plus haptic". One determination **contradicts its own worked case** and still came back determined. And the decisive datum — **11 cells that printed a case still came back open**, including one whose case was a near-verbatim answer to the situation put to the raters. Excluding all three of C's near-restatements, C is 13/24 against A's 6/24, p = 0.033.
+
+Pooled over all three arms, worked-case presence beats arm as a predictor (25/42 vs 10/39, p = 0.002, against p = 0.034 for the arm label). And the requirement's effect sits exactly where the model would not have written a case unprompted: on the 14 dimensions arm B left without one, C is 8/14 against B's 4/14; on the 13 where B wrote one, both are 8/13. A mandate that changes nothing where the behaviour was already present is the shape a mandate should have.
+
+### Why the blanket form did not ship
+
+C was told to print a case for **every** dimension, and that collapsed the score's own information: **24 of 27 dimensions claimed at band 5**, self-scoring φ of −0.053 against arm A's 0.171 and arm B's 0.417. Writing a case, seeing output and awarding 5 becomes one motion. Prediction 4 — that C would be better calibrated, because a rule returning nothing is visible to its author — is **refuted**: the honesty clause fired three times, two of those three were dimensions the raters called determined anyway, and it caught none of the ten over-claims.
+
+So the printed case shipped **scoped to band-5 claims**. It is a gate on the top band, not a section to fill in.
+
+### The pre-registered rule, honoured rather than dodged
+
+C vs B did not separate (6 C-only, 2 B-only, p = 0.145), and the pre-registered rule said that in the C ≈ B branch the simpler instruction wins. It did not win here, for reasons that are findings rather than rescues: B's own advantage over A failed to replicate, B reproduced its named defect a second time, and **C's instruction is a superset of B's** — B's four shapes plus one clause — so shipping C is not a bet against B. The rule is recorded as reaching its B branch on the primary test, and overridden on stated grounds.
+
+One further asymmetry, not pre-registered: C's verdicts are far more rater-stable. Of the statements each arm won, the share won unanimously is A 7/7, **B 4/12**, C 14/16 (Fisher C vs B p = 0.005). B's wins are the ones raters disagree about, which is why C beats B decisively on strict aggregation rules (unanimity p = 0.003) and not at all on loose ones.
+
+### What section 16 did not resolve
+
+- **C vs B is not isolated.** Eight discordant pairs is not a test and 0.145 is not a null.
+- **Three briefs floor brief-level inference at p = 0.125**, whatever the effect size. Six briefs × nine dimensions would put the paired test near 0.01 and the brief-level floor at 0.016.
+- **Nothing separates "the requirement worked" from "arm C's generator happened to be better."** That needs an effort-matched control the design does not have — though C is +0.5% on length over B, so the C-vs-B contrast is at least not an effort story.
+- **A measurement defect worth fixing before the next run**: where a rule lives in a table, the extractor can take the lead-in and miss the table. Verified to have cost C three cells and B at least one, symmetrically across arms, so every rate above is an underestimate and the arm contrast is compressed rather than inflated.
+- **All three distinctiveness situations presuppose a placeable mark**, which is ill-formed for a type-treatment asset. Second run in a row; the dimension returned 1/6 across arms and should be rewritten before it is measured again.
