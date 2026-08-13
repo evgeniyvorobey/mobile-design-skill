@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.0] - 2026-08-13
+
+Sameness is now measured rather than read for. It was the symptom this whole line of work started from, and until this release it had only ever been assessed by a human reading outputs side by side.
+
+### Added
+- **`scripts/run_diversity_eval.py`** — extracts a **decision vector** from each generated response (the catalog entries it sampled via `from:`, the asset class of its `Signature move`, the score it derived, the dimension it named as the blocker, the base units and ratios it emitted) and reports the spread across a set. This is only possible because 1.18.0 pushed provenance and asset class into the output as machine-readable fields; before that there was nothing to measure but prose.
+
+  **Vectors, not prose.** A pairwise 5-gram similarity over the calibration bodies was specified during 1.17.0 and measured at a median of **0.0** — those blocks describe different domains in different words, so word-level overlap cannot see structural sameness. A small structured vector can.
+- **`examples/evals/diversity-fixtures.json`** — a deliberately `uniform` corpus reproducing the exact failure the 1.17.0 live acceptance found, and a `varied` one. The self-test asserts the measurements **separate** them, and that the extractor reads score, provenance and blocker out of a real committed response.
+
+  | corpus | score conc. | provenance conc. | asset classes | vector similarity |
+  |--------|-------------|------------------|---------------|-------------------|
+  | uniform | 1.00 | 1.00 | 1 | 0.714 |
+  | varied | 0.50 | 0.10 | 5 | 0.077 |
+- A `## Diversity eval` section in `docs/evals.md`, and the self-test wired into CI and the release gate. It needs no model.
+
+### Changed
+- Thresholds are asserted **only where this repository has measured data**: score concentration, provenance concentration, blocker concentration and asset-class count each carry the acceptance run they came from, in the source. `vector_similarity` has no baseline and is reported without assertion. Report-only is the default; `--assert` enforces. Guessing a threshold produces either a check that passes vacuously forever or one that forces dishonest output, and both have already happened in this repository.
+- Within-prompt divergence stays deliberately unmeasured. There is no sampling-temperature contract, and a deterministic skill giving one well-grounded answer to one prompt is defensible. Never considering anything else is not — which is what the provenance and asset-class measures capture.
+
+### Notes
+- The self-test discriminates rather than replays, and both halves were verified by injection: loosening the thresholds until the uniform corpus passes fails it with *"the metric does not discriminate"*, and breaking the extractor's score pattern fails it with *"extractor read score `None`"*. That design is a direct answer to 1.19.0, where a green oracle replay sat over a function with a variable-shadowing bug — a self-test that only proves the pipe works is worth nothing.
+
 ## [1.19.0] - 2026-08-13
 
 The first check in this repository that reads generated text. Everything before it read markdown a maintainer wrote.
