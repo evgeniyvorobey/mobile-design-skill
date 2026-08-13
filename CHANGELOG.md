@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.24.0] - 2026-08-13
+
+The band-5 closure test was a **silent** gate: run it, and if the rule returns nothing, drop to band 4. Silently-run gates are not checkable, and measurement says they are also not run.
+
+Three briefs through the skill three times, nine design-quality statements extracted per artifact, each paired with a situation **written from the brief before any artifact existed** by agents who saw no statement and no arm. The same 27 situations test all three arms, so difficulty is identical by construction, and all three arms were re-judged in one pass by one cohort of blind raters.
+
+| arm | load-bearing | paired test vs A |
+|---|---|---|
+| as it ships | 7/27 = 26% | — |
+| + name the case, avoid four failure shapes | 12/27 = 44% | McNemar p = 0.151 |
+| **+ print the case and what the rule returns** | **16/27 = 59%** | **McNemar p = 0.011** |
+
+The printed-case arm is the only contrast in either pass to clear the pre-registered paired test, and it survives every robustness cut — unanimity 0.046, quotation-leaks excluded 0.006, worst case 0.055 — with no sign reversal in any brief and every rater ranking it first.
+
+### Changed
+- **A band-5 claim now prints its closure case.** `- Unlisted case: [the case the artifact does not list] → [the value the rule returns for it]`, on its own line under that dimension's band. The three constraints on the case and the four failure shapes are unchanged; what changed is that the test leaves a trace a reader can check.
+- **Scoped to band-5 claims only, and the reason is measured.** Requiring a case under every dimension regardless of band collapsed the score's own information: 24 of 27 dimensions came back claimed at band 5, self-scoring φ of −0.053 against 0.171 for the unmodified skill, because writing a case, seeing output and awarding 5 becomes one motion. The printed case is a gate on the top band, not a section to fill in.
+- The requirement is stated on all four surfaces that assign a band, and the slot exists in the output templates, where the artifact is written rather than where it is scored.
+
+### Fixed
+- The judge now scores a band-5 claim with no printed case as a band 4, and is told to run a printed case itself rather than accept it — a case whose answer the draft already prints elsewhere was closed by quotation, not by derivation.
+
+### Added
+- Each band-assigning surface must require the case to be **printed** rather than merely run, and `skill/templates.md` must carry the slot. Verified by injection on all five sites.
+
+### Note on an earlier number
+The previous release's supporting measurement reported the "name the case" instruction at Fisher p = 0.043. Re-judged by the same rater cohort as the other arms, it is **p = 0.127**, on a drift of two statements out of 54, and it was never significant on the pre-registered paired test in either pass. That instruction's advantage was one statement wide. It ships only as the subset the printed-case requirement contains.
+
 ## [1.23.0] - 2026-08-13
 
 Determinacy in live output varied 14%–86% **by dimension** and barely at all by band, which raised the question of whether some dimensions can reach band 5 at all as their `4 → 5` question is written. Measured: nine dimensions, one fixed product absent from the corpus (so artifact-of-origin is removed by construction rather than adjusted for), two statements each — a serious attempt at the question, and a well-written specimen of the failure shapes live output actually produces — paired against the same two situations, written from the brief alone by agents who never saw a statement or an arm.
