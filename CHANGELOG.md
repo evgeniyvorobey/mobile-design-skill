@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.17.0] - 2026-08-13
+
+Theme: **the ceiling comes off.** A six-dimension audit with an adversarial verification pass produced 38 surviving findings; the plan of record, the causes, and the explicit non-goals are recorded in [`docs/proposals/quality-and-diversity-upgrade.md`](docs/proposals/quality-and-diversity-upgrade.md).
+
+### Fixed
+- **The v1.16.0 Mode D contract never reached `SKILL.md`.** The causal `Findings` block, the `current → projected` score and the `Bold move` block shipped into `skill/modes.md`, `skill/templates.md`, `docs/self-review.md`, `docs/evals.md` and `scripts/validate_repo.py` — but `SKILL.md`, the only always-loaded file, kept the pre-1.16 bucket shape (`Usability issues` / `Accessibility issues` / `Severity or priority` / `Recommended fixes`). A model drafted the old shape from the entrypoint, then the mandatory self-review failed it and forced a blind rewrite toward a target the entrypoint never described. This was the **second consecutive release in which the entrypoint was the file the feature forgot**; `validate_mode_parity()` now makes that class of drift a CI failure, and it caught a second, unnoticed divergence in Mode C on its first run.
+- `docs/self-review.md` and `docs/workflow.md` held stale third and fourth copies of the Mode D score rule. The self-review prompt now carries the flat-median contract; the workflow bullet became a pointer.
+- `docs/design-quality.md` declared a 200–500 ms motion "personality band" while `docs/quality-bars.md` capped full-screen navigation at 400 ms, so a motion signature had no legal room.
+- `validate_synthetic_case_studies()` required the literal string `4/5` in every case study — a validator that made "every case study is 4/5" a CI rule. Relaxed to any `[1-5]/5`.
+
+### Added
+- **Device class as a second scope axis** (phone / tablet / foldable / adaptive), with a 20-signal trigger list, a `Device class:` line in the output contract and all six templates, a fourth Platform-policy branch, a conditional `## Adaptive behavior` block, and a new `docs/adaptive-layout.md` covering width classes, canonical layouts and their collapse rules, navigation by width, multitasking, and additive input. `docs/quality-bars.md` gains `## Large-screen and adaptive bars` (600/840 dp classes, reading column 640–720 pt, list pane 320–400 pt, rail 80 dp, sidebar 240–360 dp, margins, column counts). Answers the standing question of whether the skill can design tablet apps: before this release, only as a five-row table that nothing triggered.
+- **Step 5.5 "Set the design direction"** for Modes 1/3/5: three candidate directions, each a thesis plus five token consequences (base unit and ratio, type role split, colour-construction rule, one composition move, motion signature), ranked and reduced to one, with the two rejects populating `Alternatives considered` or `Key decision tradeoffs`. Internal, perceptual-only, and required to differ in at least two token fields.
+- **Ninth rubric dimension, `Distinctiveness and owned assets`**, with an `n/v` marker excluded from the median, a `3 → 4 (inert cap)` ladder rung stating the cap's own exit, and a `Signature move:` slot in Templates A/C/F.
+- **A `Mode: outside the standard six` branch** so paywall architecture, whole-app IA, notification strategy and design-system governance stop being rounded into a screen-concept template. Anti-pattern 9 shows the case both ways.
+- **Guardrail 16**: do not describe a source you cannot open (Mobbin, Page Flows, UI Sources and Pttrns are behind sign-in or paywalls and are lookups for the user, never narrated), and do not state a version-bound default as timeless.
+- Token consequences for the four compositional schools and the nine point-of-view products in `docs/inspiration-sources.md`, which were previously a reading list.
+- `### Signature transition` in `docs/quality-bars.md`: one signature per product, top of its own band, 400 ms ceiling, never applied to tap feedback.
+- An adversarial rubric fixture (`examples/evals/rubric-score-2-adversarial.json`) whose dimensions median at 3 while a cap drags it to 2/5 — the first fixture that separates a judge applying the rubric from a judge reporting an average.
+
+### Changed
+- **The quality ceiling is no longer nailed shut at 4/5.** `skill/templates.md` pre-printed `Quality target: [4/5 by default unless context blocks it]`, and 21 of 23 values in the calibration corpus were 4/5. The target line must now name the dimension blocking the next level and what would lift it; the rubric states plainly that 4/5 is the default target, not the ceiling.
+- **The inspiration gate is no longer narrower than the layer it guards.** `SKILL.md` listed four trigger signals while `docs/inspiration-sources.md` declared nine — so "make it feel premium" never reached the layer whose own trigger list names that phrase. All nine now appear at the gate, kept in sync by `validate_inspiration_gate_parity()`.
+- `Alternatives considered` (Mode 1) and `Key decision tradeoffs` (Mode 3) added to `SKILL.md` and `skill/modes.md`: `MODE_REQUIREMENTS` and the committed examples already demanded these sections, so the instructions had been requiring less than the validator enforced.
+- Sections are a maximum, not a minimum: only `Mode:`, `Platform scope:`, `Device class:`, `Assumptions:` and `Next actions:` are unconditional; anything else is omitted — never stubbed — when the input does not support a decision.
+- Phone-first is now stated as a reversible assumption rather than a closed statement in `skill/skill.md`, `docs/clarification-policy.md` and `examples/generate-screen.md`.
+- All six golden examples carry a distinct owned asset expressed as a token with named repeat locations. The corpus score distribution moved from 21/23 at 4/5 (91 %) to four distinct scores with a 74 % maximum share.
+- CI steps that ran the deterministic oracle are renamed to say they are self-tests and not quality checks, with a new section in `docs/llm-judge-runner.md` stating that no model runs in CI and a `SKILL.md` change that degrades live output cannot fail those steps.
+
+### Validation
+- Eight new cross-file contract checks in `scripts/validate_repo.py`, each verified by injection: mode parity, inspiration-gate parity, motion-band consistency, projected-score shape, skill-entrypoint contract, unreadable-source honesty, calibration-corpus diversity, and the `Device class:` / `## Adaptive behavior` pairing.
+- Two checks specified in the proposal were **corrected after measurement rather than implemented as written**, and the reasons are recorded in the validator source: a pairwise 5-gram Jaccard threshold of 0.15 (measured median in the real corpus is 0.0, so it would pass vacuously forever) and a positive next-action test requiring a digit or proper noun (it failed thirteen specific, well-written actions and would reward inserting a number).
+- The rubric eval pack now asserts `expected_score ≤ floor(median)` always, `== floor(median)` when no cap is recorded, and that at least two fixtures carry a dimension spread ≥ 2. Previous spreads were 0, 1, 1, 0, 0 — the median rule had never been exercised.
+
 ## [1.16.0] - 2026-05-29
 
 ### Added
