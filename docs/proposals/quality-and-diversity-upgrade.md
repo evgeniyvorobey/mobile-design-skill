@@ -604,3 +604,79 @@ The guards added across these releases were scoped to the *files* where each def
 - **Never `git checkout <file>` to restore after an injection test on a dirty tree.** It silently reverts uncommitted work; copy to a scratchpad instead.
 - **Build self-tests that discriminate**, not ones that replay a known-good answer. v1.19.0 shipped a green oracle over a variable-shadowing bug; v1.20.0's fixtures instead assert the metric separates a bad corpus from a good one.
 - **Run live acceptance before any release that touches instruction text.** Agents executing `SKILL.md` against real prompts, scored by an independent judge, found every defect the validators missed.
+
+---
+
+## 13. Backlog item 1 shipped — the scale had three anchors for five bands
+
+`docs/design-quality-rubric.md` asked for a number from 1 to 5 and gave three columns to pick it from: `1-2 signals | 3 signals | 4-5 signals`. Two of the three were bands, and the document supplied within-band discrimination for exactly one of them, once, in artifact-scoped language. There was **no text anywhere in the repository distinguishing 1 from 2.** The executable decision procedure was: pick a column. Reachable set `{1, 3, 4}`, and the committed corpus was exactly that.
+
+### What the diagnosis added to the backlog line
+
+Four things the row did not say, each of which changed the work:
+
+1. **The collapse was bimodal.** Generation was pinned to `{3,4}`; Mode D was pinned to `{2,3}` — 20 twos and 5 threes in `Now`, zero 1s, 4s or 5s. The two regimes failed in opposite directions and the union across them looked wider than either. A guard scoped to `Dimension read:` would have covered half the defect.
+2. **The base cause was arithmetic, not vocabulary.** A lone 5 cannot move a nine-element median (free but useless); a 2 trips the critical-dimension step and then the revise ratchet (expensive). So even a perfect table would not have produced either tail while the incentive stood.
+3. **`docs/evals.md` carried a per-dimension floor at 4** — "Any dimension below 4/5 is either revised or clearly blocked by missing input" — handed verbatim to the fixture judge in its prompt.
+4. **`QUALITY_TARGET_SHAPE` forbade 5/5 by test suite.** It required `blocked from … until` unconditionally and is a `must_contain` for Modes A and C, so a response deriving 5/5 could not satisfy it without inventing a blocker.
+
+`validate_score_is_derived_not_prescribed()` — the guard built for this exact class — matched **zero lines inside its own scope**. All five patterns require the token `target` adjacent to `4/5`; every live anchor had drifted to "usually lands at", "4/5-style", "At 4/5,", "not a quiet 4/5".
+
+### The scale
+
+Four boundary questions per dimension replace the three descriptions. The band is the number of consecutive questions answered yes from the left, plus one; a later yes never rescues an earlier no. Four boundaries define five bands exhaustively, which a set of descriptions cannot — under the old table a typography treatment with sizes but no weights matched no cell at all.
+
+The ladder separates four acts:
+
+```
+1 → 2   contradicted or absent  →  named
+2 → 3   named                   →  decided for the default case
+3 → 4   decided                 →  stated with values, surviving one declared variation
+4 → 5   stated                  →  a rule that settles the cases the artifact does not list
+```
+
+### It took three calibrations, and the same instrument caught all three failures
+
+| pass | result | cause |
+|---|---|---|
+| 1 | 46% of values on band 2; four of seven artifacts at median 2 | three `2 → 3` questions asked whether **values** were stated, which a Mode A concept fails by construction — its output contract has no section to carry them |
+| 2 | 63% on band 3; all seven artifacts at median 3 | `3 → 4` cells were four-way conjunctions; `examples/ui-spec.md` states `22-24sp, 28-32sp line height` per role, `16dp`/`24dp`/`48dp` spacing and `240ms, standard-decelerate` with a named reduced-motion fallback, and read 3 on all three of those dimensions because each conjunction had one absent clause |
+| 3 | converged | boundaries are single tests; where a cell names two things the second is the one declared variation the value must survive |
+
+The diagnostic that caught passes 1 and 2 was not the distribution. It was **the count of dimensions taking more than one value across the corpus**: two constants at 4 before the release, then two constants at 2, then three constants at 3. A dimension that reads one value in every artifact is measuring the rubric, not the artifact. It is now a validator.
+
+### Measured
+
+| | before | after |
+|---|---|---|
+| 63 `Dimension read:` values | `1`×1, **`2`×0**, `3`×14, `4`×45, `5`×3 | `1`×2, `2`×4, `3`×33, `4`×20, `5`×4 |
+| top-value share | 0.71 | 0.52 |
+| union of bands | `{1,3,4,5}` | `{1,2,3,4,5}` |
+| artifact medians | 6×4, 1×3 | 5×3, 2×4 |
+| single-valued dimensions | 2 of 9 | **0 of 9** |
+| lines with both a `≤2` and a `≥5` | 0 | 2 |
+| `Quality target:` at 4/5 | 17 of 23 (74%) | 13 of 23 (57%) |
+
+### Live acceptance
+
+Seven responses through `SKILL.md`, five generation and two Mode D, three scored by an independent judge.
+
+```
+score_concentration   1.00 (1.17.0 pass)  ->  0.00
+scores printed                                2/5, 3/5, 4/5
+Mode D `Now`          {2,3} committed     ->  {1,2,3}, six 1s
+Mode D `Projected`    {3,4} committed     ->  {1,2,3,4}
+generation bands      {3,4} (1.17.0)      ->  {3,4,5}
+```
+
+The 4/5 pin is gone in both regimes and the two carriers cover 1..5 between them. The judge disagreed with one draft's own read on one dimension (`Production readiness` 5 against 4) and named the boundary that settles it, which is the disagreement being legible rather than a defect.
+
+**Two findings from the run, both about the instruments.** `share_in_middle_bands` counted the share on bands 3 and 4 — the shape the defect had when it was found — and the live run came back 93% on bands 4 and 5, a collapse the field read as an improvement. It is now `adjacent_pair_share`, the largest share held by any two adjacent bands. And three of five responses appended prose after the last dimension, which an anchored per-chunk parser silently dropped, reading 8 bands where 9 were printed; both parsers now take the first band token per chunk. A parser that under-counts is worse than one that fails, because the measurement still prints.
+
+### What did not resolve
+
+**Band 5 is cheap in generation.** 23 of 42 live bands were 5, and `adjacent_pair_share` sits at 0.911 on `{4,5}` against roughly 0.94 the old corpus would have shown on `{3,4}`. The pin moved; it did not disperse. The `4 → 5` question asks for a rule that settles unlisted cases, and a model authoring its own artifact can write such a rule at will — the adversarial critique predicted exactly this and it happened. Whether those rules are load-bearing or performative needs a judge panel, not another instruction edit.
+
+**Band 2 is absent from generation output, and that is probably correct.** The revise trigger lifts any dimension whose failed boundary the input can answer; in generation the model authors the artifact, so nearly every band-2 failure is liftable. Band 2 is a review reading, and review now produces it. This should be confirmed rather than assumed.
+
+**The golden examples read lower than their label.** Five of seven artifacts land at median 3 — they decide but rarely state values across variations, which is what `docs/golden-examples.md` implies they demonstrate. `examples/ui-spec.md` was given the colour rules it should always have had; the rest were left alone rather than inflated.
