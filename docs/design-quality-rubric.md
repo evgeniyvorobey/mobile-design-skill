@@ -54,8 +54,10 @@ The projected score is the median of the assessable (non-`n/v`) projected dimens
 For generation, specs, typography systems, and handoff, expose the target only when useful:
 
 ```md
-- Quality target: 4/5 — production-ready direction; blocked from 5/5 by Context & brand fit until the brand palette and one owned asset are confirmed.
+- Quality target: [derived]/5 — median of the assessable dimensions {[dimension]: [n], ...}; [outlying dimension] sits at [n]; blocked from [next]/5 by [that dimension] until [named input or fix]
 ```
+
+Derive the bracketed values. Do not reuse the dimension named in any example you have read — if `Context & brand fit` is the blocker in three consecutive answers, it is being retrieved, not assessed.
 
 **Name the blocker.** At 4/5, state which dimension prevents 5/5 and whether the available input supports lifting it. If it does, lift it before returning. If it does not, say what input is missing. A 4/5 with no named blocker is a default, not a score — see `SKILL.md` on flagging defaults as such.
 

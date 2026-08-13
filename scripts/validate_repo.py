@@ -190,6 +190,8 @@ RUBRIC_FIXTURE_REQUIRED_FIELDS = {
 SIGNATURE_MOVE_SHAPE = r"Signature move:\s*(?:\S+\s+){7,}\S+"
 # `Quality target:` must name what blocks the next level, not just print a number.
 QUALITY_TARGET_SHAPE = r"Quality target:[^\n]*\bblocked from\b[^\n]*\buntil\b"
+# The score must be traceable to named dimensions, or "derived" is unfalsifiable.
+DIMENSION_READ_SHAPE = r"Dimension read:[^\n]*[1-5][^\n]*[1-5]"
 
 MODE_REQUIREMENTS = {
     "Generate mobile screen concept": {
@@ -236,6 +238,7 @@ MODE_REQUIREMENTS = {
             ("Design quality calibration", SIGNATURE_MOVE_SHAPE),
             # The quality target names the blocking dimension instead of printing a bare number.
             ("Design quality calibration", QUALITY_TARGET_SHAPE),
+            ("Design quality calibration", DIMENSION_READ_SHAPE),
         ],
     },
     "Design mobile user flow": {
@@ -282,6 +285,7 @@ MODE_REQUIREMENTS = {
             ("Design quality requirements", r"\b[1-5]/5\b"),
             ("Design quality requirements", SIGNATURE_MOVE_SHAPE),
             ("Design quality requirements", QUALITY_TARGET_SHAPE),
+            ("Design quality requirements", DIMENSION_READ_SHAPE),
         ],
     },
     "Review screen for usability/accessibility": {
@@ -376,6 +380,7 @@ MODE_REQUIREMENTS = {
             ("Design quality rationale", r"\b[1-5]/5\b"),
             ("Design quality rationale", SIGNATURE_MOVE_SHAPE),
             ("Design quality rationale", QUALITY_TARGET_SHAPE),
+            ("Design quality rationale", DIMENSION_READ_SHAPE),
         ],
     },
 }
@@ -1437,7 +1442,12 @@ PRESCRIBED_SCORE_PATTERNS = [
     r"target\s+\**4/5\**\s+before",
     r"internally target 4/5",
     r"target 4/5 quality",
+    # A filled-in illustrative line outweighs a prose instruction to derive: live
+    # acceptance showed three of four runs reproducing the doc's example blocker
+    # near-verbatim. Reference docs carry the derivation form, never a filled score.
+    r"Quality target:\s*[1-5]/5\s*[-—]",
 ]
+PRESCRIBED_SCORE_SCOPE = ("docs/", "skill/templates.md")
 
 
 def validate_score_is_derived_not_prescribed() -> None:
@@ -1452,6 +1462,8 @@ def validate_score_is_derived_not_prescribed() -> None:
         relative_path = file_path.relative_to(ROOT).as_posix()
         if relative_path.startswith("docs/proposals/") or relative_path == "CHANGELOG.md":
             continue  # these record the history of the defect
+        if not relative_path.startswith(PRESCRIBED_SCORE_SCOPE):
+            continue  # examples are meant to carry real derived scores
         text = file_path.read_text(encoding="utf-8")
         for pattern in PRESCRIBED_SCORE_PATTERNS:
             if re.search(pattern, text, re.IGNORECASE):

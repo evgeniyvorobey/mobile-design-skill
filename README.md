@@ -75,7 +75,7 @@ It is structured around:
 - **Guardrails** — no invented platform rules, no fabricated research findings, no aesthetic-only advice without usability reasoning.
 - **Quality bars** — concrete numeric thresholds (touch 44pt iOS / 48dp Android, WCAG 2.2 AA contrast, line-height 1.4–1.6, motion 200–300ms).
 - **Design quality calibration** — visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production-readiness checks.
-- **Design quality rubric** — 1–5 scoring that targets 4/5 for generated artifacts and exposes current quality score in reviews.
+- **Design quality rubric** — 1–5 scoring derived from the assessable dimensions for generated artifacts, and a current → projected score in reviews.
 - **Rubric eval pack** — score-calibrated fixtures for `1/5` through `5/5` plus a before/after upgrade example.
 - **LLM-as-judge runner** — LLM-agnostic JSONL runner with an external-agent command adapter for semantic rubric calibration.
 - **Visual benchmark playbooks** — source-specific checklists for Mobbin, Page Flows, Apple Design Awards, and Awwwards that keep inspiration separate from evidence.

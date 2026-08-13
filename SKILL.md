@@ -315,7 +315,7 @@ Include:
 - Adaptive behavior — include only when device class is not phone; omit entirely for phone-only work
 - Design quality calibration
 - Rationale for major choices
-- Alternatives considered — name two structurally different layout approaches, commit to one, and state the mechanism that kills the other. Two variants of the same structure is not an alternative.
+- Alternatives considered — the two rejected directions from step 5.5. Each entry must carry at least two of that direction's token consequences (base unit and ratio, type role split, colour-construction rule, composition move, motion signature) plus the mechanism that kills it. A layout described in layout words is not a direction, and two variants of one structure are not two alternatives.
 
 ### Mode 2: Design mobile user flow
 Include:

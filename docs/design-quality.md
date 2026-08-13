@@ -229,7 +229,7 @@ Use this structure:
 
 ```md
 ## Design quality calibration
-- Quality target: 4/5 — production-ready direction; blocked from 5/5 by Context & brand fit until the brand palette and one owned asset are confirmed.
+- Quality target: [derived]/5 — median of the assessable dimensions {[dimension]: [n], ...}; [outlying dimension] sits at [n]; blocked from [next]/5 by [that dimension] until [named input or fix]
 - Attention path:
 - Composition and spacing:
 - Typography:

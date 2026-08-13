@@ -100,7 +100,8 @@ Assumptions:
 - Input additions: [pointer / hardware keyboard / drag-and-drop / stylus] — touch minimums unchanged, every drag has a non-drag path
 
 ## Design quality calibration
-- Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
+- Dimension read: [dimension]: [n], [dimension]: [n], ... (mark `n/v` where the input cannot verify one)
+- Quality target: [derived]/5 — median of the assessable dimensions above; blocked from [next level] by [outlying dimension] until [named input or fix]
 - Attention path:
 - Composition and spacing:
 - Typography:
@@ -114,8 +115,8 @@ Assumptions:
 - [decision] because [reason]
 
 ## Alternatives considered
-- [alternative] — rejected because [reason tied to user goal, task, platform, accessibility, or implementation]
-- [alternative] — rejected because [reason]
+- Direction rejected — [thesis]: [base unit / ratio], [type role split], [colour rule], [composition move], [motion signature] — rejected because [mechanism tied to user goal, task, platform, accessibility, or implementation]
+- Direction rejected — [thesis]: [at least two token consequences] — rejected because [mechanism]
 
 ## Next actions
 - [action]
@@ -249,7 +250,8 @@ Assumptions:
 - Input additions: [pointer / hardware keyboard / drag-and-drop / stylus] — touch minimums unchanged, every drag has a non-drag path
 
 ## Design quality requirements
-- Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
+- Dimension read: [dimension]: [n], [dimension]: [n], ... (mark `n/v` where the input cannot verify one)
+- Quality target: [derived]/5 — median of the assessable dimensions above; blocked from [next level] by [outlying dimension] until [named input or fix]
 - Attention path:
 - Composition and spacing:
 - Typography:
@@ -420,7 +422,8 @@ Assumptions:
 - [rule]
 
 ## Visual rhythm rules
-- Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
+- Dimension read: [dimension]: [n], [dimension]: [n], ... (mark `n/v` where the input cannot verify one)
+- Quality target: [derived]/5 — median of the assessable dimensions above; blocked from [next level] by [outlying dimension] until [named input or fix]
 - [rule]
 - [rule]
 
@@ -471,7 +474,8 @@ Assumptions:
 - [pattern] over [alternative pattern] because [reason]
 
 ## Design quality rationale
-- Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
+- Dimension read: [dimension]: [n], [dimension]: [n], ... (mark `n/v` where the input cannot verify one)
+- Quality target: [derived]/5 — median of the assessable dimensions above; blocked from [next level] by [outlying dimension] until [named input or fix]
 - Signature move: [owned asset as a token] repeated at [locations] — or: none, this design is inert because [reason], and [what would change it]
 - [quality decision] — [mechanism: size/spacing/alignment/color/density/motion/token] — [why it fits context]
 - [quality decision] — [mechanism] — [why]
