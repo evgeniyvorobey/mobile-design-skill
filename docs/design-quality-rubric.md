@@ -54,8 +54,12 @@ The projected score is the median of the assessable (non-`n/v`) projected dimens
 For generation, specs, typography systems, and handoff, expose the target only when useful:
 
 ```md
-- Quality target: 4/5 — production-ready direction with remaining validation notes.
+- Quality target: 4/5 — production-ready direction; blocked from 5/5 by Context & brand fit until the brand palette and one owned asset are confirmed.
 ```
+
+**Name the blocker.** At 4/5, state which dimension prevents 5/5 and whether the available input supports lifting it. If it does, lift it before returning. If it does not, say what input is missing. A 4/5 with no named blocker is a default, not a score — see `SKILL.md` on flagging defaults as such.
+
+This applies in both directions: 5/5 is reachable by a stated route, not a decorative aspiration, and a score below 4 must name what it would take to get there rather than shipping with an apology.
 
 Do not let the score replace the reasoning. The score is a compression of the critique, not the critique itself.
 
@@ -87,6 +91,9 @@ Score each relevant dimension from 1-5.
 | Interaction polish and motion | missing feedback or motion hides problems | basic feedback exists | pressed/loading/saving/success/error feedback is clear, fast, and reduced-motion-aware |
 | Context and brand fit | visual language contradicts trust, domain, or platform | broadly appropriate | brand supports task, trust, and platform conventions without overriding semantics |
 | Production readiness | vague handoff; no tokens/states/QA | enough to discuss | token-ready values, component/state mapping, platform notes, and QA checks are present |
+| Distinctiveness and owned assets | zero owned assets; interchangeable with a competitor once the logo is removed | one asset asserted but not tokenized, not repeated, or still an adjective | at least one owned asset expressed as a token, with named repeat locations, passing the delight-placement and brand-expression-budget gates |
+
+Mark a dimension `n/v` when the given input cannot verify it — visual dimensions in a text-only D2/D3 review, or Distinctiveness when the user supplied no brand context and asked for structure only. `n/v` is not a low score; see the final scoring method for how it is handled.
 
 ---
 
@@ -101,15 +108,15 @@ Apply these caps before calculating the final score:
 - Visual assertions from text-only review input cap Mode D score confidence; label the score as provisional or restrict it to structural quality.
 - Aesthetic-only recommendations cap the design-quality score at **2/5** until translated into task, accessibility, or implementation mechanisms.
 - Platform flattening in materially different iOS/Android behavior caps cross-platform outputs at **3/5**.
-- An inert screen — competent on all dimensions but failing the inert-screen test in `docs/design-quality.md` — caps at **3/5** with an upside note (not a quiet 4/5) until it carries at least one owned distinctive asset or a justified signature moment.
+- An inert screen — competent on all dimensions but failing the inert-screen test in `docs/design-quality.md` — caps at **3/5** with an upside note (not a quiet 4/5) until it carries at least one owned distinctive asset or a justified signature moment. The exit is the `3 → 4 (inert cap)` rung in the improvement ladder below, and only that rung: adding mechanisms, platform notes or QA checks does not lift this cap.
 
 ---
 
 ## Final scoring method
 
-1. Score all relevant dimensions.
+1. Score all relevant dimensions, marking unverifiable ones `n/v`.
 2. Apply caps and hard limits.
-3. Use the median dimension score as the starting point.
+3. Use the median of the **assessable** dimension scores as the starting point. A dimension marked `n/v` is excluded from the median entirely — it is neither counted as low nor projected upward. Excluding it changes the median, so state which dimensions were assessable when the count is not obvious.
 4. Lower the final score if one critical dimension is weaker than the median and affects the primary task.
 5. Raise to 5/5 only when resilience is demonstrated across states, accessibility settings, platform behavior, and implementation handoff.
 
@@ -124,9 +131,10 @@ Use this ladder when a draft is below the target:
 - 1 → 2: remove misleading claims, fix hard guardrails, define the actual user task
 - 2 → 3: clarify hierarchy, add states, qualify assumptions, remove aesthetic-only advice
 - 3 → 4: add concrete mechanisms, alternatives, platform notes, accessibility behavior, and production checks
+- 3 → 4 **when the inert cap applies**: name one owned asset with its token and its repeat locations, or one justified signature moment. Nothing else lifts this cap — more mechanism detail, more platform notes and more QA checks all leave it at 3/5, because the cap is about having a point of view, not about having enough content. This rung is the exit condition stated in the inert cap above; the two must always say the same thing.
 - 4 → 5: add resilience across edge cases, tokenization, dark/large-text behavior, localization, and design-system scaling
 
-For most skill outputs, **4/5 is the default target**. Use 5/5 as a stretch target when the user provides enough context for strong system-level guidance.
+**4/5 is the default target, not the ceiling.** Reach for 5/5 whenever the available input supports the resilience described above; when it does not, name the blocking dimension and the missing input rather than settling silently at 4/5.
 
 ---
 
@@ -135,12 +143,13 @@ For most skill outputs, **4/5 is the default target**. Use 5/5 as a stretch targ
 Before returning a design artifact, silently answer:
 
 - What score would I give this draft before revision?
-- Which dimension prevents it from reaching 4/5?
+- Which dimension prevents it from reaching the next level — and did I name it in the `Quality target` line rather than printing a bare number?
 - Can I raise that dimension with the information already available?
 - If not, did I state the missing input clearly?
+- Does this screen carry one owned asset, expressed as a token with repeat locations — or did I record honestly that it is inert?
 - Did I avoid using the score as a substitute for concrete design mechanisms?
 
-If the draft is below 4/5 and can be improved without inventing facts, revise it before returning.
+If the draft is below 4/5 and can be improved without inventing facts, revise it before returning. If it is at 4/5 and the input supports the resilience needed for 5/5, lift it rather than stopping at the default.
 
 ---
 

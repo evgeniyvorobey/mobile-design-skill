@@ -229,22 +229,28 @@ Use this structure:
 
 ```md
 ## Design quality calibration
-- Quality target: 4/5 — production-ready direction with remaining validation notes.
+- Quality target: 4/5 — production-ready direction; blocked from 5/5 by Context & brand fit until the brand palette and one owned asset are confirmed.
 - Attention path:
 - Composition and spacing:
 - Typography:
 - Color and state:
 - Interaction polish:
+- Signature move:
 - Production checks:
 ```
+
+The `Quality target` line always names the dimension holding the score back and what would lift it. A bare number is a default, not a score.
+
+`Signature move` names the one owned asset or justified signature moment the screen carries, as a token plus where it repeats — or states plainly that the screen is inert and what it would take to change that. It is the field that answers the inert-screen test below; leaving it as an adjective fails.
 
 For short responses, compress it:
 
 ```md
 ## Design quality calibration
-- Quality target: 4/5 — [short reason]
+- Quality target: [1-5]/5 — [short reason]; blocked from [next level] by [dimension] until [input or fix]
 - Prioritize [first thing] visually through [size/position/contrast].
 - Use [spacing/type/color rule] to make [relationship/state] clear.
+- Signature move: [owned asset as a token] repeated at [locations] — or: none, this screen is inert because [reason].
 - Validate [large text/dark mode/state/touch target] before handoff.
 ```
 

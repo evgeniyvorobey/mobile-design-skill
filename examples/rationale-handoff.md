@@ -49,7 +49,8 @@ This screen serves patients immediately after booking an appointment. Many users
 - Clear instructional text over icon-led hints because confirmation screens in high-trust contexts must reduce uncertainty, not merely announce success.
 
 ## Design quality rationale
-- Quality target: 4/5 — strong handoff quality with final score dependent on validating real appointment-data variability and large-text behavior.
+- Quality target: 4/5 — strong handoff quality; blocked from 5/5 by Production readiness until real appointment-data variability and large-text behavior are validated.
+- Signature move: the confirmation accent token is the owned asset — `color.accent-confirm` appears in exactly three places (the confirmation checkmark, the primary next-step button, and the success toast) and nowhere else, so recognition builds through repetition rather than through decoration. Kano check: it sits on a delighter, not on a missing affordance; brand-expression budget: one perceptual move on this screen.
 - Confirmation summary prominence — mechanism: larger title/body contrast, top placement, and 24dp/24pt separation from secondary actions — fits the high-trust healthcare context because patients need fast confirmation before exploring options.
 - Calm section rhythm — mechanism: repeated section headers, 16dp/16pt internal spacing, and 24dp/24pt section gaps — supports anxious and older users by making the screen predictable.
 - Reduced secondary-action weight — mechanism: lower placement and secondary button styling — keeps optional actions available without competing with the completed booking state.

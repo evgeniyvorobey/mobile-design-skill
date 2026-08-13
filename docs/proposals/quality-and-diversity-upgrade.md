@@ -1,6 +1,6 @@
 # Proposal: quality ceiling and design diversity upgrade
 
-Status: **in progress** — Commit 1 landed, Commits 2–6 pending.
+Status: **in progress** — Commits 1–2 landed, Commits 3–6 pending.
 Baseline: v1.16.0 (`b192ecd`).
 Target release: v1.17.0 — *"the ceiling comes off"*.
 
@@ -121,12 +121,12 @@ validators do not block tablet (`Platform scope` is checked for non-emptiness, w
 
 | # | Change | Files |
 |---|--------|-------|
-| P0-1 | **Un-nail the 4/5.** Replace the pre-printed target with `[score]/5 — [what makes it that, and the one dimension holding it back]`. Add a rubric rule: at 4/5, name the dimension blocking 5/5 and whether the input supports lifting it; if yes, lift it before returning. | `skill/templates.md`, `docs/design-quality.md`, `docs/design-quality-rubric.md` |
+| P0-1 | **Un-nail the 4/5.** Replace the pre-printed target with `[score]/5 — [what makes it that, and the one dimension holding it back]`. Add a rubric rule: at 4/5, name the dimension blocking 5/5 and whether the input supports lifting it; if yes, lift it before returning. ✅ *landed in Commit 2* | `skill/templates.md`, `docs/design-quality.md`, `docs/design-quality-rubric.md` |
 | P0-2 | **Widen the divergence gate + add Step 5.5 "Direction set."** Gate widened to the document's own nine signals. New binding step for Modes A/C/E/F: name three directions, each a thesis line plus token consequences (base unit + ratio, type role split, colour-construction rule, one composition move, motion signature); rank against task/context/platform/accessibility; commit to one; the two rejects populate `Alternatives considered`. Output stays one direction plus two named rejects. | `SKILL.md`, `docs/workflow.md`, `docs/self-review.md` |
 | P0-3 | **Repair the Mode D drift at the entrypoint.** ✅ *landed in Commit 1* | `SKILL.md`, `skill/modes.md`, `docs/self-review.md`, `docs/workflow.md` |
-| P0-4 | **Distinctiveness gets a score, a rung, and a slot.** Ninth rubric dimension (1–2 interchangeable once the logo is removed; 3 asserted but not tokenized; 4–5 owned asset expressed as a token with named repeat locations), `n/v` for text-only D2/D3 with the median exclusion stated explicitly. Rewrite the 3→4 ladder rung in the inert cap's own words. Add a `Signature move:` slot to the calibration blocks in Templates A/C/F. | `docs/design-quality-rubric.md`, `skill/templates.md`, `docs/design-quality.md` |
-| P0-5 | **Sections are a maximum, not a minimum.** Only `Mode:`, `Platform scope:`, `Assumptions:`, `Next actions:` are always on; include any other section only when it carries a decision the input supports; omit — never stub — and name the omission in one line. | `SKILL.md`, `docs/self-review.md` |
-| P0-6 | **Named output slots for alternatives** in Modes 1, 3 and 6, with Mode 1 forcing two structurally different layout approaches. | `SKILL.md`, `skill/modes.md`, `docs/self-review.md` |
+| P0-4 | **Distinctiveness gets a score, a rung, and a slot.** Ninth rubric dimension (1–2 interchangeable once the logo is removed; 3 asserted but not tokenized; 4–5 owned asset expressed as a token with named repeat locations), `n/v` for text-only D2/D3 with the median exclusion stated explicitly. Rewrite the 3→4 ladder rung in the inert cap's own words. Add a `Signature move:` slot to the calibration blocks in Templates A/C/F. ✅ *landed in Commit 2* | `docs/design-quality-rubric.md`, `skill/templates.md`, `docs/design-quality.md` |
+| P0-5 | **Sections are a maximum, not a minimum.** Only `Mode:`, `Platform scope:`, `Assumptions:`, `Next actions:` are always on; include any other section only when it carries a decision the input supports; omit — never stub — and name the omission in one line. ✅ *landed in Commit 2* | `SKILL.md`, `docs/self-review.md` |
+| P0-6 | **Named output slots for alternatives** in Modes 1, 3 and 6, with Mode 1 forcing two structurally different layout approaches. ✅ *landed in Commit 2* | `SKILL.md`, `skill/modes.md`, `docs/self-review.md` |
 | P0-7 | **Tablet MVU** — see §4. | `SKILL.md`, `skill/templates.md`, `docs/adaptive-layout.md`, `docs/quality-bars.md`, `docs/clarification-policy.md` |
 | P0-8 | **No-fit escape hatch.** `Mode: outside the standard six — <what it is>` instead of rounding paywall/notification-frequency/whole-app-IA requests to the nearest template. | `SKILL.md`, `docs/workflow.md`, `docs/self-review.md` |
 | P0-9 | **Auth-wall honesty.** State that Mobbin / Page Flows / UI Sources / Pttrns / Screenlane cannot be opened. Rewrite the self-review prompt that currently asks whether the model used them — it is a standing invitation to describe a screen it never saw. Add a guardrail marking version-bound rows as current-as-of-last-review. | `docs/inspiration-sources.md`, `docs/visual-benchmark-playbooks.md`, `docs/self-review.md`, `docs/guardrails.md` |
@@ -226,7 +226,7 @@ conflicts between context dimensions; device class rarely conflicts. The fix is 
 | Commit | Contents | Status |
 |--------|----------|--------|
 | 1 | Entrypoint repair (P0-3) + parity validator and projected-line guard (P1-3). Must land first: everything else edits the same files. | ✅ landed |
-| 2 | Scoring and slots: P0-1, P0-4, P0-6, P0-5. Regenerate the four committed generation examples in the same commit or `MODE_REQUIREMENTS` goes red. | pending |
+| 2 | Scoring and slots: P0-1, P0-4, P0-6, P0-5, plus the committed generation examples. | ✅ landed |
 | 3 | Divergence: P0-2 immediately followed by P1-1. Shipping the direction step without the token vocabulary produces three identically-tokened directions and would look like the feature failed. | pending |
 | 4 | Tablet MVU: P0-7 plus `docs/adaptive-layout.md`, the large-screen bars, `Device class:` in the six template headers and in `MODE_REQUIREMENTS`. New sources added to `docs/sources.md`. | pending |
 | 5 | Honesty and scope: P0-8, P0-9. | pending |
@@ -273,6 +273,55 @@ Added to `scripts/validate_repo.py`:
   `[1-5]/5` number and may not contain `up to` or `ceiling`. Verified by injection.
 
 `scripts/validate_repo.py` and `scripts/validate_release.py` both green.
+
+### Commit 2 — what landed
+
+**P0-1 (un-nail the 4/5).** All four `Quality target:` slots in `skill/templates.md` and both snippets in
+`docs/design-quality.md` now read `[1-5]/5 — [what earns this score]; blocked from [next level] by
+[dimension] until [named input or fix]`. `docs/design-quality-rubric.md` gained a **Name the blocker** rule
+("a 4/5 with no named blocker is a default, not a score") and its ladder now says 4/5 is the default target,
+**not the ceiling**.
+
+**P0-4 (distinctiveness gets a score, a rung, and a slot).**
+
+- Ninth rubric dimension `Distinctiveness and owned assets`, with the `n/v` marker defined and the final
+  scoring method rewritten to take the median of the **assessable** dimensions only, excluding `n/v` entirely.
+- A dedicated `3 → 4 (inert cap)` ladder rung stating the cap's own exit in the cap's own words, with the cap
+  and the rung cross-referencing each other so they cannot drift apart again.
+- `Signature move:` slot added to Templates A, C and F and to both `docs/design-quality.md` snippets.
+- The ninth dimension propagated to `RUBRIC_DIMENSIONS`, `scripts/run_rubric_judge.py`,
+  `docs/llm-judge-runner.md`, `skill/metadata.yaml` and all five `examples/evals/rubric-score-*.json`
+  fixtures (each set equal to its own expected score, so medians and recorded caps stay coherent — the
+  adversarial spread fixture is deliberately left to Commit 6/P1-6).
+
+**P0-6 (named output slots for alternatives).** `Alternatives considered` added to Mode 1 and
+`Key decision tradeoffs` to Mode 3 in **both** `SKILL.md` and `skill/modes.md` — `MODE_REQUIREMENTS` and the
+committed examples already demanded these sections, so the instructions had been requiring less than the
+validator enforced. Mode 1's slot forces two *structurally different* layouts with the mechanism that kills
+each. Mode 6's `Key design decisions` gained the "a decision with no rejected alternative is a default"
+clause rather than a duplicate section. Matching validation-checklist and self-review prompts added.
+
+**P0-5 (sections are a maximum).** New `### Sections are a maximum, not a minimum` block under the output
+contract in `SKILL.md`, plus a universal self-review prompt. Only `Mode:` / `Platform scope:` /
+`Assumptions:` / `Next actions:` are unconditional; anything else is omitted — never stubbed — when the input
+does not support a decision, with the omission named in one line.
+
+**Enforcement.** Two shape assertions in `scripts/validate_repo.py`, applied to Modes 1, 3 and 6:
+`SIGNATURE_MOVE_SHAPE` (at least 8 words after the label, so the slot cannot be satisfied by the label alone)
+and `QUALITY_TARGET_SHAPE` (must name what blocks the next level). These assert shape, not vocabulary, per
+non-goal 3.
+
+**Corpus.** `examples/ui-spec.md` and `examples/rationale-handoff.md` gained real owned assets — a
+`motion.status-advance` token repeated in three named places, and a `color.accent-confirm` token confined to
+three locations — neither of which requires inventing brand values. `examples/generate-screen.md` records the
+opposite case honestly: an enterprise HR form with no brand input **is** inert, so it drops to **3/5** with
+the exit condition stated. That is the first non-4/5 generation example in the corpus and the first
+demonstration that the ceiling moves in both directions. `docs/evals.md` updated so a capped score is a
+legitimate pass.
+
+All three new guards were verified by injection: reverting a `Quality target` line to a bare number, reducing
+`Signature move` to a label, and dropping the ninth dimension from a fixture each fail the validator. Both
+validators green.
 
 ### Acceptance
 

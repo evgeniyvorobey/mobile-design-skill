@@ -27,6 +27,7 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Could this exact response have been written with **no** information about the user's product, domain, or audience? If yes, the response is too generic; rewrite with the provided context.
 - Have I replaced every instance of vague language ("modern", "clean", "intuitive", "appropriate spacing", "good contrast") with a concrete claim?
 - If I removed the `Mode:` and `Platform scope:` headers, would a reader still be able to tell which mode this is? If not, structure is weak.
+- Is every section I included carrying a decision the input supports? Any section I filled with a placeholder, a restatement of the request, or a generic caution should be cut and the omission named in one line under `Assumptions` — coverage is not quality.
 
 ### Clarification policy
 - Did I apply `docs/clarification-policy.md` before deciding to ask questions or proceed?
@@ -105,6 +106,8 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Are the suggested components buildable on the named platform (native components or a common UI kit)?
 - Have I addressed what happens when the screen has zero data, partial data, stale data, and full data?
 - Did I commit to one layout rather than describing three possible layouts without choosing?
+- Are the two entries under `Alternatives considered` structurally different from the chosen layout, or are they variants of the same structure wearing different labels?
+- Does `Signature move` name an owned asset as a token with the places it repeats — or did I record honestly that the screen is inert and what would change that?
 
 ### Mode B: Design mobile user flow
 - Does the flow run end-to-end from a concrete entry point to a success state?
@@ -119,6 +122,7 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Are spacing and typography values concrete (tokens, pixels, dp), not relative ("more", "tighter")?
 - For cross-platform: are iOS and Android sections meaningfully different, or did I duplicate shared content to look thorough?
 - Does the spec reference a design system (named or assumed), or does it invent component names without grounding?
+- Does `Key decision tradeoffs` say what each contested choice gave up, or does it only restate what was chosen? A tradeoff with no cost named is a preference.
 
 ### Mode D: Review screen for usability/accessibility
 - Did I classify the sub-case (D1 visual / D2 description only / D3 problem statement / D4 context change) at the top?

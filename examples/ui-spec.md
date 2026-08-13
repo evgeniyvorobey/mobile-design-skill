@@ -127,7 +127,7 @@ Single detail screen for one tracked package, optimized for status comprehension
 - Interactive controls need comfortable touch targets and clear labels.
 
 ## Design quality requirements
-- Quality target: 4/5 — shippable Android detail screen once live shipment exceptions and carrier data limits are validated.
+- Quality target: 4/5 — shippable Android detail screen; blocked from 5/5 by Production readiness until live shipment exceptions and carrier data limits are validated.
 - Attention path:
   - First glance must land on current status and ETA; second glance moves to exception/support actions; timeline is tertiary.
 - Composition and spacing:
@@ -138,6 +138,8 @@ Single detail screen for one tracked package, optimized for status comprehension
   - Use semantic status color only with a text label and icon; delayed/failed states should not rely on red or amber alone.
 - Interaction polish:
   - Refresh and support actions need pressed, loading, success, and error states; background refresh should preserve the last known status.
+- Signature move:
+  - One owned motion token, `motion.status-advance` (240ms, standard-decelerate), plays wherever tracking state moves forward: the timeline row entering, the status headline swapping, and the refresh success confirmation. It is a motion signature rather than an invented brand color, so it needs no brand input, and repeating it in exactly three named places is what makes it an owned asset instead of decoration. Reduced-motion fallback: cross-fade, no translation.
 - Production checks:
   - QA large text at 200%, dark theme, delayed-status exception, offline retry, and TalkBack focus order.
 

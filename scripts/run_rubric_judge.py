@@ -25,6 +25,7 @@ DIMENSIONS = [
     "interaction_polish_and_motion",
     "context_and_brand_fit",
     "production_readiness",
+    "distinctiveness_and_owned_assets",
 ]
 
 REQUEST_SCHEMA_VERSION = "rubric-judge-request/v1"

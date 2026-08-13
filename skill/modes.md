@@ -56,6 +56,7 @@ At least one of:
 - Accessibility considerations
 - Design quality calibration
 - Rationale for major choices
+- Alternatives considered — two structurally different layout approaches, one committed to, with the mechanism that kills the other
 - Next actions
 
 ### Validation checklist
@@ -65,7 +66,9 @@ At least one of:
 - Are empty/loading/error states included?
 - Are touch and readability implications addressed?
 - Are visual hierarchy, composition, density, and production checks calibrated?
-- Does the proposal target at least 4/5 design quality, or explain what missing context blocks that target?
+- Does the `Quality target` line name the dimension blocking the next level, rather than printing a bare number?
+- Does `Signature move` name an owned asset as a token with repeat locations, or honestly record the screen as inert?
+- Are the two alternatives structurally different from the chosen layout, and is the mechanism that kills each one named?
 - Are platform differences called out if relevant?
 - Is accessibility included by default?
 - Are invented details labeled as assumptions?
@@ -170,6 +173,7 @@ At least one of:
 - Accessibility requirements
 - Design quality requirements
 - Platform-specific implementation notes — split into iOS-specific and Android-specific subsections when conventions materially differ
+- Key decision tradeoffs — for each contested choice, what was given up and why that cost is acceptable here
 - Next actions
 
 ### Validation checklist
@@ -181,7 +185,8 @@ At least one of:
 - Are platform notes split where conventions differ?
 - Are accessibility requirements concrete?
 - Are visual hierarchy, spacing, typography, color/state, and production quality requirements concrete?
-- Does the spec target at least 4/5 design quality with buildable requirements?
+- Does the `Quality target` line name the dimension blocking the next level, rather than printing a bare number?
+- Does `Key decision tradeoffs` state what was given up for each contested choice, not only what was chosen?
 - Are unknown details labeled as assumptions?
 
 ### Fallback behavior
@@ -379,7 +384,7 @@ At least one of:
 - Assumptions
 - Design objective
 - Target users and context
-- Key design decisions
+- Key design decisions — each carries the alternative considered and why it lost; a decision with no rejected alternative is a default and must be labeled as one
 - Pattern choices and why
 - Design quality rationale
 - Platform alignment

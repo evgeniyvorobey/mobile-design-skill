@@ -162,6 +162,7 @@ RUBRIC_DIMENSIONS = {
     "interaction_polish_and_motion",
     "context_and_brand_fit",
     "production_readiness",
+    "distinctiveness_and_owned_assets",
 }
 
 RUBRIC_FIXTURE_REQUIRED_FIELDS = {
@@ -179,6 +180,12 @@ RUBRIC_FIXTURE_REQUIRED_FIELDS = {
     "expected_rationale",
     "improvement_suggestions",
 }
+
+# `Signature move:` must be followed by at least 8 words, so the slot cannot be
+# satisfied by the label alone or by a single adjective.
+SIGNATURE_MOVE_SHAPE = r"Signature move:\s*(?:\S+\s+){7,}\S+"
+# `Quality target:` must name what blocks the next level, not just print a number.
+QUALITY_TARGET_SHAPE = r"Quality target:[^\n]*\bblocked from\b[^\n]*\buntil\b"
 
 MODE_REQUIREMENTS = {
     "Generate mobile screen concept": {
@@ -203,6 +210,10 @@ MODE_REQUIREMENTS = {
             ("Design quality calibration", r"Composition and spacing:"),
             ("Design quality calibration", r"Production checks:"),
             ("Design quality calibration", r"\b[1-5]/5\b"),
+            # `Signature move:` must carry a real statement, not a label. Shape, not vocabulary.
+            ("Design quality calibration", SIGNATURE_MOVE_SHAPE),
+            # The quality target names the blocking dimension instead of printing a bare number.
+            ("Design quality calibration", QUALITY_TARGET_SHAPE),
         ],
     },
     "Design mobile user flow": {
@@ -243,6 +254,8 @@ MODE_REQUIREMENTS = {
             ("Design quality requirements", r"Attention path:"),
             ("Design quality requirements", r"Production checks:"),
             ("Design quality requirements", r"\b[1-5]/5\b"),
+            ("Design quality requirements", SIGNATURE_MOVE_SHAPE),
+            ("Design quality requirements", QUALITY_TARGET_SHAPE),
         ],
     },
     "Review screen for usability/accessibility": {
@@ -314,6 +327,8 @@ MODE_REQUIREMENTS = {
             ("Pattern choices and why", r"\bover\b"),
             ("Design quality rationale", r"mechanism:"),
             ("Design quality rationale", r"\b[1-5]/5\b"),
+            ("Design quality rationale", SIGNATURE_MOVE_SHAPE),
+            ("Design quality rationale", QUALITY_TARGET_SHAPE),
         ],
     },
 }
@@ -384,7 +399,11 @@ DESIGN_QUALITY_RUBRIC_REQUIRED_PATTERNS = [
     "5/5",
     "Attention path",
     "Production readiness",
+    "Distinctiveness and owned assets",
     "Improvement ladder",
+    # The inert cap and its ladder rung must keep naming the same exit condition.
+    "3 → 4 (inert cap)",
+    "n/v",
 ]
 
 RUBRIC_EVAL_REFERENCE_FILES = [

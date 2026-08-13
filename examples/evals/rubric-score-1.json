@@ -20,7 +20,8 @@
     "density_and_rhythm": 1,
     "interaction_polish_and_motion": 1,
     "context_and_brand_fit": 1,
-    "production_readiness": 1
+    "production_readiness": 1,
+    "distinctiveness_and_owned_assets": 1
   },
   "expected_failed_dimensions": [
     "evidence boundaries",

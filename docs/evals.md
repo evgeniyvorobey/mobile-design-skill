@@ -263,7 +263,8 @@ Structural/content evals answer "does the response satisfy the skill contract?" 
 
 For generated concepts, UI specs, typography systems, and handoff:
 
-- [ ] Internal target is 4/5 or higher.
+- [ ] Internal target is 4/5 or higher, unless a named cap (inert screen, missing states, platform flattening, aesthetic-only advice) holds it lower and the exit condition is stated.
+- [ ] The `Quality target` line names the dimension blocking the next level and what would lift it, rather than printing a bare number.
 - [ ] Any dimension below 4/5 is either revised or clearly blocked by missing input.
 - [ ] The output does not average away a serious flaw such as missing states, weak accessibility behavior, or platform flattening.
 

@@ -96,7 +96,7 @@ Choose dates, review request impact, and submit with confidence.
 - Ensure touch targets remain comfortable around date selection and toggles.
 
 ## Design quality calibration
-- Quality target: 4/5 — production-ready screen structure with remaining validation around policy edge cases and platform-specific date controls.
+- Quality target: 3/5 — production-ready screen structure, but blocked from 4/5 by Distinctiveness until the screen carries one owned asset; policy edge cases and platform-specific date controls still need validation.
 - Attention path:
   - First glance: date range and leave type; second glance: balance/policy impact; final action: Submit request.
 - Composition and spacing:
@@ -107,6 +107,8 @@ Choose dates, review request impact, and submit with confidence.
   - Reserve semantic color for warnings and errors; pair every warning with text and an icon, not color alone.
 - Interaction polish:
   - Recalculate balance with inline feedback rather than a blocking spinner so the form remains stable.
+- Signature move:
+  - None. With the logo removed this screen is interchangeable with any HR leave form, so it is inert and capped at 3/5 rather than scored a quiet 4/5. No brand palette, type, or motion token was supplied, and inventing one here would be fabrication. Exit: supply the design-system accent and one repeatable treatment — for example a `balance-impact` band reused on the request row, the confirmation sheet, and the approval notification — and this lifts to 4/5.
 - Production checks:
   - Verify Dynamic Type/font-scale, sticky CTA safe-area spacing, offline balance failure, and unsaved-change back behavior.
 

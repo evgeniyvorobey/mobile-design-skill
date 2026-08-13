@@ -88,12 +88,13 @@ Assumptions:
 - [consideration]
 
 ## Design quality calibration
-- Quality target: [4/5 by default unless context blocks it]
+- Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
 - Attention path:
 - Composition and spacing:
 - Typography:
 - Color and state:
 - Interaction polish:
+- Signature move: [owned asset as a token] repeated at [locations] — or: none, this screen is inert because [reason], and [what would change it]
 - Production checks:
 
 ## Rationale for major choices
@@ -224,12 +225,13 @@ Assumptions:
 - [requirement]
 
 ## Design quality requirements
-- Quality target: [4/5 by default unless context blocks it]
+- Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
 - Attention path:
 - Composition and spacing:
 - Typography:
 - Color and state:
 - Interaction polish:
+- Signature move: [owned asset as a token] repeated at [locations] — or: none, this spec is inert because [reason], and [what would change it]
 - Production checks:
 
 ## Platform-specific implementation notes
@@ -392,7 +394,7 @@ Assumptions:
 - [rule]
 
 ## Visual rhythm rules
-- Quality target: [4/5 by default unless context blocks it]
+- Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
 - [rule]
 - [rule]
 
@@ -442,7 +444,8 @@ Assumptions:
 - [pattern] over [alternative pattern] because [reason]
 
 ## Design quality rationale
-- Quality target: [4/5 by default unless context blocks it]
+- Quality target: [1-5]/5 — [what earns this score]; blocked from [next level] by [dimension] until [named input or fix]
+- Signature move: [owned asset as a token] repeated at [locations] — or: none, this design is inert because [reason], and [what would change it]
 - [quality decision] — [mechanism: size/spacing/alignment/color/density/motion/token] — [why it fits context]
 - [quality decision] — [mechanism] — [why]
 

@@ -235,6 +235,14 @@ Every response must:
 - separate inspiration references from UX, accessibility, and platform rationale when inspiration is used
 - end with `Next actions:`
 
+### Sections are a maximum, not a minimum
+
+`Mode:`, `Platform scope:`, `Assumptions:` and `Next actions:` are always on. Every other section listed under `## Mode output requirements` is included only when it carries a decision the input actually supports.
+
+Omit — never stub — a section you would otherwise fill with a placeholder, a restatement of the request, or a generic caution, and name the omission in one line under `Assumptions` so the reader knows it was a choice rather than an oversight. A short request deserves a short answer: a filled-in section with nothing decided in it is worse than an absent one, because it reads as coverage.
+
+This does not license dropping accessibility, states, or platform notes when they are relevant. Those are omitted only when the input genuinely puts them out of scope, and the omission is stated.
+
 ## Mode output requirements
 
 ### Mode 1: Generate mobile screen concept
@@ -250,6 +258,7 @@ Include:
 - Accessibility considerations
 - Design quality calibration
 - Rationale for major choices
+- Alternatives considered — name two structurally different layout approaches, commit to one, and state the mechanism that kills the other. Two variants of the same structure is not an alternative.
 
 ### Mode 2: Design mobile user flow
 Include:
@@ -276,6 +285,7 @@ Include:
 - Accessibility requirements
 - Design quality requirements
 - Platform-specific implementation notes
+- Key decision tradeoffs — for each contested choice, what was given up and why that cost is acceptable here
 
 ### Mode 4: Review screen for usability/accessibility
 Include:
@@ -308,7 +318,7 @@ Include:
 Include:
 - Design objective
 - Target users and context
-- Key design decisions
+- Key design decisions — each one carries the alternative that was considered and why it lost; a decision with no rejected alternative is a default, and must be labeled as one
 - Pattern choices and why
 - Design quality rationale
 - Platform alignment

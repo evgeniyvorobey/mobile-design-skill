@@ -153,7 +153,8 @@ Each judge output line must include the fixture id and a JSON object with this s
       "density_and_rhythm": 3,
       "interaction_polish_and_motion": 3,
       "context_and_brand_fit": 3,
-      "production_readiness": 3
+      "production_readiness": 3,
+      "distinctiveness_and_owned_assets": 2
     },
     "failed_dimensions": [
       "production readiness",

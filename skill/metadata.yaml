@@ -131,6 +131,8 @@ design_quality:
 design_quality_rubric:
   role: 1-5 scoring system for raising proposed design quality and reviewing existing design quality
   default_generated_target: "4/5"
+  target_is_default_not_ceiling: true
+  quality_target_names_blocking_dimension: true
   expose_review_score: true
   expose_generated_target_when_useful: true
   eval_pack:
@@ -179,6 +181,9 @@ design_quality_rubric:
     - interaction polish and motion
     - context and brand fit
     - production readiness
+    - distinctiveness and owned assets
+  unverifiable_dimension_marker: "n/v"
+  unverifiable_dimensions_excluded_from_median: true
 llm_judge_runner:
   role: LLM-agnostic semantic rubric calibration runner with external-agent command support
   script: scripts/run_rubric_judge.py

@@ -20,7 +20,8 @@
     "density_and_rhythm": 2,
     "interaction_polish_and_motion": 2,
     "context_and_brand_fit": 3,
-    "production_readiness": 2
+    "production_readiness": 2,
+    "distinctiveness_and_owned_assets": 2
   },
   "expected_failed_dimensions": [
     "production readiness",
