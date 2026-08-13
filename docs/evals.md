@@ -438,8 +438,23 @@ The vector is what a response now exposes machine-readably: the catalog entries 
 | `score_concentration` | ≤ 0.75 | 4 of 4 runs scored 4/5 in the 1.17.0 pass |
 | `provenance_concentration` | ≤ 0.50 | 7 distinct catalog entries across 4 domain runs in the 1.18.0 pass |
 | `blocker_concentration` | ≤ 0.75 | 2 distinct blocking dimensions across 4 runs in the 1.17.0 pass |
-| `asset_class_count` | ≥ 3 at ≥ 6 samples | 2 of 6 classes across 6 runs in the 1.18.0 pass |
+| `asset_class_count` | **none** | 2 of 6 classes across 6 runs in the 1.18.0 pass — the floor to move, not a bar the output clears, so reported only |
 | `vector_similarity` | **none** | no baseline exists; reported only |
+| `distinct_dimension_bands` | **none** | how many of the five bands the run's dimension reads actually use; the committed corpus used four before this release and two in live acceptance |
+| `dimension_min` / `dimension_max` | **none** | which end of the scale is unused |
+| `share_in_middle_bands` | **none** | the reported symptom as one number: the fraction of bands sitting on 3 or 4 |
+| `dimension_range_median` | **none** | within-response spread, independent of spread across responses |
+| `flat_vector_share` | **none** | responses that emitted one band nine times |
+
+The six dimension measures are reported and never asserted: no live run has produced a
+baseline for any of them, and inventing one is how this repository once shipped a threshold
+that failed by construction. What the self-test asserts instead is **separation** — that
+`share_in_middle_bands` reads higher, and `distinct_dimension_bands` and
+`dimension_range_median` read lower, on a deliberately uniform corpus than on a varied one.
+That is a property of the metric rather than a claim about the model, so it needs no
+measured bar. `examples/evals/diversity-fixtures.json` carries both corpora, and the uniform
+one reproduces the real failure — nine bands drawn from a two-value alphabet, not nine
+identical numbers.
 
 Thresholds are asserted only where this repository has measured data. Guessing one produces either a check that passes vacuously forever or a check that forces dishonest output — both have already happened here. Report-only is the default; `--assert` enforces.
 

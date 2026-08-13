@@ -95,12 +95,53 @@ THRESHOLDS = {
         "measured": "2 distinct blocking dimensions across 4 runs in the 1.17.0 pass",
     },
 }
+# The dimension read is the second thing this eval has to see. Until now it read only the
+# derived median, so a corpus where every dimension is 3 or 4 -- and every median therefore
+# 4 -- registered as score_concentration 1.0 with no explanation of why. All six fields
+# below are reported and none is asserted: no live run has ever produced a baseline for
+# them, and inventing one is how this repository already shipped a threshold that failed by
+# construction. The self-test asserts something different and cheaper to be honest about --
+# that the metric SEPARATES a uniform corpus from a varied one, which is a property of the
+# metric, not a claim about the model.
+DIMENSION_FIELDS = (
+    "distinct_dimension_bands",
+    "dimension_min",
+    "dimension_max",
+    "share_in_middle_bands",
+    "dimension_range_median",
+    "flat_vector_share",
+)
+
+DIMENSION_READ_LINE = re.compile(r"Dimension read:(?P<body>[^\n]*)")
+DIMENSION_READ_PAIR = re.compile(r"^(?P<name>.+?)[:\s]\s*(?P<band>[1-5]|n/v)$", re.IGNORECASE)
+
+
+def dimension_read(body: str) -> list[int | None]:
+    """Bands from a `Dimension read:` line; `None` for `n/v`, excluded from every measure.
+
+    Hazards in the committed shape: the trailing `Median of the assessable = N.`
+    restatement on the same line, `colour/state` carrying a slash, and
+    `context & brand fit` carrying an ampersand.
+    """
+    match = DIMENSION_READ_LINE.search(body)
+    if not match:
+        return []
+    core = re.split(r"Median of", match.group("body"), maxsplit=1)[0]
+    bands: list[int | None] = []
+    for chunk in core.split(","):
+        pair = DIMENSION_READ_PAIR.match(chunk.strip().rstrip("."))
+        if pair:
+            band = pair.group("band").lower()
+            bands.append(None if band == "n/v" else int(band))
+    return bands
+
+
 # Reported, never asserted. `vector_similarity` has no baseline at all.
 # `asset_class_count` has one — 2 of 6 classes across 6 runs in the 1.18.0 pass — but
 # that measurement is the FLOOR we want to move, not a bar the output already clears.
 # Asserting 3 here would fail by construction on the next honest run, which is the
 # same mistake as asserting a threshold nobody measured.
-UNASSERTED = ("vector_similarity", "asset_class_count")
+UNASSERTED = ("vector_similarity", "asset_class_count") + DIMENSION_FIELDS
 
 
 def fail(message: str) -> None:
@@ -148,6 +189,7 @@ def decision_vector(response: str, label: str) -> dict[str, Any]:
     return {
         "id": label,
         "provenance": sorted(p for p in provenance if p and p != "baseline"),
+        "dimensions": dimension_read(body) or dimension_read(response),
         "asset_class": classify_asset(signature),
         "score": score.group(1) if score else None,
         "blocker": blocker.group(1).strip().lower() if blocker else None,
@@ -176,6 +218,10 @@ def concentration(values: list[Any]) -> float:
 
 def measure(vectors: list[dict[str, Any]]) -> dict[str, Any]:
     provenance = [p for v in vectors for p in v["provenance"]]
+    reads = [[b for b in (v.get("dimensions") or []) if b is not None] for v in vectors]
+    reads = [r for r in reads if r]
+    bands = [b for r in reads for b in r]
+    ranges = [max(r) - min(r) for r in reads]
     token_sets = [vector_tokens(v) for v in vectors]
     similarities = [
         len(a & b) / len(a | b)
@@ -190,6 +236,14 @@ def measure(vectors: list[dict[str, Any]]) -> dict[str, Any]:
         "asset_class_count": len({v["asset_class"] for v in vectors if v["asset_class"]}),
         "distinct_provenance": len(set(provenance)),
         "vector_similarity": round(statistics.median(similarities), 3) if similarities else 0.0,
+        "distinct_dimension_bands": len(set(bands)),
+        "dimension_min": min(bands) if bands else 0,
+        "dimension_max": max(bands) if bands else 0,
+        # The reported symptom as one number: how much of the scale the answers never use.
+        "share_in_middle_bands": round(sum(1 for b in bands if b in (3, 4)) / len(bands), 3) if bands else 0.0,
+        # Within-response flatness, independent of spread across responses.
+        "dimension_range_median": round(statistics.median(ranges), 3) if ranges else 0.0,
+        "flat_vector_share": round(sum(1 for r in ranges if r == 0) / len(ranges), 3) if ranges else 0.0,
     }
 
 
@@ -269,8 +323,15 @@ def self_test() -> None:
             "the `varied` fixture corpus fails the thresholds: "
             + "; ".join(check(varied))
         )
-    for name in ("score_concentration", "provenance_concentration"):
+    for name in ("score_concentration", "provenance_concentration", "share_in_middle_bands"):
         if uniform[name] <= varied[name]:
+            errors.append(
+                f"{name} does not separate the corpora "
+                f"(uniform {uniform[name]} vs varied {varied[name]})"
+            )
+    # These run the other way: the varied corpus should read higher, not lower.
+    for name in ("distinct_dimension_bands", "dimension_range_median"):
+        if uniform[name] >= varied[name]:
             errors.append(
                 f"{name} does not separate the corpora "
                 f"(uniform {uniform[name]} vs varied {varied[name]})"
@@ -289,6 +350,20 @@ def self_test() -> None:
             errors.append("extractor found no catalog provenance in generate-screen.md")
         if not vector["blocker"]:
             errors.append("extractor found no blocking dimension in generate-screen.md")
+        # Re-derive rather than replay: the median is computed from the parsed vector and
+        # checked against the independently parsed printed score, so either parser breaking
+        # fails the test.
+        parsed = [b for b in vector["dimensions"] if b is not None]
+        if len(parsed) != 9:
+            errors.append(
+                f"extractor read {len(parsed)} dimension bands from generate-screen.md, expected 9"
+            )
+        elif vector["score"] and int(statistics.median(sorted(parsed))) != int(vector["score"]):
+            errors.append(
+                "extractor's dimension median "
+                f"({int(statistics.median(sorted(parsed)))}) disagrees with the printed "
+                f"Quality target ({vector['score']}) in generate-screen.md"
+            )
 
     if errors:
         fail("Diversity self-test failed:\n" + "\n".join(f"  - {e}" for e in errors))
@@ -304,7 +379,10 @@ def ck(metrics: dict[str, Any]) -> str:
         f"score_conc={metrics['score_concentration']} "
         f"prov_conc={metrics['provenance_concentration']} "
         f"classes={metrics['asset_class_count']} "
-        f"similarity={metrics['vector_similarity']}"
+        f"similarity={metrics['vector_similarity']} "
+        f"bands={metrics['distinct_dimension_bands']} "
+        f"mid_share={metrics['share_in_middle_bands']} "
+        f"range={metrics['dimension_range_median']}"
     )
 
 
