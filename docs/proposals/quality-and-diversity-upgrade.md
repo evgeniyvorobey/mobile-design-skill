@@ -1,6 +1,6 @@
 # Proposal: quality ceiling and design diversity upgrade
 
-Status: **build complete** — Commits 1–6 landed. Ready to cut v1.17.0.
+Status: **released as v1.17.0.** Commits 1–6 plus three acceptance-driven fix commits. Cross-run variance (acceptance criterion A3) is unresolved and carried to v1.18.0.
 Baseline: v1.16.0 (`b192ecd`).
 Target release: v1.17.0 — *"the ceiling comes off"*.
 
@@ -459,3 +459,27 @@ Manual, three runs each:
 - *"Help me design our paywall pricing architecture"* → output opens `Mode: outside the standard six`.
 
 The CHANGELOG entry must state plainly that the v1.16.0 Mode D contract never reached `SKILL.md`.
+
+
+---
+
+## 7. Acceptance outcome and what carries to v1.18.0
+
+Three live acceptance passes ran against the released instructions, scored by an independent gate. They caught two defects that every one of the 28 structural validators passed over — which is the thesis of §2.6 demonstrated on this release's own work.
+
+**Fixed before tagging:**
+
+1. The slot receiving the rejected directions still said "two structurally different **layout** approaches" while step 5.5 produced token consequences. The instruction generated tokens; the slot asked for layouts, and two of four runs duly emitted layout descriptions.
+2. A filled-in illustrative `Quality target: 4/5 — … blocked from 5/5 by Context & brand fit …` line sat in two reference docs and was reproduced near-verbatim by three of four runs. **A pre-filled example outweighs a prose instruction to derive.** Commit 2 had replaced a prescribed number with a prescribed sentence. Reference docs now carry only the derivation form, and a validator bans a filled score line under `docs/`.
+
+**Carried to v1.18.0 — A3, the fixed exploration space.**
+
+Every run generates the same candidate pair and commits to the same winner; the owned assets converge to one object under different names. Step 5.5 constrains divergence *within* a run and nothing widens the option set *across* runs. More instruction text has now failed twice at this; it needs a procedural change. Candidate mechanisms, none yet tried:
+
+- Require the candidate set to include one direction drawn from a compositional school *other* than the one the committed direction belongs to, so the school catalog is sampled rather than bypassed.
+- Forbid the owned asset from being the same asset class as the nearest golden's, forcing the Distinctiveness dimension off the retrieved default.
+- Make the rejected directions record which school or point-of-view product each came from, so a fixed triple becomes visible in the output rather than hidden in the reasoning.
+
+Note that criterion A3 as written — *the same prompt must produce different designs* — is the within-prompt divergence this proposal's own P2-2 called premature for lack of a sampling-temperature contract. The defensible defect is not that four runs agree; it is that they never consider anything else. Measure the candidate set, not the winner.
+
+**Secondary, also for 1.18.0:** all 36 dimension scores across four runs were 3 or 4. The derivation is now real and visible, but with that compressed range the median cannot land anywhere but 4. The fix is upstream in the rubric's willingness to score 2 or 5, not in the median rule.
