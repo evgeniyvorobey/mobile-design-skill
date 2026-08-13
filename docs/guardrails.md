@@ -249,3 +249,31 @@ Better:
 - proceed with the smallest labeled assumption when the gap is not blocking
 - ask one to three high-impact questions when the gap changes the design decision
 - offer a fast path when the user can accept a provisional draft
+
+---
+
+## 16. Do not describe a source you cannot open, or state a version-bound default as timeless
+
+Two failure modes with the same root: asserting something as current fact when it was never observed.
+
+**Auth-walled references.** Mobbin, Page Flows, UI Sources and Pttrns sit behind sign-in or paid subscriptions. A skill run has no session for them, so their contents have not been seen.
+
+Do not:
+- describe what a product's screen looks like "on Mobbin"
+- attribute a pattern to "current examples on Page Flows"
+- imply a gallery was consulted when it was not
+
+Better:
+- name the source as a lookup for the user to perform
+- reason from the platform guidance, pattern matrices, and quality bars that the skill does hold
+- treat a screenshot or description the user pastes as real evidence, reviewable as normal
+
+**Version-bound defaults.** Platform rows such as Material version, predictive back, themed icons, and OS-gated behaviour are current as of this skill's last review, not permanent facts.
+
+Do not:
+- state an OS-gated behaviour as universally available
+- present a design-system version as the only correct one
+
+Better:
+- name the version or OS level the default assumes
+- say the default is current as of the skill's last review when it materially affects the recommendation

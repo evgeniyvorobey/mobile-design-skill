@@ -1,6 +1,6 @@
 # Proposal: quality ceiling and design diversity upgrade
 
-Status: **in progress** — Commits 1–4 landed, Commits 5–6 pending.
+Status: **in progress** — Commits 1–5 landed, Commit 6 pending.
 Baseline: v1.16.0 (`b192ecd`).
 Target release: v1.17.0 — *"the ceiling comes off"*.
 
@@ -128,8 +128,8 @@ validators do not block tablet (`Platform scope` is checked for non-emptiness, w
 | P0-5 | **Sections are a maximum, not a minimum.** Only `Mode:`, `Platform scope:`, `Assumptions:`, `Next actions:` are always on; include any other section only when it carries a decision the input supports; omit — never stub — and name the omission in one line. ✅ *landed in Commit 2* | `SKILL.md`, `docs/self-review.md` |
 | P0-6 | **Named output slots for alternatives** in Modes 1, 3 and 6, with Mode 1 forcing two structurally different layout approaches. ✅ *landed in Commit 2* | `SKILL.md`, `skill/modes.md`, `docs/self-review.md` |
 | P0-7 | ✅ *landed in Commit 4* **Tablet MVU** — see §4. | `SKILL.md`, `skill/templates.md`, `docs/adaptive-layout.md`, `docs/quality-bars.md`, `docs/clarification-policy.md` |
-| P0-8 | **No-fit escape hatch.** `Mode: outside the standard six — <what it is>` instead of rounding paywall/notification-frequency/whole-app-IA requests to the nearest template. | `SKILL.md`, `docs/workflow.md`, `docs/self-review.md` |
-| P0-9 | **Auth-wall honesty.** State that Mobbin / Page Flows / UI Sources / Pttrns / Screenlane cannot be opened. Rewrite the self-review prompt that currently asks whether the model used them — it is a standing invitation to describe a screen it never saw. Add a guardrail marking version-bound rows as current-as-of-last-review. | `docs/inspiration-sources.md`, `docs/visual-benchmark-playbooks.md`, `docs/self-review.md`, `docs/guardrails.md` |
+| P0-8 | ✅ *landed in Commit 5* **No-fit escape hatch.** `Mode: outside the standard six — <what it is>` instead of rounding paywall/notification-frequency/whole-app-IA requests to the nearest template. | `SKILL.md`, `docs/workflow.md`, `docs/self-review.md` |
+| P0-9 | ✅ *landed in Commit 5* **Auth-wall honesty.** State that Mobbin / Page Flows / UI Sources / Pttrns / Screenlane cannot be opened. Rewrite the self-review prompt that currently asks whether the model used them — it is a standing invitation to describe a screen it never saw. Add a guardrail marking version-bound rows as current-as-of-last-review. | `docs/inspiration-sources.md`, `docs/visual-benchmark-playbooks.md`, `docs/self-review.md`, `docs/guardrails.md` |
 
 ### P1 — structural, one release
 
@@ -229,7 +229,7 @@ conflicts between context dimensions; device class rarely conflicts. The fix is 
 | 2 | Scoring and slots: P0-1, P0-4, P0-6, P0-5, plus the committed generation examples. | ✅ landed |
 | 3 | Divergence: P0-2 immediately followed by P1-1, plus the motion-band reconciliation. | ✅ landed |
 | 4 | Tablet MVU: P0-7 plus `docs/adaptive-layout.md`, the large-screen bars, `Device class:` in the six template headers and in `MODE_REQUIREMENTS`. New sources added to `docs/sources.md`. | pending |
-| 5 | Honesty and scope: P0-8, P0-9. | pending |
+| 5 | Honesty and scope: P0-8, P0-9. | ✅ landed |
 | 6 | Corpus and CI: P1-5 (land it knowing it fails at 32/33, then rebuild goldens per P1-4 until it passes), P1-6, P1-7. | pending |
 
 Deferred to 1.18+: P1-2 (wants the direction step in production first, so the token fields are shaped by real
@@ -394,6 +394,25 @@ examples/ui-spec.md: `Device class: Tablet` requires an `## Adaptive behavior` s
 ```
 
 **Known limit.** The corpus is still phone-only, so the conditional rule is proven by injection rather than by a committed artifact. The tablet golden and the stretched-phone review fixture stay in P1-8, along with `patterns-catalog.md` §15 — which remains the single highest-value tablet item after this commit, because it is what stops the model confidently choosing bottom navigation at 1366 pt.
+
+### Commit 5 — what landed
+
+**P0-8 (no-fit escape hatch).** `SKILL.md` and `docs/workflow.md` step 1 now carry a branch for requests that match no mode: paywall and pricing architecture, notification and re-engagement strategy, whole-app information architecture, activation strategy, competitive teardown, design-system governance, multi-brand theming. The response opens `Mode: outside the standard six — [what this actually is]`, names the closest mode and what it would lose, and answers with the workflow's reasoning steps and no template. The header lines and `Next actions` stay; the rest of the contract is advisory on this branch.
+
+The failure being fixed is specific: rounding a strategy question to Mode 1 produces a plausible screen concept for a question nobody asked, and template completeness hides the mismatch. `examples/anti-patterns.md` gains **Anti-pattern 9** with the paywall-architecture case — the bad response is a one-screen paywall under a `Mode: Generate mobile screen concept` header, the good response is the honest branch.
+
+**P0-9 (auth-wall honesty).** Mobbin, Page Flows, UI Sources and Pttrns sit behind sign-in or paid subscriptions; a skill run has no session for them, and even in a host with web access a fetch returns a landing page rather than the screens.
+
+- `docs/inspiration-sources.md` gains **The skill cannot read these sources**, and `docs/visual-benchmark-playbooks.md` gains an **Evidence floor** section: name them as a lookup for the user to perform, never describe what a specific product's screen on one of them looks like, never attribute a pattern to "what Mobbin shows". A screenshot or note the user pastes is real evidence and is reviewable as normal D1 input.
+- `docs/self-review.md` had a *mandatory* prompt asking whether the model had used those sources — a standing invitation to describe screens it never saw. It now asks whether a named reference was framed as a lookup.
+- **Guardrail 16** covers both halves of the same root failure: describing a source that cannot be opened, and stating a version-bound default (Material version, predictive back, themed icons, OS-gated behaviour) as timeless. A matching note sits on the version-bound rows in `docs/context-defaults.md`.
+
+**Enforcement.** Two more validators:
+
+- `validate_skill_entrypoint_contract()` — `SKILL.md` must carry `Device class:`, `docs/adaptive-layout.md`, `5.5`, and `outside the standard six`. This is the generalized form of the Commit 1 lesson: a capability that never reaches the always-loaded file is effectively absent, so each branch that got there is now pinned.
+- `validate_unreadable_source_honesty()` — both reference documents must state plainly that these sources cannot be opened, and the old "Did I use production references" prompt is blocked from returning.
+
+Both verified by injection.
 
 ### Acceptance
 

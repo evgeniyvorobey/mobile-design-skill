@@ -27,6 +27,7 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Could this exact response have been written with **no** information about the user's product, domain, or audience? If yes, the response is too generic; rewrite with the provided context.
 - Have I replaced every instance of vague language ("modern", "clean", "intuitive", "appropriate spacing", "good contrast") with a concrete claim?
 - If I removed the `Mode:` and `Platform scope:` headers, would a reader still be able to tell which mode this is? If not, structure is weak.
+- Is the `Mode:` header honest, or did I round the request to the nearest template? If the request is really paywall strategy, whole-app IA, notification policy, or design-system governance, use the no-fit branch instead of stretching a mode over it.
 - Is every section I included carrying a decision the input supports? Any section I filled with a placeholder, a restatement of the request, or a generic caution should be cut and the omission named in one line under `Assumptions` — coverage is not quality.
 
 ### Clarification policy
@@ -88,7 +89,8 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 
 ### Inspiration handling
 - If I used inspiration sources, are they clearly separated from UX rationale, platform guidance, accessibility requirements, and compliance language?
-- Did I use production references (Mobbin, Page Flows, UI Sources, Pttrns, Screenlane) for pattern benchmarking before portfolio or moodboard references?
+- If I named a production reference (Mobbin, Page Flows, UI Sources, Pttrns, Screenlane), did I frame it as a lookup for the user to perform — rather than describing screens I have not seen? These sit behind sign-in or paid subscriptions; a skill run has no session for them.
+- Did I state any platform default as timeless when it is version-bound (Material version, predictive back, themed icons, OS-gated behaviour)? Those are current as of this skill's last review, not permanent facts.
 - Did I avoid presenting Behance, Dribbble, Pinterest, Awwwards, awards, or gallery examples as proof that a design is usable, accessible, or platform-correct?
 - If the user did not ask for inspiration and it does not materially help, did I leave it out?
 

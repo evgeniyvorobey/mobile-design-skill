@@ -44,6 +44,19 @@ Use first when the user asks for mobile product references, real app examples, o
 | Pttrns | Mobile pattern browsing and app screen references | Some patterns may be old; verify current platform fit |
 | Screenlane | Mobile and web UI screen inspiration | Treat as screen reference, not validation evidence |
 
+### The skill cannot read these sources
+
+Mobbin, Page Flows, UI Sources and Pttrns sit behind sign-in or paid subscriptions, and a skill run has no session for any of them. Even in a host with web access, a fetch returns a landing page, not the screens. Screenlane is more open but still not something the skill has browsed.
+
+Therefore:
+
+- Name them as a **lookup for the user to perform**, never as something already consulted.
+- Do not describe what a specific product's screen on one of these sites looks like. That is a description of a screen nobody in this conversation has seen.
+- Do not attribute a pattern to "what Mobbin shows" or "current examples on Page Flows".
+- If the user pastes a screenshot, a flow description, or their own notes from one of these, that becomes real evidence and is reviewable as normal D1 input.
+
+The same applies to award galleries and portfolio sites: naming them as places to look is useful; narrating their current contents is fabrication.
+
 ### Tier 2: Platform and award references
 
 Use when the user asks for high-quality craft, platform-native excellence, or polished interaction direction.

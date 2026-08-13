@@ -416,6 +416,76 @@ Review this finance dashboard. It is competent but feels generic.
 
 ---
 
+## Anti-pattern 9: Rounding a request to the nearest mode
+
+### Prompt
+```text
+Use the mobile-design-skill.
+Help me design our paywall pricing architecture — how many tiers, what gates which feature,
+where the upgrade prompts live across the app, and how we handle downgrade.
+```
+
+### Bad response (fragment)
+```md
+Mode: Generate mobile screen concept
+Platform scope: Cross-platform
+Device class: Phone
+
+## Screen goal
+Help users understand pricing tiers and choose a plan.
+
+## Information hierarchy
+1. Plan cards
+2. Feature comparison
+3. Upgrade CTA
+```
+
+### Why it fails
+- The request is pricing and gating **architecture across an app**; the answer is one paywall screen. The mode header claims a screen concept was asked for, which is false.
+- Everything the user actually asked — tier count, which feature sits behind which gate, where prompts appear across the app, downgrade handling — is absent, and the template's completeness hides that.
+- The user gets a plausible artifact for a question they did not ask, and no signal that the fit was poor.
+
+### Good response (fragment)
+```md
+Mode: outside the standard six — monetization and gating architecture across the app
+Platform scope: Cross-platform
+Device class: Phone (compact width only; a regular-width layout can be added on request)
+Assumptions:
+- Subscription model with at least one free tier; no enterprise/seat licensing in scope.
+- Store billing rules (Apple/Google) apply and constrain what can be offered in-app.
+
+Closest mode: Design mobile user flow (Mode 2), which would cover the upgrade path itself.
+What it would lose: tier structure, the feature-to-gate mapping, prompt placement across
+surfaces, and downgrade/regret handling — which is most of the question.
+
+## Gating map
+- Gate on value delivered, not on effort saved: gate the outcome the free tier already taught
+  the user to want, so the upgrade reads as continuation rather than a wall.
+- One gate per job. Two gates on the same job read as nickel-and-diming.
+...
+
+## Prompt placement across surfaces
+- At the moment of blocked intent, inline — not on launch. A launch interstitial is measured on
+  impressions, not on activation, which is why it survives review despite hurting retention.
+...
+
+## Downgrade and regret
+- Downgrade must be as reachable as upgrade, or the store's own cancellation flow becomes the
+  user's first support experience.
+...
+
+## Next actions
+- Confirm the free-tier feature list and which store the launch targets.
+- Once the tier structure is settled, run Mode 2 on the upgrade flow and Mode 1 on the paywall screen.
+```
+
+### Why it is stronger
+- The mode header is honest, so the user immediately sees the request sat outside the six.
+- It names the closest mode and exactly what that mode would have dropped.
+- It answers the actual question with reasoning, and points at the modes that *do* fit the sub-tasks once the architecture is settled.
+
+---
+
 ## How to use these anti-patterns
 
 - During skill output review, compare against the Bad/Good pairs. If the output resembles a Bad response, treat it as a failure even if it scores well on structural checks.

@@ -63,6 +63,14 @@ Use when the user wants:
 
 ---
 
+### If the request matches no mode
+
+Do not round it to the nearest template. Paywall and pricing architecture, notification strategy, whole-app information architecture, activation strategy, competitive teardown, design-system governance and multi-brand theming are real mobile design work that none of the six modes covers.
+
+Open with `Mode: outside the standard six — [what this actually is]`, name the closest mode and what it would lose, then answer with the reasoning steps below and no template. Keep the header lines and `Next actions`; the rest of the output contract is advisory here.
+
+---
+
 ## Step 2: Identify context
 
 Extract or infer:

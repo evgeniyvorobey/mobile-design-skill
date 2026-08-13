@@ -8,6 +8,14 @@ Use this document with [`inspiration-sources.md`](inspiration-sources.md). Inspi
 
 ---
 
+## Evidence floor: the skill cannot open these sources
+
+Mobbin, Page Flows, UI Sources and Pttrns require sign-in or a paid subscription; a skill run has no session for them, and a fetch returns a landing page rather than the screens. Apple Design Award and Awwwards pages are public but have not been browsed either.
+
+So these playbooks are **checklists for a benchmark the user runs**, not a description of what those sources currently contain. Extract a principle from a reference the user supplies; never narrate a reference nobody in the conversation has seen. If the user pastes screenshots or notes, that is real evidence and the playbook applies to it directly.
+
+---
+
 ## Core rule
 
 Separate visual inspiration and benchmark observations from evidence.

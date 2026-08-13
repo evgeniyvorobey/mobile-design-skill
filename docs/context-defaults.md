@@ -239,6 +239,8 @@ Signals: "streaming", "music", "video", "gaming", "reading".
 | Themed icons | Provide monochrome adaptive icon asset |
 | Dark theme | Respect system; use Material tonal colors |
 
+Version-bound rows above (Material version, predictive back, themed icons) are current as of this skill's last review, not permanent facts. Name the OS level or design-system version a default assumes when it materially affects the recommendation. See guardrail 16.
+
 ### Cross-platform
 
 | Variable | Default |

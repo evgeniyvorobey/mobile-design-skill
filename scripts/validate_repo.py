@@ -1270,6 +1270,62 @@ def validate_mode_parity() -> None:
         )
 
 
+SKILL_ENTRYPOINT_REQUIRED_PATTERNS = [
+    # Step 3 resolves two axes, not one.
+    "Device class:",
+    "docs/adaptive-layout.md",
+    # Divergence runs before drafting.
+    "5.5",
+    # An honest mismatch stays visible instead of being laundered into a template.
+    "outside the standard six",
+]
+
+AUTH_WALLED_REFERENCE_FILES = [
+    "docs/inspiration-sources.md",
+    "docs/visual-benchmark-playbooks.md",
+]
+
+
+def validate_skill_entrypoint_contract() -> None:
+    """SKILL.md is the only always-loaded file, so capability lives or dies here.
+
+    Every branch listed below reached the entrypoint in a specific release. This
+    check exists because the v1.16.0 Mode D contract did not, and nothing noticed.
+    """
+    skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+    missing = [p for p in SKILL_ENTRYPOINT_REQUIRED_PATTERNS if p not in skill]
+    if missing:
+        fail(
+            "SKILL.md is missing required entrypoint contract markers "
+            "(a capability that never reaches SKILL.md is effectively absent): "
+            + ", ".join(missing)
+        )
+
+
+def validate_unreadable_source_honesty() -> None:
+    """Auth-walled references must be framed as a lookup, never as something consulted."""
+    errors: list[str] = []
+
+    for relative_path in AUTH_WALLED_REFERENCE_FILES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        if "cannot" not in text.lower() or "sign-in" not in text.lower():
+            errors.append(
+                f"{relative_path}: must state plainly that Mobbin / Page Flows / "
+                "UI Sources / Pttrns cannot be opened by a skill run"
+            )
+
+    review = (ROOT / "docs/self-review.md").read_text(encoding="utf-8")
+    if re.search(r"Did I use production references", review):
+        errors.append(
+            "docs/self-review.md: the prompt asking whether production references were "
+            "*used* invites describing screens the skill has never seen; ask whether the "
+            "reference was framed as a lookup instead"
+        )
+
+    if errors:
+        fail("Unreadable-source honesty validation failed:\n" + "\n".join(errors))
+
+
 def validate_inspiration_gate_parity() -> None:
     """The inspiration gate in SKILL.md must not be narrower than the layer it guards.
 
@@ -1564,6 +1620,8 @@ def main() -> None:
     validate_benchmark_report_format()
     validate_rendered_output_qa()
     validate_mode_parity()
+    validate_skill_entrypoint_contract()
+    validate_unreadable_source_honesty()
     validate_inspiration_gate_parity()
     validate_motion_band_consistency()
     validate_projected_score_lines()

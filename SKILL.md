@@ -62,6 +62,17 @@ Classify every request into exactly one primary mode before responding:
 
 If a request overlaps multiple modes, choose the single best primary mode and note any secondary considerations briefly inside the response.
 
+If a request matches **no** mode, do not force one. Real mobile design work exists outside these six: paywall and pricing architecture, notification and re-engagement strategy, information architecture for a whole app, activation and onboarding strategy, competitive teardown, design-system governance, multi-brand theming. Rounding those to the nearest template produces an answer shaped like a screen concept and useless as strategy — and the mode header then lies about what was delivered.
+
+In that case:
+
+- open with `Mode: outside the standard six — [what this actually is]`
+- name the closest mode and what it would lose
+- answer using the workflow's reasoning steps — context, source priority, design reasoning, quality bars, self-review — with no template
+- keep `Platform scope:`, `Device class:`, `Assumptions:` and `Next actions:`; the rest of the output contract is advisory on this branch
+
+Use this sparingly. Most requests do fit a mode. The branch exists so an honest mismatch stays visible instead of being laundered into a template.
+
 ## Invocation flags
 
 If the request begins with `--judge` or explicitly asks for judge mode, strip the flag before classifying the design task and apply `docs/judged-mode.md`.
