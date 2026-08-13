@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.20.1] - 2026-08-13
+
+A pre-handoff sweep found the repository **validating clean while eight instruction-level contradictions survived**. Cause: every guard added across 1.17.0–1.20.0 was scoped to the *file* where its defect was first seen rather than to the *class* of defect, so each survivor sat one directory outside a check that would otherwise have caught it. That generalization is the release.
+
+### Fixed
+- **`skill/modes.md` omitted `Device class` from all six `### Output structure` blocks** — in the file `SKILL.md` names authoritative, while both the response validator and the generation eval hard-fail any response missing it. Invisible to mode parity, which strips contract elements before comparing. Now checked by `validate_modes_carry_contract_elements()`.
+- **Two live "aim at 4/5" instructions** in `skill/usage.md` and `skill/modes.md`, outside `PRESCRIBED_SCORE_SCOPE` and matching none of its patterns. The 1.19.0 note that seven such sites existed was an undercount.
+- **`examples/anti-patterns.md` taught the banned pre-1.16 Mode D bucket shape inside two "Good response" fragments** — the "a filled-in example outweighs a prose instruction" failure this release series documented, live inside the file meant to demonstrate correctness. Both converted to the Findings causal-chain shape.
+- **`install.sh --method copy` never copied `examples/`**, while `SKILL.md` references it in ten places, so the copy install degraded silently instead of failing.
+- **`run_diversity_eval.py` asserted `asset_class_count ≥ 3` against its own recorded measurement of 2** — a threshold that fails by construction. Demoted to reported-only: that measurement is the floor to move, not a bar the output clears.
+- `SKILL.md` contradicted itself five lines apart on whether `Device class:` is unconditional.
+- `MARKDOWN_GLOBS` used `docs/*.md`, so seven required domain packs and `CHANGELOG.md` were never link-checked.
+
+### Changed
+- `PRESCRIBED_SCORE_SCOPE` widened to `skill/` and `SKILL.md`, with a `target(ing) 4/5` pattern added. The two guards must be widened together or neither.
+- Two new checks: `validate_modes_carry_contract_elements()` and `validate_calibration_teaches_current_shape()`, the latter permitting the banned Mode D headers only under `### Bad response`. 31 validators total.
+- `docs/proposals/quality-and-diversity-upgrade.md` gains a **§12 hand-off**: current state, the three planned items that were corrected after measurement and therefore outrank the plan tables, the ranked backlog, and the working conventions — injection-verify every rule, never `git checkout` on a dirty tree, build self-tests that discriminate rather than replay, run live acceptance before any release touching instruction text.
+
 ## [1.20.0] - 2026-08-13
 
 Sameness is now measured rather than read for. It was the symptom this whole line of work started from, and until this release it had only ever been assessed by a human reading outputs side by side.
