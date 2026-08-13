@@ -494,7 +494,6 @@ mobile-design-skill/
 │   ├── rubric_judge_oracle_agent.py      Deterministic stdin/stdout agent for judge-command CI self-tests
 │   └── run_rubric_judge.py               Provider-agnostic LLM-as-judge runner and external-agent adapter
 ├── skill/
-│   ├── skill.md                          Expanded prompt source
 │   ├── modes.md                          Per-mode inputs, outputs, validation, fallback
 │   ├── templates.md                      Output skeletons for each mode
 │   ├── usage.md                          Usage guide

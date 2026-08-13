@@ -10,7 +10,6 @@ Load `SKILL.md` as the active instruction set, then provide a design task.
 
 If you want the expanded reference pack available during use, keep these files nearby:
 
-- `skill/skill.md`
 - `skill/modes.md`
 - `skill/templates.md`
 - `docs/sources.md`

@@ -145,7 +145,7 @@ validators do not block tablet (`Platform scope` is checked for non-emptiness, w
 | P1-8 | **Tablet full version** — see §4. |
 | P1-9 | **Selection rules for the unkeyed craft bands.** Add a "Selected by" column to line length, type ratio, easing, spacing steps, edge padding, loading thresholds, skeleton-vs-spinner; add a no-bucket fallback to context defaults. Any emitted craft value names the context variable that selected it, or is labelled `default`. Do **not** add a competing numeric authority next to `docs/context-defaults.md`. |
 | P1-10 | **Blocking gate in self-review.** Promote three non-template-satisfiable prompts (name the sentence you cut; name the rejected instinct; name the element that carries the direction) into a leading blocking gate answered in writing; demote the rest to a spot-check reference; cut the universal prompts to the ~8 that gate a rewrite and move the remainder to `docs/evals.md`. |
-| P1-11 | **Resolve `skill/skill.md`.** 489 lines, on no load path, self-contradictory internally. Either delete it (porting the classifier hints and the "no vague advice" hard constraint into `SKILL.md`) or declare it a non-Claude-host entrypoint and bring it under the parity validator. Leaving three files that each claim to be the workflow is the condition that produced the drift in §2.1. **Owner decision required.** |
+| P1-11 | ✅ *resolved: deleted in v1.18.1* **Resolve `skill/skill.md`.** 489 lines, on no load path, self-contradictory internally. Either delete it (porting the classifier hints and the "no vague advice" hard constraint into `SKILL.md`) or declare it a non-Claude-host entrypoint and bring it under the parity validator. Leaving three files that each claim to be the workflow is the condition that produced the drift in §2.1. **Owner decision required.** |
 
 ### P2 — long-horizon
 
@@ -501,3 +501,20 @@ Note that criterion A3 as written — *the same prompt must produce different de
 **Two residuals, fixed in the same commit range:** only one of six runs labelled its *committed* direction, leaving the third candidate slot unverifiable — now required and validated; and the class was being chosen as "whatever the nearest golden did not use", which collapsed six classes into two, so the rule now requires arguing the class against the surface rather than against the golden.
 
 **Still open, honestly:** two runs of the identical budgeting prompt converged on the same catalog entry with near-identical token sets. That is defensible — Müller-Brockmann is a well-grounded pick for a dense money surface and each run killed it on context-specific mechanisms — and the third run drew a different entry from the same prompt, so the set is not frozen. Within-prompt divergence remains the metric P2-2 called premature; the domain spread is the one that carries user-visible value.
+
+
+---
+
+## 9. P1-11 resolved — `skill/skill.md` deleted
+
+**Decision: delete.** The alternative — declaring it a non-Claude-host entrypoint and bringing it under the parity validator — was rejected on the evidence below.
+
+**No host loads it.** `agents/openai.yaml` contains only interface metadata (display name, short description, default prompt, invocation policy) and no file path at all. The Claude Code wrapper at `.claude/skills/mobile-design-skill/SKILL.md` explicitly reads the root `SKILL.md`. `README.md` tells Cursor users to copy the root `SKILL.md`. The first release's changelog entry — *"Main skill prompt in `skill/skill.md`"* — shows what it was: the original prompt, superseded when the root `SKILL.md` became the entrypoint, and never retired.
+
+**It had drifted two releases behind and could not be cheaply caught up.** At the point of deletion it carried **zero** occurrences of step 5.5, `Device class`, `adaptive-layout`, `outside the standard six`, `Signature move`, `Dimension read`, direction provenance, or the Distinctiveness dimension. Catching it up would have meant re-forking a workflow that now spans `SKILL.md` plus `skill/modes.md`, `skill/templates.md` and thirty reference documents.
+
+**It was actively generating contradictions.** Its scoring paragraph ended up holding both the new derivation rule and the obsolete pre-1.16 review rule in one sentence — *"…a score asserted without a dimension table behind it is a default, not an assessment. For reviews, expose the current design-quality score with a short reason"* — while its own output structure four hundred lines later specified `Design quality score (current → projected, with per-dimension table)`. That is the §2.1 drift class reproducing inside a single file, and every edit in this initiative had to touch it for no benefit.
+
+**Ported before deletion:** the six worked classification examples, which are more concrete than the abstract intent cues in `docs/workflow.md`, into `SKILL.md`'s mode section. Its ban on vague advice was already covered by guardrail 4 (`docs/guardrails.md`), and its closing reminder duplicated `SKILL.md`'s.
+
+**Guard added:** `validate_single_workflow_source()` asserts that `## Required workflow` and `## Mode output requirements` appear in `SKILL.md` and nowhere else. Three files each claiming to be the workflow is the condition that produced the v1.16.0 drift; this stops a third fork from quietly reappearing. Verified by injection.

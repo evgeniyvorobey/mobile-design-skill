@@ -21,7 +21,6 @@ REQUIRED_FILES = [
     ".claude/skills/mobile-design-skill/SKILL.md",
     ".claude/agents/mobile-design-judge.md",
     "agents/openai.yaml",
-    "skill/skill.md",
     "skill/metadata.yaml",
     "skill/modes.md",
     "skill/templates.md",
@@ -400,7 +399,6 @@ WEAKNESS_REFERENCE_FILES = [
     "SKILL.md",
     ".claude/skills/mobile-design-skill/SKILL.md",
     "README.md",
-    "skill/skill.md",
     "skill/metadata.yaml",
     "skill/modes.md",
     "skill/templates.md",
@@ -427,7 +425,6 @@ DESIGN_QUALITY_RUBRIC_REFERENCE_FILES = [
     "SKILL.md",
     ".claude/skills/mobile-design-skill/SKILL.md",
     "README.md",
-    "skill/skill.md",
     "skill/metadata.yaml",
     "skill/modes.md",
     "skill/templates.md",
@@ -485,7 +482,6 @@ CLARIFICATION_POLICY_REFERENCE_FILES = [
     "SKILL.md",
     ".claude/skills/mobile-design-skill/SKILL.md",
     "README.md",
-    "skill/skill.md",
     "skill/metadata.yaml",
     "skill/modes.md",
     "skill/templates.md",
@@ -502,7 +498,6 @@ JUDGED_MODE_REFERENCE_FILES = [
     ".claude/skills/mobile-design-skill/SKILL.md",
     ".claude/agents/mobile-design-judge.md",
     "README.md",
-    "skill/skill.md",
     "skill/metadata.yaml",
     "skill/usage.md",
     "docs/commands.md",
@@ -520,7 +515,6 @@ JUDGED_MODE_REQUIRED_PATTERNS = [
 VISUAL_BENCHMARK_REFERENCE_FILES = [
     "SKILL.md",
     "README.md",
-    "skill/skill.md",
     "skill/metadata.yaml",
     "skill/usage.md",
     "docs/inspiration-sources.md",
@@ -539,7 +533,6 @@ GOLDEN_EXAMPLE_REFERENCE_FILES = [
     "SKILL.md",
     ".claude/skills/mobile-design-skill/SKILL.md",
     "README.md",
-    "skill/skill.md",
     "skill/metadata.yaml",
     "skill/usage.md",
     "docs/design-quality-rubric.md",
@@ -1083,7 +1076,6 @@ def validate_synthetic_case_studies() -> None:
     for relative_path in [
         "SKILL.md",
         "README.md",
-        "skill/skill.md",
         "skill/metadata.yaml",
         "skill/usage.md",
         "docs/design-quality-rubric.md",
@@ -1119,7 +1111,6 @@ def validate_domain_packs() -> None:
     for relative_path in [
         "SKILL.md",
         "README.md",
-        "skill/skill.md",
         "skill/metadata.yaml",
         "skill/usage.md",
         "docs/workflow.md",
@@ -1185,7 +1176,6 @@ def validate_benchmark_report_format() -> None:
     for relative_path in [
         "SKILL.md",
         "README.md",
-        "skill/skill.md",
         "skill/metadata.yaml",
         "skill/usage.md",
         "docs/evals.md",
@@ -1555,6 +1545,43 @@ def validate_score_is_derived_not_prescribed() -> None:
 
     if errors:
         fail("Prescribed-score validation failed:\n" + "\n".join(errors))
+
+
+def validate_single_workflow_source() -> None:
+    """Exactly one file may claim to be the workflow.
+
+    Three files each describing the workflow (SKILL.md, skill/skill.md,
+    skill/modes.md) is the structural condition that let the v1.16.0 Mode D
+    contract ship without reaching the entrypoint. skill/skill.md was retired in
+    v1.18.1 after drifting two releases behind — it carried none of step 5.5,
+    device class, the no-fit branch, the derived score or direction provenance,
+    while still asserting a pre-1.16 review rule. This check stops a third fork
+    from quietly reappearing.
+    """
+    errors: list[str] = []
+
+    owners = {
+        "## Mode output requirements": "SKILL.md",
+        "## Required workflow": "SKILL.md",
+    }
+    for marker, owner in owners.items():
+        holders = [
+            f.relative_to(ROOT).as_posix()
+            for f in iter_markdown_files()
+            if marker in f.read_text(encoding="utf-8")
+        ]
+        holders = [h for h in holders if not h.startswith("docs/proposals/")]
+        if holders != [owner]:
+            errors.append(
+                f"`{marker}` must appear in {owner} and nowhere else; found in "
+                + (", ".join(holders) if holders else "no file")
+            )
+
+    if errors:
+        fail(
+            "Single-workflow-source validation failed (a second file claiming to be "
+            "the workflow drifts, and the drift ships):\n" + "\n".join(errors)
+        )
 
 
 def validate_skill_entrypoint_contract() -> None:
@@ -1930,6 +1957,7 @@ def main() -> None:
     validate_direction_provenance()
     validate_calibration_corpus_diversity()
     validate_score_is_derived_not_prescribed()
+    validate_single_workflow_source()
     validate_skill_entrypoint_contract()
     validate_unreadable_source_honesty()
     validate_inspiration_gate_parity()
