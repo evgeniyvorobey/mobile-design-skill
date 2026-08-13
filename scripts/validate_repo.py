@@ -860,6 +860,26 @@ def dimension_table_shape_errors(rubric_doc: str) -> list[str]:
         if len(cells) == 5 and cells[0] in RUBRIC_DIMENSION_ROW_LABELS:
             rows[cells[0]] = cells[1:]
 
+    for label, cells in rows.items():
+        top = cells[3]
+        # The `4 -> 5` cell has to ask what the rule RETURNS. One cell used to ask what shape
+        # the statement took -- "is that appearance behaviour expressed as one transform" --
+        # and the closure test structurally could not be run on it: three blind readers
+        # unanimously judged a correct transform underdetermined because the cell never asked
+        # for an output. A question mark alone does not catch this; form-grading vocabulary does.
+        form_graded = re.search(r"\b(expressed|phrased|written|framed|stated)\s+as\b", top, re.IGNORECASE)
+        if form_graded:
+            errors.append(
+                f"docs/design-quality-rubric.md: `{label}` 4 → 5 grades the form of a statement "
+                f"(`{form_graded.group(0)}`) instead of what it returns; the closure test cannot "
+                "be run on a cell that never asks for an output"
+            )
+        if not re.search(r"\b(return|returns|decide|decides|produce|produces|assign|assigns|settle|settles|say|says|joins?)\b", top, re.IGNORECASE):
+            errors.append(
+                f"docs/design-quality-rubric.md: `{label}` 4 → 5 names no returning verb, so "
+                "there is nothing for the closure test to write down as the answer"
+            )
+
     for label in RUBRIC_DIMENSION_ROW_LABELS:
         if label not in rows:
             errors.append(f"docs/design-quality-rubric.md: dimension `{label}` has no boundary row")
