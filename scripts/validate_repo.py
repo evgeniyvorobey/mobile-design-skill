@@ -192,6 +192,8 @@ SIGNATURE_MOVE_SHAPE = r"Signature move:\s*(?:\S+\s+){7,}\S+"
 QUALITY_TARGET_SHAPE = r"Quality target:[^\n]*\bblocked from\b[^\n]*\buntil\b"
 # The score must be traceable to named dimensions, or "derived" is unfalsifiable.
 DIMENSION_READ_SHAPE = r"Dimension read:[^\n]*[1-5][^\n]*[1-5]"
+# Labelling only the rejects leaves the third candidate slot unverifiable.
+COMMITTED_DIRECTION_SHAPE = r"Direction:[^\n]*\(from:[^)\n]+\)"
 
 MODE_REQUIREMENTS = {
     "Generate mobile screen concept": {
@@ -239,6 +241,7 @@ MODE_REQUIREMENTS = {
             # The quality target names the blocking dimension instead of printing a bare number.
             ("Design quality calibration", QUALITY_TARGET_SHAPE),
             ("Design quality calibration", DIMENSION_READ_SHAPE),
+            ("Design quality calibration", COMMITTED_DIRECTION_SHAPE),
         ],
     },
     "Design mobile user flow": {
@@ -286,6 +289,7 @@ MODE_REQUIREMENTS = {
             ("Design quality requirements", SIGNATURE_MOVE_SHAPE),
             ("Design quality requirements", QUALITY_TARGET_SHAPE),
             ("Design quality requirements", DIMENSION_READ_SHAPE),
+            ("Design quality requirements", COMMITTED_DIRECTION_SHAPE),
         ],
     },
     "Review screen for usability/accessibility": {
@@ -381,6 +385,7 @@ MODE_REQUIREMENTS = {
             ("Design quality rationale", SIGNATURE_MOVE_SHAPE),
             ("Design quality rationale", QUALITY_TARGET_SHAPE),
             ("Design quality rationale", DIMENSION_READ_SHAPE),
+            ("Design quality rationale", COMMITTED_DIRECTION_SHAPE),
         ],
     },
 }

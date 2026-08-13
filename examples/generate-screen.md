@@ -97,6 +97,7 @@ Choose dates, review request impact, and submit with confidence.
 - Ensure touch targets remain comfortable around date selection and toggles.
 
 ## Design quality calibration
+- Direction: policy-adjacent baseline — the balance block sits directly under the inputs it depends on (from: baseline) — committed over the calm and dense-modular directions in `Alternatives considered`
 - Dimension read: attention path 4, composition 4, typography 4, colour/state 3, density 3, interaction 3, context & brand fit 3, production readiness 3, distinctiveness 1. Median of the nine = 3.
 - Quality target: 3/5 — production-ready screen structure, but blocked from 4/5 by Distinctiveness until the screen carries one owned asset; policy edge cases and platform-specific date controls still need validation.
 - Attention path:

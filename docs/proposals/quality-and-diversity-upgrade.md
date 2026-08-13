@@ -483,3 +483,21 @@ Every run generates the same candidate pair and commits to the same winner; the 
 Note that criterion A3 as written — *the same prompt must produce different designs* — is the within-prompt divergence this proposal's own P2-2 called premature for lack of a sampling-temperature contract. The defensible defect is not that four runs agree; it is that they never consider anything else. Measure the candidate set, not the winner.
 
 **Secondary, also for 1.18.0:** all 36 dimension scores across four runs were 3 or 4. The derivation is now real and visible, but with that compressed range the median cannot land anywhere but 4. The fix is upstream in the rubric's willingness to score 2 or 5, not in the median rule.
+
+
+---
+
+## 8. A3 resolved — v1.18.0 first item
+
+**Mechanism.** Two of step 5.5's three directions are now retrieved from the 13-entry catalog rather than invented: D1 the conventional baseline, D2 a named compositional school, D3 a named point-of-view product. Selection is a rule — discard what each entry's `Do NOT use for` line disqualifies for the domain, then from the survivors take the entry whose token consequences differ *most* from D1. Every direction, including the committed one, carries `from:` provenance into the output, so a bypassed catalog is visible in the response. `validate_direction_provenance()` parses the entry names out of `inspiration-sources.md` rather than hard-coding them.
+
+**Result, six live runs (three identical budgeting prompts + health, marketplace, education) scored by an independent gate: PASS on all six criteria, no blocking issues.**
+
+- Provenance present and real in all six; 14 provenance values, zero invented names.
+- **The option set moves with the domain** — the four different-domain runs cite disjoint catalog sets, 7 distinct entries out of 13, and the `Do NOT use for` filter visibly does the work ("Duolingo-style motivation mechanics — a streak turns a missed dose into a broken achievement"; "Brutalist … its own `Do NOT use for` line excludes any screen whose hierarchy must stay unambiguous under stress"). This was the primary measure.
+- Asset-class spread: the v1.17.0 layout-structure meter is gone from all six, and runs now argue the class explicitly.
+- No quality regression: no expressive direction committed anywhere, every run kept its accessibility section, full state set, and derived score.
+
+**Two residuals, fixed in the same commit range:** only one of six runs labelled its *committed* direction, leaving the third candidate slot unverifiable — now required and validated; and the class was being chosen as "whatever the nearest golden did not use", which collapsed six classes into two, so the rule now requires arguing the class against the surface rather than against the golden.
+
+**Still open, honestly:** two runs of the identical budgeting prompt converged on the same catalog entry with near-identical token sets. That is defensible — Müller-Brockmann is a well-grounded pick for a dense money surface and each run killed it on context-specific mechanisms — and the third run drew a different entry from the same prompt, so the set is not frozen. Within-prompt divergence remains the metric P2-2 called premature; the domain spread is the one that carries user-visible value.

@@ -208,7 +208,7 @@ Selecting D2 and D3:
 
 1. Read each entry's `Do NOT use for` line and discard the entries it disqualifies for this domain, audience, and use context. A regulated or safety-critical surface rules out several; say which one you discarded and why when that exclusion is load-bearing.
 2. From the entries that survive, do not take the first that fits. Name the surviving set, then pick the one whose token consequences differ **most** from D1 — the point is to widen the spread, not to find a second version of the baseline.
-3. Record the provenance. Every direction carries `from:` its source (`baseline`, or the catalog entry's name). A candidate set with no provenance is a candidate set that was never sampled.
+3. Record the provenance. Every direction carries `from:` its source (`baseline`, or the catalog entry's name) — **including the one you commit to**, which is named in the design-quality block. Labelling only the two rejects leaves the third slot unverifiable: a reader cannot tell whether a school *and* a product were both considered, or whether the set was two candidates wearing three labels. A candidate set with no provenance is a candidate set that was never sampled.
 
 Each direction is one thesis line plus its token consequences:
 
@@ -220,7 +220,9 @@ Each direction is one thesis line plus its token consequences:
 
 Rank the three against user goal, task, context defaults, platform conventions, and accessibility. Commit to one — the baseline wins often, and that is a legitimate outcome; what is not legitimate is never having considered anything else. The two rejects are not discarded: they populate `Alternatives considered` in Mode 1 or `Key decision tradeoffs` in Mode 3, each with its `from:` provenance and the mechanism that killed it.
 
-**Asset-class divergence.** The committed direction's owned asset (its `Signature move`) must not be the same **asset class** as the one carried by the nearest golden example in `examples/golden/` for this domain. The six classes are colour, geometry/shape, type treatment, motion signature, layout structure, and illustration/mascot. Three answers in a row reaching for a layout-structure meter under three different names is one retrieved asset wearing three labels, not three owned assets.
+**Asset-class divergence.** The committed direction's owned asset (its `Signature move`) must not be the same **asset class** as the one carried by the nearest golden example in `examples/golden/` for this domain. The six classes are colour, geometry/shape, type treatment, motion signature, layout structure, and illustration/mascot.
+
+Name the class you chose and say in one clause why at least two of the other five fit this surface worse. Picking whichever class the nearest golden did *not* use is how a six-class palette collapses into two: choose against the surface, not against the golden. Three answers reaching for the same notch-on-a-track under three different token names is one retrieved asset wearing three labels, not three owned assets — the test is whether the objects differ, not whether the names do.
 
 Four constraints keep this from becoming theatre:
 

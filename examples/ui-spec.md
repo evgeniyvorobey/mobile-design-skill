@@ -128,6 +128,7 @@ Single detail screen for one tracked package, optimized for status comprehension
 - Interactive controls need comfortable touch targets and clear labels.
 
 ## Design quality requirements
+- Direction: structured-neutral — status colour held apart from brand colour so a wrong status read is never a branding accident (from: baseline) — committed over the editorial and perceived-speed directions in `Key decision tradeoffs`
 - Dimension read: attention path 4, composition 4, typography 4, colour/state 4, density 4, interaction 4, context & brand fit 3, production readiness 3, distinctiveness 4. Median of the nine = 4.
 - Quality target: 4/5 — shippable Android detail screen; blocked from 5/5 by Production readiness until live shipment exceptions and carrier data limits are validated.
 - Attention path:

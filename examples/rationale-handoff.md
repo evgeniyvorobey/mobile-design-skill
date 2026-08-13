@@ -50,6 +50,7 @@ This screen serves patients immediately after booking an appointment. Many users
 - Clear instructional text over icon-led hints because confirmation screens in high-trust contexts must reduce uncertainty, not merely announce success.
 
 ## Design quality rationale
+- Direction: calm confirmation — restraint carries the trust this screen needs, with the accent doing one job (from: Vignelli, The Vignelli Canon) — committed over an action-first and a celebratory direction
 - Dimension read: attention path 4, composition 4, typography 4, colour/state 4, density 4, interaction 3, context & brand fit 5, production readiness 3, distinctiveness 4. Median of the nine = 4.
 - Quality target: 4/5 — strong handoff quality; blocked from 5/5 by Production readiness until real appointment-data variability and large-text behavior are validated.
 - Signature move: the confirmation accent token is the owned asset — `color.accent-confirm` appears in exactly three places (the confirmation checkmark, the primary next-step button, and the success toast) and nowhere else, so recognition builds through repetition rather than through decoration. Kano check: it sits on a delighter, not on a missing affordance; brand-expression budget: one perceptual move on this screen.

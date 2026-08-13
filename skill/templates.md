@@ -100,6 +100,7 @@ Assumptions:
 - Input additions: [pointer / hardware keyboard / drag-and-drop / stylus] — touch minimums unchanged, every drag has a non-drag path
 
 ## Design quality calibration
+- Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
 - Dimension read: [dimension]: [n], [dimension]: [n], ... (mark `n/v` where the input cannot verify one)
 - Quality target: [derived]/5 — median of the assessable dimensions above; blocked from [next level] by [outlying dimension] until [named input or fix]
 - Attention path:
@@ -250,6 +251,7 @@ Assumptions:
 - Input additions: [pointer / hardware keyboard / drag-and-drop / stylus] — touch minimums unchanged, every drag has a non-drag path
 
 ## Design quality requirements
+- Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
 - Dimension read: [dimension]: [n], [dimension]: [n], ... (mark `n/v` where the input cannot verify one)
 - Quality target: [derived]/5 — median of the assessable dimensions above; blocked from [next level] by [outlying dimension] until [named input or fix]
 - Attention path:
@@ -422,6 +424,7 @@ Assumptions:
 - [rule]
 
 ## Visual rhythm rules
+- Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
 - Dimension read: [dimension]: [n], [dimension]: [n], ... (mark `n/v` where the input cannot verify one)
 - Quality target: [derived]/5 — median of the assessable dimensions above; blocked from [next level] by [outlying dimension] until [named input or fix]
 - [rule]
@@ -474,6 +477,7 @@ Assumptions:
 - [pattern] over [alternative pattern] because [reason]
 
 ## Design quality rationale
+- Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
 - Dimension read: [dimension]: [n], [dimension]: [n], ... (mark `n/v` where the input cannot verify one)
 - Quality target: [derived]/5 — median of the assessable dimensions above; blocked from [next level] by [outlying dimension] until [named input or fix]
 - Signature move: [owned asset as a token] repeated at [locations] — or: none, this design is inert because [reason], and [what would change it]
