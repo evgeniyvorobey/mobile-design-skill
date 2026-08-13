@@ -5,6 +5,7 @@ import argparse
 import json
 import re
 import shlex
+import statistics
 import subprocess
 import sys
 from pathlib import Path
@@ -303,6 +304,20 @@ def compare_judgement(fixture: dict[str, Any], judgement: dict[str, Any]) -> lis
     actual_score = judgement["score"]
     if actual_score != expected_score:
         errors.append(f"{fixture_id}: expected score {expected_score}, got {actual_score}")
+
+    # The judge's own arithmetic, checked against itself. Before this, `dimension_scores`
+    # was validated for shape and then never compared to anything -- a judge returning nine
+    # 3s and a score of 5 passed the entire pack. The score is the median of the assessable
+    # bands lowered by caps, so it can sit below the judge's own median but never above it.
+    bands = [band for band in judgement["dimension_scores"].values() if isinstance(band, int)]
+    if bands and isinstance(actual_score, int):
+        own_median = int(statistics.median(sorted(bands)))
+        if actual_score > own_median:
+            errors.append(
+                f"{fixture_id}: score {actual_score} is above the median of the judge's own "
+                f"dimension_scores ({own_median}); the score is that median lowered by caps, "
+                "never raised above it"
+            )
 
     expected_verdict = normalize(fixture["expected_verdict"])
     actual_verdict = normalize(str(judgement["verdict"]))

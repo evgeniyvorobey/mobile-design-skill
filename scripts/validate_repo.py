@@ -761,10 +761,72 @@ def validate_design_quality_rubric_layer() -> None:
             + ", ".join(missing_references)
         )
 
+    errors = dimension_table_shape_errors(rubric_doc)
+    if errors:
+        fail("Dimension table shape validation failed:\n" + "\n".join(errors))
+
+
+BOUNDARY_HEADER = "| Dimension | 1 → 2 | 2 → 3 | 3 → 4 | 4 → 5 |"
+RUBRIC_DIMENSION_ROW_LABELS = (
+    "Attention path and hierarchy",
+    "Composition and spacing",
+    "Typography craft",
+    "Color, state, and contrast",
+    "Density and rhythm",
+    "Interaction polish and motion",
+    "Context and brand fit",
+    "Production readiness",
+    "Distinctiveness and owned assets",
+)
+
+
+def dimension_table_shape_errors(rubric_doc: str) -> list[str]:
+    """Four boundaries define five bands; three descriptions defined three.
+
+    The table this replaced had columns `1-2 signals | 3 signals | 4-5 signals`, so 2 and 5
+    had no anchor of their own and a model could pick a column but not a number. Boundaries
+    are also what keeps rule 1 satisfiable: a cell phrased as a question cannot be pasted
+    into an output as an answer, and every cell in the old table could be.
+    """
+    errors: list[str] = []
+    if BOUNDARY_HEADER not in rubric_doc:
+        return [
+            f"docs/design-quality-rubric.md: missing the boundary header `{BOUNDARY_HEADER}`; "
+            "five bands need four boundaries, and a table of descriptions cannot supply them"
+        ]
+
+    rows = {}
+    for line in rubric_doc.splitlines():
+        if not line.startswith("| "):
+            continue
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) == 5 and cells[0] in RUBRIC_DIMENSION_ROW_LABELS:
+            rows[cells[0]] = cells[1:]
+
+    for label in RUBRIC_DIMENSION_ROW_LABELS:
+        if label not in rows:
+            errors.append(f"docs/design-quality-rubric.md: dimension `{label}` has no boundary row")
+            continue
+        for index, cell in enumerate(rows[label]):
+            boundary = f"{index + 1} → {index + 2}"
+            if not cell.endswith("?"):
+                errors.append(
+                    f"docs/design-quality-rubric.md: `{label}` {boundary} is not a question — "
+                    "a cell stating the answer gets copied into an output as one"
+                )
+            if re.search(r"\b[1-5]\s*/\s*5\b", cell):
+                errors.append(
+                    f"docs/design-quality-rubric.md: `{label}` {boundary} names a score; a "
+                    "boundary asks about the artifact, it does not print a level"
+                )
+
+    return errors
+
 
 def validate_rubric_eval_pack() -> None:
     seen_scores: set[int] = set()
     spreads: dict[str, int] = {}
+    vectors: dict[str, dict[str, int]] = {}
     errors: list[str] = []
 
     for relative_path in RUBRIC_EVAL_FIXTURES:
@@ -818,6 +880,9 @@ def validate_rubric_eval_pack() -> None:
                 median = statistics.median(sorted(values))
                 floor_median = int(median)
                 spreads[relative_path] = max(values) - min(values)
+                vectors[relative_path] = {
+                    name: band for name, band in dimensions.items() if isinstance(band, int)
+                }
                 capped = not str(fixture["expected_cap"]).strip().lower().startswith("no ")
                 if score > floor_median:
                     errors.append(
@@ -857,6 +922,37 @@ def validate_rubric_eval_pack() -> None:
             "At least 2 rubric fixtures must have a dimension spread of 2 or more, so "
             f"the median rule is actually exercised; found {len(wide)}"
         )
+
+    # Four of the six vectors were constant (all 1s, all 4s, all 5s, near-all 2s). When a
+    # vector is constant, `median(vector) == expected_score` holds trivially, so a judge
+    # that computes the median and a judge that reads `expected_score` and back-fills the
+    # vector are indistinguishable -- a pack that replays a known-good answer.
+    flat = sorted(path for path, spread in spreads.items() if spread == 0)
+    if flat:
+        errors.append(
+            "flat dimension vector in " + ", ".join(flat) + " -- every dimension identical, "
+            "so the pack cannot separate a judge that derives the median from one that "
+            "back-fills it from the expected score"
+        )
+
+    if vectors and not any(
+        min(vector.values()) <= 2 and max(vector.values()) >= 5 for vector in vectors.values()
+    ):
+        errors.append(
+            "examples/evals/: no fixture vector spans a band <=2 and a band >=5, so the pack "
+            "never shows the judge a design excellent on one axis and broken on another -- the "
+            "case `Do not average away a serious flaw` describes, and the one that separates a "
+            "judge applying the critical-dimension step from one that stops at the median"
+        )
+
+    for dimension in sorted(RUBRIC_DIMENSIONS):
+        seen = {vector[dimension] for vector in vectors.values() if dimension in vector}
+        if vectors and len(seen) < MIN_DISTINCT_BANDS_IN_FIXTURE_PACK:
+            errors.append(
+                f"examples/evals/: dimension `{dimension}` takes only {sorted(seen)} across the "
+                f"fixture pack; fewer than {MIN_DISTINCT_BANDS_IN_FIXTURE_PACK} distinct bands "
+                "means the judge is never shown what the other levels look like for it"
+            )
 
     before_after = (ROOT / "examples/rubric-before-after.md").read_text(encoding="utf-8")
     for pattern in [
@@ -1374,6 +1470,61 @@ AUTH_WALLED_REFERENCE_FILES = [
 MAX_SINGLE_SCORE_SHARE = 0.75
 MIN_DISTINCT_SCORES = 3
 
+# The dimension vector is a second carrier of the same defect the two constants above
+# guard, one level down: a corpus whose `Dimension read:` lines never print a band teaches
+# a scale that has no such level. Before these checks the seven committed lines held 63
+# values with ZERO 2s, and `attention path` and `composition` were the literal constant 4
+# in all seven -- invisible to the share check, which reads only the headline, and to the
+# fixture spread check, which reads only JSON.
+#
+# The numbers below are corpus-composition choices, not measurements. They are the same
+# kind of number as `wide < 2` in the fixture pack and MIN_DISTINCT_SCORES above, and are
+# recorded as such so nobody later reads them as an empirical bar.
+MIN_DISTINCT_BANDS_PER_DIMENSION = 2
+MIN_DISTINCT_BANDS_IN_FIXTURE_PACK = 3  # across `examples/evals/rubric-score-*.json`
+MIN_WIDE_DIMENSION_READS = 2  # lines whose assessable bands span >= 3 points
+MIN_MODE_D_DISTINCT_BANDS = 3  # per column, across all committed review tables
+
+CANONICAL_DIMENSIONS = (
+    "attention path",
+    "composition",
+    "typography",
+    "colour/state",
+    "density",
+    "interaction",
+    "context & brand fit",
+    "production readiness",
+    "distinctiveness",
+)
+
+DIMENSION_READ_LINE = re.compile(r"Dimension read:(?P<body>[^\n]*)")
+DIMENSION_READ_PAIR = re.compile(r"^(?P<name>.+?)[:\s]\s*(?P<band>[1-5]|n/v)$", re.IGNORECASE)
+# `Now | Projected` rows in a Mode D score table.
+MODE_D_TABLE_ROW = re.compile(
+    r"^\|\s*(?P<name>[^|]+?)\s*\|\s*(?P<now>n/v|[1-5])\s*\|\s*(?P<projected>n/v|[1-5])\s*\|"
+)
+
+
+def parse_dimension_read(line: str) -> list[int | None]:
+    """Bands from one `Dimension read:` line; `None` for `n/v`.
+
+    Four shapes in the committed corpus have to survive: the trailing
+    `Median of the assessable = N.` restatement on the same line, `colour/state`
+    carrying a slash, `context & brand fit` carrying an ampersand and spaces, and
+    `n/v` as a value that is excluded from the median rather than counted low.
+    """
+    match = DIMENSION_READ_LINE.search(line)
+    if not match:
+        return []
+    core = re.split(r"Median of", match.group("body"), maxsplit=1)[0]
+    bands: list[int | None] = []
+    for chunk in core.split(","):
+        pair = DIMENSION_READ_PAIR.match(chunk.strip().rstrip("."))
+        if pair:
+            band = pair.group("band").lower()
+            bands.append(None if band == "n/v" else int(band))
+    return bands
+
 
 def label_body(section_text: str, label: str) -> str:
     """Text belonging to a `- Label:` bullet: its own line plus indented continuations."""
@@ -1522,8 +1673,85 @@ def validate_calibration_corpus_diversity() -> None:
                 f"the corpus must demonstrate at least {MIN_DISTINCT_SCORES}"
             )
 
+    errors.extend(dimension_band_diversity_errors())
+
     if errors:
         fail("Calibration corpus diversity validation failed:\n" + "\n".join(errors))
+
+
+def dimension_band_diversity_errors() -> list[str]:
+    """The same defect one level below the headline, and in both of its carriers.
+
+    Scores are printed twice in this corpus: as a `Dimension read:` bullet in the
+    generation modes, and as a `| Now | Projected |` table in Mode D. Each was pinned to
+    its own two-value band -- generation to {3,4}, review to {2,3} -- and the two regimes
+    hid each other, because the union across both carriers covered more ground than either
+    did. So these assert per carrier, never on the merged set.
+    """
+    errors: list[str] = []
+    reads: list[tuple[str, list[int | None]]] = []
+    now_bands: list[int] = []
+    projected_bands: list[int] = []
+
+    for file_path in sorted((ROOT / "examples").rglob("*.md")):
+        relative_path = file_path.relative_to(ROOT).as_posix()
+        for number, line in enumerate(file_path.read_text(encoding="utf-8").splitlines(), start=1):
+            if "Dimension read:" in line and "[dimension]" not in line:
+                reads.append((f"{relative_path}:{number}", parse_dimension_read(line)))
+                continue
+            row = MODE_D_TABLE_ROW.match(line)
+            if row and "dimension" not in row.group("name").lower():
+                for band, sink in ((row.group("now"), now_bands), (row.group("projected"), projected_bands)):
+                    if band != "n/v":
+                        sink.append(int(band))
+
+    if not reads:
+        return ["examples/: no `Dimension read:` lines found"]
+
+    assessable = [[band for band in bands if band is not None] for _, bands in reads]
+    values = [band for bands in assessable for band in bands]
+
+    missing = sorted({1, 2, 3, 4, 5} - set(values))
+    if missing:
+        errors.append(
+            f"examples/: no `Dimension read:` band of {missing} anywhere in {len(values)} "
+            "values; a corpus that never scores a level teaches a scale that has no such level"
+        )
+
+    for index, name in enumerate(CANONICAL_DIMENSIONS):
+        seen = {bands[index] for _, bands in reads if len(bands) > index and bands[index] is not None}
+        if len(seen) < MIN_DISTINCT_BANDS_PER_DIMENSION:
+            errors.append(
+                f"examples/: `{name}` is {seen.pop() if seen else 'unread'} in every "
+                "`Dimension read:` line; a single-valued dimension is measuring the rubric, "
+                "not the artifact"
+            )
+
+    if not any(bands and min(bands) <= 2 and max(bands) >= 5 for bands in assessable):
+        errors.append(
+            "examples/: no `Dimension read:` line carries both a band <=2 and a band >=5; "
+            "the corpus never demonstrates a design strong in one place and weak in another, "
+            "which is the case `Do not average away a serious flaw` describes"
+        )
+
+    wide = sum(1 for bands in assessable if bands and max(bands) - min(bands) >= 3)
+    if wide < MIN_WIDE_DIMENSION_READS:
+        errors.append(
+            f"examples/: only {wide} `Dimension read:` line(s) span 3+ bands; at least "
+            f"{MIN_WIDE_DIMENSION_READS} must, or the median rule is never exercised on a real spread"
+        )
+
+    for label, bands in (("Now", now_bands), ("Projected", projected_bands)):
+        if not bands:
+            errors.append(f"examples/: no Mode D `{label}` bands found in any review table")
+        elif len(set(bands)) < MIN_MODE_D_DISTINCT_BANDS:
+            errors.append(
+                f"examples/: Mode D `{label}` column takes only {sorted(set(bands))} across "
+                f"{len(bands)} assessable rows; fewer than {MIN_MODE_D_DISTINCT_BANDS} distinct "
+                "bands is a review corpus that has stopped reading"
+            )
+
+    return errors
 
 
 PRESCRIBED_SCORE_PATTERNS = [
@@ -1563,8 +1791,125 @@ def validate_score_is_derived_not_prescribed() -> None:
                     "deriving it from the assessable dimensions"
                 )
 
+    errors.extend(score_anchor_errors())
+
     if errors:
         fail("Prescribed-score validation failed:\n" + "\n".join(errors))
+
+
+# The defect class, stated once: any instruction-carrying text that supplies a PRIOR OVER
+# THE VALUE of a derived score, rather than a RULE THE DERIVATION MUST OBEY.
+#
+# The discriminator, applied per sentence: is this statement's truth value knowable before
+# the dimension read exists? "A good draft usually lands at 4/5" is -- anchor. "If the
+# derived score is below N, revise" is not -- trigger, and triggers stay.
+#
+# The patterns above this comment are a synonym list built one defect at a time, and by the
+# time this class was written they matched ZERO lines inside their own scope: every live
+# anchor had drifted to phrasings without the word "target" ("usually lands at", "4/5-style",
+# "At 4/5,", "not a quiet 4/5"). These four are scoped to the class instead.
+SCORE_ANCHOR_PATTERNS = [
+    (
+        "frequency anchor — states where scores usually land, which is knowable before any artifact is read",
+        r"\b(usual(?:ly)?|typical(?:ly)?|normal(?:ly)?|generally|commonly|in practice|tends? to|"
+        r"most\s+(?:drafts?|designs?|responses?|screens?|specs?|artifacts?))\b[^.\n]{0,80}\b[1-5]\s*/\s*5\b",
+    ),
+    (
+        "frequency anchor — names a score as the expected or default outcome",
+        r"\b[1-5]\s*/\s*5\b[^.\n]{0,60}\b(?:is|are|remains?)\s+(?:the\s+)?"
+        r"(?:usual|typical|normal|expected|common|default)\b",
+    ),
+    (
+        "exemplar-label anchor — tags a corpus or exemplar with a score level, so imitating it targets that level",
+        r"\b[1-5]\s*/\s*5[-\s](?:style|shaped|grade|level|calibre|caliber)\b"
+        r"|\ban?\s+(?:\w+\s+){0,2}[1-5]\s*/\s*5\s+"
+        r"(?:answer|response|spec|draft|design|example|output|screen|artifact)s?\b",
+    ),
+    (
+        "presupposition anchor — grammar that assumes a score as the current state",
+        r"\bquiet\s+[1-5]\s*/\s*5\b"
+        r"|\b(?:is|sits|stays|stops?|stopping|remains?|settles?)\s+at\s+[1-5]\s*/\s*5\b"
+        r"|\bstopping at the default\b",
+    ),
+]
+# Three exclusions, each for a construction that names a score without supplying a prior.
+# They are listed with their false positive so the next reader can tell the difference:
+#   - a before/after pair states two derived scores    `the upgrade path from 2/5 to 4/5`
+#   - a negated label denies a level rather than setting one
+#                                                     `2/5 state handling is not a 4/5 design`
+#   - a claim about one named artifact is data         `the screen is at 2/5 with a severity-3`
+SCORE_TRANSITION = re.compile(
+    r"\b([1-5])\s*/\s*5\b[^\n]{0,60}?(?:→|->|\bto\b|\bbecomes?\b|\binto\b|\bupgrades?\b)"
+    r"[^\n]{0,60}?\b([1-5])\s*/\s*5\b"
+)
+NEGATED_SCORE_LABEL = re.compile(r"\b(?:not|never|rather than|instead of)\s+an?\s+(?:\w+\s+){0,3}[1-5]\s*/\s*5\b", re.IGNORECASE)
+SPECIFIC_ARTIFACT_CLAIM = re.compile(
+    r"\b(?:the|this)\s+(?:\w+\s+){0,2}(?:screen|draft|design|spec|response|answer|review|artifact|result|read)"
+    r"\s+(?:is|sits|stays|remains)\s+at\s+[1-5]\s*/\s*5\b",
+    re.IGNORECASE,
+)
+
+
+def anchor_is_excluded(line: str) -> bool:
+    transition = SCORE_TRANSITION.search(line)
+    if transition and transition.group(1) != transition.group(2):
+        return True
+    return bool(NEGATED_SCORE_LABEL.search(line) or SPECIFIC_ARTIFACT_CLAIM.search(line))
+# A floor on the derivation's INPUTS is the sharpest form of the class: it forbids emitting
+# a low band at all. Captured and compared rather than matched literally, so no threshold is
+# invented -- the guard only asserts that a stated band range equals the scale.
+DIMENSION_FLOOR_PATTERN = (
+    r"\b(?:any|each|every|no)\s+dimension\s+(?:that\s+)?(?:scor\w+\s+)?"
+    r"(?:below|under|less\s+than|beneath)\s+\**([1-5])\b"
+)
+DIMENSION_RANGE_PATTERN = (
+    r"\bscore\s+(?:each|every|all)\s+(?:relevant\s+)?dimensions?\s+(?:from\s+)?"
+    r"\**([1-5])\**\s*(?:or|to|and|[-–—])\s*\**([1-5])\b"
+)
+# A cap is a downward clamp with a named exit; it is the opposite of a prior and may use
+# frequency vocabulary legitimately ("a P1 weakness normally caps the score at 2/5").
+# Named here rather than exempted silently, so an anchor cannot be laundered by inserting
+# the word "cap".
+CAP_VOCABULARY = re.compile(r"\b(caps?|capped|capping|hard limit|Fail|floor|ceiling|until fixed)\b", re.IGNORECASE)
+# Derived-score slots in the corpus carry real numbers by design. Excluded by line shape,
+# not by directory, so anchors living in prose beside them are still scanned.
+SCORE_SLOT_LINE = re.compile(
+    r"^\s*[-*>|]?\s*\**(?:Quality target|Dimension read|Current|Projected|Ceiling note|Score|"
+    r"Expected score|Quality target after fixes)\**\s*:"
+)
+ANCHOR_SCAN_EXTRA_FILES = ("skill/metadata.yaml", "agents/openai.yaml")
+ANCHOR_SCAN_SKIP = ("docs/proposals/", "CHANGELOG.md")
+
+
+def score_anchor_errors() -> list[str]:
+    errors: list[str] = []
+    paths = [p for p in iter_markdown_files()]
+    paths += [ROOT / name for name in ANCHOR_SCAN_EXTRA_FILES if (ROOT / name).exists()]
+
+    for file_path in sorted(set(paths)):
+        relative_path = file_path.relative_to(ROOT).as_posix()
+        if relative_path.startswith(ANCHOR_SCAN_SKIP):
+            continue  # these record the history of the defect
+        for number, line in enumerate(file_path.read_text(encoding="utf-8").splitlines(), start=1):
+            if SCORE_SLOT_LINE.match(line) or anchor_is_excluded(line):
+                continue
+            for label, pattern in SCORE_ANCHOR_PATTERNS:
+                if re.search(pattern, line, re.IGNORECASE) and not CAP_VOCABULARY.search(line):
+                    errors.append(f"{relative_path}:{number}: {label} — `{line.strip()[:90]}`")
+            floor = re.search(DIMENSION_FLOOR_PATTERN, line, re.IGNORECASE)
+            if floor and int(floor.group(1)) > 1:
+                errors.append(
+                    f"{relative_path}:{number}: floor on the derivation's inputs — no dimension "
+                    f"may be reported below {floor.group(1)}, which is a prior, not a rule"
+                )
+            band_range = re.search(DIMENSION_RANGE_PATTERN, line, re.IGNORECASE)
+            if band_range and (band_range.group(1), band_range.group(2)) != ("1", "5"):
+                errors.append(
+                    f"{relative_path}:{number}: dimensions are told to score "
+                    f"{band_range.group(1)}-{band_range.group(2)} rather than across the whole scale"
+                )
+
+    return errors
 
 
 def validate_modes_carry_contract_elements() -> None:
