@@ -1,0 +1,36 @@
+{
+  "id": "rubric-score-3-visual-rules-state-gap",
+  "rubric_version": "1.0",
+  "mode": "Create platform-aware UI spec",
+  "prompt": "Write a UI spec for the send-money confirmation screen of a peer-to-peer payments app. The user has already chosen a recipient and an amount and is confirming the transfer.",
+  "response_excerpt": "Zones: recipient row, amount block, funding-source row, fee and arrival line, and a confirm bar. First glance is the amount, carried by the hero role at the top of the block; second glance is the recipient and the funding source in the primary role; the action is Confirm in the bar. The rule: whichever field the user can still change carries the largest type on the screen, and anything the system decides -- fee, arrival estimate -- sits one role smaller; when two changeable fields compete, the one that moves money wins the hero slot and the other drops to the row beneath it, on this screen and on any screen in the send flow. Type roles: hero 34/40 semibold, shrinks one step at 200% text and never truncates; primary 17/22 regular, single line, tail truncation; secondary 15/20 regular, wraps to two lines; caption 13/16 medium, single line, tail truncation; all roles scale with Dynamic Type and the Android font scale. A new string joins the role whose job it shares -- an amount joins hero, a person joins primary, anything the system decides joins secondary, anything only a support agent needs joins caption -- and a new role may exist only if it differs from its neighbours in both size and weight and appears on at least two screens. Spacing: 4pt/dp base unit, 8 between a label and its value, 16 between rows, 24 between zones, 16 screen margins; every row aligns to the 16 left margin with values trailing-aligned, and the confirm bar adds the bottom safe-area inset to its 16 padding. Density: the row is the repeat unit and recurs at 16; with one funding source the row collapses into the amount block, and with five or more it becomes a picker. Owned asset: the arrival marker -- a 2pt/dp underline that runs under the arrival time and nowhere else on this screen, `accent.arrival`, repeated on the transfer detail and the activity row. Conventions: iOS puts the confirm bar above the home indicator and dismisses the sheet with a drag, Android uses a bottom bar with 48dp targets and the predictive back gesture; the fee and arrival line departs from the platform pattern of hiding fees in a footer, because the arrival time is what people re-check before they tap. Brand may override the accent, the underline weight, and the corner radius; it may never override the amount's place in the hierarchy or the fee and arrival disclosure. Colour: the accent carries the confirm bar and the arrival marker; text colour follows the platform default. Feedback: Confirm shows a spinner in the bar while the transfer posts, the funding-source picker shows a spinner while balances load, and anything that fails surfaces the shared error banner. The spec does not define the declined, insufficient-balance, unverified-recipient, or offline states, and does not say what the screen shows before a recipient is chosen; it says these follow the platform's expectations.",
+  "expected_score": 3,
+  "expected_verdict": "acceptable baseline",
+  "expected_cap": "3/5 cap from missing empty/error state definitions, with step 4 pointing the same way: colour/state and interaction, the dimensions this money-moving task turns on, sit two bands below the median",
+  "hard_limits": [
+    "Missing empty/loading/error states where relevant caps generated concepts and UI specs at 3/5"
+  ],
+  "dimension_scores": {
+    "attention_path_and_hierarchy": 5,
+    "composition_and_spacing": 4,
+    "typography_craft": 5,
+    "color_state_and_contrast": 2,
+    "density_and_rhythm": 4,
+    "interaction_polish_and_motion": 2,
+    "context_and_brand_fit": 4,
+    "production_readiness": 2,
+    "distinctiveness_and_owned_assets": 4
+  },
+  "expected_failed_dimensions": [
+    "color, state, and contrast",
+    "interaction polish and motion",
+    "production readiness"
+  ],
+  "expected_rationale": "This is the worked instance of the rubric's own sentence: a beautiful 5/5 visual direction with 2/5 state handling is not a 4/5 design, it is a risky design with polish. Two dimensions genuinely earn band 5 by stating a rule that settles cases the spec does not list -- the changeable-field rule decides the hierarchy on any screen in the send flow, and the role-join rule decides which role new content takes and what a new role must satisfy to exist. Composition, density, context and distinctiveness stop at 4: alignment and the safe-area inset are stated, both ends of the funding-source range are stated, the departure and the departure budget are stated, and the arrival marker is a token with repeat locations on siblings -- each enumerates rather than generalises. Three sit at 2 and all three are the same gap seen from different angles: no semantic colour role carries a foreground/background pair for any appearance, the failure feedback is one shared banner rather than states named per action, and outside `accent.arrival` no value carries a token and no component carries its variants and states. The median of the nine is 4. The score is 3, because the declined, insufficient-balance, unverified-recipient, offline and pre-selection states are undefined on a screen whose whole job is confirming that money will move, which fires the missing-state cap; step 4 points the same way, since the dimension the primary task turns on sits two bands under the median. Note what a cap does not do: colour and interaction are recorded at 2 and the two 5s stay 5, because a band records what the artifact states and a cap records a consequence of that.",
+  "improvement_suggestions": [
+    "Define the declined, insufficient-balance, unverified-recipient and offline states inline, each with what the screen shows, what the user can do next, and which zone changes.",
+    "Name the feedback per action instead of routing every failure to one shared banner -- Confirm, the funding-source picker and the recipient row fail for different reasons and need different recoveries.",
+    "Give the colour roles semantic names with a foreground/background pair for the default appearance, then the pair each role and component state takes in dark and increased-contrast appearances.",
+    "Put a token name beside every spacing and type value, not only beside the owned asset, and name each component's variants and states so the handoff is buildable."
+  ]
+}

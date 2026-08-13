@@ -1,12 +1,13 @@
 {
   "schema": "diversity-fixtures/v1",
-  "notes": "Two decision-vector corpora for scripts/run_diversity_eval.py --self-test. `uniform` reproduces the failure the 1.17.0 live acceptance actually found — every run scoring 4/5, one catalog entry, one asset class, one blocking dimension. `varied` is what a sampled catalog looks like. The self-test asserts the measurements SEPARATE them: a self-test that only proves the pipe works is worth nothing, and this repository has already shipped a green oracle over a broken function once.",
+  "notes": "Two decision-vector corpora for scripts/run_diversity_eval.py --self-test. `uniform` reproduces the failure the 1.17.0 live acceptance actually found — every run scoring 4/5, one catalog entry, one asset class, one blocking dimension. `varied` is what a sampled catalog looks like. The self-test asserts the measurements SEPARATE them: a self-test that only proves the pipe works is worth nothing, and this repository has already shipped a green oracle over a broken function once. `dimensions` is the per-run dimension read behind the `score`, in rubric order — attention path, composition, typography, colour/state, density, interaction, context, production, distinctiveness — with `null` for a dimension the evidence channel could not carry (`n/v`), which is excluded from the median rather than counted low. The uniform corpus records the second half of the same failure: the bands are not identical, they are drawn from a two-value alphabet {3,4} that always medians at 4, which is why nine numbers per run still carried no information. The varied corpus spans 1..5 and includes n/v entries so the exclusion is exercised.",
   "uniform": [
     {
       "id": "u1",
       "provenance": ["müller-brockmann, grid systems"],
       "asset_class": "layout structure",
       "score": "4",
+      "dimensions": [4, 4, 4, 3, 4, 4, 3, 4, 4],
       "blocker": "context & brand fit",
       "base_units": ["8"],
       "ratios": ["1.25"]
@@ -16,6 +17,7 @@
       "provenance": ["müller-brockmann, grid systems"],
       "asset_class": "layout structure",
       "score": "4",
+      "dimensions": [4, 4, 3, 4, 4, 4, 3, 4, 4],
       "blocker": "context & brand fit",
       "base_units": ["8"],
       "ratios": ["1.25"]
@@ -25,6 +27,7 @@
       "provenance": ["müller-brockmann, grid systems"],
       "asset_class": "layout structure",
       "score": "4",
+      "dimensions": [4, 3, 4, 4, 4, 4, 3, 4, 4],
       "blocker": "context & brand fit",
       "base_units": ["8"],
       "ratios": ["1.2"]
@@ -34,6 +37,7 @@
       "provenance": ["müller-brockmann, grid systems"],
       "asset_class": "layout structure",
       "score": "4",
+      "dimensions": [4, 4, 4, 4, 3, 4, 4, 3, 4],
       "blocker": "production readiness",
       "base_units": ["8"],
       "ratios": ["1.25"]
@@ -43,6 +47,7 @@
       "provenance": ["müller-brockmann, grid systems"],
       "asset_class": "layout structure",
       "score": "4",
+      "dimensions": [3, 4, 4, 4, 4, 4, 3, 4, 4],
       "blocker": "context & brand fit",
       "base_units": ["8"],
       "ratios": ["1.25"]
@@ -52,6 +57,7 @@
       "provenance": ["müller-brockmann, grid systems"],
       "asset_class": "layout structure",
       "score": "4",
+      "dimensions": [4, 4, 4, 4, 4, 3, 3, 4, 4],
       "blocker": "context & brand fit",
       "base_units": ["8"],
       "ratios": ["1.25"]
@@ -63,6 +69,7 @@
       "provenance": ["spotify wrapped"],
       "asset_class": "geometry",
       "score": "3",
+      "dimensions": [4, 3, null, 2, 3, 3, 4, 2, 1],
       "blocker": "distinctiveness",
       "base_units": ["8"],
       "ratios": ["1.2"]
@@ -72,6 +79,7 @@
       "provenance": ["vignelli, the vignelli canon", "headspace / calm"],
       "asset_class": "type treatment",
       "score": "4",
+      "dimensions": [4, 4, 5, 4, 4, 3, 4, 3, 4],
       "blocker": "production readiness",
       "base_units": ["8"],
       "ratios": ["1.25"]
@@ -81,6 +89,7 @@
       "provenance": ["müller-brockmann, grid systems", "teenage engineering"],
       "asset_class": "colour",
       "score": "4",
+      "dimensions": [5, 4, 4, 3, 4, 4, 4, 4, 4],
       "blocker": "colour, state & contrast",
       "base_units": ["4"],
       "ratios": ["1.333"]
@@ -90,6 +99,7 @@
       "provenance": ["linear", "brutalist / editorial web craft"],
       "asset_class": "motion signature",
       "score": "5",
+      "dimensions": [5, 5, 5, 5, 4, 4, 5, 5, 5],
       "blocker": "interaction polish",
       "base_units": ["8"],
       "ratios": ["1.2"]
@@ -99,6 +109,7 @@
       "provenance": ["superhuman"],
       "asset_class": "layout structure",
       "score": "4",
+      "dimensions": [4, 4, 4, 4, 5, 4, 3, 3, 4],
       "blocker": "production readiness",
       "base_units": ["4"],
       "ratios": ["1.125"]
@@ -108,6 +119,7 @@
       "provenance": ["swiss", "things"],
       "asset_class": "geometry",
       "score": "3",
+      "dimensions": [3, 3, null, 3, 2, 3, 4, 3, 2],
       "blocker": "density & rhythm",
       "base_units": ["8"],
       "ratios": ["1.25"]

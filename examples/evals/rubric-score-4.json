@@ -3,26 +3,32 @@
   "rubric_version": "1.0",
   "mode": "Generate mobile screen concept",
   "prompt": "Design a cross-platform leave request screen for an enterprise HR app used by employees with mixed technical comfort.",
-  "response_excerpt": "Quality target: 4/5. First glance: leave type and date range; second glance: balance and policy impact; final action: Submit request. Use 16pt/16dp screen padding, 12-16pt/12-16dp between related form fields, and 24pt/24dp before the balance block. Include empty, loading, policy-error, offline balance, and unsaved-change states. Validate Dynamic Type/font-scale and sticky CTA safe-area spacing.",
+  "response_excerpt": "Quality target: 4/5. First glance: leave type and date range; second glance: balance and policy impact; final action: Submit request. Use 16pt/16dp screen padding (`space.400`), 12-16pt/12-16dp between related form fields (`space.300`), and 24pt/24dp before the balance block (`space.600`); every field aligns to the 16pt/16dp margin with labels leading and values trailing, and the sticky submit bar adds the bottom safe-area inset to its padding. Type roles: `type.title` 22pt/22sp semibold, 1.2 line height, wraps to two lines; `type.body` 17pt/16sp regular, 1.4 line height, dates truncate to one line; `type.label` 15pt/14sp medium, 1.3 line height, single line; `type.caption` 13pt/12sp regular, 1.3 line height, policy notes wrap to three lines; all four scale with Dynamic Type/font scale to 200%. Colour: `text.primary` on `surface.default`, `text.secondary` on `surface.default`, and `status.warning` foreground on `status.warning.bg` for policy impact, which always carries its explanatory sentence beside it -- pairs stated for the default light appearance; dark and increased-contrast appearances are left to the design system. Include empty, loading, policy-error, offline balance, and unsaved-change states, each mapped to the field or block it belongs to, with the submit bar's disabled, pending, and error variants named. Density: at zero prior requests the balance block takes the space the list would occupy; at more than ten the list scrolls under a sticky balance summary. Motion: field validation animates in at 150ms ease-out, the reduced-motion fallback swaps it for an immediate state change, and focus moves to the first invalid field with the error announced. The signature element is the balance ring -- an arc that fills with days used, `viz.balance-ring`, repeated on the team calendar and the approval card. iOS uses the system date picker in a sheet and swipe-back; Android uses the docked date picker and the predictive back gesture. QA: validate Dynamic Type/font-scale, sticky CTA safe-area spacing, and the state list on both platforms.",
   "expected_score": 4,
   "expected_verdict": "strong and shippable",
   "expected_cap": "No cap",
   "hard_limits": [],
   "dimension_scores": {
-    "attention_path_and_hierarchy": 4,
+    "attention_path_and_hierarchy": 3,
     "composition_and_spacing": 4,
     "typography_craft": 4,
-    "color_state_and_contrast": 4,
+    "color_state_and_contrast": 3,
     "density_and_rhythm": 4,
     "interaction_polish_and_motion": 4,
-    "context_and_brand_fit": 4,
+    "context_and_brand_fit": 3,
     "production_readiness": 4,
     "distinctiveness_and_owned_assets": 4
   },
-  "expected_failed_dimensions": [],
-  "expected_rationale": "The response is specific, buildable, state-aware, accessibility-aware, and tied to the enterprise HR context. Remaining validation is about real policy edge cases rather than core design quality.",
+  "expected_failed_dimensions": [
+    "attention path and hierarchy",
+    "color, state, and contrast",
+    "context and brand fit"
+  ],
+  "expected_rationale": "Strong and shippable is a median, not a uniform read, and this fixture exists to show that. Six dimensions answer the third question yes and the fourth no, which is exactly what 4/5 means -- the artifact enumerates the cases it thought of and states no rule for the ones it did not: alignment, safe-area and insets are stated for every region (composition 4); every type role carries size, weight, line height, wrapping or truncation and 200% scaling (typography 4); the layout is stated at zero prior requests and at more than ten (density 4); duration, curve, reduced-motion fallback, focus and announcement are all stated (interaction 4); every value carries a token and every component its variants and states, with platform differences and QA checks beside them (production 4); and the balance ring is a token with repeat locations on this screen's siblings (distinctiveness 4). Three sit a band lower and name themselves: the glance order is asserted without the size, weight or position that produces it -- the first-glance fields are body role, not the largest thing on screen (attention 3); the colour roles carry default-appearance pairs but dark and increased-contrast are handed to the design system (colour 3); and platform conventions are named with no departure budget saying what brand may and may never override (context 3). Median = 4, no cap, and none of the three below it is the dimension the primary task turns on.",
   "improvement_suggestions": [
-    "Confirm exact HR policy rules and localization needs.",
-    "Validate platform-specific date picker behavior with the chosen design system."
+    "State the mechanism that produces the glance order -- which role, position and weight carry the leave type and date range above the balance -- rather than asserting the order alone.",
+    "State the pair each colour role and each component state takes in dark and increased-contrast appearances instead of deferring them to the design system.",
+    "Add the departure budget: what brand may override in this screen and what it may never override.",
+    "Confirm exact HR policy rules and localization needs, and validate platform-specific date picker behavior with the chosen design system."
   ]
 }

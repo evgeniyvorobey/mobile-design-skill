@@ -3,31 +3,32 @@
   "rubric_version": "1.0",
   "mode": "Generate mobile screen concept",
   "prompt": "Design a delivery status screen for an Android shopping app.",
-  "response_excerpt": "Show delivery status and ETA first, then order details, address, and timeline. Include refresh and contact support actions. Add loading, delayed, and error states. Use Material components and keep labels readable.",
+  "response_excerpt": "Show delivery status and ETA first, then order details, address, and timeline. Include refresh and contact support actions. Type: `type.headline` 24sp semibold for the status, `type.body` 16sp regular for the ETA and values, `type.label` 14sp medium for field labels. Spacing: `space.200` 8dp between a label and its value, `space.300` 16dp screen margins, `space.400` 24dp between sections; order rows repeat at 16dp. The status chip has on-time, delayed, and failed variants, each carrying an icon and a text label, never colour alone. The ETA has loading and error variants; refresh replaces the ETA with a spinner while it runs. Refresh is an icon button and contact support a text button, both with default, pressed, and disabled states. Follows Material: the status sits in the header under the top app bar, refresh uses standard swipe-to-refresh, support opens in a bottom sheet; no departure from Material is proposed. Add loading, delayed, and error states. Keep labels readable.",
   "expected_score": 3,
   "expected_verdict": "acceptable baseline",
-  "expected_cap": "No hard cap, but not enough concrete mechanisms for 4/5",
+  "expected_cap": "3/5 inert cap -- `Distinctiveness and owned assets` sits below band 4; the median is also 3, so the cap clamps nothing here and the score is the median as derived",
   "hard_limits": [],
   "dimension_scores": {
-    "attention_path_and_hierarchy": 4,
+    "attention_path_and_hierarchy": 3,
     "composition_and_spacing": 3,
     "typography_craft": 3,
-    "color_state_and_contrast": 3,
+    "color_state_and_contrast": 2,
     "density_and_rhythm": 3,
-    "interaction_polish_and_motion": 3,
+    "interaction_polish_and_motion": 2,
     "context_and_brand_fit": 3,
-    "production_readiness": 2,
-    "distinctiveness_and_owned_assets": 3
+    "production_readiness": 3,
+    "distinctiveness_and_owned_assets": 1
   },
   "expected_failed_dimensions": [
-    "production readiness",
-    "color/state specificity",
-    "typography craft"
+    "distinctiveness and owned assets",
+    "color, state, and contrast",
+    "interaction polish and motion"
   ],
-  "expected_rationale": "The concept can work and covers the main task, but it lacks concrete spacing, type roles, semantic status rules, QA checks, and alternatives.",
+  "expected_rationale": "This is what an acceptable baseline looks like once the boundary questions are read rather than the template: the defaults are stated and the variations are not. Six dimensions clear their first two questions and stop at the third -- the glance order is stated but the actions never enter it and no size or position is tied to it (attention 3); spacing separates a label from its value at 8dp and a section from a section at 24dp but no alignment, safe-area or inset behaviour is stated (composition 3); every type role carries a size and a weight but none carries line height, truncation or text-size scaling (typography 3); the row is named as the repeat unit at a stated interval but the layout is never stated at either end of the content range (density 3); Material is named as the convention followed with no departure proposed, but no departure budget exists (context 3); and every value carries a token with variants and states beside it, while state-to-component mapping, platform differences and QA checks are absent (production 3). Two sit below: the status roles are named without a foreground/background pair for any appearance (colour 2), and feedback exists but as one shared list with only refresh named per action (interaction 2). Distinctiveness fails its first question -- remove the logo and this is any Material delivery screen (1), which fires the inert cap at the same 3 the median already gives. Tokens alone do not make a 4.",
   "improvement_suggestions": [
-    "Add status-first spacing and typography values.",
-    "Define semantic delayed/failed status treatment with non-color cues.",
-    "Add tradeoffs such as status-first over timeline-first."
+    "Give each status role a foreground/background pair for the default appearance, then state the dark and increased-contrast pairs, to lift colour past its second boundary question.",
+    "Name the feedback states per action rather than as one shared list -- what contact support shows while it opens and when it fails, not only what refresh shows.",
+    "Add the state-to-component mapping, the platform differences, and the QA checks that let two implementers build the same screen.",
+    "Give the screen one owned asset expressed as a token with repeat locations here and on its siblings; nothing else lifts the inert cap."
   ]
 }

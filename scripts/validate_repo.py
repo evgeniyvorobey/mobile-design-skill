@@ -162,6 +162,7 @@ RUBRIC_EVAL_FIXTURES = [
     "examples/evals/rubric-score-4.json",
     "examples/evals/rubric-score-5.json",
     "examples/evals/rubric-score-2-adversarial.json",
+    "examples/evals/rubric-score-3-visual-rules-state-gap.json",
 ]
 
 RUBRIC_DIMENSIONS = {
