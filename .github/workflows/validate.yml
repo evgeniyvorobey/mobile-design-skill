@@ -3,6 +3,7 @@ name: Validate
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
   validate:
@@ -31,3 +32,12 @@ jobs:
       # contract, NOT that any model scores correctly.
       - name: Self-test judge command adapter (oracle, not a quality check)
         run: python3 scripts/run_rubric_judge.py --judge-command "python3 scripts/rubric_judge_oracle_agent.py"
+
+      # Replays committed examples through the generation-eval scorer. Proves the
+      # stdin/stdout adapter and that the scorer accepts known-good output. No model
+      # runs here, so this is NOT evidence about generated design quality.
+      - name: Self-test generation eval (oracle replay, not a quality check)
+        run: python3 scripts/run_generation_eval.py --replayable-only --generate-command "python3 scripts/generation_oracle_agent.py"
+
+      - name: Validate generation prompt pack
+        run: python3 scripts/run_generation_eval.py --dry-run

@@ -151,7 +151,7 @@ validators do not block tablet (`Platform scope` is checked for non-emptiness, w
 
 | # | Change |
 |---|--------|
-| P2-1 | `scripts/run_generation_eval.py` reusing the proven `--judge-command` stdin/stdout contract and importing `MODE_REQUIREMENTS` unchanged; ~10 prompts × N runs. First validator that reads generated text. |
+| P2-1 | ✅ *shipped in v1.19.0* `scripts/run_generation_eval.py` reusing the proven `--judge-command` stdin/stdout contract and importing `MODE_REQUIREMENTS` unchanged; ~10 prompts × N runs. First validator that reads generated text. |
 | P2-2 | `scripts/run_diversity_eval.py` — decision-vector extraction (pattern name, hierarchy sequence, component set, named alternative, emitted numbers, owned asset), cross-prompt uniqueness, rejected-alternative entropy, frame repetition. Drop within-prompt divergence from the first cut: no sampling-temperature contract exists, so a threshold is unjustifiable until baseline data exists. |
 | P2-3 | **Mode G: design system + information architecture.** Destination graph, token architecture, component inventory with anatomy/variants/states/a11y contract, themeable-vs-structural split, governance, platform token mapping. Mode E stops at type and spacing, so "define our design system" currently falls into the no-fit trap and returns a type scale with no colour attached. |
 | P2-4 | **Render-and-critique loop**, host-conditional: materialize a Mode A/C output as a self-contained HTML mock at 393×852 and 360×800 across default/loading/empty/error using the exact token names stated, run `docs/rendered-output-qa.md` against it, fix, return. That document is a 359-line workflow whose entry condition is an artifact the skill is never told to produce. |
@@ -518,3 +518,24 @@ Note that criterion A3 as written — *the same prompt must produce different de
 **Ported before deletion:** the six worked classification examples, which are more concrete than the abstract intent cues in `docs/workflow.md`, into `SKILL.md`'s mode section. Its ban on vague advice was already covered by guardrail 4 (`docs/guardrails.md`), and its closing reminder duplicated `SKILL.md`'s.
 
 **Guard added:** `validate_single_workflow_source()` asserts that `## Required workflow` and `## Mode output requirements` appear in `SKILL.md` and nowhere else. Three files each claiming to be the workflow is the condition that produced the v1.16.0 drift; this stops a third fork from quietly reappearing. Verified by injection.
+
+
+---
+
+## 10. P2-1 shipped — the first check that reads generated text
+
+`scripts/run_generation_eval.py` closes the gap this whole initiative kept demonstrating: 29 structural validators, and none of them had ever read a model's output. Three acceptance passes during 1.17.0 found two defects that every one of them passed over.
+
+**Reuse, not a parallel implementation.** `validate_example_responses()` was refactored into `check_response(response, mode, label)`, and the eval imports it. Generated output is held to *exactly* the rules the committed corpus is held to, and the two cannot drift — which matters more here than anywhere, because drift between two files claiming the same contract is the failure this repository has now shipped twice.
+
+**Generation needs a model; scoring does not.** That split is what makes it CI-safe. The deterministic oracle replays committed examples through the scorer to prove the adapter and the parser; the step is named so nobody mistakes it for a quality signal. A real run puts a model behind `--generate-command` during maintenance.
+
+**Three eval-only checks**, none of which a committed file can be wrong about:
+
+- **Derived score** — `Quality target: N/5` may not exceed the median of the dimension scores the response itself prints. Pure arithmetic. This is the check that would have caught the asserted-score defect on the first pass instead of the third.
+- **Provenance** — a rejected direction citing something outside the catalog.
+- **Prompt expectations** — a tablet prompt answered with `Device class: Phone`, or a no-fit prompt rounded into a standard mode.
+
+All verified by injection: an inflated score, an invented provenance, and a phone answer to the iPad prompt each produce exactly one precise failure.
+
+**A bug the refactor introduced and injection caught:** the extracted function's `label` parameter was shadowed by the loop variable in the `label_word_counts` check, so failures were reported against `Attention path:` instead of the file. Fixed before commit. That is the second time in this initiative that a validator written to catch drift had to be tested by breaking it on purpose — the discipline is not optional.

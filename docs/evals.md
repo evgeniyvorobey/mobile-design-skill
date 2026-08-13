@@ -385,3 +385,37 @@ When the skill, `modes.md`, or `templates.md` changes:
 - When a new guardrail is added to `guardrails.md`, add a matching shared fail condition here.
 - Keep structural checks automatable; resist ambiguous criteria in that layer.
 - Content checks should describe behavior, not enforce style.
+
+---
+
+## Generation eval — the first check that reads generated text
+
+Everything else in this document, and every check in `scripts/validate_repo.py`, reads markdown a maintainer wrote. `scripts/run_generation_eval.py` asks a model to answer real prompts and holds the answers to **exactly** the contract the committed examples are held to: it imports `check_response()` from `validate_repo.py` rather than reimplementing it, so the corpus rules and the output rules cannot drift apart.
+
+This exists because three acceptance passes during the 1.17.0 release found defects that every structural validator passed over — an instruction that generated token consequences while the slot receiving them still asked for layouts, and a filled-in example in a reference doc that outweighed the prose instruction telling the model to derive its score.
+
+### The split that makes it CI-safe
+
+Generation needs a model. **Scoring does not.** So:
+
+- `--dry-run` lists the prompt pack and validates its shape. Runs anywhere.
+- `--replayable-only --generate-command "python3 scripts/generation_oracle_agent.py"` replays committed examples through the scorer. This proves the stdin/stdout adapter, the JSONL parser, and that the scorer accepts output the repository already considers correct. **It proves nothing about a model.**
+- `--generate-command "<your agent>"` with a real model behind it is the actual eval, run during maintenance. There are no provider keys in this repository.
+
+### Eval-only checks
+
+Three things a committed file cannot be wrong about, but a live run can:
+
+| Check | Catches |
+|-------|---------|
+| Derived score | `Quality target: N/5` above the median of the dimension scores the response itself prints. Pure arithmetic, no model needed — this is the check that would have caught the asserted-score defect immediately. |
+| Provenance | A rejected direction citing a source that is not an entry in the catalog in `docs/inspiration-sources.md`. |
+| Prompt expectations | A tablet prompt answered with `Device class: Phone`; a no-fit prompt rounded into a standard mode instead of opening `Mode: outside the standard six`. |
+
+### Prompt pack
+
+`examples/evals/generation-prompts.json` — ten prompts covering all six modes, three domains, the tablet path and the no-fit branch. An entry with a `reference_example` can be replayed by the deterministic oracle; the rest are model-only. Adding a prompt is the cheapest way to turn a bug found in the field into a standing regression check.
+
+```bash
+python3 scripts/run_generation_eval.py --dry-run
+```

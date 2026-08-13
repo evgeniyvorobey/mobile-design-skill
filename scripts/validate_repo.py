@@ -104,6 +104,9 @@ REQUIRED_FILES = [
     "scripts/install.sh",
     "scripts/rubric_judge_oracle_agent.py",
     "scripts/run_rubric_judge.py",
+    "scripts/run_generation_eval.py",
+    "scripts/generation_oracle_agent.py",
+    "examples/evals/generation-prompts.json",
     "scripts/validate_release.py",
     "assets/logo-light.svg",
     "assets/logo-dark.svg",
@@ -1802,12 +1805,125 @@ def bullet_count(text: str) -> int:
     return len(re.findall(r"(?m)^-\s+\S", text))
 
 
+def check_response(response: str, mode: str, label: str) -> list[str]:
+    """The structural contract for one skill response — corpus or freshly generated.
+
+    Split out of validate_example_responses() so scripts/run_generation_eval.py can
+    hold live output to exactly the rules the committed examples are held to. Every
+    check in this repo used to read markdown a human wrote; this is the seam that
+    lets one read what the model actually produced.
+    """
+    errors: list[str] = []
+    requirements = MODE_REQUIREMENTS.get(mode)
+    if not requirements:
+        return [f"{label}: unknown mode `{mode}`"]
+
+    if not response.startswith(f"Mode: {mode}"):
+        errors.append(f"{label}: response must start with exact `Mode: {mode}`")
+
+    if not re.search(r"^Platform scope:\s+\S", response, re.MULTILINE):
+        errors.append(f"{label}: missing `Platform scope:` line")
+
+    device_class = re.search(r"^Device class:\s+(?P<value>\S.*)$", response, re.MULTILINE)
+    if not device_class:
+        errors.append(f"{label}: missing `Device class:` line")
+    elif "phone" not in device_class.group("value").lower():
+        # Anything wider than a phone must say what the layout does at each width.
+        if not re.search(r"^## Adaptive behavior\s*$", response, re.MULTILINE):
+            errors.append(
+                f"{label}: `Device class: {device_class.group('value')}` "
+                "requires an `## Adaptive behavior` section"
+            )
+
+    assumptions = extract_assumptions(response)
+    if bullet_count(assumptions) < 2:
+        errors.append(f"{label}: `Assumptions:` must contain at least 2 bullets")
+
+    for section in requirements["sections"]:
+        if not re.search(rf"^## {re.escape(section)}\s*$", response, re.MULTILINE):
+            errors.append(f"{label}: missing `## {section}` section")
+
+    for section in requirements["accessibility_sections"]:
+        if bullet_count(extract_section(response, section)) < 3:
+            errors.append(
+                f"{label}: `## {section}` must contain at least 3 bullets"
+            )
+
+    next_actions = extract_section(response, "Next actions")
+    if bullet_count(next_actions) < 2:
+        errors.append(f"{label}: `## Next actions` must contain at least 2 bullets")
+    for action in re.findall(r"(?m)^-\s+(.+)$", next_actions):
+        # A denylist of five phrases caught "test it" and nothing else. What
+        # separates a real next action from a stock one is that it names an
+        # object: "validate" is one word, "Validate whether balance and blackout
+        # data are real-time or cached" is eleven. Word count is the shape test;
+        # requiring a digit or proper noun was tried and rejected, because it
+        # fails specific, well-written actions and rewards inserting a number.
+        if len(action.split()) < 6:
+            errors.append(
+                f"{label}: next action `{action.strip()}` is too short to "
+                "name an object; say what is tested, defined, or confirmed"
+            )
+
+    if requirements.get("requires_sub_case") and not re.search(
+        r"^Sub-case:\s+\S", response, re.MULTILINE
+    ):
+        errors.append(f"{label}: missing `Sub-case:` line")
+
+    for section, field, min_words in requirements.get("label_word_counts", []):
+        words = len(label_body(extract_section(response, section), field).split())
+        if words < min_words:
+            errors.append(
+                f"{label}: `## {section}` gives only {words} words after "
+                f"`{field}` (minimum {min_words}) — a label is not a statement"
+            )
+
+    for section, spec in requirements.get("bullet_shapes", []):
+        body = extract_section(response, section)
+        bullets = re.findall(r"(?m)^-\s+(.+)$", body)
+        matching = [b for b in bullets if re.search(spec["pattern"], b, re.IGNORECASE)]
+        if len(matching) < spec["min_bullets"]:
+            errors.append(
+                f"{label}: `## {section}` needs at least "
+                f"{spec['min_bullets']} bullets matching /{spec['pattern']}/; "
+                f"found {len(matching)}"
+            )
+        for bullet in matching:
+            tail = re.split(spec["tail_after"], bullet, maxsplit=1, flags=re.IGNORECASE)
+            words = len(tail[-1].split()) if len(tail) > 1 else 0
+            if words < spec["min_tail_words"]:
+                errors.append(
+                    f"{label}: `## {section}` bullet gives only {words} "
+                    f"words after `{spec['tail_label']}` "
+                    f"(minimum {spec['min_tail_words']}): {bullet[:70]}"
+                )
+
+    for section, pattern in requirements.get("must_contain", []):
+        body = extract_section(response, section)
+        if not re.search(pattern, body, re.IGNORECASE):
+            errors.append(
+                f"{label}: `## {section}` must match /{pattern}/"
+            )
+
+    for section, pattern in requirements.get("must_not_contain", []):
+        body = extract_section(response, section)
+        if re.search(pattern, body, re.IGNORECASE):
+            errors.append(
+                f"{label}: `## {section}` must NOT match /{pattern}/"
+            )
+
+    for pattern in BANNED_RESPONSE_PATTERNS:
+        if re.search(pattern, response, re.IGNORECASE):
+            errors.append(f"{label}: banned response phrase /{pattern}/")
+
+    return errors
+
+
 def validate_example_responses() -> None:
     errors: list[str] = []
 
     for relative_path in EXAMPLE_RESPONSE_FILES:
-        file_path = ROOT / relative_path
-        text = file_path.read_text(encoding="utf-8")
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
         output_match = EXAMPLE_OUTPUT_RE.search(text)
         if not output_match:
             errors.append(f"{relative_path}: missing fenced `## Example output` block")
@@ -1819,109 +1935,7 @@ def validate_example_responses() -> None:
             errors.append(f"{relative_path}: missing `Mode:` line")
             continue
 
-        mode = mode_match.group(1).strip()
-        requirements = MODE_REQUIREMENTS.get(mode)
-        if not requirements:
-            errors.append(f"{relative_path}: unknown mode `{mode}`")
-            continue
-
-        if not response.startswith(f"Mode: {mode}"):
-            errors.append(f"{relative_path}: response must start with exact `Mode: {mode}`")
-
-        if not re.search(r"^Platform scope:\s+\S", response, re.MULTILINE):
-            errors.append(f"{relative_path}: missing `Platform scope:` line")
-
-        device_class = re.search(r"^Device class:\s+(?P<value>\S.*)$", response, re.MULTILINE)
-        if not device_class:
-            errors.append(f"{relative_path}: missing `Device class:` line")
-        elif "phone" not in device_class.group("value").lower():
-            # Anything wider than a phone must say what the layout does at each width.
-            if not re.search(r"^## Adaptive behavior\s*$", response, re.MULTILINE):
-                errors.append(
-                    f"{relative_path}: `Device class: {device_class.group('value')}` "
-                    "requires an `## Adaptive behavior` section"
-                )
-
-        assumptions = extract_assumptions(response)
-        if bullet_count(assumptions) < 2:
-            errors.append(f"{relative_path}: `Assumptions:` must contain at least 2 bullets")
-
-        for section in requirements["sections"]:
-            if not re.search(rf"^## {re.escape(section)}\s*$", response, re.MULTILINE):
-                errors.append(f"{relative_path}: missing `## {section}` section")
-
-        for section in requirements["accessibility_sections"]:
-            if bullet_count(extract_section(response, section)) < 3:
-                errors.append(
-                    f"{relative_path}: `## {section}` must contain at least 3 bullets"
-                )
-
-        next_actions = extract_section(response, "Next actions")
-        if bullet_count(next_actions) < 2:
-            errors.append(f"{relative_path}: `## Next actions` must contain at least 2 bullets")
-        for action in re.findall(r"(?m)^-\s+(.+)$", next_actions):
-            # A denylist of five phrases caught "test it" and nothing else. What
-            # separates a real next action from a stock one is that it names an
-            # object: "validate" is one word, "Validate whether balance and blackout
-            # data are real-time or cached" is eleven. Word count is the shape test;
-            # requiring a digit or proper noun was tried and rejected, because it
-            # fails specific, well-written actions and rewards inserting a number.
-            if len(action.split()) < 6:
-                errors.append(
-                    f"{relative_path}: next action `{action.strip()}` is too short to "
-                    "name an object; say what is tested, defined, or confirmed"
-                )
-
-        if requirements.get("requires_sub_case") and not re.search(
-            r"^Sub-case:\s+\S", response, re.MULTILINE
-        ):
-            errors.append(f"{relative_path}: missing `Sub-case:` line")
-
-        for section, label, min_words in requirements.get("label_word_counts", []):
-            words = len(label_body(extract_section(response, section), label).split())
-            if words < min_words:
-                errors.append(
-                    f"{relative_path}: `## {section}` gives only {words} words after "
-                    f"`{label}` (minimum {min_words}) — a label is not a statement"
-                )
-
-        for section, spec in requirements.get("bullet_shapes", []):
-            body = extract_section(response, section)
-            bullets = re.findall(r"(?m)^-\s+(.+)$", body)
-            matching = [b for b in bullets if re.search(spec["pattern"], b, re.IGNORECASE)]
-            if len(matching) < spec["min_bullets"]:
-                errors.append(
-                    f"{relative_path}: `## {section}` needs at least "
-                    f"{spec['min_bullets']} bullets matching /{spec['pattern']}/; "
-                    f"found {len(matching)}"
-                )
-            for bullet in matching:
-                tail = re.split(spec["tail_after"], bullet, maxsplit=1, flags=re.IGNORECASE)
-                words = len(tail[-1].split()) if len(tail) > 1 else 0
-                if words < spec["min_tail_words"]:
-                    errors.append(
-                        f"{relative_path}: `## {section}` bullet gives only {words} "
-                        f"words after `{spec['tail_label']}` "
-                        f"(minimum {spec['min_tail_words']}): {bullet[:70]}"
-                    )
-
-        for section, pattern in requirements.get("must_contain", []):
-            body = extract_section(response, section)
-            if not re.search(pattern, body, re.IGNORECASE):
-                errors.append(
-                    f"{relative_path}: `## {section}` must match /{pattern}/"
-                )
-
-        for section, pattern in requirements.get("must_not_contain", []):
-            body = extract_section(response, section)
-            if re.search(pattern, body, re.IGNORECASE):
-                errors.append(
-                    f"{relative_path}: `## {section}` must NOT match /{pattern}/"
-                )
-
-        for pattern in BANNED_RESPONSE_PATTERNS:
-            if re.search(pattern, response, re.IGNORECASE):
-                errors.append(f"{relative_path}: banned response phrase /{pattern}/")
+        errors.extend(check_response(response, mode_match.group(1).strip(), relative_path))
 
     if errors:
         fail("Example response validation failed:\n" + "\n".join(errors))

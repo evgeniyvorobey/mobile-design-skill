@@ -1,0 +1,76 @@
+{
+  "schema": "generation-eval-pack/v1",
+  "notes": "Prompts for scripts/run_generation_eval.py. Unlike every other fixture in this repository, these are not answers to check — they are questions to ask a model, whose answers are then held to the same contract as the committed examples. `reference_example` names a committed example the deterministic oracle can replay for CI self-tests; prompts without one only run against a real model.",
+  "prompts": [
+    {
+      "id": "concept-budgeting-home",
+      "mode": "Generate mobile screen concept",
+      "prompt": "Design a home screen for a budgeting app.",
+      "expects": { "device_class": "phone" },
+      "reference_example": "examples/generate-screen.md"
+    },
+    {
+      "id": "concept-medication-reminder",
+      "mode": "Generate mobile screen concept",
+      "prompt": "Design a medication reminder home screen for a patient-facing health app.",
+      "expects": { "device_class": "phone" },
+      "reference_example": null
+    },
+    {
+      "id": "concept-marketplace-listing",
+      "mode": "Generate mobile screen concept",
+      "prompt": "Design a product listing screen for a secondhand marketplace app.",
+      "expects": { "device_class": "phone" },
+      "reference_example": null
+    },
+    {
+      "id": "flow-onboarding",
+      "mode": "Design mobile user flow",
+      "prompt": "Map the onboarding flow for a habit-tracking app, from install to the first completed habit.",
+      "expects": { "device_class": "phone" },
+      "reference_example": "examples/design-flow.md"
+    },
+    {
+      "id": "spec-package-tracking",
+      "mode": "Create platform-aware UI spec",
+      "prompt": "Create a platform-aware UI spec for a package tracking detail screen on Android.",
+      "expects": { "device_class": "phone" },
+      "reference_example": "examples/ui-spec.md"
+    },
+    {
+      "id": "spec-ipad-clinician",
+      "mode": "Create platform-aware UI spec",
+      "prompt": "Create a UI spec for an iPad clinician chart review screen in a hospital EHR app.",
+      "expects": { "device_class": "tablet" },
+      "reference_example": null
+    },
+    {
+      "id": "review-settings",
+      "mode": "Review screen for usability/accessibility",
+      "prompt": "Review this settings screen: a single scrolling list of 18 toggles with no grouping, a Delete account row in the same visual style as the others, and a Save button at the bottom. No screenshot is available.",
+      "expects": { "device_class": "phone" },
+      "reference_example": "examples/review-screen.md"
+    },
+    {
+      "id": "type-system-fintech",
+      "mode": "Create typography and spacing system",
+      "prompt": "Create a mobile type and spacing system for a personal finance app with dense transaction screens.",
+      "expects": { "device_class": "phone" },
+      "reference_example": "examples/typography-spacing.md"
+    },
+    {
+      "id": "handoff-booking-confirmation",
+      "mode": "Prepare design rationale / handoff",
+      "prompt": "Prepare the design rationale and handoff notes for a redesigned appointment booking confirmation screen in a healthcare app.",
+      "expects": { "device_class": "phone" },
+      "reference_example": "examples/rationale-handoff.md"
+    },
+    {
+      "id": "nofit-paywall-architecture",
+      "mode": "outside the standard six",
+      "prompt": "Help me design our paywall pricing architecture — how many tiers, what gates which feature, where the upgrade prompts live across the app, and how we handle downgrade.",
+      "expects": { "device_class": "phone", "no_fit_branch": true },
+      "reference_example": null
+    }
+  ]
+}

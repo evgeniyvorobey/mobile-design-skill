@@ -197,6 +197,20 @@ def release_tmp_dir() -> Path:
 def run_release_checks() -> None:
     run_step("Repository validation", [sys.executable, "scripts/validate_repo.py"])
     run_step(
+        "Generation eval prompt pack",
+        [sys.executable, "scripts/run_generation_eval.py", "--dry-run"],
+    )
+    run_step(
+        "Generation eval oracle replay",
+        [
+            sys.executable,
+            "scripts/run_generation_eval.py",
+            "--replayable-only",
+            "--generate-command",
+            f"{sys.executable} scripts/generation_oracle_agent.py",
+        ],
+    )
+    run_step(
         "Rubric judge dry-run",
         [sys.executable, "scripts/run_rubric_judge.py", "--dry-run"],
     )

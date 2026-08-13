@@ -35,6 +35,7 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/weaknesses.md` for known failure modes and prevention checks that keep outputs from becoming generic, overconfident, aesthetic-only, or weakly buildable
 - `docs/evals.md` for structural, content, and fail-condition evaluation criteria
 - `docs/llm-judge-runner.md` and `scripts/run_rubric_judge.py` for semantic rubric fixture calibration, including external-agent command runs during maintenance
+- `scripts/run_generation_eval.py` for scoring freshly generated responses against the same contract as the committed examples (maintenance only)
 - `docs/context-defaults.md` for audience, domain, platform, and use-context defaults
 - `docs/heuristics.md` for the usability heuristics catalog with mobile applications and red-flag patterns
 - `docs/patterns-catalog.md` for mobile pattern decision matrices (navigation, overlays, lists, inputs, feedback, forms, search, auth)
