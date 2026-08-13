@@ -169,7 +169,7 @@ At least one of:
 - Typography rules
 - Accessibility requirements
 - Design quality requirements
-- iOS-specific and/or Android-specific implementation notes
+- Platform-specific implementation notes — split into iOS-specific and Android-specific subsections when conventions materially differ
 - Next actions
 
 ### Validation checklist

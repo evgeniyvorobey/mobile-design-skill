@@ -1150,6 +1150,131 @@ def validate_rendered_output_qa() -> None:
         fail("Rendered-output QA validation failed:\n" + "\n".join(errors))
 
 
+# Contract elements are emitted by every mode, so they live in the output contract
+# rather than in the per-mode lists. Parity compares only the mode-specific fields.
+CONTRACT_ELEMENTS = {"mode", "platform scope", "assumptions", "next actions"}
+
+
+def normalize_output_field(text: str) -> str:
+    """Reduce an output-structure bullet to a comparable field name.
+
+    Detail after an em dash is explanatory prose, not part of the contract, so it is
+    dropped. `/` and `or` are used interchangeably across the two files.
+    """
+    field = re.sub(r"^[-*]\s+", "", text.strip())
+    field = re.split(r"\s+—\s+", field, maxsplit=1)[0]
+    field = field.replace("/", " or ")
+    return re.sub(r"\s+", " ", field).strip().rstrip(".").lower()
+
+
+def bullet_fields(block: str) -> set[str]:
+    fields = {
+        normalize_output_field(line)
+        for line in block.splitlines()
+        if re.match(r"^[-*]\s+\S", line)
+    }
+    return {field for field in fields if field and field not in CONTRACT_ELEMENTS}
+
+
+def parse_skill_mode_fields() -> dict[str, set[str]]:
+    text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+    section = re.search(
+        r"^## Mode output requirements\s*$(?P<body>.*?)(?=^## |\Z)",
+        text,
+        re.DOTALL | re.MULTILINE,
+    )
+    if not section:
+        fail("SKILL.md: missing `## Mode output requirements` section")
+
+    modes: dict[str, set[str]] = {}
+    for match in re.finditer(
+        r"^### Mode \d+:\s*(?P<title>.+?)\s*$(?P<body>.*?)(?=^### |\Z)",
+        section.group("body"),
+        re.DOTALL | re.MULTILINE,
+    ):
+        modes[normalize_output_field(match.group("title"))] = bullet_fields(match.group("body"))
+    return modes
+
+
+def parse_modes_doc_fields() -> dict[str, set[str]]:
+    text = (ROOT / "skill/modes.md").read_text(encoding="utf-8")
+    modes: dict[str, set[str]] = {}
+    for match in re.finditer(
+        r"^## Mode [A-Z]:\s*(?P<title>.+?)\s*$(?P<body>.*?)(?=^## |\Z)",
+        text,
+        re.DOTALL | re.MULTILINE,
+    ):
+        structure = re.search(
+            r"^### Output structure\s*$(?P<body>.*?)(?=^### |\Z)",
+            match.group("body"),
+            re.DOTALL | re.MULTILINE,
+        )
+        if not structure:
+            fail(f"skill/modes.md: mode `{match.group('title')}` has no `### Output structure`")
+        modes[normalize_output_field(match.group("title"))] = bullet_fields(structure.group("body"))
+    return modes
+
+
+def validate_mode_parity() -> None:
+    """SKILL.md is always loaded; skill/modes.md is not. Drift between them ships silently.
+
+    This is the check that would have caught the v1.16.0 Mode D contract never reaching
+    the entrypoint.
+    """
+    skill_modes = parse_skill_mode_fields()
+    doc_modes = parse_modes_doc_fields()
+    errors: list[str] = []
+
+    if not skill_modes:
+        errors.append("SKILL.md: no `### Mode <n>:` blocks found under `## Mode output requirements`")
+    if not doc_modes:
+        errors.append("skill/modes.md: no `## Mode <letter>:` blocks found")
+
+    for title in sorted(set(skill_modes) - set(doc_modes)):
+        errors.append(f"mode `{title}` is in SKILL.md but has no counterpart in skill/modes.md")
+    for title in sorted(set(doc_modes) - set(skill_modes)):
+        errors.append(f"mode `{title}` is in skill/modes.md but has no counterpart in SKILL.md")
+
+    for title in sorted(set(skill_modes) & set(doc_modes)):
+        only_skill = sorted(skill_modes[title] - doc_modes[title])
+        only_doc = sorted(doc_modes[title] - skill_modes[title])
+        if only_skill:
+            errors.append(f"mode `{title}`: in SKILL.md but not skill/modes.md: {only_skill}")
+        if only_doc:
+            errors.append(f"mode `{title}`: in skill/modes.md but not SKILL.md: {only_doc}")
+
+    if errors:
+        fail(
+            "Mode parity validation failed (SKILL.md and skill/modes.md must list the same "
+            "output fields per mode):\n" + "\n".join(errors)
+        )
+
+
+def validate_projected_score_lines() -> None:
+    """The projected score is a flat median, never a ceiling and never `up to N/5`."""
+    errors: list[str] = []
+
+    for file_path in sorted((ROOT / "examples").rglob("*.md")):
+        relative_path = file_path.relative_to(ROOT).as_posix()
+        for number, line in enumerate(file_path.read_text(encoding="utf-8").splitlines(), start=1):
+            if not re.match(r"^[-*]\s*Projected:", line):
+                continue
+            if not re.match(r"^[-*]\s*Projected:\s*[1-5]/5\b", line):
+                errors.append(
+                    f"{relative_path}:{number}: `Projected:` must state a flat [1-5]/5 number"
+                )
+            lowered = line.lower()
+            for phrase in ("up to", "ceiling"):
+                if phrase in lowered:
+                    errors.append(
+                        f"{relative_path}:{number}: `Projected:` line must not contain "
+                        f"`{phrase}` — a post-visual-pass figure belongs in `Ceiling note`"
+                    )
+
+    if errors:
+        fail("Projected-score validation failed:\n" + "\n".join(errors))
+
+
 def iter_markdown_files() -> list[Path]:
     markdown_files: list[Path] = []
     for pattern in MARKDOWN_GLOBS:
@@ -1332,6 +1457,8 @@ def main() -> None:
     validate_visual_review_fixtures()
     validate_benchmark_report_format()
     validate_rendered_output_qa()
+    validate_mode_parity()
+    validate_projected_score_lines()
     validate_documentation_hygiene()
     validate_links()
     validate_example_responses()

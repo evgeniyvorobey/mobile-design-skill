@@ -307,7 +307,7 @@ Use `docs/design-quality-rubric.md` after calibration:
 - For generated concepts, UI specs, typography systems, and handoff: internally target 4/5 before returning.
 - If the draft scores 3/5 or below and context is sufficient, revise the weak dimension before returning.
 - If context prevents a 4/5 recommendation, state the missing input under `Assumptions`, `Unresolved assumptions`, or `Open questions`.
-- For Mode D reviews: expose both a current and a projected score inside `Design quality score (current → projected)` — the projection conditional and capped at 4/5 unless resilience is named.
+- For Mode D reviews: expose both a current and a projected score inside `Design quality score (current → projected)`. The exact contract — flat median of the assessable dimensions, `n/v` handling, `Ceiling note`, and the Bold move trigger — lives in the Mode D section of `skill/modes.md`. Follow it there rather than a summary here.
 - Do not let a high visual score hide P0/P1 weaknesses, missing states, accessibility risks, or unsupported claims.
 
 ### Keep inspiration separate from rationale

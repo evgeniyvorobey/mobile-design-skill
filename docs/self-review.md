@@ -127,7 +127,7 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 - Is each finding a single causal chain (observation → violated principle → user consequence → change → predicted effect), with no issue split from its fix and no orphaned fix?
 - Does every finding name the violated principle, and does every predicted effect name a user outcome (directional + confidence), not a restatement of the change?
 - Is severity rated 0–4 (Nielsen = frequency × impact × persistence) and based on user impact, not on how much it bothers me visually?
-- Did I expose both a current and a projected score, with the projection conditional, capped at 4/5 unless resilience is named, and labeled provisional for D2/D3?
+- Did I expose both a current and a projected score, the projected number being the flat median of the assessable (non-`n/v`) projected dimensions — not the sum of per-dimension gains, and never "up to" — with the projection conditional, capped at 4/5 unless resilience is named, any higher post-visual-pass figure confined to a `Ceiling note`, and the whole block labeled provisional for D2/D3?
 - If a Bold move is present: is its trigger met, all fields complete, and kept separate from required fixes — and did I withhold any UX-strengthening move only because it contradicts the product (if so, move it here)?
 
 ### Mode E: Create typography and spacing system

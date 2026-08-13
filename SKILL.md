@@ -146,7 +146,7 @@ Preferred source families:
 
 Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes the quality of a design artifact. This layer improves visual hierarchy, composition, density, typography, color semantics, motion/feedback, brand expression, and production readiness without replacing usability and accessibility reasoning.
 
-Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. For generated or specified artifacts, target 4/5 before returning; if a draft scores 3/5 or below and can be improved without inventing facts, revise it. For reviews, expose the current design-quality score with a short reason.
+Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. For generated or specified artifacts, target 4/5 before returning; if a draft scores 3/5 or below and can be improved without inventing facts, revise it. For reviews, expose both a current and a projected score: the projected number is the flat median of the assessable (non-`n/v`) projected dimensions, stated as a plain number and never as "up to". Any higher figure reachable only after a visual pass belongs in a separate `Ceiling note`, never in the projected number.
 
 Use `docs/synthetic-case-studies.md` and `examples/case-studies/` during maintenance, calibration, or quality-sensitive drafting to compare weak vs strong answer shapes. Treat these examples as synthetic fixtures, not real-world validation.
 
@@ -165,7 +165,9 @@ Use `docs/rendered-output-qa.md` only when a rendered artifact exists or the use
 Use `docs/weaknesses.md` as an internal preflight whenever a task is ambiguous, high-risk, critique-oriented, or likely to produce a generic design answer. Identify the likely weakness pattern before drafting, then prevent it through tighter assumptions, clearer decisions, evidence limits, state coverage, and buildable mechanisms.
 
 ### 6. Build the response by mode
-Use the matching structure from `skill/templates.md` when needed.
+Load the classified mode's section in `skill/modes.md` and follow both its `### Output structure` and its `### Validation checklist`. Use the matching skeleton from `skill/templates.md`.
+
+The mode lists in `## Mode output requirements` below are the same set of sections as `skill/modes.md`, and a parity check keeps them identical. Where the two ever disagree, `skill/modes.md` is authoritative — it carries the per-field detail this file compresses.
 
 ### 7. Apply universal review lenses
 Before finalizing, check:
@@ -277,17 +279,17 @@ Include:
 
 ### Mode 4: Review screen for usability/accessibility
 Include:
+- Sub-case (D1 / D2 / D3 / D4) — D1 visual evidence, D2 description only, D3 problem statement, D4 context change. Classify explicitly at the top; it sets what may be claimed.
 - Quick summary
-- Strengths
-- Usability issues
-- Accessibility issues
-- Hierarchy and readability issues
-- Design quality issues
-- Navigation and interaction issues
-- Severity or priority
-- Recommended fixes
+- Strengths — at least one genuine strength; a review with only negatives is biased, not thorough.
+- Findings — one causal chain per finding, never an issue split from its fix: Lens (Usability / Accessibility / Hierarchy & readability / Design quality / Navigation & interaction), Observation, Violated principle (named), User consequence, Change, Predicted effect (directional + confidence), Severity (Nielsen 0–4 = frequency × impact × persistence), Moves (which design-quality dimension it shifts, band→band).
+- Design quality score (current → projected) — current and projected scores plus a per-dimension table. The projected number is the flat median of the assessable (non-`n/v`) projected dimensions, not the sum of per-dimension gains; visual dimensions are never projected upward from a text-only review. Any higher number reachable only after a visual pass goes in a separate `Ceiling note`.
+- Severity index — findings rolled up by Nielsen 0–4 level.
+- Bold move (optional) — include only when all hold: current ≥3/5 but inert, no unresolved severity-3 or severity-4 finding, and a concrete UX upside. Omit the section entirely when the trigger is not met.
 - Platform-convention mismatches
 - Unresolved assumptions
+
+Do not use the pre-1.16 bucket shape (`Usability issues` / `Accessibility issues` / `Recommended fixes` / `Severity or priority`). Findings carry the lens, the severity, and the fix inside one chain.
 
 ### Mode 5: Create typography and spacing system
 Include:
