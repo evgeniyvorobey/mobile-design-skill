@@ -940,6 +940,8 @@ Commit `e0dfe8c` reverted in full: five instruction surfaces and the guard. **Ke
 
 ## 18. Backlog item 1 measured — one floor was the instrument, the other was not, and the fix does not reach the gate
 
+> **Two claims below are corrected by §19, which measured live output directly on 54 on-scope cells.** First, *"§17's 3/12 is therefore not a property of live output, and is withdrawn"* — live `production readiness` closes **1 of 6** on-scope, so the level was roughly right and the withdrawal was wrong. What is right is the narrower finding it was inferred from: the cell is satisfiable at 6/6, and the broken instrument made a thin corpus and an unsatisfiable cell indistinguishable. Second, *"per-dimension levels do not [survive]"* — all three dimensions §17 flagged reproduce directionally under the corrected instrument. The levels were noisier than §17 could know, not unreadable. Everything else in this section stands, and §19 corroborates the separation finding from a second direction.
+
 The item read: *two situation families now measure the instrument, not the artifact. `context & brand fit` returned 1/12 — the situation asks about copy voice, bystander privacy or house-versus-native chrome, while the cell returns a precedence order. `production readiness` returned 3/12, failing wherever the situation demands a hard-bar test. Both need rewriting and re-screening before any further arm contrast.*
 
 It also absorbed §15's own open line: *`Production readiness`'s rewrite rests on one clean case; re-run with fresh unlisted-value cases screened against the statement's own enumerations.*
@@ -1026,3 +1028,85 @@ What that does and does not touch:
 - **Why the gate fails in situ.** An independent judge running the closure test on one statement agrees with blind appliers 83% of the time at φ +0.68. The drafting model scoring its own statement in §17 ran at precision 0.652 and demoted 0 of 23. Those are different settings and are not directly comparable, but they point at *who runs the gate* rather than at *how it is worded* — and more drafting-side wording is exactly what v1.24.0 tried.
 - **Constraint 3 of the closure test still rests on §15's single 2–1 split.** All twelve cell-informed cases fixed every other input, so this run had no contrast to measure it with.
 - **Two dimensions, one product, one agent per case family.** Cases within a family are not independent draws, and nothing here licenses a claim about the other seven dimensions beyond the procedural one.
+
+---
+
+## 19. The levels re-measured on-scope — §14's null does not reproduce, and two of §18's claims are corrected
+
+The item read: *§16 and §17 must be re-run with on-scope probes. Paired arm contrasts survive; per-dimension levels do not, and §17's null was returned by an instrument separating at one third of its corrected strength.*
+
+### What was re-run, and what was deliberately not
+
+**The v1.24.0 arm contrast was not re-run**, and the reason is recorded so it can be argued with. Its revert stands on a finding independent of probe scope — the +33 pp was an extraction artifact, and the baseline doubled from 7/27 to 14/27 once the extractor quoted rules complete. What does not stand is v1.25.0's second claim, that the re-measurement was a *powered* null. Against the measured sensitivity of the two instruments:
+
+| | in rate terms | in true-class terms |
+|---|---|---|
+| §17 observed paired difference | +1.9 pp | +7.6 pp |
+| §17 95% CI | [−15.7, +18.9] | **[−62.8, +75.6]** |
+
+That is no constraint at all, and re-running it costs a full two-arm corpus to settle whether to un-revert a change with measured calibration harm. **What was re-run is the part the roadmap depends on: the levels.**
+
+Six briefs in domains absent from the corpus, run through `SKILL.md` at v1.25.1. Nine statements extracted per artifact, complete including the tables their values live in. Situations written from the brief alone, before any artifact existed, by agents holding the nine `4 → 5` questions and the three case constraints. Two screeners, three blind appliers, 54 cells, 162 judgements.
+
+**The corrected procedure holds at scale: 53 of 54 situations on-scope by both screeners**, against 0 of 12 for the name-only procedure. The one exception was excluded under the pre-registered rule.
+
+### The table §16 and §17 were trying to produce
+
+| dimension | closed | judgements | unanimous |
+|---|---|---|---|
+| Distinctiveness and owned assets | 5/5 | 14/15 | 4/5 |
+| Typography craft | 5/6 | 15/18 | 6/6 |
+| Interaction polish and motion | 4/6 | 12/18 | 6/6 |
+| Attention path and hierarchy | 3/6 | 8/18 | 5/6 |
+| Density and rhythm | 3/6 | 8/18 | 5/6 |
+| Color, state, and contrast | 2/6 | 4/18 | 4/6 |
+| Composition and spacing | 1/6 | 7/18 | 2/6 |
+| Context and brand fit | 1/6 | 3/18 | 6/6 |
+| Production readiness | 1/6 | 3/18 | 6/6 |
+| **pooled** | **25/53 = 47.2%** | | |
+
+Two of the three floors are described by three blind appliers in the rubric's own vocabulary, unprompted. `Production readiness`: *"nothing assigns unlisted values to either list; the checks cover only what is listed."* `Context and brand fit`: *"the precedence only ranks categories; no stated treatment."* Those are the closed-world statement and the precedence ladder with no output, reproduced on five briefs of six.
+
+### §14's null does not reproduce
+
+| band the artifact assigned itself | cases closed |
+|---|---|
+| 3 | 1/6 = 16.7% |
+| 4 | 14/34 = 41.2% |
+| 5 | 10/13 = 76.9% |
+
+Band 5 against band ≤4 is **76.9% vs 37.5%, +39.4 pp, Fisher p = 0.0235**, and the ladder is monotonic across three levels. §14 measured the same comparison at 39.3% vs 36.0%, +3.3 pp, p = 0.52, with the sign inverting once dimension was adjusted for.
+
+**Half of that is dimension mix, and it must be said.** Band-5 claims concentrate in three dimensions — distinctiveness 4, attention 4, typography 3 — and are entirely absent from composition, colour, density and production. Mantel–Haenszel stratified on dimension the odds ratio falls from 5.56 to **1.80**: it shrinks by half but, unlike §14, does not flip. Dimension identity still moves determinacy more than the band does, by 2.1× where §14 measured 21×.
+
+**And the two explanations are confounded.** §14's corpus predates the closure test; this one is v1.25.1 with two releases of band-5 discipline behind it. Either the instrument was hiding the separation, or the closure test created it. Both readings favour the current skill and they are different claims; nothing here separates them.
+
+### Two claims in §18 are wrong, and the corrected versions are narrower
+
+- **`Production readiness`'s 3/12 was withdrawn, and should not have been.** Live output closes **1 of 6** on-scope, against §17's 3 of 12. The level reproduces. What §18 established and what it inferred came apart: the *cell* is satisfiable — a serious test closed 6/6 unanimously with zero quotation — and live output does not satisfy it. Both were true at once, and the broken instrument is exactly what made them indistinguishable. The narrower finding stands; the withdrawal does not.
+- **"Per-dimension levels are not readable as properties of a dimension" was too strong.** All three dimensions §17 flagged reproduce directionally under the corrected instrument: distinctiveness high, context low, production low. What the broken instrument cost was resolution and the ability to attribute a floor, not the direction.
+
+§18's other findings are untouched, and its central one is corroborated from a second direction: an instrument that separates load-bearing from performative statements by 75 pp also separates self-assigned band 5 from band ≤4 by 39 pp, where the off-scope instrument separated it by 3.
+
+### The gate under-fires at both surfaces, and it is not about who runs it
+
+Every artifact prints its own band per dimension, and all six were independently re-banded by three `mobile-design-judge` agents. Against blind-applier determinacy on the same 53 cells:
+
+| | band-5 claims | precision | over-claims | under-claims | φ |
+|---|---|---|---|---|---|
+| the artifact's own claim | 13/53 | 0.769 | 3 | 15 | **+0.340** |
+| independent judge, majority of three | 18/53 | 0.667 | 6 | 13 | +0.280 |
+| blind appliers | 25/53 | — | — | — | — |
+
+**C2 is refuted.** The independent judge is not better calibrated — φ +0.280 against +0.340, and the three judges individually span the artifact's own value at +0.360, +0.205 and +0.322. Paired on cell, judge-correct-only 2 against artifact-correct-only 3, McNemar p = 1.000. **And the judge is barely independent: it returns the identical band on 47 of 53 cells**, and lands below the artifact's own band on exactly one.
+
+So the hypothesis §18 left open — that the gate's problem is *who runs it* rather than how it is worded — is dead, and the failure mode is the opposite of the one this repository has been chasing. §17 measured over-claiming at precision 0.652. Here **both surfaces under-claim**: 25 cells close for a blind reader and the drafting side claims 13.
+
+The mechanism that fits is uncomfortable and worth stating as a hypothesis rather than a result. Whoever runs the closure test on an artifact they can see **knows where its holes are, and picks a case there**; a blind writer working from the brief picks an ordinary one. The rubric guards one side of that — *"the case has to be ordinary, not an edge case chosen to be survivable"* — and does not guard the other. The measured failure is now in the unguarded direction.
+
+### What §19 did not resolve
+
+- **Nothing ships to instruction text, for the second release running.** Three findings here would each motivate one — thin production and context statements, a one-sided case-selection guard, distinctiveness's cheap top band — and each would need its own measurement of the shipped configuration first. That is the v1.24.0 lesson, and paying it twice is cheaper than paying the revert again.
+- **Distinctiveness is at ceiling for the second measurement running**, now on fresh situations written by different agents from different briefs, so it is not an artifact of §17's rewritten probes. Its `3 → 4` already requires repeat locations named beyond the screen, which leaves its `4 → 5` little to add — a structural suspicion, untested.
+- **The instrument and the intervening releases are confounded** in the §14 comparison, and this design cannot separate them. Re-scoring §14's own corpus with on-scope probes would, and that corpus no longer exists.
+- **One case per cell.** A statement that closes the applier's case might not close another, so "under-claim" is measured against a single ordinary case, not against the dimension.

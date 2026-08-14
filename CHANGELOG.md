@@ -2,7 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.25.2] - 2026-08-14
+
+**Two claims from 1.25.1 are corrected, and the per-dimension levels §16 and §17 were trying to produce now exist.**
+
+Six briefs in fresh domains through `SKILL.md` at 1.25.1, nine dimensions each, situations written from the brief alone by agents holding the `4 -> 5` question, 54 cells and 162 blind judgements. **53 of 54 situations landed on-scope**, against 0 of 12 for the procedure every measurement since section 14 had used.
+
+| dimension | closed |
+|---|---|
+| Distinctiveness and owned assets | 5/5 |
+| Typography craft | 5/6 |
+| Interaction polish and motion | 4/6 |
+| Attention path and hierarchy | 3/6 |
+| Density and rhythm | 3/6 |
+| Color, state, and contrast | 2/6 |
+| Composition and spacing | 1/6 |
+| Context and brand fit | 1/6 |
+| Production readiness | 1/6 |
+| pooled | 25/53 = 47.2% |
+
+**Section 14's null does not reproduce.** Sorted by the band each artifact assigned itself, cases close at 16.7% on band 3, 41.2% on band 4 and 76.9% on band 5 — band 5 against band <=4 is +39.4 pp, Fisher p = 0.0235, where section 14 measured +3.3 pp at p = 0.52 with the sign inverting under adjustment. Half of that is dimension mix: stratified on dimension the odds ratio falls 5.56 to 1.80, shrinking but not flipping. The instrument and two releases of closure-test discipline are confounded here and this design cannot separate them.
+
+**The gate under-fires at both surfaces, and it is not about who runs it.** All six artifacts were independently re-banded by three `mobile-design-judge` agents. Against the same blind ground truth the artifact's own claim scores phi +0.340 and the judge majority +0.280, McNemar p = 1.000 paired on cell — and the judge returns the identical band on 47 of 53 cells. Both under-claim: 25 cells close for a blind reader, the drafting side claims 13. That is the opposite of the over-claiming this repository has been chasing since 1.22.0.
+
+### Fixed
+- `docs/proposals/quality-and-diversity-upgrade.md` section 18 now carries a correction note, and section 19 records what replaces the two claims. **`Production readiness`'s 3/12 was withdrawn and should not have been** — live output closes 1 of 6 on-scope against section 17's 3 of 12, so the level reproduces. What section 18 established and what it inferred came apart: the cell is satisfiable at 6/6 *and* live output is thin, and the broken instrument is what made those indistinguishable. **"Per-dimension levels are not readable as properties of a dimension" was too strong** — all three flagged dimensions reproduce directionally; what was lost was resolution and attribution, not direction.
+
+### Added
+- Section 19 — the level table, the section 14 non-reproduction with its dimension-mix adjustment and its stated confound, the judged-mode arm, and the recomputation showing section 17's null constrains the true effect only to [-63, +76] pp.
+
+### Changed
+- Nothing behavioral, for the second release running. Three findings here would each motivate an instruction change; each needs its own measurement of the shipped configuration first, which is what 1.24.0 cost.
+
 ## [1.25.1] - 2026-08-14
+
+> **Two claims below are corrected in 1.25.2.** `Production readiness`'s 3/12 was withdrawn and should not have been — live output closes 1 of 6 on-scope, so the level reproduces; what stands is the narrower finding that the cell is satisfiable and the corpus is thin. And "per-dimension levels are not readable as properties of a dimension" was too strong: all three flagged dimensions reproduce directionally. Everything else here stands.
 
 **Backlog item 1 measured. Nothing ships to instruction text, and one of the two floors it was about is withdrawn.**
 
