@@ -1185,3 +1185,62 @@ The mechanism that fits, stated as a hypothesis: a case that names its surroundi
 - **The drafting side.** It carries 10 of the 15 cells of under-firing and cannot be diagnosed without its case, and printing its case is a change this repository already shipped and reverted for unrelated reasons.
 - **Why a better case makes the judge more conservative.** The hypothesis above is untested, and the natural test — vary case specification while holding the judge's instruction fixed — is a different design from this one.
 - **Constraint 3's standing in the rubric is now worse than §15 left it.** It was already the weakest of the three, and the one place it has been measured it costs recall. Removing it would be an unmeasured change in the other direction, so it stays and this is recorded against it.
+
+---
+
+## 21. Context is a precision filter, not a suppressor — and §20's decomposition rested on one judge
+
+The item read: *the drafting side carries the under-firing and cannot be diagnosed without its case. Printing the drafting case is what v1.24.0 shipped and v1.25.0 reverted, so a diagnosis needs a design that gets at it without that mandate.*
+
+### The design that avoids the mandate
+
+Do not elicit the case. **Vary the context the band is assigned in, holding the statement fixed.** Two numbers already in hand pointed the same way: judges shown a statement alone in §18 had 78% recall on load-bearing statements, judges shown the whole artifact in §20 had 58%, and the band-5 rates ordered themselves by how much the scorer held.
+
+Three arms in one cohort — whole artifact, brief plus the nine extracted passages, passages alone — six briefs, three judges each, 54 agents, structurally identical: same ladder, same closure test, same output fields, nine cells per agent. Ground truth is the blind applier on an ordinary blind-written case, 23/54.
+
+| scorer | band 5 | recall | over-claims | precision | φ |
+|---|---|---|---|---|---|
+| the artifact's own claim | 13/54 = 24.1% | 9/23 | 4 | **0.692** | **+0.340** |
+| judge, whole artifact | 47/162 = 29.0% | 32/69 | 15 | 0.681 | +0.330 |
+| judge, brief + passages | 53/162 = 32.7% | 31/69 | 22 | 0.585 | +0.224 |
+| judge, passages only | 59/162 = 36.4% | 31/69 | 28 | 0.525 | +0.152 |
+
+**The ordering predicted by context volume is exactly right, and it means the opposite of what was predicted.** K3 held: 24.1% < 29.0% < 32.7% < 36.4%, monotone. K1 and K2 are refuted — the passages-only arm reaches 36.4% rather than the predicted 45%, and its recall is **31/69 against 32/69**. Stripping the artifact away recovers **no** load-bearing statement. Every one of the twelve extra band-5 awards is a false positive: over-claims run 15 → 22 → 28 and precision falls 0.681 → 0.585 → 0.525.
+
+So context is not suppressing true band-5s. It is removing false ones, and it costs nothing in recall. **The drafting side, holding more context than any judge, is the most precise scorer of the four and has the highest φ.**
+
+### Recall does not move, for anything
+
+| arm | recall against the blind instrument |
+|---|---|
+| whole artifact | 32/69 = 46% |
+| brief + passages | 31/69 = 45% |
+| passages only | 31/69 = 45% |
+| the artifact's own claim | 9/23 = 39% |
+| §20, judge with constraint 3 enforced | 34/69 = 49% |
+| §20, judge as shipped | 40/69 = 58% |
+
+Across every manipulation this series has tried — who runs the gate, how the case is picked, how specified the case is, how much context the scorer holds — recall against the blind instrument sits near half and does not respond. That looks like a property of two different questions disagreeing, not a property of any scorer, and it is the shape of the next item rather than of this one.
+
+### Two corrections, one of them to §20
+
+- **§20's decomposition rested on a single judge.** It reported the under-firing as *"10 cells on the drafting side and 5 on the judging side"*, taking judge 1's 18/54 as the judging surface. The median of three judges in this run is **15/54**, so the split is 10 against 8 and the drafting side does not carry it. Two cells is well inside the 1-in-7 cohort flip rate. **Rule 14 repeating: a decomposition inferred from one judge is not a decomposition.**
+- **Not every band below 5 is a closure-test failure.** A dimension that fails 1 → 2, 2 → 3 or 3 → 4 never reaches the closure test, while the blind instrument only ever tests the 4 → 5 property. Of the 23 cells the blind applier called determined, **one** never reached the question (`p3/production`, three judges at band 3), so the real closure-test disagreement is **12 cells, not 15**. A small correction, and it goes the same way as the first one: the gap is narrower than §20 reported.
+
+And the conservatism is not specific to the top band. The judges place **9 of 54** cells at band ≤ 3 where the artifact places **6** — they are harsher than the drafting side on the lower rungs too.
+
+### Three hypotheses are now dead
+
+| hypothesis | where | outcome |
+|---|---|---|
+| the gate's problem is *who runs it* | §19 | judge φ +0.280 against the artifact's +0.340; identical band on 47 of 53 cells |
+| the gate picks a *harder* case | §20 | not harder (p = 0.58), not edgier (p = 0.44) |
+| the surrounding artifact *suppresses* band 5 | §21 | it filters false positives; recall flat, precision falls 0.68 → 0.53 |
+
+Each died with a measurement showing the intervention it motivated would cost something and gain nothing. **Nothing ships, for the fourth release running.**
+
+### What §21 did not resolve
+
+- **Who is right on the twelve.** A blind applier holding one ordinary case and a judge walking four boundary questions with the artifact in front of it are answering different questions, and neither is privileged. This design cannot adjudicate them, and the whole series has been treating the first as ground truth since §14.
+- **Whether "under-firing" was ever the right frame.** The stability of recall across every arm suggests the gap is definitional rather than behavioural. Testing that means measuring the instrument against something other than itself, which no design in this series has done.
+- **The drafting side's own case is still unobserved**, and this run shows the question it was wanted for was the wrong one.

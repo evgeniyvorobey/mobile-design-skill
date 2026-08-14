@@ -2,7 +2,36 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.25.4] - 2026-08-14
+
+**Context is a precision filter, not a suppressor. The third hypothesis about the band-5 gate dies, and 1.25.3's decomposition is corrected.**
+
+Three arms in one cohort — a judge holding the whole artifact, one holding the brief plus the nine extracted passages, one holding the passages alone — six briefs, three judges each, 54 agents, structurally identical. Ground truth is the blind applier on an ordinary blind-written case, 23/54.
+
+| scorer | band 5 | recall | over-claims | precision | phi |
+|---|---|---|---|---|---|
+| the artifact's own claim | 13/54 = 24.1% | 9/23 | 4 | **0.692** | **+0.340** |
+| judge, whole artifact | 47/162 = 29.0% | 32/69 | 15 | 0.681 | +0.330 |
+| judge, brief + passages | 53/162 = 32.7% | 31/69 | 22 | 0.585 | +0.224 |
+| judge, passages only | 59/162 = 36.4% | 31/69 | 28 | 0.525 | +0.152 |
+
+The ordering predicted by context volume is exactly right and it means the opposite of what was predicted. Stripping the artifact away raises the band-5 rate and recovers **no** load-bearing statement — recall 31/69 against 32/69 — while every extra award is a false positive. Context removes false positives at no cost in recall, and the drafting side, holding more context than any judge, is the **most precise scorer of the four**.
+
+Recall does not move for anything this series has tried: 32/69, 31/69, 31/69 here, 34/69 and 40/69 in 1.25.3, 9/23 for the drafting side. That looks like two different questions disagreeing rather than any scorer failing.
+
+### Fixed
+- 1.25.3's decomposition of the under-firing took judge 1 as the judging surface. At the median of three judges the judging side is 15/54, not 18/54, so the split is 10 cells against 8 and the drafting side does not carry it — a two-cell difference, inside the measured 1-in-7 cohort flip rate.
+- Not every band below 5 is a closure-test failure: a dimension failing an earlier rung never reaches the question, while the blind instrument only tests the 4 -> 5 property. One of the 23 determined cells never reached it, so the real disagreement is 12 cells rather than 15.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 21 — the three arms, the recall-stability table across every arm in the series, and the record that three hypotheses about this gate are now dead: who runs it (1.25.2), how it picks its case (1.25.3), and how much context it holds (here).
+
+### Changed
+- Nothing behavioral, for the fourth release running.
+
 ## [1.25.3] - 2026-08-14
+
+> **One claim below is corrected in 1.25.4.** The decomposition "10 cells on the drafting side and 5 on the judging side" took judge 1 as the judging surface; the median of three judges is 15/54, so the split is 10 against 8 and the drafting side does not carry it. Everything else here stands.
 
 **The gate's under-firing is not case selection, and enforcing the constraint that does explain it makes the gate worse. Nothing ships.**
 
