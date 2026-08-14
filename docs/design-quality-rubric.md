@@ -124,6 +124,8 @@ Four shapes fail this test almost every time. They are listed as diagnoses, not 
 
 Each of these reads like a rule and decides nothing. The common error underneath all four is **a closed-world statement presented as a generative one**: the enumeration is the rule, and outside the enumeration there is nothing.
 
+These four were first read backwards, out of statements already judged hollow. They have since been tested forwards: statements written to three of them on purpose closed 2 of 18 unlisted cases against blind readers, where statements built on a mechanism that returns something closed 29 of 36. What passes is deliberately not listed here — that is the point at which a diagnosis becomes a form to fill in.
+
 | Dimension | 1 → 2 | 2 → 3 | 3 → 4 | 4 → 5 |
 |-----------|-------|-------|-------|-------|
 | Attention path and hierarchy | Does anything carry visibly more weight than everything else? | Is the element carrying most weight the one the primary task needs first, with the order of first glance, second glance and action decided? | Is the mechanism producing that order stated — which of size, weight, position or colour does the work? | Does a stated rule decide the order when two signals compete in a case the artifact does not list? |

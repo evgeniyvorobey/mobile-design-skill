@@ -935,3 +935,94 @@ Commit `e0dfe8c` reverted in full: five instruction surfaces and the guard. **Ke
 - **Typography is the one live hypothesis** — baseline 2/6 against treated 4/6, coverage 0/6 against 4/6. Four discordant pairs, exact p = 0.625: a hypothesis, not a subgroup result.
 - **Nothing separates "the requirement works" from "the generator differed."** That still needs an effort-matched control this design does not have.
 - Six briefs floor brief-level inference at 0.031 two-sided even with a clean sweep; observed was 1–1–4. Per-dimension inference is impossible at six pairs each.
+
+---
+
+## 18. Backlog item 1 measured — one floor was the instrument, the other was not, and the fix does not reach the gate
+
+The item read: *two situation families now measure the instrument, not the artifact. `context & brand fit` returned 1/12 — the situation asks about copy voice, bystander privacy or house-versus-native chrome, while the cell returns a precedence order. `production readiness` returned 3/12, failing wherever the situation demands a hard-bar test. Both need rewriting and re-screening before any further arm contrast.*
+
+It also absorbed §15's own open line: *`Production readiness`'s rewrite rests on one clean case; re-run with fresh unlisted-value cases screened against the statement's own enumerations.*
+
+### The design that separates the three standing explanations
+
+One fixed product — a hotel mobile-key and stay screen, absent from the corpus and from §15's EV charging — so artifact of origin, which moved determinacy 17× more than band did, is removed by construction.
+
+Five statement arms, every one 146–149 words, so the length confound §15 had to kill post hoc is dead a priori. Two situation conditions, six cases each: **name-only**, which reconstructs the procedure that produced the two floors, and **cell-informed**, where the writer sees the `4 → 5` question and the rubric's three case constraints. Both conditions test every arm, so probe difficulty cannot track the arm. Two screeners, blind to condition, judge scope and quotation; three blind appliers judge 60 pairs, 180 judgements. Predictions and a decision rule were registered before any agent ran.
+
+### The probe procedure was the defect, and it is measurable
+
+| | on-scope by both screeners |
+|---|---|
+| name-only cases | **0 of 12** |
+| cell-informed cases | **12 of 12** |
+
+Two screeners, unanimous on all 24, Fisher p = 0.000001. Their reasons are the same one every time: the case asks *what decides* rather than *what the rule returns* — "asks what governs accent placement, the rule itself, rather than the treatment that rule returns"; "asks which condition combinations QA should capture, not a hard-bar-or-negotiable ruling on a measured value."
+
+And the scope of the case, not the statement, sets what the closure test can see:
+
+| probe condition | load-bearing arms | performative arms | separation |
+|---|---|---|---|
+| off-scope (name-only) | 9/18 = 50.0% | 3/12 = 25.0% | +25.0 pp, Fisher p = 0.26 |
+| on-scope (cell-informed) | 15/18 = 83.3% | 1/12 = 8.3% | **+75.0 pp, Fisher p = 0.0001** |
+
+Nothing about the statements changed between those rows. **Both error directions move the right way**: the strongest arm goes 1/6 → 6/6, and the performative arm goes 3/6 → 1/6. An off-scope case does not merely fail a working rule — it passes a hollow one.
+
+### The two dimensions have opposite diagnoses, and the item's premise held for only one
+
+**`Production readiness` — instrument.** On on-scope cases the best statement closes **6/6, 18/18 judgements, 6/6 unanimous, zero quotation**, and it discriminates rather than answering one way: four cases return hard bar, two negotiable. The same six cases give a well-written enumerated hard-bar list **0/6**, so the cases are not easy — they are selective. §17's 3/12 is therefore not a property of live output, and is withdrawn. §15's open item closes as confirmed on fresh screened cases.
+
+**`Context and brand fit` — corpus.** Its cell is satisfiable too (5/6 for a precedence order with mapped outputs, 4/6 for a treatment rule), but the shape live output actually carries scores **1/6**, which reproduces §17's 1/12 almost exactly. Here the broken instrument was *inflating* the weak arm (3/6 → 1/6), not deflating the strong one (4/6 → 4/6). **The backlog line's premise was wrong for this dimension**: its floor survives a corrected instrument.
+
+### What was predicted, and what happened
+
+P2 held and P5 held. P1 held for `context & brand fit` and was refuted for `production readiness` — predicted ≥ 4 of 6 on-scope under name-only, observed 0 of 6. **P3 was refuted in both directions at once**: the dimension predicted to move did not (4/6 → 4/6) and the dimension predicted to hold still collapsed (1/6 → 6/6).
+
+**P4's refutation is the useful one.** A precedence order whose terms are each mapped to a visual consequence closes **5/6**; the same skeleton without the mapping closes **1/6**, on identical cases, 4 discordant pairs to 0. The cell does not license an unclosable shape. Three appliers who never saw the rubric reproduced its own diagnosis in their own words: "the ranking names no size or face"; "ranks brand fourth but sets no surface limit or treatment".
+
+### The four failure shapes stop being a derivation and become a prediction
+
+§14 derived the shapes backwards, from 34 of 38 statements already judged performative. This run wrote statements *to* three of them on purpose, mixed them with six generative mechanisms, and tested all nine blind:
+
+| | cases closed |
+|---|---|
+| statements written to a named failure shape | **2 of 18 = 11.1%** |
+| statements built on a generative mechanism | **29 of 36 = 80.6%** |
+
+Fisher p = 0.000001. Precedence-with-no-output 1/6, requirement-with-no-threshold 0/6, ratio-with-no-anchor 1/6. **What passes is deliberately not recorded as a list** — six mechanisms cleared, and naming them here would convert a diagnosis into a menu, which is the rule-1 failure this repository has shipped twice.
+
+### The fix does not reach the gate, and that was measured rather than assumed
+
+§16 shipped a configuration that had never been measured and §17 reverted it. So the second phase tested the exact text that would ship, with the **judge's own band decision** as the outcome and blind-applier determinacy as ground truth. Ten statements — the five above plus five more spanning generative and failure shapes, ground truth measured on the same on-scope cases, 6 load-bearing to 4 performative. Three judges per variant, six independent agents; variant A is the closure-test instruction exactly as it ships on the judge agent today, variant B adds the case-scope constraint.
+
+| | band-5 awards | recall on load-bearing | awards to performative | φ |
+|---|---|---|---|---|
+| A (as shipped) | 15/30 | 14/18 | **1/12** | **+0.68** |
+| B (plus the constraint) | 16/30 | 14/18 | **2/12** | +0.60 |
+
+**All three predictions refuted.** Recall is identical. Awards to performative statements rose, which the pre-registered rule made a veto on its own. And the mechanism does not fire: judges under A already choose an on-scope case **24 of 30** times, against 26 of 30 under B (p = 0.73), with **zero** cases off-scope by both screeners in either variant.
+
+The reason is structural and worth stating plainly. **The harness deprived its situation writers of the cell text; the skill never does.** Every surface that assigns a band hands the judge the dimension's four boundary questions, so the case-picker is reading the `4 → 5` question when it picks. The defect was in the measuring instrument, not in the instructions the instrument was built to test. **Nothing ships to instruction text.**
+
+### The consequence that outruns the item: every measurement from §14 on used the broken procedure
+
+The record says so in its own words. §14's situations were written "under an instruction identical across dimensions" — an instruction identical across dimensions cannot contain the per-dimension `4 → 5` question. §15's were "written from the brief alone". §16's were "written from the brief before any artifact existed".
+
+§15 half-caught it and did not generalise it. Its headline was `best` 12/18 against `typical` 5/18 — a 38.9 pp gap — and **restricted to the dimensions whose cases were on-question, best 10/10 against typical 1/10, a 90 pp gap.** That is this section's +25 → +75 pp, in the repository's own earlier data, recorded as a restriction on one run rather than as a property of the instrument. §16 and §17 applied no such restriction.
+
+What that does and does not touch:
+
+- **Paired arm contrasts survive.** The same situations tested every arm, so an off-scope case is off-scope for all of them and the pairing holds.
+- **Per-dimension levels do not.** Every rate in §16 and §17 read as a property of a dimension — the 1/12, the 3/12, the 11/12 that made distinctiveness look fixed — was measured through a procedure that scores 0/12 on scope.
+- **§17's null is weaker than its power calculation says.** That calculation was derived from observed rates; it assumes the instrument separates. This section measures the same instrument separating at one third of its corrected strength. A null returned by an instrument with 25 pp of separation is not the same evidence as a null from one with 75 pp.
+
+### Two instrument findings, one of them a new defect
+
+- **A leak screen that reads the statement cannot tell "printed" from "computed", and it over-flags exactly the statements that work.** The screeners flagged 5 of 12 `context & brand fit` cases as quotation for the best arms; the appliers' own declared marker flagged 1. On the case both screeners called a leak, all three appliers derived the answer through the statement's classifier. §15 asked for a post-write leak screen; this is the form it must not take. **The applier-declared marker is the instrument** — it costs one clause in the rating instruction and it is made by someone who has just done the derivation.
+- **`Context and brand fit`'s cell is broad enough that its on-scope cases read like other dimensions' cases.** Four of its six cell-informed cases ask for a type, contrast or weight treatment. The screeners called them on-scope and the performative arm still failed them, so the contrast stands — but this dimension's determinacy is not cleanly separable from typography and colour, and that is a caveat on its numbers, not on the two conditions being compared.
+
+### What §18 did not resolve
+
+- **Why the gate fails in situ.** An independent judge running the closure test on one statement agrees with blind appliers 83% of the time at φ +0.68. The drafting model scoring its own statement in §17 ran at precision 0.652 and demoted 0 of 23. Those are different settings and are not directly comparable, but they point at *who runs the gate* rather than at *how it is worded* — and more drafting-side wording is exactly what v1.24.0 tried.
+- **Constraint 3 of the closure test still rests on §15's single 2–1 split.** All twelve cell-informed cases fixed every other input, so this run had no contrast to measure it with.
+- **Two dimensions, one product, one agent per case family.** Cases within a family are not independent draws, and nothing here licenses a claim about the other seven dimensions beyond the procedural one.
