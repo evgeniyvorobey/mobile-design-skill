@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.25.1] - 2026-08-14
+
+**Backlog item 1 measured. Nothing ships to instruction text, and one of the two floors it was about is withdrawn.**
+
+The two situation families that produced `context & brand fit` 1/12 and `production readiness` 3/12 were re-measured against a fixed product outside the corpus, with five statement arms matched to 146-149 words, two probe conditions, two screeners and three blind appliers over 60 pairs.
+
+| | on-scope by both screeners |
+|---|---|
+| situations written from the brief and the dimension name | **0 of 12** |
+| situations written with the `4 -> 5` question in front of the writer | **12 of 12** |
+
+With the case held to the cell's scope, the closure test separates load-bearing from performative statements by **+75 pp (p = 0.0001)**; off scope, by **+25 pp (p = 0.26)** — same statements, same raters, only the case changed. Both error directions move: the strongest arm goes 1/6 to 6/6, the hollow arm goes 3/6 to 1/6.
+
+The two dimensions have opposite diagnoses. **`Production readiness` was the instrument** — a real test closes 6/6 unanimously with zero quotation and discriminates (four hard bar, two negotiable), where a well-written enumerated list closes 0/6 on the same cases. Its 3/12 is withdrawn, and section 15's open item closes as confirmed. **`Context & brand fit` was not** — its cell is satisfiable (5/6, 4/6), but the shape live output actually carries closes 1/6, reproducing the live floor under a corrected instrument. There the broken probes were inflating the weak arm, not deflating the strong one.
+
+**The fix was measured before it could ship, and it is inert.** A second phase tested the exact wording that would have been added to the three surfaces that run the closure test, with the judge's own band decision as the outcome and blind-applier determinacy as ground truth:
+
+| | recall on load-bearing | awards to performative | phi |
+|---|---|---|---|
+| as shipped today | 14/18 | **1/12** | **+0.68** |
+| plus the case-scope constraint | 14/18 | **2/12** | +0.60 |
+
+Recall identical, awards to performative statements up by one, and the mechanism never fires: judges already choose an on-scope case 24 of 30 times unprompted, against 26 of 30 with the constraint (p = 0.73). The measuring harness deprived its situation writers of the cell text; the skill never does. The pre-registered rule vetoed the change on the precision row alone.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 18 — the full record, including the consequence that outruns the item: every measurement from section 14 on used the same name-only probe procedure, so per-dimension *levels* in sections 16 and 17 are not readable as properties of a dimension, and section 17's null was returned by an instrument separating at one third of its corrected strength. Paired arm contrasts are unaffected, since the same situations tested every arm.
+- One evidence citation in `docs/design-quality-rubric.md`: the four failure shapes, previously read backwards out of statements already judged hollow, were written to on purpose and tested forwards — 2 of 18 unlisted cases closed, against 29 of 36 for statements built on a mechanism that returns something (p = 0.000001). What passes is deliberately still not listed.
+
+### Changed
+- Nothing behavioral. No boundary question was rewritten, no scoring surface changed, and no guard was added — there was no defect class in the repository to guard, because the defect was in the instrument that measures it.
+
 ## [1.25.0] - 2026-08-14
 
 **1.24.0's change is reverted. It does not replicate.**
