@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.25.4
+version: 1.26.0
 ---
 
 # Mobile Design Skill
@@ -29,7 +29,7 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
 - `docs/design-quality.md` for visual hierarchy, composition, density, typography craft, color semantics, interaction polish, and production-readiness calibration
 - `docs/design-quality-rubric.md` for 1-5 quality scoring, target levels, caps, and improvement ladder
-- `docs/golden-examples.md` and `examples/golden/` for taste and domain calibration across premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout
+- `docs/golden-examples.md` and `examples/golden/` for taste and domain calibration across premium UI, enterprise SaaS, fintech, health, onboarding, settings, checkout, and tablet list-detail
 - `docs/synthetic-case-studies.md` and `examples/case-studies/` for synthetic bad-to-good calibration cases when tuning output quality
 - `docs/domain-packs/index.md` and `docs/domain-packs/` for domain-specific mobile playbooks covering fintech, health, SaaS, marketplace, social, and education
 - `docs/weaknesses.md` for known failure modes and prevention checks that keep outputs from becoming generic, overconfident, aesthetic-only, or weakly buildable
@@ -38,7 +38,7 @@ If deeper detail is needed during a task, load only the relevant references:
 - `scripts/run_generation_eval.py` for scoring freshly generated responses against the same contract as the committed examples (maintenance only)
 - `docs/context-defaults.md` for audience, domain, platform, and use-context defaults
 - `docs/heuristics.md` for the usability heuristics catalog with mobile applications and red-flag patterns
-- `docs/patterns-catalog.md` for mobile pattern decision matrices (navigation, overlays, lists, inputs, feedback, forms, search, auth)
+- `docs/patterns-catalog.md` for mobile pattern decision matrices (navigation, overlays, lists, inputs, feedback, forms, search, auth, large-screen and adaptive)
 - `docs/adaptive-layout.md` for tablet, foldable, and adaptive layout: width classes, canonical layouts, navigation by width, multitasking, and input
 - `docs/inspiration-sources.md` for visual inspiration and production reference sources, used only after UX/platform/accessibility reasoning is grounded
 - `docs/visual-benchmark-playbooks.md` for source-specific Mobbin, Page Flows, Apple Design Awards, and Awwwards benchmark checklists

@@ -485,6 +485,7 @@ GOLDEN_EXAMPLE_FILES = [
     "examples/golden/onboarding.md",
     "examples/golden/settings.md",
     "examples/golden/checkout.md",
+    "examples/golden/tablet-list-detail.md",
 ]
 
 LLM_JUDGE_RUNNER_REFERENCE_FILES = [
@@ -564,6 +565,7 @@ GOLDEN_EXAMPLE_AREAS = {
     "Onboarding": "examples/golden/onboarding.md",
     "Settings": "examples/golden/settings.md",
     "Checkout": "examples/golden/checkout.md",
+    "Tablet list-detail": "examples/golden/tablet-list-detail.md",
 }
 
 RELEASE_AUTOMATION_REFERENCE_FILES = [
@@ -635,6 +637,7 @@ VISUAL_REVIEW_FIXTURE_FILES = [
     "examples/visual-review-fixtures/marketplace-product-detail-checkout-edge.md",
     "examples/visual-review-fixtures/social-profile-privacy-control.md",
     "examples/visual-review-fixtures/education-quiz-results.md",
+    "examples/visual-review-fixtures/ipad-team-inbox-stretched-phone.md",
 ]
 
 VISUAL_REVIEW_FIXTURE_SECTIONS = [
@@ -2207,6 +2210,77 @@ def validate_motion_band_consistency() -> None:
         fail("Motion band validation failed:\n" + "\n".join(errors))
 
 
+# The defect class: a surface the workflow routes a design choice to carries no device-class
+# layer, so a tablet request is answered out of phone-only material. `docs/patterns-catalog.md`
+# was that surface -- fourteen sections of phone patterns and no entry that decides a layout at
+# regular width, while SKILL.md step 8 sends every pattern-level decision to it. Enumerating the
+# surfaces rather than the file makes the guard fire for the next one that loses the layer.
+LARGE_SCREEN_DECISION_SURFACES = [
+    "docs/patterns-catalog.md",
+    "docs/quality-bars.md",
+    "docs/context-defaults.md",
+    "docs/adaptive-layout.md",
+]
+
+LARGE_SCREEN_REQUIRED_TERMS = [
+    "compact",
+    "expanded",
+    "list-detail",
+    "navigation rail",
+    "sidebar",
+]
+
+# The second half of the class. Once the bars are repeated for lookup at the point of decision,
+# the copies drift -- the failure `validate_motion_band_consistency` was written for. A width
+# threshold is a comparison operator, a number, and a unit, on a line naming a width class.
+WIDTH_CLASS_BREAKPOINTS = {"600", "840", "1200"}
+# Anchored to the class name and stopped at the cell boundary, so a pane minimum in the next
+# column of the same row is not read as a breakpoint; height classes carry their own numbers.
+WIDTH_CLASS_THRESHOLD_RE = re.compile(
+    r"\b(?:compact|medium|expanded)\b[^|\n]{0,40}?"
+    r"(?:<=|>=|<|>|\u2264|\u2265)\s*~?\s*(\d{3,4})\s*(?:dp|pt)\b",
+    re.IGNORECASE,
+)
+
+
+def validate_large_screen_coverage() -> None:
+    """Every decision surface carries the device-class layer, and they agree on the numbers."""
+    errors: list[str] = []
+
+    for relative_path in LARGE_SCREEN_DECISION_SURFACES:
+        text = (ROOT / relative_path).read_text(encoding="utf-8")
+        lowered = text.lower()
+        for term in LARGE_SCREEN_REQUIRED_TERMS:
+            if term not in lowered:
+                errors.append(
+                    f"{relative_path}: missing `{term}` -- a decision surface without the "
+                    "device-class layer answers a tablet request out of phone-only material"
+                )
+        for breakpoint in ("600", "840"):
+            if breakpoint not in text:
+                errors.append(
+                    f"{relative_path}: missing the `{breakpoint}` width-class breakpoint"
+                )
+
+    for file_path in iter_markdown_files():
+        relative_path = file_path.relative_to(ROOT).as_posix()
+        if relative_path.startswith("docs/proposals/") or relative_path == "CHANGELOG.md":
+            continue  # these record the history, including superseded numbers
+        for number, line in enumerate(file_path.read_text(encoding="utf-8").splitlines(), start=1):
+            if "height" in line.lower():
+                continue  # height classes are a different axis with their own numbers
+            for value in WIDTH_CLASS_THRESHOLD_RE.findall(line):
+                if value not in WIDTH_CLASS_BREAKPOINTS:
+                    errors.append(
+                        f"{relative_path}:{number}: width-class threshold `{value}` disagrees "
+                        "with the breakpoints in docs/quality-bars.md "
+                        f"({', '.join(sorted(WIDTH_CLASS_BREAKPOINTS))})"
+                    )
+
+    if errors:
+        fail("Large-screen coverage validation failed:\n" + "\n".join(errors))
+
+
 def validate_projected_score_lines() -> None:
     """The projected score is a flat median, never a ceiling and never `up to N/5`."""
     errors: list[str] = []
@@ -2483,6 +2557,7 @@ def main() -> None:
     validate_unreadable_source_honesty()
     validate_inspiration_gate_parity()
     validate_motion_band_consistency()
+    validate_large_screen_coverage()
     validate_projected_score_lines()
     validate_documentation_hygiene()
     validate_links()

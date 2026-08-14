@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.25.4-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.26.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.25.4** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.26.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -79,7 +79,7 @@ It is structured around:
 - **Rubric eval pack** — score-calibrated fixtures for `1/5` through `5/5` plus a before/after upgrade example.
 - **LLM-as-judge runner** — LLM-agnostic JSONL runner with an external-agent command adapter for semantic rubric calibration.
 - **Visual benchmark playbooks** — source-specific checklists for Mobbin, Page Flows, Apple Design Awards, and Awwwards that keep inspiration separate from evidence.
-- **Golden examples** — compact taste and domain calibration examples for premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
+- **Golden examples** — compact taste and domain calibration examples for premium UI, enterprise SaaS, fintech, health, onboarding, settings, checkout, and tablet list-detail.
 - **Synthetic case studies** — 12 bad-to-good calibration cases that show weak vs strong mobile design responses without real products or screenshots.
 - **Visual review fixtures** — Figma-like text descriptions with expected critique and prohibited overclaims for Mode D review calibration.
 - **Benchmark report format** — a compact structure for turning 3-5 references into borrow / do-not-copy / token-component-state guidance.

@@ -244,7 +244,7 @@ Use these fixtures when tuning prompts, judging generated responses, or adding L
 
 For human calibration, use `examples/rubric-before-after.md`. It shows the upgrade path from a 2/5 template-complete UI spec to a 4/5 shippable spec.
 
-For taste and domain calibration, use `docs/golden-examples.md` and `examples/golden/`. These examples show compact worked patterns for premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout, each with its own derived score rather than a shared one.
+For taste and domain calibration, use `docs/golden-examples.md` and `examples/golden/`. These examples show compact worked patterns for premium UI, enterprise SaaS, fintech, health, onboarding, settings, checkout, and tablet list-detail, each with its own derived score rather than a shared one.
 
 For broader synthetic calibration, use `docs/synthetic-case-studies.md` and `examples/case-studies/`. These cases show plausible weak responses, stronger responses, and regression checks across domains and modes. They are not real-world validation.
 

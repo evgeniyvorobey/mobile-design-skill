@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.26.0] - 2026-08-14
+
+**P1-8 ships, and its premise was wrong. The model never chose bottom navigation at 1366 pt — it scored 36 of 36 on the control tier without section 15. What section 15 actually fixes is a citation the skill could not support.**
+
+Six tablet-forcing briefs, one response per brief per arm, thirteen binary indicators pre-registered with the corpus and the decision rule before the baseline ran. Every response double-coded blind: 155 of 156 cells agreed (99.4%).
+
+| tier | baseline | post | delta |
+|---|---|---|---|
+| A - the six tablet rules `SKILL.md` already states | **36/36 = 100%** | 36/36 = 100% | 0.0 pp |
+| B - the seven decisions section 15 was written to add | **37.5/42 = 89.3%** | 36/42 = 85.7% | -3.6 pp |
+
+Tier B's baseline was above the ceiling threshold in the pre-registered rule, so **the instruction-effect claim is withdrawn and no behaviour change is claimed.** The whole Tier B delta is one response moving two cells, which the pre-registration calls noise.
+
+What the run did find: baseline responses cite `docs/patterns-catalog.md` as the source of their large-screen pattern choice - *"the list-detail/record-detail pairing `patterns-catalog.md` and the SaaS pack imply for this surface"* - while that file contained zero occurrences of `list-detail`, `sidebar`, `navigation rail`, `tablet`, or `Split View`. Step 5.5 requires that provenance; it was pointing at absent content, and every shape check in the repo passed because the citation is well-formed. Section 15 makes it true.
+
+### Added
+- `docs/patterns-catalog.md` section 15, `Large-screen and adaptive patterns` - eight decision matrices in the catalog's existing Use-when / Avoid-when / Trade-off / Red-flag shape: canonical layout with its collapse rule, detail-pane empty state, supporting pane against sheet, tab and popover, primary navigation by width, overlays by size class, action placement across pane and window toolbars, columns and reading measure, and cross-pane drag. Step 8 routes every pattern-level decision to this file and Mode D checks observed patterns against its rules.
+- Five large-screen rows in the section 14 platform-divergence table, with the note that the component and API names there are library- and OS-version-bound.
+- `examples/golden/tablet-list-detail.md` - a Mode C cross-platform tablet spec, registered in `docs/golden-examples.md`, `GOLDEN_EXAMPLE_FILES`, and `GOLDEN_EXAMPLE_AREAS`. Its score is derived from the dimension bands and names the two dimensions holding it there.
+- `examples/visual-review-fixtures/ipad-team-inbox-stretched-phone.md` - the stretched-phone iPad fixture: a phone layout centred in 1366 pt under a full-width bottom tab bar, registered in `docs/visual-review-fixtures.md` and `VISUAL_REVIEW_FIXTURE_FILES`.
+- A `Signals:` line and eleven numeric rows on the tablet section of `docs/context-defaults.md`, deferring to `docs/quality-bars.md` for the numbers it repeats.
+- `validate_large_screen_coverage()` - scoped to the defect class rather than the file it was found in: every decision surface the workflow routes a design choice to must carry the device-class layer, and any width-class threshold stated anywhere must match the breakpoints in `docs/quality-bars.md`. Both halves verified by injection.
+- `docs/proposals/quality-and-diversity-upgrade.md` section 22 - the pre/post design, the ceiling, the false-citation finding, and rule 17: measure a surface's coverage before writing content for it, and let the audit move the prediction rather than the conclusion.
+
+### Changed
+- `SKILL.md`, `README.md`, `docs/design-quality-rubric.md`, and `docs/evals.md` name the tablet golden in their golden-example area lists.
+- `docs/adaptive-layout.md` points at section 15 for the decision matrices it does not carry.
+- Nothing behavioral is claimed, for the fifth release running - but for the first time the null was predicted by a coverage audit before the run rather than found after it.
+
+### Fixed
+- `docs/adaptive-layout.md` gave the two-pane minimum at medium width as `~340 dp` while `docs/quality-bars.md` gave `>= 320 dp`. They now agree, and the new validator catches the next divergence.
+
 ## [1.25.4] - 2026-08-14
 
 **Context is a precision filter, not a suppressor. The third hypothesis about the band-5 gate dies, and 1.25.3's decomposition is corrected.**

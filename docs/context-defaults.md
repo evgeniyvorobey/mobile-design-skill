@@ -253,13 +253,23 @@ Version-bound rows above (Material version, predictive back, themed icons) are c
 
 ### Tablet
 
+Signals: "iPad", "iPadOS", "tablet", "Android tablet", "Chromebook", "large screen", "Split View", "Slide Over", "Stage Manager", "multi-window", "keyboard case", "Apple Pencil", "stylus", or a use context implying a mounted or two-handed device (kiosk, point of sale, clinician or bedside, field technician, warehouse, classroom, studio, control room).
+
 | Variable | Default |
 |----------|---------|
-| Layout | Two-pane (master-detail) for content-heavy apps |
-| Touch target | Phone minimums still apply; do not shrink for tablet |
-| Multitasking | Support split-view and slide-over (iPadOS) / multi-window (Android) |
-| Keyboard | Hardware keyboard first-class if a typing-heavy app |
+| Width classes | Compact < 600 dp / medium 600–839 dp / expanded ≥ 840 dp — design against the class, never the device model |
+| Layout | List-detail once the window clears ~700 pt (list 320–400 pt, detail ≥ 320 pt); one pane below that |
+| Primary navigation | Bottom bar at compact / navigation rail 80 dp at medium / sidebar 240–360 dp at expanded |
+| Screen margin | 16 pt compact / 24 pt medium / 24–32 pt expanded |
+| Reading column | 640–720 pt maximum; extra width becomes margins or columns, never longer lines |
+| Grid columns | 2 compact / 4–6 medium / 6–8 expanded |
+| Touch target | Phone minimums still apply — 44 pt / 48 dp; a pointer is not a licence to shrink |
+| Detail pane at rest | Never blank: the restored selection, or a named placeholder carrying the pane's primary action |
+| Multitasking | Split View, Slide Over, Stage Manager (iPadOS) / multi-window (Android); resize without state loss |
+| Keyboard | Hardware keyboard first-class if a typing-heavy app; focus always visible |
 | Landscape | Design for both orientations if the app is content-consumption |
+
+The numbers here are the large-screen bars from `docs/quality-bars.md`, repeated for lookup at the point of decision; that file stays authoritative. The reasoning behind them is in `docs/adaptive-layout.md`, and the pattern choices they feed are in `docs/patterns-catalog.md` §15.
 
 ---
 

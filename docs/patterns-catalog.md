@@ -724,8 +724,204 @@ When cross-platform output is required, share structure first and split only whe
 | Date picker | Wheel picker in sheet | Material date picker (calendar or input) |
 | Share | UIActivityViewController (native share sheet) | Android share sheet (system) |
 | Haptics | System haptic feedback taxonomy | Material haptic patterns |
+| Large-screen primary navigation | Sidebar at regular width; collapses to rail-equivalent behaviour | Navigation rail 600–839 dp; standard navigation drawer ≥ 840 dp |
+| Two-pane container | Split view, two- or three-column | Material 3 adaptive list-detail / supporting-pane scaffold |
+| Contextual overlay at regular width | Popover anchored to its source | Menu or dialog — a popover is not a Material surface |
+| Multitasking surface | Split View, Slide Over, Stage Manager | Split-screen and freeform multi-window |
+| Keyboard shortcut discovery | Command-key HUD | Keyboard shortcuts helper |
+
+Component and API names in the large-screen rows are library- and OS-version-bound. Name the version a recommendation assumes when it materially changes the answer (guardrail 16).
 
 **Rule**: when sharing structure, use platform-neutral nouns in the spec and split the implementation notes per platform.
+
+---
+
+## 15. Large-screen and adaptive patterns
+
+Every entry above was written for one pane at compact width. This section chooses between their large-screen siblings. `docs/adaptive-layout.md` holds the width classes, the canonical layouts, and the multitasking rules; `docs/quality-bars.md` holds the numbers. This section is the choosing.
+
+Width, not the device, drives every matrix here — compact < 600 dp, medium 600–839 dp, expanded ≥ 840 dp — and a tablet in Slide Over is a compact surface. So every choice below has to answer two questions: what it is at regular width, and what it becomes when the width drops.
+
+### List-detail vs stacked navigation vs feed
+
+| Criterion | List-detail (two panes) | Stacked navigation (one pane) | Feed / grid |
+|-----------|-------------------------|-------------------------------|-------------|
+| User's movement | Back and forth between a collection and its items | One-way drill in, then out | Browse; no stable selection |
+| Selection | Is the layout's state; survives resize | Ends when the screen is popped | None |
+| Comparison across items | Supported — the list stays on screen | Not supported | Visual only |
+| Width to be worth it | ~700 pt total (list 320–400 pt + detail ≥ 320 pt) | Any | Any |
+| At compact width | Two screens, push navigation; the selection survives the collapse | Already this | Fewer columns, item size constant |
+
+**Use list-detail when** the user returns to the collection repeatedly — mail, messages, patients, orders, files, tickets.
+**Use stacked navigation when** an item is opened once, acted on, and left; a two-pane layout then keeps a list on screen that nobody looks at.
+**Use a feed when** the content is browsed rather than navigated and no item needs to stay selected.
+
+**Trade-off**: list-detail buys context and comparison and costs the detail pane its full width — at medium width that is the difference between a readable detail and a compressed one. Stacked navigation buys the whole width for one thing and costs a return trip per item.
+
+**Rule**: pick the canonical layout from the user's movement between collection and item, not from the width available. Width then decides whether that layout is shown as panes or as screens.
+
+**Red flag**:
+- Two panes at medium width leaving the detail under 320 pt.
+- List-detail on a flow that is entered once (checkout, onboarding, a wizard).
+- A layout named for a device ("the iPad layout") instead of for a width class.
+
+**Heuristic**: recognition over recall, Jakob's Law, Hick's Law.
+
+---
+
+### Detail-pane empty state: placeholder vs default selection vs restore
+
+| Criterion | Named placeholder with an action | Auto-select the first item | Restore the last selection |
+|-----------|----------------------------------|----------------------------|----------------------------|
+| First launch with data | Works | Works | Nothing to restore — falls back to the placeholder |
+| First launch with no data | Works — carries the empty-collection action | Nothing to select | Nothing to restore |
+| Cost of opening an item | None | Real when opening marks read, logs a view, locks a record, or starts a download | None if the item still exists |
+| What the user learns | What this pane is for | Nothing; it looks like a chosen item | Where they left off |
+
+**Use a placeholder when** opening an item has any side effect, or the collection can be empty.
+**Use auto-select when** opening is free of side effects and the first item is the one the user almost always wants (a settings pane, a single-account view).
+**Use restore when** the session is long and interrupted — the tablet locks between rooms, the app is resumed after Split View.
+
+**Rule**: the detail pane is never blank. Restore the last selection when it still exists; otherwise show a named placeholder carrying the pane's primary action. Auto-select only when opening an item has no side effect.
+
+**Red flag**:
+- An empty grey rectangle at launch.
+- Auto-select in a mail-like or clinical app, where selecting marks the item read or records access.
+- An empty state that says only "Select an item" and offers nothing to do.
+
+---
+
+### Secondary content at width: supporting pane vs sheet vs tab vs popover
+
+| Criterion | Supporting pane / inspector | Sheet | Tab or segment | Popover |
+|-----------|-----------------------------|-------|----------------|---------|
+| Consulted | Continuously while the primary task runs | Once per task, then dismissed | When the user switches to it | Once, near its trigger |
+| Edits while the primary pane stays visible | Yes | No — it covers the context | No | Rarely |
+| Width it needs | A third pane above ~1200 pt; below that it is the second pane or a sheet | None | None | None |
+| At compact width | Becomes a sheet or a tab — never silently disappears | Already this | Already this | Full-width sheet |
+
+**Use a supporting pane when** the user changes something in it and watches the effect in the primary pane — filters over a queue, properties over a canvas, a running total over a cart, live chat beside a document.
+**Use a sheet when** the content is consulted and dismissed, or when it is a task of its own.
+**Use a tab when** the secondary content is a different view of the same object rather than a control over it.
+
+**Trade-off**: an inspector buys simultaneity and costs the primary pane 280–360 pt permanently. Below ~1200 pt that cost usually outweighs it.
+
+**Rule**: an inspector earns its width only if the user changes something in it *while looking at* the primary pane. Consulted-then-dismissed content is a sheet at every width.
+
+**Red flag**:
+- A third pane at 1024 pt that squeezes both other panes.
+- A supporting pane that vanishes at compact width with no replacement surface.
+- An inspector holding a form the user submits once — that is a sheet.
+
+---
+
+### Primary navigation by width: bottom bar vs navigation rail vs sidebar
+
+| Width | Primary navigation | Destinations | Why |
+|-------|--------------------|--------------|-----|
+| Compact (< 600 dp) | Bottom bar / bottom navigation | 3–5 | Thumb reach; the phone rule, unchanged |
+| Medium (600–839 dp) | Navigation rail, 80 dp, leading edge | 3–7 | Leading edge is closer to the holding hand than the bottom of a 10-inch screen, and the vertical space is free |
+| Expanded (≥ 840 dp) | Sidebar / permanent drawer, 240–360 dp | 5+, grouped and hierarchical | Width is available; labels and grouping fit; the destination is visible without a tap |
+
+**Use a rail when** the width is medium or the sidebar's labels would cost the content more width than they are worth.
+**Use a sidebar when** the width is expanded and the destination set has hierarchy (folders, projects, saved filters) — a rail cannot express grouping.
+**Keep the bottom bar when** the app is at compact width, including a tablet in Slide Over or a narrow Split View.
+
+**Trade-off**: the sidebar takes 240–360 pt from the content permanently; make it collapsible to a rail when the primary task is reading or editing at full width. A rail costs 80 dp and holds no hierarchy.
+
+**Rule**: navigation changes container with width, never destination set. The same destinations appear at every width, so a user who resizes mid-session never loses a section. Never map navigation to a device model.
+
+**Red flag**:
+- A bottom bar at expanded width — the single most common large-screen defect. The controls sit as far from the eye as the layout allows and the width above them goes unused.
+- Five bottom tabs centred as a group in the middle of a 1366 pt bar.
+- A hamburger drawer at expanded width, hiding destinations that would fit permanently.
+- A rail with more than about seven items, or icon-only rail items whose meaning is not obvious.
+
+**Heuristic**: Fitts's Law, Hick's Law, Jakob's Law.
+
+---
+
+### Overlays by size class: popover vs sheet vs inline panel vs dialog
+
+| Surface | At regular width | At compact width | Use when |
+|---------|------------------|------------------|----------|
+| Popover, anchored to its source | Native on iPad; arrow points at the trigger | Becomes a full-width sheet | Short, source-anchored choice or detail; roughly 2–7 options |
+| Sheet | Centred or edge-attached; does not cover the whole window | Full-width bottom sheet | A short task with its own inputs |
+| Inline panel inside a pane | Replaces the pane's content, keeps the other panes | Becomes a pushed screen | The task belongs to one pane and is longer than a popover |
+| Modal dialog | Blocks the window | Blocks the screen | One critical decision, destructive or auth |
+
+**Rule**: name both ends. "Use a popover" is half a decision — state where it anchors at regular width and what it becomes at compact width, because multitasking will produce both within one session.
+
+**Trade-off**: a popover keeps the context and costs a small target for its content; a full-window modal at 1366 pt makes a two-line question feel like a page.
+
+**Red flag**:
+- An overlay named for one width only.
+- A modal dialog stretched across the whole window for a single confirmation at expanded width.
+- A popover carrying a scrollable multi-step task — that is an inline panel or a sheet.
+
+---
+
+### Action placement: pane toolbar vs window toolbar vs bottom bar vs inline
+
+| Criterion | Toolbar in the pane | Window / top toolbar | Bottom action bar | Inline in the row or card |
+|-----------|---------------------|----------------------|-------------------|---------------------------|
+| What the action acts on | That pane's content | The whole window or document | The current screen | One item |
+| Ambiguity at two panes | None — scope is where it sits | High if it acts on only one pane | High | None |
+| Reach at expanded width | Near the content it changes | Top edge; a deliberate trip | Far from both hands and eyes at 1366 pt | At the item |
+| At compact width | Becomes the screen's nav-bar action | Unchanged | Unchanged | Unchanged |
+
+**Use a pane toolbar when** the action changes what one pane shows or contains — sort, filter, add to this list, compose in this detail.
+**Use the window toolbar when** the action is document- or window-scoped — share, export, close, switch mode.
+**Use a bottom action bar when** one screen-wide commit action repeats constantly under time pressure (send the order, take the payment) and the layout is a single pane.
+**Use inline actions when** the action belongs to one item and the item is visible.
+
+**Rule**: an action lives in the toolbar of the pane whose content it changes. When two panes are visible, a toolbar at the window level says "this acts on everything" — if it does not, it is in the wrong place.
+
+**Red flag**:
+- An "Add" button in the window toolbar when there are two panes and it only adds to one of them.
+- A phone's bottom action bar carried unchanged to a two-pane layout, so the action is 700 pt from the pane it affects.
+- The same action offered in two toolbars at different scopes.
+
+**Heuristic**: Fitts's Law, Gestalt (proximity and common region).
+
+---
+
+### Columns and reading measure at width
+
+| Content | Compact | Medium | Expanded |
+|---------|---------|--------|----------|
+| Card or media grid | 2 columns | 4–6 | 6–8 |
+| Body text | Full width minus margins | ≤ 640–720 pt | ≤ 640–720 pt; the leftover width goes to margins, navigation, or a different pane |
+| Data rows | One row set | One row set, wider margins | One row set plus a supporting pane, or two panes |
+
+**Rule**: extra width becomes more columns or wider margins — never a longer line. The 45–75 character measure holds at every width.
+
+A centred single column is *not* automatically a stretched phone: it is a legitimate reading layout when the measure is locked deliberately and the leftover width carries something — navigation, an inspector, or a stated margin. It is a stretched phone when the leftover width does nothing and the phone's own layout was simply centred in it.
+
+**Red flag**:
+- One text column stretched past ~720 pt.
+- A grid that keeps two columns at 1366 pt, so each card is 600 pt wide.
+- A phone layout centred at tablet width with empty background on both sides and no other change.
+
+---
+
+### Cross-pane drag vs explicit move
+
+| Criterion | Drag between panes | Explicit move / assign command | Cut and paste |
+|-----------|--------------------|--------------------------------|---------------|
+| Discoverability | Low — nothing on screen says it is possible | High — named in a menu | Medium |
+| Precision cost | Real: a long drag across 1366 pt with a moving target | None | None |
+| Keyboard and screen-reader path | None by itself | Yes | Yes |
+| Speed for a practiced user | Highest | Medium | Medium |
+
+**Rule**: drag is an accelerator, never the only path. Every cross-pane or cross-app drag has a menu, button, or keyboard equivalent, and the drop target is visibly a drop target before the drag starts.
+
+**Red flag**:
+- Reassigning, filing, or reordering that can only be done by dragging.
+- A drop target that only appears once the drag is already in flight.
+- Drag as the answer to "how does this work on tablet" with no compact-width equivalent.
+
+**Heuristic**: recognition over recall; gesture alternatives (see §13).
 
 ---
 

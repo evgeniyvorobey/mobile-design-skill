@@ -13,6 +13,7 @@ These examples are regression targets for taste and design-quality calibration. 
 | Onboarding | `examples/golden/onboarding.md` | Fast first value, contextual permission requests, and progress preservation |
 | Settings | `examples/golden/settings.md` | Consent clarity, row semantics, destructive actions, and text-only review limits |
 | Checkout | `examples/golden/checkout.md` | Fee transparency, volatile state recovery, substitutions, and final action confidence |
+| Tablet list-detail | `examples/golden/tablet-list-detail.md` | Regular-width layout, navigation by width, detail-pane state, resize behaviour, and additive input |
 
 ## How To Use
 

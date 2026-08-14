@@ -375,7 +375,7 @@ When the skill, `modes.md`, or `templates.md` changes:
 1. Re-generate each example with the updated skill.
 2. Score the regenerated response against this file.
 3. Compare to the committed example; any content regression should block the change.
-4. Spot-check the golden examples for domain-specific regressions in premium UI, enterprise SaaS, fintech, health, onboarding, settings, and checkout.
+4. Spot-check the golden examples for domain-specific regressions in premium UI, enterprise SaaS, fintech, health, onboarding, settings, checkout, and tablet list-detail.
 5. Spot-check synthetic case studies, visual review fixtures, benchmark reports, and domain packs when changing prompt behavior that affects these surfaces.
 
 ---

@@ -63,6 +63,7 @@ Every fixture uses this structure:
 | Marketplace product detail/checkout edge | `examples/visual-review-fixtures/marketplace-product-detail-checkout-edge.md` | Price clarity, inventory volatility, checkout recovery |
 | Social profile privacy/control | `examples/visual-review-fixtures/social-profile-privacy-control.md` | Privacy audience clarity, destructive controls, preview gap |
 | Education quiz/results | `examples/visual-review-fixtures/education-quiz-results.md` | Feedback quality, color-only correctness, learner recovery |
+| iPad team inbox stretched phone | `examples/visual-review-fixtures/ipad-team-inbox-stretched-phone.md` | Width-blind layout, bottom tabs at expanded width, unbounded measure, undefined detail-pane state |
 
 ## Pass Criteria For A Skill Review
 

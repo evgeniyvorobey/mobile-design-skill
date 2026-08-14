@@ -6,6 +6,8 @@ Platform scope answers *which OS*. Device class answers *how much width the layo
 
 The rest of the skill still applies unchanged. Nothing here relaxes touch minimums, contrast, Dynamic Type, state coverage, or the pattern discipline in `patterns-catalog.md`.
 
+This document holds the width classes, the canonical layouts, and the multitasking rules. The decision matrices that choose between their large-screen siblings — layout, detail-pane state, secondary content, navigation, overlays, action placement, columns, and cross-pane drag — are `docs/patterns-catalog.md` §15. The numbers are in `docs/quality-bars.md`.
+
 ---
 
 ## 1. Device class and its signals
@@ -38,7 +40,7 @@ Design against width, not against a device name. A device name is unstable — a
 | Class | Width | Typical | Layout consequence |
 |-------|-------|---------|--------------------|
 | Compact | < 600 dp / compact size class | phones; iPad in Slide Over or narrow Split View; unfolded-inner-display-off | One pane. Everything the phone layout already does. |
-| Medium | 600–839 dp | small tablets, large phones in landscape, foldables unfolded, half-screen Split View | One pane with more generous margins, or a two-pane layout only if the detail stays usable at ~340 dp |
+| Medium | 600–839 dp | small tablets, large phones in landscape, foldables unfolded, half-screen Split View | One pane with more generous margins, or a two-pane layout only if the detail pane stays ≥ 320 dp |
 | Expanded | ≥ 840 dp | tablets in landscape, desktop-class windows | Two panes as the default; a third supporting pane above ~1200 dp |
 
 The 600 / 840 dp breakpoints and the compact/medium/expanded naming are Android's official window size classes; Apple expresses the same distinction as compact vs regular size classes. Height classes exist too (compact < 480 dp), and matter mainly for sheets, keyboards, and full-screen media.

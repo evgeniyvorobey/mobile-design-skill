@@ -1244,3 +1244,168 @@ Each died with a measurement showing the intervention it motivated would cost so
 - **Who is right on the twelve.** A blind applier holding one ordinary case and a judge walking four boundary questions with the artifact in front of it are answering different questions, and neither is privileged. This design cannot adjudicate them, and the whole series has been treating the first as ground truth since §14.
 - **Whether "under-firing" was ever the right frame.** The stability of recall across every arm suggests the gap is definitional rather than behavioural. Testing that means measuring the instrument against something other than itself, which no design in this series has done.
 - **The drafting side's own case is still unobserved**, and this run shows the question it was wanted for was the wrong one.
+
+---
+
+## 22. P1-8 shipped — the large-screen decision surface, measured pre/post on a checkable outcome
+
+Backlog item 8. `docs/patterns-catalog.md` carried fourteen sections of phone patterns and no entry
+that decides a layout at regular width, while `SKILL.md` step 8 routes every pattern-level decision
+to it and Mode D checks an observed pattern against its Use-when / Avoid-when rules. A tablet
+request therefore reached the catalog and found nothing.
+
+### What the reconnaissance changed about the item
+
+§4's framing — *"this is the item that stops the model confidently choosing bottom navigation at
+1366 pt"* — was already false when it was written. `SKILL.md`'s Platform policy block states six
+tablet rules in the entrypoint (breakpoint, canonical layout, bottom bar → rail → sidebar,
+multitasking and resize, additive input, detail-pane empty state), and `docs/adaptive-layout.md`
+expands all six. Counting those six is counting a ceiling.
+
+A grep of the shipped corpus before the run placed each candidate indicator:
+
+| indicator | already stated where |
+|---|---|
+| overlay by size class | `adaptive-layout.md` §4; `patterns-catalog.md` §2 popover entry |
+| supporting pane + collapse target | `adaptive-layout.md` §3 |
+| action placement at regular width | **nowhere** — "toolbar" and "inspector" appeared in no shipped file |
+| columns / reading measure | `quality-bars.md`; `adaptive-layout.md` §7 |
+| cross-pane drag + non-drag path | `quality-bars.md`, `adaptive-layout.md` §6; "cross-pane" nowhere |
+| detail-pane empty-state content | both say to define it; neither says what it contains |
+
+So P1-8 is a **retrieval and consolidation** change, not new knowledge — it moves large-screen
+decisions onto the surface the workflow routes to, in the Use-when / Avoid-when / Red-flag form a
+Mode D review can check against. Only action placement is genuinely new content.
+
+### Design of the P1-8 measurement
+
+Within-brief pre/post on six tablet-forcing briefs, one response per brief per arm: an iPadOS
+clinical spec, an Android POS concept, a cross-platform field-service concept, an iPadOS Stage
+Manager spec, an Android classroom concept, and a D2 review of a described stretched-phone iPad.
+Writers ran `SKILL.md` end to end and were told nothing about what was being measured.
+
+Thirteen binary indicators, pre-registered with the corpus and the decision rule before the baseline
+ran, in two tiers:
+
+- **Tier A** (six) — the entrypoint's own tablet rules, committed as a **control** with its ceiling
+  predicted in advance.
+- **Tier B** (seven) — the decisions §4 listed for §15 that no file stated: overlay by size class,
+  supporting pane with a collapse target, action placement at regular width, columns or measure,
+  cross-pane drag with a non-drag path, detail-pane empty-state content, and a rejected large-screen
+  alternative with the mechanism that killed it.
+
+Every response was coded twice by independent agents against the codebook, working from unlabelled
+copies under opaque filenames, quoting the earning phrase for every 1.
+
+**§15 was drafted before a single response was read**, so the section could not be shaped around the
+gaps the baseline happened to show. Rule 6.
+
+### Limitations, written before the data
+
+- Writers are subagents on this host, not the surface the skill ships to. n = 1 per brief per arm:
+  a one-cell move on a single indicator is inside noise, and only tier totals are the pre-registered
+  outcome.
+- Arms are confounded with run order. No re-randomisation.
+- Rater blinding is imperfect — a post response can name `§15` or the new golden. Coders scored the
+  codebook only and recorded any such tell.
+- The author of the change chose the indicator set. Mitigated by the pre-committed control tier and
+  by taking Tier B's items from §4, written before this session.
+- Thirteen indicators, no multiplicity correction.
+- **The post arm ran one edit behind the shipping tree.** All six post writers read the pre-edit
+  `SKILL.md`, whose golden-area list did not yet name the tablet golden, and the pre-edit
+  `adaptive-layout.md` row (`~340 dp` rather than `≥ 320 dp`). Verified from the six agent
+  transcripts rather than assumed: the arm is homogeneous, and both differences run against the
+  change — five of six writers reached the new golden through `docs/golden-examples.md` without any
+  entrypoint pointer, and the sixth reached the new fixture the same way.
+- **The fixture is closer to its probe than the golden is to its probes.** T6 reviews a described
+  stretched-phone iPad and the committed fixture reviews a different product with the same defect
+  class, so T6's post movement is partly a near-neighbour retrieval. T1–T5 have no such neighbour.
+
+### The result
+
+Coding was near-deterministic: **155 of 156 cells agreed between the two independent coders**
+(99.4%), the single disagreement being one Tier B cell on the baseline review.
+
+| tier | baseline | post | delta |
+|---|---|---|---|
+| A — the entrypoint's own six rules | **36/36 = 100%** | 36/36 = 100% | 0.0 pp |
+| B — the seven §15 was written to add | **37.5/42 = 89.3%** | 36/42 = 85.7% | -3.6 pp |
+
+Every indicator in Tier A fires in every response in both arms: 6 of 6 on breakpoint, bottom bar
+confined to compact, rail or sidebar named, canonical layout with its collapse rule, multitasking
+and resize, and additive input. Not a ceiling approached — a ceiling reached, twice, on 36 cells.
+
+Tier B was already at 89.3% before §15 existed. Its three sub-ceiling indicators are brief-dependent
+rather than defective: cross-pane drag is absent from both arms of the point-of-sale and
+field-service briefs, where there is no second pane to drag between, and the supporting-pane
+indicator is the one cell the coders split on.
+
+The whole Tier B delta is **one response**. T3 (cross-platform field service) lost the measure rule
+and the cross-pane drag path; T5 gained the supporting-pane decision; T6 lost half a cell to the
+coder split. Per-brief totals out of 13: T1 12 -> 12, T2 12 -> 12, T3 13 -> 11, T4 13 -> 13,
+T5 12 -> 13, T6 11.5 -> 11. Against the pre-registration, single-cell moves are noise and only the
+tier totals count.
+
+| prediction | outcome |
+|---|---|
+| P1 Tier A baseline >= 70% | **confirmed**, and at the maximum |
+| P2 Tier B baseline <= 35% | **refuted** — 89.3%, and the amendment that saw it coming was deliberately not allowed to move the number |
+| P3 Tier B post - baseline >= +20 pp | **refuted** — -3.6 pp |
+| P4 Tier A within +/- 10 pp | confirmed — 0.0 pp |
+
+**Decision rule 2 fires**: Tier B's baseline is above 70%, so this is a ceiling. The
+instruction-effect claim is withdrawn. §15, the golden and the fixture ship as calibration and
+lookup material, and **no behaviour change is claimed for any of them.** That is the fifth
+consecutive intervention in this series measured and not credited — but the first where the null
+was predicted from a coverage audit before the run rather than discovered after it.
+
+### What the measurement did find
+
+The baseline responses cite `docs/patterns-catalog.md` as the source of their large-screen pattern
+choice. Verbatim from the v1.25.4 arm:
+
+- T3: *"(from: baseline — the list-detail/record-detail pairing `patterns-catalog.md` and the SaaS
+  pack imply for this surface)"*
+- T5: *"(from: baseline — `patterns-catalog.md` list-detail + Material 3 + the education and
+  enterprise packs)"*
+
+At `5ebf8d7` that file contained **zero** occurrences of `list-detail`, `sidebar`,
+`navigation rail`, `tablet`, or `Split View`. Step 5.5 defines D1 as *what
+`docs/patterns-catalog.md` and the domain pack imply for this surface*, and the model was satisfying
+that provenance against a file with none of the content — reaching the right answer through
+`adaptive-layout.md` and `quality-bars.md`, then attributing it to the catalog.
+
+So the defect P1-8 actually closes is not a wrong design decision. It is an **unfalsifiable
+citation**: the `from:` line the skill requires pointed at a file that could not support it, and a
+reader auditing the provenance would have found nothing there. §15 makes the citation true. This
+series has already recorded that a candidate set with no provenance was never sampled; a provenance
+naming absent content is the same failure one rung down, and it is invisible to every shape check
+in the repo because the citation is well-formed.
+
+### Rule 17
+
+**Measure the surface's coverage before writing content for it, and let the audit move the
+prediction, not the conclusion.** §4 named this the item that stops the model choosing bottom
+navigation at 1366 pt. The model never chose it: 36 of 36 on the control tier, in the arm without
+§15. The proposal was written when `SKILL.md` carried no tablet block, and it was never re-checked
+against the corpus after v1.17.0 added one. A backlog item's premise ages, and the cheapest thing
+that can be done to it is a grep.
+
+### What §15 is worth, stated without inflation
+
+- It makes the step 5.5 provenance line checkable for large-screen work.
+- It is the only surface a Mode D review can check an observed tablet layout against with
+  Use-when / Avoid-when / Red-flag rules; the post review quotes the §15 red flag directly.
+- Action placement across pane and window toolbars is content that existed in no shipped file.
+- None of that is a measured behaviour change, and none of it should be described as one.
+
+### What this design cannot answer
+
+- Whether §15 matters for a weaker model, or for a host that loads three files instead of twenty.
+  The writers read `adaptive-layout.md` and `quality-bars.md` in both arms; this measures §15's
+  marginal value **given the rest of the corpus is read**, which is the easiest case for a null.
+- Whether the artifacts improve output *quality* at large widths. Every indicator here is a
+  presence check. A response can name a breakpoint, a rail and a collapse rule and still be a bad
+  tablet design, and nothing in this run would see it.
+- Whether the fixture teaches or merely matches: T6 and the committed fixture share a defect class
+  by construction.
