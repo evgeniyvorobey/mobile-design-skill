@@ -1110,3 +1110,78 @@ The mechanism that fits is uncomfortable and worth stating as a hypothesis rathe
 - **Distinctiveness is at ceiling for the second measurement running**, now on fresh situations written by different agents from different briefs, so it is not an artifact of §17's rewritten probes. Its `3 → 4` already requires repeat locations named beyond the screen, which leaves its `4 → 5` little to add — a structural suspicion, untested.
 - **The instrument and the intervening releases are confounded** in the §14 comparison, and this design cannot separate them. Re-scoring §14's own corpus with on-scope probes would, and that corpus no longer exists.
 - **One case per cell.** A statement that closes the applier's case might not close another, so "under-claim" is measured against a single ordinary case, not against the dimension.
+
+---
+
+## 20. The gate's under-firing is not case selection, and enforcing the constraint that explains it makes the gate worse
+
+The item read: *the gate under-fires and it is not about who runs it. The standing hypothesis, untested: whoever can see the artifact knows where its holes are and picks a case there, while a blind writer picks an ordinary one — and the rubric guards only the too-easy direction.*
+
+### The design was already paid for
+
+Every cell had one statement and two cases: the one written from the brief by an agent who never saw an artifact, and the one the judge chose for itself with the artifact in front of it. Only the chooser varies. **Both sets were re-rated in one pass by one cohort** — rating only the new set would have confounded the comparison with rater drift — and two screeners judged all 108 cases mixed and blind to origin against the rubric's own three case constraints.
+
+### The hypothesis is wrong
+
+| | closed |
+|---|---|
+| blind-written case | 23/54 = 42.6% |
+| self-chosen case | 20/54 = 37.0% |
+
+Discordant 8 to 5, McNemar **p = 0.58**. Self-chosen cases are also **not edge cases**: 49/54 ordinary against 52/54, p = 0.44. Neither half of the hypothesis survives.
+
+What separates them is specification. Self-chosen cases run **16 words against 83**, and inside the self-chosen arm the specification screen is the only one that predicts anything:
+
+| self-chosen case | closed |
+|---|---|
+| fixes every other input the rule needs | 17/36 = 47.2% |
+| leaves a second input open | 3/18 = 16.7% |
+
+Fisher p = 0.038. Scope differs between the two origins (42/54 against 54/54, p = 0.00025) and predicts **nothing** inside the self-chosen arm — 15/42 against 5/12, p = 0.74. A real difference with no consequence.
+
+### The judge is not the problem, and the drafting side is
+
+| | band 5 |
+|---|---|
+| the artifact's own claim | 13/54 = 24.1% |
+| judge 1 | 18/54 = 33.3% |
+| blind appliers, on the judge's own case | 20/54 = 37.0% |
+| blind appliers, on a blind-written ordinary case | 23/54 = 42.6% |
+
+**Judge 1's band decision matches the blind verdict on its own case in 48 of 54 cells — 88.9%**, against 66.7% for the artifact's own claim. And 88.9% is at this instrument's ceiling, because the same run measured the instrument against itself for the first time in the series: a fresh cohort reproduced the original cohort's verdict on 46 of 54 blind-written pairs, **85.2%**. A cell-level verdict flips about one time in seven between independent cohorts, and nothing in this series resting on fewer than about eight cells should be read as a result.
+
+So the judge executes the closure test about as consistently as the instrument that measures it. The under-firing is 10 cells on the drafting side and 5 on the judging side, and the drafting side cannot be diagnosed the same way because it never prints its case — printing it is what v1.24.0 shipped and v1.25.0 reverted.
+
+### The intervention hit the mechanism exactly, and moved the outcome the wrong way
+
+Constraint 3 is the rubric's own — *"fix every input the rule needs except the one under test"* — and §15 recorded it as the weakest of the three, resting on a single 2–1 split. It sits on the rubric and on none of the three surfaces that run the closure test. Unlike the scope constraint tested in §18, which judges already satisfied 24 times in 30, this one they fail two thirds of the time, so there was room for an instruction to bind.
+
+Six artifacts, two variants, three judges each; judge 1's 108 cases screened blind to variant and rated by one cohort.
+
+| | A, as shipped | B, plus constraint 3 |
+|---|---|---|
+| case fixes every other input | 6/54 | **52/54** (p < 10⁻⁵) |
+| case length | 18 words | 31 words |
+| case on-scope | 50/54 | 51/54 (p = 1.00) |
+| determinacy of the judge's own case | 37.0% | **42.6%** |
+| band-5 award rate, three judges | 35.2% | 32.1% |
+| recall against an ordinary blind case | 40/69 | **34/69** |
+| over-claims | 17/93 | 18/93 |
+| φ | **+0.411** | +0.317 |
+
+**The clause binds exactly as designed and the gate gets worse.** The cases become well-specified, and their determinacy rises to 42.6% — precisely the rate of cases written by someone who never saw the artifact, which is what a fair case should look like. And the judge, holding better cases, awards *fewer* band 5s and misses six more load-bearing statements. Over-claims stay flat, so this is not a loosened gate; it is a tightened one, in the direction the rubric was not worried about.
+
+The mechanism that fits, stated as a hypothesis: a case that names its surrounding conditions gives the judge more surface on which to notice something the statement does not cover. Constraint 3 exists to stop a case reading as undecided when only a second input is missing — to prevent false negatives. Measured at the only surface where it has ever been measured, enforcing it **produces** them.
+
+**Nothing ships.** That is the third instruction change in three releases that was measured and withheld, and the second whose measured effect was the opposite of its intent.
+
+### Two instrument findings
+
+- **Applier reliability is 85.2%**, first measured here. It is the ceiling for every claim in §§14–20.
+- **The specification screen is not stable across cohorts.** One cohort called 36 of 54 self-chosen cases well-specified; another called 6 of 54 on materially the same kind of case. Within-run contrasts hold, because the same screeners judged both arms — the 47.2%/16.7% split and the 6/54→52/54 shift are both within-run. **Absolute rates from this screen do not transfer between runs and should not be quoted across sections.**
+
+### What §20 did not resolve
+
+- **The drafting side.** It carries 10 of the 15 cells of under-firing and cannot be diagnosed without its case, and printing its case is a change this repository already shipped and reverted for unrelated reasons.
+- **Why a better case makes the judge more conservative.** The hypothesis above is untested, and the natural test — vary case specification while holding the judge's instruction fixed — is a different design from this one.
+- **Constraint 3's standing in the rubric is now worse than §15 left it.** It was already the weakest of the three, and the one place it has been measured it costs recall. Removing it would be an unmeasured change in the other direction, so it stays and this is recorded against it.

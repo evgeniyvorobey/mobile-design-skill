@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.25.3] - 2026-08-14
+
+**The gate's under-firing is not case selection, and enforcing the constraint that does explain it makes the gate worse. Nothing ships.**
+
+Each of 54 cells has one statement and two closure cases — one written from the brief by an agent who never saw an artifact, one chosen by a judge holding the artifact. Both sets were re-rated in one pass by one cohort, so the comparison is not confounded with rater drift.
+
+**The hypothesis is wrong.** Self-chosen cases close 20/54 against the blind-written 23/54, McNemar p = 0.58, and they are not edge cases either (49/54 ordinary against 52/54, p = 0.44). What separates them is specification: 16 words against 83, and inside the self-chosen arm the cases that fix every other input close 17/36 = 47.2% while those leaving a second input open close 3/18 = 16.7% (p = 0.038). Scope differs between the origins and predicts nothing inside them (p = 0.74).
+
+**The judge is not the problem.** Its band decision matches the blind verdict on its own case in 48 of 54 cells — and 88.9% is at the instrument's ceiling, because this run also measured the instrument against itself for the first time: a fresh cohort reproduced the original verdicts on 46 of 54 blind pairs, **85.2%**. A cell-level verdict flips about one time in seven. The under-firing is 10 cells on the drafting side and 5 on the judging side.
+
+**The intervention hit the mechanism exactly and moved the outcome the wrong way.** Six artifacts, two instruction variants, three judges each, 108 cases screened blind to variant:
+
+| | as shipped | plus constraint 3 |
+|---|---|---|
+| case fixes every other input | 6/54 | 52/54 (p < 1e-5) |
+| case length | 18 words | 31 words |
+| determinacy of the judge's own case | 37.0% | 42.6% |
+| band-5 awards, three judges | 35.2% | 32.1% |
+| recall against an ordinary blind case | 40/69 | 34/69 |
+| over-claims | 17/93 | 18/93 |
+| phi | +0.411 | +0.317 |
+
+The clause binds as designed — the cases become well-specified and their determinacy rises to exactly the rate of cases written by someone who never saw the artifact. And the judge, holding better cases, awards fewer band 5s and misses six more load-bearing statements, with over-claims flat. Constraint 3 exists to prevent false negatives; at the only surface where it has ever been measured, enforcing it produces them.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 20 — the paired case design, the reliability measurement, the intervention arm, and the two instrument findings.
+
+### Changed
+- Nothing behavioral, for the third release running, and the second time the measured effect of a well-motivated change was the opposite of its intent.
+
+### Note against the rubric
+- Constraint 3 of the band-5 closure test stands, and its standing is worse than section 15 left it. It was already the weakest of the three, resting on one 2-1 split, and the one place it has now been measured it costs recall. Removing it would be an unmeasured change in the other direction, so it stays and this is recorded against it.
+
 ## [1.25.2] - 2026-08-14
 
 **Two claims from 1.25.1 are corrected, and the per-dimension levels §16 and §17 were trying to produce now exist.**
