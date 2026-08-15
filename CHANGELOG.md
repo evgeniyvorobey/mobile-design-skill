@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.27.0] - 2026-08-15
+
+**The first intervention in this series that moves the outcome it was measured on: +32.5 pp. It also costs five colour cells, and that is reported rather than absorbed.**
+
+P1-2, the craft substrate. Fourteen indicators over six craft-forcing briefs, pre-registered with the decision rule, both arms coded together in one blind pass (156/168 = 92.9% coder agreement).
+
+| tier | baseline | post | delta |
+|---|---|---|---|
+| target - the ten indicators the substrate supplies | 28.5/60 = 47.5% | **48.0/60 = 80.0%** | **+32.5 pp** |
+| `C-honest` guard - no invented brand value, no ratio asserted as measured | 6.0/6 | 6.0/6 | 0.0 |
+
+Tracking at size went 0.0 to 6.0, named platform curves 0.0 to 5.0, role-to-platform-style mapping 1.5 to 6.0, baseline grid 1.0 to 5.0.
+
+**An early-stop gate ran before any of it was written**, and its profile redefined the item: colour - the piece the proposal lists first - was already at 93.8% before a file existed, with zero honesty violations. `docs/color-system.md` was **withdrawn on the data** rather than written, and Mode E was left alone because renaming a primary mode is a MAJOR bump that nothing here pays for.
+
+**The lever was the request, not the document.** Named curves scored 0 of 6 because step 5.5 asked for "one recurring transition, its duration taken from `docs/quality-bars.md`" - duration only - and the bars offered "ease-out" as prose. A substrate document alone would have been inert by construction.
+
+**The cost.** All four colour indicators fell, 22.5/24 to 17.5/24, at flat response length (23,617 words against 23,297). Half of it is one brief - a typography-and-spacing-system request where colour was never in scope and the room went to the tracking table instead. Each drop is inside the pre-registered noise band; four indicators moving together is not.
+
+### Added
+- `docs/motion-system.md` - the curves the bars never carried: M3 easing tokens with their control points and the note that `emphasized` is not a single cubic-bezier; SwiftUI spring presets with the warning that they default above this skill's ceiling; Compose `dampingRatio`/`stiffness` constants; when a spring beats a tween; how duration scales with travel distance and element size; stagger caps (20-40 ms per item, 200 ms budget, first 5-7 items); the reduced-motion replacement table. Durations stay in `docs/quality-bars.md`, which the file defers to explicitly.
+- `docs/quality-bars.md`: `Role to platform text style` mapping every role to an iOS Dynamic Type style and an M3 type role; `Tracking at size` with the direction rule per size band and the requirement that a custom face supply its own table; type ratio by density anchored at body 17 pt / 16 sp; `Baseline grid` with the rule that line-height boxes round to a multiple of 4 before spacing stacks against them; `Columns and gutters`; `Optical alignment`.
+- The motion-band validator now covers `docs/motion-system.md`, requires it to defer to the bars for durations, and requires the four files that route motion decisions to point at it. All three halves verified by injection.
+- `docs/proposals/quality-and-diversity-upgrade.md` section 23 - the gate, the withdrawal of the colour document, the contrast, the displacement cost, and rule 18: when you add substrate to one area, measure the areas you did not touch.
+
+### Changed
+- Step 5.5's motion signature must now **name** its curve - an M3 easing token, a `cubic-bezier`, a SwiftUI spring preset, or Compose damping/stiffness. "Ease-out" is a family, not a value. Mirrored in `docs/workflow.md`, `docs/design-quality.md`, and the `Signature transition` section of the bars.
+- `SKILL.md` loads `docs/motion-system.md` for motion work.
+
+### Withdrawn
+- `docs/color-system.md`, and the broadening of Mode E to colour. The gate measured colour at 93.8% before either existed. Recorded rather than deferred: the item as written in section 3 was wrong about where the gap was.
+
 ## [1.26.0] - 2026-08-14
 
 **P1-8 ships, and its premise was wrong. The model never chose bottom navigation at 1366 pt — it scored 36 of 36 on the control tier without section 15. What section 15 actually fixes is a citation the skill could not support.**

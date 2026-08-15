@@ -188,7 +188,7 @@ Each direction is a thesis line plus token consequences:
 | Type role split | which roles carry character; which stay on the readable system face |
 | Colour-construction rule | how neutral anchor, accent, and semantic roles are derived and held apart |
 | One composition move | the single structural gesture the screen is built around |
-| Motion signature | one recurring transition, duration from `quality-bars.md`, reduced-motion fallback |
+| Motion signature | one recurring transition, duration from `quality-bars.md`, curve named from `motion-system.md` (M3 token, `cubic-bezier`, SwiftUI spring preset, or Compose damping/stiffness), reduced-motion fallback |
 
 Then:
 

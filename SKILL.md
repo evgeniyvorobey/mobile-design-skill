@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.26.0
+version: 1.27.0
 ---
 
 # Mobile Design Skill
@@ -26,7 +26,8 @@ If deeper detail is needed during a task, load only the relevant references:
 - `docs/principles.md` for durable mobile design principles
 - `docs/guardrails.md` for hard safety, evidence, accessibility, and platform constraints
 - `docs/sources.md` for source hierarchy and canonical URLs
-- `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing)
+- `docs/quality-bars.md` for concrete numeric thresholds (typography, touch, contrast, motion, spacing, baseline grid, columns, optical alignment)
+- `docs/motion-system.md` for named platform curves and springs, how duration scales with travel and size, and stagger caps
 - `docs/design-quality.md` for visual hierarchy, composition, density, typography craft, color semantics, interaction polish, and production-readiness calibration
 - `docs/design-quality-rubric.md` for 1-5 quality scoring, target levels, caps, and improvement ladder
 - `docs/golden-examples.md` and `examples/golden/` for taste and domain calibration across premium UI, enterprise SaaS, fintech, health, onboarding, settings, checkout, and tablet list-detail
@@ -228,7 +229,7 @@ Each direction is one thesis line plus its token consequences:
 - **Type role split** — which roles carry character, and which stay on the readable system face
 - **Colour-construction rule** — how the neutral anchor, the accent, and the semantic roles are derived and held apart
 - **One composition move** — the single structural gesture (full-bleed hero, asymmetric grid, bottom-anchored action, dense two-column list, single-focus card)
-- **Motion signature** — one recurring transition, its duration taken from `docs/quality-bars.md`, with a reduced-motion fallback
+- **Motion signature** — one recurring transition, its duration taken from `docs/quality-bars.md` and its curve **named** from `docs/motion-system.md` — an M3 easing token, a `cubic-bezier`, a SwiftUI spring preset, or Compose `dampingRatio`/`stiffness` — with a reduced-motion fallback. "Ease-out" is a family, not a value.
 
 Rank the three against user goal, task, context defaults, platform conventions, and accessibility. Commit to one — the baseline wins often, and that is a legitimate outcome; what is not legitimate is never having considered anything else. The two rejects are not discarded: they populate `Alternatives considered` in Mode 1 or `Key decision tradeoffs` in Mode 3, each with its `from:` provenance and the mechanism that killed it.
 

@@ -48,6 +48,7 @@ REQUIRED_FILES = [
     "docs/llm-judge-runner.md",
     "docs/patterns-catalog.md",
     "docs/principles.md",
+    "docs/motion-system.md",
     "docs/quality-bars.md",
     "docs/rendered-output-qa.md",
     "docs/self-review.md",
@@ -2195,9 +2196,20 @@ def validate_motion_band_consistency() -> None:
             "`docs/quality-bars.md` rather than declaring its own duration band"
         )
 
+    motion = (ROOT / "docs/motion-system.md").read_text(encoding="utf-8")
+    if "docs/quality-bars.md" not in motion:
+        errors.append(
+            "docs/motion-system.md: must defer to `docs/quality-bars.md` for durations "
+            "rather than declaring its own bands"
+        )
+    for relative_path in ("SKILL.md", "docs/quality-bars.md", "docs/workflow.md", "docs/design-quality.md"):
+        if "motion-system.md" not in (ROOT / relative_path).read_text(encoding="utf-8"):
+            errors.append(f"{relative_path}: missing motion system reference")
+
     for relative_path, text in (
         ("docs/design-quality.md", quality),
         ("docs/quality-bars.md", bars),
+        ("docs/motion-system.md", motion),
     ):
         for number, line in enumerate(text.splitlines(), start=1):
             if re.search(r"\b(?:4[1-9]\d|[5-9]\d\d|\d{4,})\s?ms\b", line):

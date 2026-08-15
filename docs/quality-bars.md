@@ -40,6 +40,45 @@ Bars are drawn from Apple Human Interface Guidelines, Material Design 3, WCAG 2.
 - Preferred ratio between display and body: **at least 1.5×**.
 - Use role-based tokens (Display, Title, Body, Caption), not ad-hoc sizes.
 
+**Anchor the scale at body, then pick the ratio by density.** Body is 17 pt (iOS) / 16 sp (Android); every other role is derived from it rather than chosen independently.
+
+| Density | Ratio | Fits |
+|---------|-------|------|
+| Dense | 1.125 | operational lists, tables, dashboards, anything compared row to row |
+| Default | 1.2 | general consumer product |
+| Spacious | 1.25 | reading, marketing, onboarding, low-information screens |
+
+Round every derived size to a whole point; a scale that emits 21.25 pt has not been applied.
+
+### Role to platform text style
+
+A type role that names no platform style ships as a hardcoded size and stops scaling. Map every role.
+
+| Role | iOS Dynamic Type style | Material 3 type role |
+|------|------------------------|----------------------|
+| Display | Large Title | `displaySmall` / `headlineLarge` |
+| Title | Title 1 – Title 3 | `titleLarge` / `headlineSmall` |
+| Section heading | Headline | `titleMedium` |
+| Body | Body | `bodyLarge` |
+| Secondary body | Callout / Subheadline | `bodyMedium` |
+| Label | Footnote | `labelLarge` / `labelMedium` |
+| Caption | Caption 1 – Caption 2 | `labelSmall` / `bodySmall` |
+
+Custom faces still map to these styles: take the platform style's scaling behaviour and substitute the face, rather than fixing a point size.
+
+### Tracking at size
+
+Tracking compensates optically for size; it is not a style choice made once for the whole scale.
+
+| Size | Tracking |
+|------|----------|
+| Display, ≥ 28 pt | negative, −0.5 % to −1.5 % of size |
+| Body and UI text, 15–17 pt | 0 — the face's default |
+| Labels and captions, ≤ 12 pt | positive, +0.5 % to +2 % |
+| All-caps at any size | positive, +5 % to +10 % |
+
+The platform system faces already carry per-style tracking: on iOS the Dynamic Type styles supply it, and Material 3 assigns a `letterSpacing` per type role. **A custom face must supply its own tracking table** — inheriting the system face's values with a different face is a defect. When the design keeps the platform face, say so explicitly rather than leaving tracking unstated.
+
 ### Dynamic Type / font scale
 
 - iOS: every text role must respond to Dynamic Type (Larger Text setting up to XXXL / Accessibility sizes).
@@ -112,6 +151,8 @@ Bars are drawn from Apple Human Interface Guidelines, Material Design 3, WCAG 2.
 - Elements entering and exiting together: ease-in-out (standard curve).
 - Avoid linear motion for user-initiated interactions; it feels mechanical.
 
+**Name the curve, not the adjective.** "Ease-out" is a family, not a value: state the platform token or its control points — an M3 easing token, a `cubic-bezier`, a SwiftUI spring preset, or Compose `dampingRatio`/`stiffness`. The tables are in `docs/motion-system.md`, which also carries how a duration scales with travel distance and element size, and the stagger caps. Durations stay here.
+
 ### Signature transition
 
 A product may designate **one** recurring transition as its motion signature — the mechanism behind "motion personality" in `docs/design-quality.md`.
@@ -121,7 +162,7 @@ A product may designate **one** recurring transition as its motion signature —
 - One signature per product, repeated in named places. A second one is decoration.
 - It ships with a reduced-motion fallback like every other transition.
 
-The bands in this table are the authority. A brand adjective selects *which* interaction carries the signature and *which* easing curve it uses — never a longer duration.
+The bands in this table are the authority. A brand adjective selects *which* interaction carries the signature and *which* easing curve it uses — never a longer duration. Name that curve as a platform token or its control points from `docs/motion-system.md`.
 
 ### Reduced motion
 
@@ -148,6 +189,35 @@ The bands in this table are the authority. A brand adjective selects *which* int
 | Between content and screen edge | 16 pt / 16 dp (phone) |
 | Between sections | 24 pt / 24 dp |
 | Between a label and its field | 4–8 pt / 4–8 dp |
+
+### Baseline grid
+
+The spacing scale and the type scale have to land on the same grid, or every screen needs manual nudging.
+
+- **4 pt baseline grid** for type; **8 pt layout grid** for blocks and components. Every spacing step above is a multiple of 4.
+- **Round every line-height box to a multiple of 4.** Body at 17 pt with a 1.5 ratio computes to 25.5 pt; ship 24 or 28, not 25.5. The rounded box, not the raw multiplication, is what the spacing steps stack against.
+- A text block's spacing is measured **between line-height boxes**, not between glyphs. A 16 pt gap under a heading whose box already carries 6 pt of internal leading reads as 22.
+- When a value cannot land on the grid — an icon's optical centre, a platform component's fixed height — say so where it happens instead of bending the whole scale around it.
+
+### Columns and gutters
+
+| Width | Columns | Margin | Gutter |
+|-------|---------|--------|--------|
+| Compact (phone) | 4 | 16 pt | 16 pt |
+| Medium | 8 | 24 pt | 24 pt |
+| Expanded | 12 | 24–32 pt | 24 pt |
+
+A phone layout that never mentions columns is usually fine — one column and a margin is a legitimate grid. State the columns when the screen puts two or more things side by side, because that is where the gutter has to be decided rather than eyeballed.
+
+### Optical alignment
+
+Geometric alignment and optical alignment disagree, and the eye follows the second one.
+
+- **Centre a triangle or a circle optically, not by bounding box.** A play glyph inside a round button sits ~1–2 % of the button's width right of geometric centre.
+- **Align text to cap height or baseline**, not to the line-height box, when it sits next to an icon or an avatar.
+- **Round shapes overshoot**: a circle needs ~2 % more diameter than a square to read as the same size, and the same applies to a pill next to a rectangle.
+- **Hang punctuation** — quotes and bullets sit outside the text edge so the letters, not the marks, form the column edge.
+- Optical corrections are stated as values in the spec ("nudge 1 pt right"), never left to implementation taste.
 
 ### Density reasoning
 

@@ -1409,3 +1409,130 @@ that can be done to it is a grep.
   tablet design, and nothing in this run would see it.
 - Whether the fixture teaches or merely matches: T6 and the committed fixture share a defect class
   by construction.
+
+---
+
+## 23. P1-2 measured — the first intervention in this series that moves the outcome, and it costs something
+
+Backlog item 8's successor. P1-2 as written in §3 is four pieces: `docs/color-system.md`, a layout
+section in the bars, motion by cited platform curves, and type-scale math — plus broadening Mode E.
+
+### The audit ran first this time, and the gate ran before the writing
+
+Rule 17, applied. A grep of the corpus placed every piece before anything was written: colour
+existed as principle (`design-quality.md` §4) and as contrast minimums, but nothing derived a role
+from a supplied brand or said what a pair becomes in dark mode; `cubic-bezier`, `spring`,
+`dampingRatio`, `stiffness`, `stagger`, `baseline grid` and optical alignment returned **zero** hits
+corpus-wide; every "tracking" hit was the verb.
+
+But P1-8 established that a hole in the corpus is not a hole in the output. So the design added an
+**early-stop gate**: code the baseline first, and if the target tier is already at 70%, stop before
+writing anything. Fourteen indicators, six craft-forcing briefs, pre-registered with the decision
+rule; `C-honest` — no invented brand value, no contrast ratio asserted as measured — pre-registered
+as a **one-way gate** in both branches.
+
+The gate did not fire: **48.3%**. But its profile redefined the item.
+
+| baseline, gate pass | cells of 6 |
+|---|---|
+| C-role, C-pair | 6.0, 6.0 |
+| C-dark, C-rule | 5.0, 5.0 |
+| C-honest | 6.0 — no violations |
+| L-scale, T-ratio | 6.0, 5.0 |
+| L-col, L-rule | 4.0, 4.5 |
+| M-scale | 2.0 |
+| T-map | 1.5 |
+| L-grid | 1.0 |
+| **T-track** | **0.0** |
+| **M-curve** | **0.0** |
+
+**Colour — the piece §3 lists first — is the one piece that was not needed.** Roles, pairs with
+their required ratio, the dark transform, and a rule for an unlisted role all sit at 83–100% before
+any file existed, and not one response asserted a measured ratio or invented a brand hex. Writing
+`docs/color-system.md` would have repeated P1-8 exactly. It was **withdrawn from the release on the
+data**, and Mode E was left alone: renaming a primary mode is a MAJOR bump under
+`docs/versioning.md`, and nothing here pays for it.
+
+### The causal lever, found by reading what the instruction asks for
+
+`M-curve` was 0 of 6 because **the corpus asks for exactly what it got**. Step 5.5 said *"one
+recurring transition, its duration taken from `docs/quality-bars.md`"* — duration only — the bars'
+easing section offered "ease-out (decelerate)" as prose, and the art-direction catalog's entries say
+"standard curve". A doc alone would have been inert by construction, so the release changes the
+**request** as well as the substrate: the motion signature now has to name its curve as a platform
+token or its control points.
+
+### The result of the P1-2 contrast
+
+Baseline and post were coded together in one blind pass, as pre-registered — the gate's numbers were
+thrown away rather than reused. Inter-coder agreement **156/168 = 92.9%**.
+
+| tier | baseline | post | delta |
+|---|---|---|---|
+| target (the ten indicators the substrate supplies) | 28.5/60 = 47.5% | **48.0/60 = 80.0%** | **+32.5 pp** |
+| all thirteen non-guard | 45.0/78 = 57.7% | 64.0/78 = 82.1% | +24.4 pp |
+| `C-honest` guard | 6.0/6 | 6.0/6 | 0.0 |
+
+| indicator | baseline | post | delta |
+|---|---|---|---|
+| T-track | 0.0 | 6.0 | **+6.0** |
+| M-curve | 0.0 | 5.0 | **+5.0** |
+| T-map | 1.5 | 6.0 | **+4.5** |
+| L-grid | 1.0 | 5.0 | **+4.0** |
+| M-scale | 1.0 | 3.0 | +2.0 |
+| L-rule | 4.5 | 6.0 | +1.5 |
+| L-col | 4.0 | 4.5 | +0.5 |
+| C-role | 6.0 | 5.0 | −1.0 |
+| C-rule | 5.0 | 4.0 | −1.0 |
+| C-pair | 6.0 | 4.5 | −1.5 |
+| C-dark | 5.5 | 4.0 | −1.5 |
+
+**Pre-registered rule 1 fires**: target tier +32.5 pp against a +15 pp threshold, the `C-honest`
+guard flat at 6/6, and no non-guard indicator down more than the two-cell limit. This ships, and the
+effect is claimed. **It is the first intervention in this series to move an outcome it was measured
+on.**
+
+### What it costs, and why that is not noise
+
+Every one of the four colour indicators moved down. The colour block falls **22.5/24 to 17.5/24**.
+Each individual drop is inside the pre-registered noise band, but four indicators moving the same
+way is a pattern, and the totals say what it is:
+
+- **Response length is flat** — 23,617 words baseline against 23,297 post. Nothing was truncated.
+- **Half the loss is one brief.** C1, the typography-and-spacing-system request, goes 3.0 → 0.5 on
+  colour. Colour is not in Mode E's scope; the baseline volunteered it, and the post arm spent that
+  room on the tracking table, the platform-style mapping and the grid instead. That is the substrate
+  working, not failing.
+- The remaining loss is ≤ 1 cell in each of three briefs.
+
+So: **substrate added to one craft area displaces statements in the areas it did not touch, at
+constant output length.** The budget is finite and this release spent some of it.
+
+### Rule 18
+
+**When you add substrate to one area, measure the areas you did not touch.** A target tier that
+moves +32.5 pp while an untouched tier quietly gives back five cells is a trade, and a design that
+only instruments the intervention's own target cannot see the price. Every measurement in §§14–22
+scored only what its change aimed at.
+
+### Incidental: the cohort worry does not apply to this instrument
+
+The gate pass and the contrast pass are different rater cohorts scoring the same six baseline
+responses. Target tier: **48.3% against 47.5%**. The specification screen moved 36/54 against 6/54
+between cohorts on materially the same cases; this instrument moves 0.8 pp. Mechanical
+presence-of-a-rule checks transfer between cohorts; graded judgements do not. Do not generalise the
+§21 caution to both kinds.
+
+### What the P1-2 design cannot answer
+
+- **Presence is not quality.** Every indicator asks whether a rule is stated, never whether it is
+  the right rule. A response can name `emphasized decelerate`, a 4 pt grid and a tracking table and
+  still be an ugly screen. Nothing here measures that, and it is now the top open item.
+- **`M-scale` reached only 3.0/6.** The distance/size rule and the stagger cap are in the doc and
+  half the responses ignored them. Available substrate is not used substrate.
+- **`L-col` is the weakest indicator** — five of the twelve coder splits are on it, because a stated
+  margin sits on the edge of its definition. Its +0.5 carries no weight.
+- **Colour's measured floor is unreconciled.** This instrument says colour is at 93.8% before the
+  change; §§16–19 measured `Color, state and contrast` at a live floor of 2/6 with a stricter
+  rubric-boundary instrument. Both cannot be a full description. Which one is measuring the thing
+  that matters is open, and it is the same question as backlog item 1 wearing different clothes.
