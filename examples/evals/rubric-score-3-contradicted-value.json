@@ -1,0 +1,29 @@
+{
+  "id": "rubric-score-3-contradicted-value",
+  "rubric_version": "1.0",
+  "mode": "Create typography and spacing system",
+  "prompt": "Create a mobile type and spacing system for a reading-heavy consumer app. The team wants tokens they can implement this sprint.",
+  "response_excerpt": "Roles and values. Display 28 pt / 1.2, Title 20 pt / 1.3, Body 17 pt / 1.5, Secondary 15 pt / 1.4, Label 13 pt / 1.4, Numeric 12 pt tabular / 1.4. Every role maps to a Dynamic Type style (Large Title, Title 2, Body, Subheadline, Footnote, Caption 1) and to an M3 type role (displaySmall, titleLarge, bodyLarge, bodyMedium, labelLarge, labelMedium), so all six scale with the system setting to 200 percent. Tracking: -1 percent at Display, 0 through Body and Secondary, +1 percent at Label and Numeric, +8 percent for the two all-caps section headers. Spacing is 8-based (4, 8, 16, 24, 32) on a 4 pt baseline grid, and every line-height box rounds to a multiple of 4 before the steps stack against it. New content joins the nearest existing role; a new role has to clear the 1.125x adjacent-role bar to exist. Label sits one step above Numeric at 13 pt against 12 pt - deliberately tighter than the scale elsewhere, because metadata rows read better when the label and the figure share an optical weight.",
+  "expected_score": 3,
+  "expected_verdict": "acceptable baseline, clamped by a contradicted value",
+  "expected_cap": "3/5 from the contradicted-value cap: Label 13 pt against Numeric 12 pt is a 1.083x adjacent-role ratio where docs/quality-bars.md sets 1.125x as the minimum, and the spec cites that same bar one sentence earlier for any new role. The stated reason does not lift the cap - a deviation only exits it when the user's input requires it, and nothing in this brief does.",
+  "hard_limits": ["Contradicted value: a stated value that contradicts a bar in docs/quality-bars.md caps the artifact at 3/5"],
+  "dimension_scores": {
+    "attention_path_and_hierarchy": 4,
+    "composition_and_spacing": 4,
+    "typography_craft": 4,
+    "color_state_and_contrast": 4,
+    "density_and_rhythm": 4,
+    "interaction_polish_and_motion": 3,
+    "context_and_brand_fit": 4,
+    "production_readiness": 4,
+    "distinctiveness_and_owned_assets": 3
+  },
+  "expected_failed_dimensions": [],
+  "expected_rationale": "Every band is earned: the roles carry values, the platform mapping is stated, tracking is given per size band, and the grid rule decides cases the spec does not list, so the median is 4. The score is 3 anyway, and the reason is the whole point of this fixture - the dimension bands record what the artifact states, and one of the things it states is arithmetically wrong against a bar it cites itself. A judge that reads the boundary questions and never checks an emitted value against docs/quality-bars.md returns 4 here.",
+  "improvement_suggestions": [
+    "Move Label to 14 pt or Numeric to 12 pt with Label at 13.5 pt rounded up, so the adjacent-role ratio clears 1.125x, or drop one of the two roles and let the survivor carry both jobs.",
+    "If the optical-weight argument is real, express it as a weight or tracking difference at equal size rather than as a size step below the bar.",
+    "State a reduced-motion and text-scaling check for the two all-caps headers at +8 percent tracking, which is the other place this system is likely to break at accessibility sizes."
+  ]
+}

@@ -168,6 +168,7 @@ The questions ask what the artifact *states*. A screenshot or a screen descripti
 - Visual assertions from text-only review input cap Mode D score confidence; label the score as provisional or restrict it to structural quality.
 - Aesthetic-only recommendations cap the design-quality score at **2/5** until translated into task, accessibility, or implementation mechanisms.
 - Platform flattening in materially different iOS/Android behavior caps cross-platform outputs at **3/5**.
+- **Contradicted value:** a stated value or pattern choice that contradicts a bar in `docs/quality-bars.md`, a Use-when / Avoid-when rule in `docs/patterns-catalog.md`, a curve semantic in `docs/motion-system.md`, or the resolved default in `docs/context-defaults.md` caps the artifact at **3/5**. Two or more such contradictions, or any one against a touch-target, contrast, or state-coverage bar, cap it at **2/5**. **A stated reason does not lift this cap** — an artifact that fails this way almost always carries one, and that is exactly what makes a wrong value read as a decided one. The only exit is a deviation the *user's input* requires, named together with the input that requires it. Every band in the table above records what the artifact **states**; this cap is the one place the derivation asks whether what it states is **right**, and it exists because a wrong value gets built while an absent one gets a question.
 - **Inert screen:** when `Distinctiveness and owned assets` sits below band 4, the artifact caps at **3/5** with an upside note, not a quiet 4/5. The requirement is stated once, in that dimension's `3 → 4` boundary question, and nowhere else. The exit is the `3 → 4 (inert cap)` rung in the improvement ladder below, and only that rung: adding mechanisms, platform notes or QA checks does not lift it, because the cap is about having a point of view, not about having enough content.
 
 ---
@@ -179,6 +180,8 @@ The questions ask what the artifact *states*. A screenshot or a screen descripti
 3. Take the median of the **assessable** bands. A dimension marked `n/v` is excluded entirely — it is neither counted as low nor projected upward. Excluding it changes the median, so state which dimensions were assessable when the count is not obvious. With an even number of assessable dimensions the median falls between two bands: report the lower one.
 4. Lower the result if one dimension critical to the primary task sits below the median.
 5. Apply the caps as a downward clamp. There is no matching raise step: a 5/5 is what a median of 5 gives, and the resilience that earns it is already recorded in the `4 → 5` questions the dimensions answered.
+
+**Checking the caps means reading the artifact's emitted values against the bars they claim to respect** — the touch targets, the contrast ratios, the durations and curves, the spacing steps, the pattern choice, the density against the resolved context default. A cap nobody looked for is a cap that never fires, and the boundary questions above will not surface a wrong value on their own: they ask whether it is stated.
 
 Do not average away a serious flaw. A beautiful 5/5 visual direction with 2/5 state handling is not a 4/5 design; it is a risky design with polish — step 4 exists to say so.
 

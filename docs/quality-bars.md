@@ -2,7 +2,7 @@
 
 This document defines concrete numeric thresholds the skill must meet. Principles in `docs/principles.md` describe intent; this file describes measurable minimums.
 
-Use these values as defaults in every mode output. When deviating from a bar, state the reason explicitly.
+Use these values as defaults in every mode output. When deviating from a bar, state the reason explicitly — and note that stating it keeps the artifact honest without making the value right: the contradicted-value cap in `docs/design-quality-rubric.md` still applies unless the user's own input requires the deviation.
 
 Bars are drawn from Apple Human Interface Guidelines, Material Design 3, WCAG 2.2, W3C mobile guidance, and established typography research. Where guidance differs between iOS and Android, both thresholds are listed.
 

@@ -1536,3 +1536,122 @@ presence-of-a-rule checks transfer between cohorts; graded judgements do not. Do
   change; §§16–19 measured `Color, state and contrast` at a live floor of 2/6 with a stricter
   rubric-boundary instrument. Both cannot be a full description. Which one is measuring the thing
   that matters is open, and it is the same question as backlog item 1 wearing different clothes.
+
+---
+
+## 24. Presence is not quality — the review reads it, the score does not, and one cap closes the gap
+
+The top open item after §23: every indicator in §§22–23 asks whether a rule is *stated*, never
+whether it is right. The backlog claimed nothing in the repo separates a presence-complete answer
+from a presence-complete answer whose values are wrong. Rule 2 of this series says an instrument is
+worth nothing until it is shown to separate a deliberately bad corpus from a good one, so that is
+what was built — applied to the whole instrument stack rather than to one metric.
+
+### The corpus
+
+The good arm is **real output**: the six post-arm responses from §23, on the v1.27.0 tree. Six
+mutation agents injected **six defects each** under one hard constraint — a defect replaces a value
+with a wrong value and never deletes a statement, so every presence indicator that fired before
+still fires. Ground truth is known by construction: each defect cites the repo file whose bar it
+breaks. Headings are identical between twins; only values and their justifications changed.
+
+The taxonomy was fixed in advance: a numeric bar violated, a pattern used against its own Use-when,
+motion semantics inverted, scale incoherence, an accessibility hole **stated as a deliberate
+decision**, and a context-defaults inversion. Each written the way a confident wrong designer writes
+it — asserted, reasoned, internally consistent.
+
+### Phase 1 — the premise is half right, and it is the other half
+
+| instrument | outcome | prediction |
+|---|---|---|
+| **Mode D review**, defects named | **34/36 = 94.4%** — D1 6/6, D2 5/6, D3 6/6, D4 6/6, D5 6/6, D6 5/6 | ≤ 50%, **refuted** |
+| **the rubric score** those same reviews produce | good median 3, mutated median 3; projected 4 and 4 — **0 bands** | < 1 band, confirmed |
+| **`docs/self-review.md`** in the author's seat | "revise" on 6/6 mutated **and 3/3 good** | < half, refuted and useless |
+| findings raised | 68 on the good arm, 73 on the mutated arm | — |
+
+The review reads quality almost perfectly, including the classes predicted to be hardest — a density
+inversion against the resolved context default, and a pattern used outside its Use-when. **The score
+does not.** The same document lists 34 defects under `Findings` and then returns the same median.
+Two reviews explicitly *praised* an injected value while catching the other five.
+
+An isolated scoring harness — artifact plus rubric, no review — makes it starker: **4/5 to all six
+good artifacts and 4/5 to five of six mutated ones**, and **not one cap applied anywhere in twelve
+scorings**. The cap machinery was decorative.
+
+The pre-registered decision rule had no branch for high detection with zero score separation. That
+gap is recorded, not backfilled into a branch that "fired".
+
+### The diagnosis is in the rubric's own sentence
+
+> A cap clamps the artifact score downward, after the median. It never changes a dimension band — a
+> band records what the artifact states.
+
+Every one of the thirty-six boundary questions asks whether something is **stated**: named, decided,
+given values, generalised into a rule. None asks whether the value is right. Correctness could only
+enter through the caps, and none of the eight covered a stated value that contradicts a bar.
+
+### Phase 2 — one cap, measured on the same corpus
+
+Added to `docs/design-quality-rubric.md`: a **contradicted-value cap**, graduated (3/5 for one
+contradiction, 2/5 for two or more or any against a touch, contrast or state-coverage bar), plus one
+line in the scoring method saying that checking the caps means reading emitted values against the
+bars they claim to respect.
+
+**No deliberate-deviation escape.** Every injected defect states a reason — that is what makes a
+wrong value read as a decided one. An escape keyed on "a reason was given" would neutralise the cap
+against exactly the artifacts it exists for. The only exit is a deviation the *user's input*
+requires, named with the input that requires it.
+
+Same twelve artifacts, same blind scoring harness, before and after:
+
+| | good | mutated | median separation |
+|---|---|---|---|
+| rubric as it stood | 4 4 4 4 4 4 (median 4) | 4 3 4 4 4 4 (median 4) | **0** |
+| with the cap | 4 4 3 3 4 4 (median 4) | 2 2 2 2 2 2 (median 2) | **2** |
+
+All three pre-registered conditions hold: separation ≥ 1 band (2), the good arm's median does not
+fall (4 → 4), and 6 of 6 good artifacts stay at 3/5 or above. The mutated arm is unanimous.
+
+### The two good-arm caps are true positives, and they are the most useful result here
+
+W05 and W07 dropped to 3/5, and both were checked by hand against the source:
+
+- **W05** states Label 13 pt above Numeric 12 pt — a 1.083× adjacent-role ratio against the 1.125×
+  minimum in `docs/quality-bars.md`, in a spec that cites that same bar for any new role.
+- **W07** puts the action bar at safe area + 8 pt, **naming** the 44 pt home-indicator bar it is
+  breaking and arguing the thumb zone requires it.
+
+Both are real. **Two of six real skill outputs, at 80% on the presence tier, contain a value that
+contradicts a bar** — and the old score gave all six 4/5. The single-contradiction tier landing them
+at 3/5 rather than 2/5 is the graduation working, tested by the arm it was not designed for.
+
+W07 also exposed a contradiction inside the corpus: `docs/quality-bars.md` told authors to state a
+reason when deviating, while the new cap says a reason does not lift it. The two now say the same
+thing — stating the deviation keeps the artifact honest without making the value right.
+
+### Rule 19
+
+**An instrument built out of presence questions cannot become a quality instrument by being applied
+more carefully.** The rubric's thirty-six boundary questions are well designed and they all ask the
+same kind of thing. No amount of care at the dimension level produces correctness, because
+correctness is not what a band records — it took a separate mechanism, at the one place the
+architecture already had for "a consequence of what is stated". Before assuming an instrument is
+under-applied, read what its questions are *about*.
+
+And the corollary that made the fix work: **the finding machinery already knew.** The review named
+34 of 36 defects while the score ignored all of them. When two halves of one instrument disagree
+that completely, the fix is a wire between them, not a better half.
+
+### What this cannot answer
+
+- **Six defects per artifact.** Every mutated artifact tripped the two-or-more clause, so the
+  1-vs-2 boundary is tested only by the good arm's two single-contradiction cases. A corpus with
+  exactly one injected defect was never run.
+- **Contestability of the exit.** W07's deviation was argued from the brief's own one-handed,
+  hurried context; the scorer judged the input did not *require* it. A second scorer could differ.
+  The cap moves judgement to a narrower question, it does not remove it.
+- **Mutation and detection share a model family.** A defect written by one may be one the other is
+  disposed to find or to miss, in an unknown direction.
+- **`docs/self-review.md` returns "revise" on everything** — 9 of 9 across both arms. It was measured
+  here only as a by-product and it discriminates nothing. That is now an open item, and P1-10 in §3
+  proposed cutting it down long before this run gave a reason.

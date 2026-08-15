@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.28.0] - 2026-08-15
+
+**The Mode D review names 34 of 36 deliberately injected defects. The score those same reviews produce separates the arms by zero bands. One cap closes the gap: 0 -> 2 bands.**
+
+Twelve artifacts, six of them real v1.27.0 output and six their defect-injected twins - six defects each, every one replacing a value rather than deleting a statement, so every presence indicator that fired before still fires. Ground truth known by construction.
+
+| instrument | good | mutated | separation |
+|---|---|---|---|
+| Mode D review, defects named | - | **34/36 = 94.4%** | - |
+| rubric score as it stood | 4 4 4 4 4 4 | 4 3 4 4 4 4 | **0 bands** |
+| rubric score with the new cap | 4 4 3 3 4 4 | 2 2 2 2 2 2 | **2 bands** |
+
+The diagnosis is in the rubric's own sentence: *"a band records what the artifact states."* All thirty-six boundary questions ask whether something is stated - named, decided, valued, generalised - and none asks whether it is right. In twelve scorings under the old text, **not one cap fired at all**.
+
+**Two of the six real outputs were capped too, and both are true positives** checked by hand: a 1.083x adjacent-role type ratio against the 1.125x bar the same spec cites, and an action bar at safe area + 8 pt that names the 44 pt home-indicator bar it breaks. The old score gave both 4/5.
+
+### Added
+- **Contradicted-value cap** in `docs/design-quality-rubric.md`: a stated value or pattern choice that contradicts a bar in `docs/quality-bars.md`, a Use-when / Avoid-when rule in `docs/patterns-catalog.md`, a curve semantic in `docs/motion-system.md`, or the resolved default in `docs/context-defaults.md` caps at **3/5**; two or more, or any one against a touch-target, contrast, or state-coverage bar, caps at **2/5**. **A stated reason does not lift it** - every artifact that fails this way carries one, and that is what makes a wrong value read as a decided one. The only exit is a deviation the user's own input requires, named with the input that requires it.
+- A line in the final scoring method: checking the caps means reading the artifact's emitted values against the bars they claim to respect. A cap nobody looked for is a cap that never fires.
+- `examples/evals/rubric-score-3-contradicted-value.json` - a fixture whose nine bands are all earned, median 4, expected score 3. A judge that walks the boundary questions and never checks an emitted value returns 4 here. Registered in `RUBRIC_EVAL_FIXTURES` and verified by injection: flipping its `expected_cap` to "no cap" fails the pack.
+- `docs/proposals/quality-and-diversity-upgrade.md` section 24 - the corpus, both phases, and rules 19: an instrument built out of presence questions does not become a quality instrument by being applied more carefully, and when the finding half of one instrument names 34 defects the scoring half ignores, the fix is a wire between them.
+
+### Changed
+- `docs/quality-bars.md`'s deviation policy now says what stating a reason does and does not buy, so it no longer reads as an exemption from the cap.
+- Scores will move. An artifact whose emitted values contradict a bar now scores lower than the same artifact did under 1.27.0; that is the intended effect and it applies to reviews, to generated calibration blocks, and to the judge.
+
+### Measured and not claimed
+- `docs/self-review.md` returns "revise" on 9 of 9 artifacts across both arms. It discriminates nothing. Recorded as an open item rather than patched in the same release that measured it.
+
 ## [1.27.0] - 2026-08-15
 
 **The first intervention in this series that moves the outcome it was measured on: +32.5 pp. It also costs five colour cells, and that is reported rather than absorbed.**
