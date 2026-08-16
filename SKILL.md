@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.28.1
+version: 1.29.0
 ---
 
 # Mobile Design Skill
@@ -298,7 +298,7 @@ Compare against `docs/quality-bars.md`:
 - likely weakness patterns from `docs/weaknesses.md`, especially generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff
 
 ### 10. Run mandatory self-review
-Run the pass defined in `docs/self-review.md`. Silently answer every prompt. If any answer is "no" or "not sure", revise and re-run. Never return a response that fails self-review with a disclaimer.
+Run the pass defined in `docs/self-review.md`. Answer its four blocking-gate questions in writing — any "yes" there blocks the return until it is fixed. Then answer the improvement prompts silently and make the edits the input supports; those never block, and a value that contradicts a bar is scored by the contradicted-value cap rather than blocked. Never return a response that fails the blocking gate with a disclaimer.
 
 ### 11. Finalize responsibly
 - state assumptions clearly

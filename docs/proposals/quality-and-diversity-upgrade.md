@@ -1771,3 +1771,100 @@ true and they are not the same fact.
   computed from the run it would be justified by, and untested. It needs a fresh corpus.
 - Every instrument in this repository that has been checked for test-retest now sits near 84%.
   Nothing resting on a single cell of any of them is a result.
+
+---
+
+## 26. The self-review gate, on a fresh corpus — block on what is never right, score down what is usually wrong
+
+§25 left the shipped `docs/self-review.md` with an unreachable exit condition and a post-hoc
+hypothesis it forbade itself to act on. This section builds the corpus that hypothesis needed.
+
+### The principle, fixed before the data
+
+§25's phase-3 data suggested dropping `contradicted value` from the blocking tier because it fired
+on 5 of 6 good drafts. Taken alone that is curve-fitting, so the change was justified by a principle
+instead and the principle was written down first:
+
+> **Block on what is never right. Score down what is usually wrong.**
+
+An invented fact, a missing required state, a broken accessibility hard rule, a dishonest header —
+none has a legitimate version. A value that contradicts a bar sometimes does: the input may require
+the deviation, or the bar's scope may not reach the case. The first class belongs in a gate; the
+second belongs in the contradicted-value cap, which already works (§24) and is untouched here.
+
+### Why two cells would have proved nothing
+
+§24's taxonomy puts exactly one accessibility defect in every mutated artifact, so a gate containing
+"accessibility hard rule" blocks 6/6 of them **by construction**. Three cells instead:
+
+| cell | carries | the gate should |
+|---|---|---|
+| A good (6) | nothing injected | pass |
+| **B (6)** | five contradicted-value defects each, **no** categorical failure | **pass** |
+| C (6) | an invented given, a deleted required state, an accessibility hard rule | block |
+
+**B is the falsifier.** A gate that blocks B is the old saturated gate wearing four questions instead
+of five. Six fresh briefs, none reused; each draft mutated twice by agents blind to the gate's
+contents; cell purity verified against the keys before the run.
+
+### The result — every prediction holds, both draws agreeing
+
+Draw-to-draw agreement **17/18 = 94.4%**, well above the rubric scorer's 83.3%: categorical questions
+are more stable than graded ones.
+
+| | blocked, both draws | pre-registered |
+|---|---|---|
+| A good | **0/6** | <= 1 |
+| **B contradicted-value only** | **0/6** | <= 2 |
+| C categorical | **6/6** | >= 5 |
+| improvement pass on the good arm | median **12.5** changes | >= 6 |
+
+And the class the gate stopped blocking did not become unowned — the pre-registered condition that
+would otherwise have withheld the change:
+
+| | rubric score | capped |
+|---|---|---|
+| A good | 4 4 4 2 4 3, median **4** | 2/6 |
+| B | 2 2 2 2 2 2, median **2** | **6/6** |
+
+Two bands of separation from the cap, on a corpus it had never seen.
+
+### What the numbers hide, stated rather than averaged
+
+- **`missing_state` catches 7 of 12.** A deleted required state was injected into every cell-C
+  artifact and the gate's own question found it barely more than half the time. The blocking is
+  carried by `invented_given` (12/12) and `accessibility_hard_rule` (12/12). The gate works; one
+  of its four questions is weak, and that is a live item rather than a rounding error.
+- **One false positive in 24 cell-A and cell-B runs**, and it is the ambiguity the corpus check
+  predicted: a 4 pt gap between passenger chips, read as an accessibility hard rule in one draw and
+  as a spacing-bar contradiction in the other.
+- **`0/6` on the good arm is not a claim that the good drafts are clean.** The scorer capped two of
+  them, and one is a real touch-target miss the gate did not catch: H10 specifies a *"View switch —
+  pinned, 32 pt. Segmented control"* against the 44 pt iOS minimum, and the gate answered "no" in
+  both draws.
+
+### The recurring dispute now has a name
+
+H10 is the third appearance of one argument in three independent runs — §25's W03 (rows contiguous
+with no 8 pt gap), H05 (4 pt between chips), and now a 32 pt segmented control that is simultaneously
+**below the 44 pt bar and the platform's own default height for that component**. Every time, one
+instrument applies the bar literally and another reads the bar's scope, and both readings are
+defensible.
+
+**This is the single most common source of disagreement between instruments in this repository**, and
+it is not noise: it is a real question the corpus does not answer, namely which bars are floors under
+every component and which are defaults a platform component may legitimately sit under. Until that is
+written down, the two readings will keep splitting, and every future instrument will inherit the split.
+
+### What shipped in the gate change
+
+Four blocking questions answered in writing; `contradicted value` demoted to the improvement tier
+with an explicit hand-off to the cap that scores it; every other prompt kept, because §25 measured
+them producing 9-13 real edits and catching 83% of planted defects. P1-10 proposed cutting the
+prompt list; the measurement says the prompts were never the problem, so the tiers changed and the
+prompts did not.
+
+The maintenance rule now states the entry condition for the gate: a prompt joins it only when a good
+draft answers it cleanly, the answer is checkable against the draft rather than judged, and the
+condition has no legitimate version. `Contradicted value` fails the third, which is exactly why it
+blocked 5 of 6 good drafts in §25.

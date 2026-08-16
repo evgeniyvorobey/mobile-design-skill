@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.29.0] - 2026-08-16
+
+**The mandatory self-review pass can be passed again. Four blocking questions instead of forty, validated on a fresh three-cell corpus where the falsifier cell is the one the old gate failed.**
+
+`docs/self-review.md` required "a confident yes on every applicable prompt" across ~40 questions, several unanswerable as yes by construction. 1.28.1 measured the consequence - "revise" on 9 of 9 drafts - and reverted a five-question fix that blocked 6/6 good drafts. This is the fix that passes.
+
+The principle was written before the corpus, so the change is not fitted to the run that suggested it: **block on what is never right, score down what is usually wrong.**
+
+Eighteen artifacts, six fresh briefs, each mutated twice. Cell B carries five contradicted-value defects per artifact and **no** categorical failure - it is the falsifier, because a gate that blocks it is the old saturated gate with fewer questions. Both draws agreeing, 17/18 = 94.4% draw-to-draw:
+
+| cell | blocked | pre-registered |
+|---|---|---|
+| A good | **0/6** | <= 1 |
+| **B contradicted-value only** | **0/6** | <= 2 |
+| C categorical | **6/6** | >= 5 |
+| improvement pass, good arm | median **12.5** edits | >= 6 |
+
+The class the gate stopped blocking did not become unowned: the rubric cap caps **6/6** of cell B, median 2/5 against the good arm's 4/5.
+
+### Changed
+- `docs/self-review.md` runs two tiers. A **blocking gate of four questions** answered in writing - invented given, missing required state, accessibility hard rule, contract and header honesty - and everything else as an **improvement pass that never blocks**. A "no" there is the next edit, not a reason to withhold the response.
+- `contradicted value` is explicitly **not** a gate question. It moves to the improvement tier with a hand-off to the contradicted-value cap in `docs/design-quality-rubric.md`, because sometimes the input requires the deviation and sometimes the bar's scope does not reach the case - and a gate that cannot tell those from an exemption plea blocks correct work.
+- The maintenance rule now states the gate's entry condition: a prompt joins it only when a good draft answers it cleanly, the answer is checkable against the draft rather than judged, and the condition has no legitimate version.
+- `SKILL.md` step 10 and `docs/workflow.md` mirror the two tiers; the unreachable rule is gone from all three files.
+- Every prompt is kept. P1-10 proposed cutting the list; 1.28.1 measured the prompts catching 83% of planted defects and producing 9-13 real edits per draft, so the tiers changed and the prompts did not.
+
+### Measured and not hidden
+- **`missing_state` catches 7 of 12.** A deleted required state was injected into every cell-C artifact; that question found it barely more than half the time. The blocking is carried by `invented_given` and `accessibility_hard_rule`, both 12/12.
+- **One false positive in 24 runs** across cells A and B: a 4 pt gap between chips, read as an accessibility hard rule in one draw and a spacing-bar contradiction in the other.
+- **`0/6` on the good arm is not "the good drafts are clean."** The scorer capped two, including a real 32 pt segmented control against the 44 pt iOS minimum that the gate missed in both draws.
+- **A recurring dispute now has three independent instances** - contiguous rows against the 8 pt gap bar, 4 pt between chips, and a 32 pt segmented control that is both below the 44 pt bar and the platform's own default height. Which bars are floors under every component and which are defaults a platform component may sit under is unwritten, and every instrument in the repository inherits the split.
+
 ## [1.28.1] - 2026-08-16
 
 **The self-review pass catches 83% of planted defects. Its exit condition is unreachable, so it blocks everything. Two fixes were written, measured, and reverted; nothing ships to instruction text.**

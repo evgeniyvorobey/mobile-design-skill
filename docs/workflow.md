@@ -390,7 +390,8 @@ Run the self-review pass defined in `docs/self-review.md`.
 
 - Silently answer every prompt in the universal section.
 - Silently answer every prompt in the mode-specific section.
-- If any answer is "no" or "not sure", revise and re-run.
+- A "yes" on any of the four blocking-gate questions blocks the return until it is fixed; re-run the gate after the fix.
+- A "no" on an improvement prompt is the next edit, not a reason to withhold the response.
 - Never return a response that fails self-review with a disclaimer. Fix it or narrow the scope.
 
 Self-review is not optional. It is the single highest-impact quality mechanism in this skill.

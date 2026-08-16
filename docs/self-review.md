@@ -10,10 +10,31 @@ Self-review runs inside the workflow as **Step 9: Self-review against quality ba
 
 ## How to run self-review
 
+Self-review has **two tiers, and only one of them blocks**.
+
 1. Produce the full mode-specific draft using the template.
-2. Silently answer every prompt in the relevant section below.
-3. If any answer is "no" or "not sure", revise the draft.
-4. Only return the response after every applicable prompt has a confident "yes".
+2. Answer the four **blocking-gate** questions below in writing. Any "yes" blocks the return until it is fixed.
+3. Silently answer every prompt in the applicable improvement sections. A "no" there is work to do, not a reason to withhold the response: make the edits the input supports, then return.
+4. Re-run the blocking gate after any fix that touched a state, a claim, an interaction, or the header.
+
+**Why the tiers exist.** This pass previously required "a confident yes on every applicable prompt" across roughly forty questions, several of which cannot be answered yes by construction. That exit condition is unreachable, and it was measured returning "revise" on 9 of 9 drafts — good ones and deliberately defective ones alike. **A gate that never opens is not a strict gate but no gate**, because the only ways past it are an infinite loop and a silent override; the second is what happens, and it teaches that a mandatory step can be stepped over.
+
+**What the gate blocks, and what it does not.** The gate carries only conditions that have **no legitimate version** — an invented fact, a missing required state, a broken accessibility hard rule, a dishonest header. A value that contradicts a bar is a different animal: sometimes the user's input requires the deviation, and sometimes the bar's scope does not reach the case at all (the 8 pt gap between *independent* tap targets does not govern adjacent rows of one list that carry the same consequence). That class is caught by the **contradicted-value cap** in `docs/design-quality-rubric.md`, which scores it down rather than blocking it — a gate that cannot tell a deviation from a scope argument blocks correct work.
+
+Block on what is never right. Score down what is usually wrong.
+
+---
+
+## Blocking gate (answer in writing, before returning)
+
+Four questions. Each has a definite answer, each is checkable against the draft rather than judged, and a good draft answers "no" to all four.
+
+1. **Invented given.** Have I presented anything as supplied or established that the input did not supply — a brand value, a measured contrast ratio, a platform rule, a research finding, a usability result, or a compliance status?
+2. **Missing required state.** Is any state the mode requires — default, loading, empty, error, and the detail-pane empty state at regular width — absent where it applies, while the surrounding prose reads as though coverage is complete?
+3. **Accessibility hard rule.** Does the draft go below a touch-target minimum, carry a meaning by colour alone, leave a gesture without a non-gesture path, or put an action behind hover only?
+4. **Contract and honesty of the header.** Is `Mode:`, `Platform scope:`, `Device class:`, `Assumptions:` or `Next actions:` missing, or did I round the request to the nearest template instead of using the no-fit branch?
+
+None of the four can be argued away by a reason. If the answer is yes, the draft is not returnable as it stands.
 
 Do not echo the self-review prompts in the response. Do not add a "self-review passed" footer. Self-review is internal quality control, not user-facing content.
 
@@ -21,7 +42,11 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 
 ---
 
-## Universal self-review prompts (run for every mode)
+## Improvement prompts (run for every mode)
+
+These never block a return. A "no" here is the next edit, and the draft goes out once the edits the input supports have been made.
+
+**Values against bars belong here.** Walk the numbers, the pattern choices, the curves and the density against `docs/quality-bars.md`, `docs/patterns-catalog.md`, `docs/motion-system.md` and `docs/context-defaults.md`, and fix what the input lets you fix. What survives is scored, not blocked: see the contradicted-value cap in `docs/design-quality-rubric.md`. An author is measurably worse at this than a stranger is — 3 of 6 on their own arithmetic against a reviewer's 6 of 6 — because the draft already contains the argument that justified the value. Check the file, not the memory of deciding.
 
 ### Specificity
 - Could this exact response have been written with **no** information about the user's product, domain, or audience? If yes, the response is too generic; rewrite with the provided context.
@@ -166,11 +191,17 @@ Do not skip self-review to save tokens. A response that fails self-review is a r
 
 ## When self-review finds a problem
 
-If self-review fails on any prompt:
+If the **blocking gate** answers yes:
+
+1. Fix it before returning anything. There is no disclaimer that substitutes.
+2. Address the root cause, not the surface.
+3. Re-run the gate after the fix.
+
+If an **improvement prompt** answers no:
 
 1. Do not patch the surface. Address the root cause.
 2. If the draft cannot be fixed with light edits, rewrite the affected section from scratch.
-3. Re-run self-review after the fix.
+3. Make the edits the input supports, then return the response. An improvement prompt that stays "no" because the input cannot support better is recorded in `Assumptions`, not used to withhold the answer.
 
 If self-review cannot pass because the input is underspecified:
 
@@ -178,7 +209,7 @@ If self-review cannot pass because the input is underspecified:
 2. Move unsupported claims to `Unresolved assumptions`.
 3. Strengthen `Next actions` to pull the missing information from the user.
 
-Do not return a response that fails self-review with a disclaimer. Fix it or narrow it.
+Do not return a response that fails the blocking gate with a disclaimer. Fix it or narrow it.
 
 ---
 
@@ -201,3 +232,5 @@ The flow is: draft → self-review (internal) → response returned → evals (e
 When a new failure mode is observed in the field, add a corresponding self-review prompt here. The goal is that every regression caught in eval should trigger a new self-review prompt to prevent recurrence.
 
 Keep prompts answerable in one pass — yes/no or short-answer. Self-review must be fast to run, or it will be skipped.
+
+New prompts join the **improvement** tier by default. A prompt joins the blocking gate only when a good draft answers it cleanly, the answer is checkable against the draft rather than judged, and the condition has no legitimate version. Every prompt added to the gate that fails one of those three costs the gate its ability to discriminate, which is the only thing it is for.
