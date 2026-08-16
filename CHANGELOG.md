@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.32.0] - 2026-08-16
+
+**A state-coverage machine check was built, wired into both seams, injection-verified on four breakages, measured against two pre-registered rules, and reverted because it met neither. Two hand-verified gaps in the calibration corpus ship on their own evidence.**
+
+### Fixed
+- **`examples/golden/checkout.md` defines an Empty state.** Its `## State definitions` section listed Default, Loading, Error and three domain states and omitted the one required state a checkout can actually reach - every item unavailable. A UI-spec exemplar whose state section skips a required state teaches the skip (rule 1).
+- **`examples/golden/onboarding.md` names why its Production readiness sits at band 2**: the four recovery paths cover permission, abandonment and validation but not a failed network call at the account or sync step, and no step defines a loading treatment for the first write. The band was already 2; the derivation did not say why. The gap is kept deliberately so the corpus carries a band-2 production read.
+
+### Measured, not shipped
+- **The check does not ship.** Detection was pre-registered at >= 8/12 raw and measured 3/12 and 5/12 across two draws; a second rule fixed before the second draw asked for >= 5/6 on in-scope deletions and measured **4/6**. Pooled across draws the in-scope number is 8/10 with **0 false alarms across 16 clean opportunities** - a framing that was never registered, and two that were both fail. The detector, its seam into `check_response()`, and a golden declaration guard were written, wired, verified by four injections, and reverted.
+- **Both misses are one defect**: the whole-document fallback matched a state word used in another sense - "Linear progress indicator" on a budget row read as Loading, "this surface's most common failure is over-filtering" read as Error. That fallback is what buys the zero false-positive rate, so it **buys 0/16 false alarms and costs 2 of 6 detections**. The trade is measured, not assumed.
+- **The audit relocated the item before anything was written.** All five hand-verified state gaps in the repository are in `examples/golden/`; none is in the six example responses `check_response()` reads. A check wired only into that seam would have shipped green with no observed true positive.
+- **A probe written from the name of the concept flags 14 of 14 artifacts**, demanding `stale` on a portfolio summary and `permission-denied` on an email field. Written with the bar text in hand it flags 6 of 14. Rule 12, reproduced on demand.
+- **The goldens must not be held to the bar they calibrate.** `enterprise-saas` names its own missing loading and error states as the reason it derives 3/5. A blocking state check over the corpus would force every golden to Production readiness >= 3 and delete the low band that 1.31.0 restored. The shape that fits is a declaration check - a golden may carry a deliberate gap, it may not carry one silently - built, correct on all three live cases, and not shipped because it cannot run without the detector.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 29, and two rules.
+- **Rule 24: the deletion that is easiest to hide is the deletion of a conditionally-required state, and a conditional requirement is exactly what a static check cannot enforce.** Five of six blind mutators reached for `Offline` unprompted - "leave no seam" selects for the peripheral condition and "must be mechanically checkable" rejects it. The corollary is harder: a check holding one artifact and no baseline cannot tell "this never needed an offline state" from "this used to have one".
+- **Rule 25: the same text is evidence against a definition and evidence for a declaration.** An artifact's self-assessment must be stripped before asking whether a state is defined - read it, and the instrument passes every artifact honest enough to confess its own gap, which is exactly what the first build did.
+
 ## [1.31.0] - 2026-08-16
 
 **Two goldens claimed 5/5 and derive 3/5 and 2/5. A README guard for the class that let three files ship unlisted. And a rewrite of the gate's weakest question, measured worse and reverted.**

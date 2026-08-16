@@ -47,6 +47,7 @@ Single checkout review screen with editable sections for address, delivery slot,
 - Payment issue: highlight payment section and keep Place order disabled with explanation.
 - Item changed: show availability/substitution alert before final total.
 - Loading: keep section skeletons stable; do not make the CTA jump.
+- Empty: every item became unavailable, so the order cannot be placed — keep the address and slot chosen, replace the summary with the substitution and re-shop paths, and disable Place order with the reason attached.
 - Error: preserve last known checkout data and offer retry.
 
 ## Design quality calibration
