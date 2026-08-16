@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.32.1] - 2026-08-16
+
+**Backlog item 2 closes negative. The blocker 1.32.0 named turned out not to exist, the corpus it asked for was already in the repository, and a third draw with two principled repairs failed both gates from a third direction.**
+
+### Measured, not shipped
+- **1.32.0's stated blocker was wrong about this repository.** It asked for "a fresh brief set built by someone who has not seen the detector"; six of the eight goldens carry a `## Prompt` block with platform, user goal, audience and constraints, written for the calibration corpus long before this item and never run as generation prompts. Six fresh artifacts (2 x Mode A, 1 x Mode B, 3 x Mode C) were generated from them with `examples/golden/` forbidden - **verified by grepping the six transcripts**, not by the agents' self-report.
+- **Two principled repairs, both confirmed on the development surfaces**: a section that argues for the design does not specify it (`Rationale for major choices`, `Alternatives considered`, `Key decision tradeoffs`, `Simplification opportunities`, `Production checks`, `Next actions` joined the stripped set); and a state synonym must name the condition or a device that exists only to express it (`progress indicator` left the `Loading` set - a budget bar is not a loading state).
+- **Draw 3 failed both gates: false positives 1/6 against a gate of 0, and in-scope detection 4/6 against a gate of 5.** Three failures, three blind spots, none of them the repaired one: a state defined in a **markdown table row** was invisible to the bullet parser and flagged as missing on correct work; `"Context defaults applied"` satisfied the `Default` state; a submit `spinner` masked a deleted `Loading`.
+- **2 of 5 fresh Mode C outputs render `## State definitions` as a markdown table** with zero top-level bullets, while `skill/templates.md` prescribes a bullet list. A slot check flags them and they are right - a table is the better shape for a nine-state matrix. Changing the template to make a validator's parsing easier is rejected explicitly rather than left open.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 30.
+- **Rule 26: a machine check can verify that a state has a slot; it cannot verify that a state is defined.** Three consecutive principled repairs each closed one word sense and exposed another - a widget name, a design-failure noun, a heuristic citation, a configuration default, a submit affordance - and the one format-independent leg was beaten by a markdown table. When an instrument's failures keep arriving from a different direction each time, the question is not under-specified, it is out of class.
+
+### Changed
+- **Backlog item 2 is closed, negative.** State coverage is not checkable from the author's seat (7/12 and 4/12, 1.31.0) and not checkable by a keyword machine (three draws, both gates missed each time). The instrument that owns the class is the outside reviewer, measured at 6/6 on planted state deletions in section 24, and the seam for it already exists unused: `run_generation_eval.py --generate-command` has still never run with a real model behind it. A judged check, not a scanned one, is the next move.
+
 ## [1.32.0] - 2026-08-16
 
 **A state-coverage machine check was built, wired into both seams, injection-verified on four breakages, measured against two pre-registered rules, and reverted because it met neither. Two hand-verified gaps in the calibration corpus ship on their own evidence.**

@@ -2198,3 +2198,94 @@ are asking decides whether to strip it or read it.** An artifact's self-assessme
 before asking whether a state is *defined* — read it and the instrument passes every artifact honest
 enough to confess. It must be read when asking whether a gap is *declared*. Getting that backwards
 is what made the first build pass the two artifacts whose own calibration named the defect.
+
+---
+
+## 30. The third draw, on a corpus the repository supplied — and backlog item 2 closes negative
+
+§29 ended by naming a blocker: a fresh brief set built by someone who has not seen the detector.
+**That was wrong about the repository.** Six of the eight goldens carry a `## Prompt` block — full
+briefs with platform, user goal, audience and constraints, written for the calibration corpus long
+before this item. Their *outputs* were the audit corpus; the briefs had never been run as generation
+prompts. Difficulty was chosen by whoever wrote the goldens, and rule 6 is satisfied without anyone
+writing a line.
+
+Six fresh artifacts were generated from them — 2 × Mode A, 1 × Mode B, 3 × Mode C, 2414 to 4559 words
+— with `examples/golden/` and `docs/golden-examples.md` forbidden, **verified by grepping the six
+transcripts** rather than by the agents' own say-so: no agent made a single tool call touching either.
+One brief is hostile to the detector by construction: `tablet-list-detail` states *"sync is frequent
+and sometimes offline"*.
+
+### The two fixes were principles, not patches
+
+1. **A section that argues for the design does not specify it.** `Rationale for major choices`,
+   `Alternatives considered`, `Key decision tradeoffs`, `Simplification opportunities`,
+   `Production checks` and `Next actions` joined the stripped set. Both draw-2 `marketplace` misses
+   lived there.
+2. **A state synonym must name the condition, or a device that exists only to express it.**
+   `skeleton`, `spinner` and `shimmer` exist only to express waiting; a progress indicator shows the
+   progress of anything, including a budget. `progress indicator` left the `Loading` set.
+
+Both draw-2 misses were then caught, the committed corpus stayed silent, and the spent clean arm
+stayed at 0/6 as a one-sided check.
+
+### Draw 3, stratified with the deleted state assigned by rotation
+
+| | gate | result |
+|---|---|---|
+| false positives, fresh clean arm | 0/6 | **1/6 — fails** |
+| stratum S, an in-scope state deleted from the whole document | ≥ 5/6 | **4/6 — fails** |
+| stratum O, `Offline`, out of scope by decision | reported | 1/6 |
+
+**Three failures, three different blind spots, none of them the one that was repaired:**
+
+- **Format.** `g-checkout` *does* define Empty — in a markdown table row: `| Empty | Cart emptied
+  elsewhere, or every item became unavailable | Full-screen empty state: what happened, what it means,
+  one action |`. The bullet parser reads `- Label:` entries and sees nothing. **A false positive on
+  correct work**, and the structural fallback that was supposed to be the safe leg is the one that
+  failed.
+- **Polysemy, a new word.** `g-enterprise-saas` had its Default state deleted and passed, because
+  *"Context defaults applied"* and *"the enterprise default of multi-select"* satisfy `\bdefault\b`.
+- **Polysemy, marginal.** `g-checkout`'s Loading deletion was masked by a submit `spinner` surviving
+  in the Submitting row.
+
+### Why a fourth vocabulary repair is not the next move
+
+Rule 23 says two failed attempts at the same instrument question are evidence about the question's
+class. This is the third, and the sequence is unambiguous — every repair closed one word sense and
+opened another:
+
+| draw | the sense that decided the number |
+|---|---|
+| 1 | `state` in "defines neither a loading nor an error **state**" — the artifact's own confession |
+| 2 | `progress indicator` on a budget row; `failure` as a design failure mode; `error prevention` as a Nielsen citation |
+| 3 | `default` as a configuration default; `spinner` as a submit affordance; and a definition living in a table |
+
+And the one structural leg that does not depend on vocabulary — read the canonical slot — is defeated
+by format: **2 of 5 fresh Mode C outputs render `## State definitions` as a markdown table with zero
+top-level bullets**, while `skill/templates.md` prescribes a bullet list. A slot check flags them, and
+they are right: a table is the better shape for a nine-state matrix. Changing the template to make a
+validator's parsing easier is the tail wagging the dog, and it is rejected here explicitly rather than
+left as an option.
+
+### Backlog item 2 closes, negative and on the record
+
+State coverage is **not checkable from the author's seat** — 7/12 and 4/12 across two wordings
+(§28) — and it is **not checkable by a keyword machine** — three draws, both gates missed each time,
+with a distinct failure class deciding each one. Presence of a *slot* is mechanical. Whether a passage
+*defines* a condition is semantic: it requires deciding whether a word names the artifact's own state
+or something else, and whether a block is specification or commentary. No vocabulary decides that.
+
+**The instrument that owns this class is the outside reviewer**, measured at 6 of 6 on planted state
+deletions in §24, and the seam for it already exists and has never been used:
+`run_generation_eval.py --generate-command` has still never run with a real model behind it. That is
+the next move for anyone who picks this up — a judged check, not a scanned one — and its cost is a
+model in the loop.
+
+### Rule 26
+
+**A machine check can verify that a state has a slot. It cannot verify that a state is defined.**
+Three consecutive principled repairs each closed one word sense and exposed another — a widget name, a
+design-failure noun, a heuristic citation, a configuration default, a submit affordance — and the one
+format-independent leg was beaten by a markdown table. When an instrument's failures keep arriving
+from a different direction each time, the question is not under-specified, it is out of class.
