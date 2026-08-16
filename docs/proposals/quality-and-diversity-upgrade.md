@@ -1655,3 +1655,119 @@ that completely, the fix is a wire between them, not a better half.
 - **`docs/self-review.md` returns "revise" on everything** — 9 of 9 across both arms. It was measured
   here only as a by-product and it discriminates nothing. That is now an open item, and P1-10 in §3
   proposed cutting it down long before this run gave a reason.
+
+---
+
+## 25. The self-review gate — the prompts work, the exit condition is unreachable, and two fixes were reverted
+
+§24 measured `docs/self-review.md` returning "revise" on 9 of 9 artifacts, good and defect-injected
+alike, and left it as the top open item. This section is that item. **Nothing ships to instruction
+text; two changes were written, measured, and reverted.**
+
+### Phase 1 — the pass is not weak
+
+Scored against the same injected-defect keys as §24, generously, on the self-review output already
+on disk:
+
+| | detection of injected defects |
+|---|---|
+| the Mode D review (§24) | 34/36 = 94.4% |
+| **the self-review pass, author's seat** | **30/36 = 83.3%** |
+
+Per class the two differ where it is interesting: the review caught scale incoherence 6/6 and a
+deliberately-argued accessibility hole 6/6, the author's own pass **3/6 and 4/6**. An author holds
+the reasoning that produced the value and defends it; a stranger reads the value.
+
+### The diagnosis is one sentence in the file
+
+> Only return the response after every applicable prompt has a confident "yes."
+
+Across ~118 prompt lines and roughly forty applicable questions — several of them unanswerable as
+"yes" by construction ("Are there any sentences that could be deleted?", "Is the response too
+long?") — **the exit condition is unreachable**. A gate that never opens is not a strict gate but no
+gate: the only ways past are an infinite loop and a silent override, and the second is what happens.
+It also teaches that a mandatory step can be stepped over.
+
+### Phase 2 — the change, and a deliberate divergence from P1-10
+
+§3's P1-10 proposed **cutting** the universal prompts to about eight. Phase 1 says the opposite: the
+prompts produce 9-13 substantive edits per draft and catch 83% of planted defects. Cutting them
+removes the working half to fix the broken one. So the change split the tiers instead — five
+objectively checkable, *reachable* blocking questions answered in writing (contradicted value,
+invented given, missing required state, accessibility hard rule, contract and header honesty), and
+every other prompt demoted to an improvement pass that never blocks.
+
+### Phase 3 — it fails its own pre-registered rule
+
+| | result | threshold |
+|---|---|---|
+| S2 blocks the defect-injected arm | **6/6** | >= 5/6, **pass** |
+| S4 keeps the improvement pass alive | median **11** changes on the good arm | >= 6, **pass** |
+| S3 leaves good drafts returnable | **6/6 blocked** | <= 1/6 (+ the pre-registered W05/W07 exception), **fail** |
+
+Blocked/not-blocked separates the arms by nothing at all. The rule written before the run says
+revert, and it was reverted.
+
+### What the six good-arm blocks actually were
+
+Adjudicated by hand rather than counted:
+
+| artifact | gate's reason | verdict |
+|---|---|---|
+| W05 | Label 13 pt over Numeric 12 pt = 1.083x against the 1.125x bar | **real** |
+| W07 | action bar at safe area + 8 against the 44 pt home-indicator anchor | **real** |
+| W09 | 19 sp / 24 line-height = 1.263 against a 1.25 headings ceiling | marginal, 0.013 over |
+| W11 | a named `emphasized decelerate` curve described as a cross-fade | internal inconsistency, not a bar |
+| W01 | `accessibility_hard_rule` fired with an empty evidence field | unsubstantiated |
+| W03 | rows contiguous with no 8 pt gap | **false positive** |
+
+W03 is the instructive one. The draft says: *"Rows are contiguous with no 8 pt gap, which is
+acceptable here because adjacent rows carry the same consequence and a mis-tap is undone by one more
+tap — the gap rule exists to separate targets with different outcomes."* That is an argument about
+the bar's **scope**, not a request for an exemption, and the gate could not tell the difference —
+because the contradicted-value cap shipped in v1.28.0 says a stated reason never lifts it.
+
+So the base rate of contradictions in real skill output is **2 of 6 verified**, not the 5 of 6 the
+gate reported.
+
+### The second revert, and rule 20
+
+The scope conflation is real, so the cap was narrowed to admit a second exit: a bar whose scope does
+not reach the case. Measured on the same twelve artifacts, twice:
+
+| | good | mutated | separation |
+|---|---|---|---|
+| v1.28.0 cap | 4 4 3 3 4 4 | 2 2 2 2 2 2 | 2 |
+| with the scope clause, draw 1 | 4 4 **4** 3 4 4 | 2 2 2 **3** 2 2 | 2 |
+| with the scope clause, draw 2 | **3** 4 **4** 3 4 4 | 2 2 2 2 2 2 | 2 |
+
+Separation holds, and the clause still loses: **W05 — a hand-verified contradiction — clears in both
+draws** where the unmodified cap caught it. W08's 2 → 3 in draw 1 did not reproduce, so that one was
+noise. Reverted.
+
+**Rule 20: a defect observed in one instrument does not license a fix in another.** The scope
+conflation was observed in the self-review gate. The rubric scorer never had it — it did not cap W03
+in any run — and patching the text they share cost a true positive in the instrument that was
+working. Fix the instrument that has the defect.
+
+### A number the repository did not have
+
+Two draws of the same scorer over the same twelve artifacts and the identical rubric text:
+**10/12 = 83.3% agreement**, two cells flipping by one band. That is a scorer test-retest ceiling,
+sitting almost exactly on the applier's 85.2%.
+
+It carries a correction back to §24. The headline there — 0 bands to 2 — is far outside a one-cell
+flip and stands. The subsidiary claim, that the cap catches a contradiction in two of six real
+outputs, rests on **one draw per cell**: the *defects* in W05 and W07 are hand-verified and real, but
+whether the scorer catches them on any given run is subject to a one-in-six flip. Both facts are
+true and they are not the same fact.
+
+### What is still open
+
+- The self-review gate's exit condition is still unreachable in the shipped file. The diagnosis is
+  measured; no fix has passed its own test.
+- The narrower gate suggested by the phase-3 data — dropping `contradicted value` from the blocking
+  tier, where it fired 5/6 on good drafts, and keeping the four that fired 1/6 — is **post-hoc**,
+  computed from the run it would be justified by, and untested. It needs a fresh corpus.
+- Every instrument in this repository that has been checked for test-retest now sits near 84%.
+  Nothing resting on a single cell of any of them is a result.

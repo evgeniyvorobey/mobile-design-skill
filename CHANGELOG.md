@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.28.1] - 2026-08-16
+
+**The self-review pass catches 83% of planted defects. Its exit condition is unreachable, so it blocks everything. Two fixes were written, measured, and reverted; nothing ships to instruction text.**
+
+| | detection of injected defects, same keys as 1.28.0 |
+|---|---|
+| Mode D review | 34/36 = 94.4% |
+| self-review, author's seat | **30/36 = 83.3%** |
+
+The prompts work. The gate does not: *"Only return the response after every applicable prompt has a confident yes"* across roughly forty questions, several unanswerable as "yes" by construction. A gate that never opens is no gate - the ways past it are an infinite loop and a silent override.
+
+A two-tier rewrite (five reachable blocking questions answered in writing, every other prompt demoted to a non-blocking improvement pass) blocked 6/6 defect-injected drafts and kept 11 improvement edits on the median good draft - and blocked **6/6 good drafts too**, against a pre-registered ceiling of one. Reverted.
+
+Adjudicating those six by hand put the real base rate of bar contradictions in shipped-quality output at **2 of 6, not 5 of 6**. One block was a false positive worth the whole run: a draft arguing that the 8 pt gap between *independent* tap targets does not govern adjacent rows of one list carrying the same consequence. That is an argument about a bar's scope, not a request for an exemption, and 1.28.0's contradicted-value cap cannot tell them apart.
+
+Narrowing the cap to admit a scope exit held the 2-band separation and lost a hand-verified contradiction (W05) in **both** of two draws. Reverted as well.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 25 - both phases, the hand adjudication of every good-arm block, and **rule 20: a defect observed in one instrument does not license a fix in another.** The scope conflation was real in the self-review gate; the rubric scorer never had it, and patching the text they share cost a true positive in the instrument that was working.
+- **A scorer test-retest number the repository did not have: 10/12 = 83.3%** on identical text, two cells flipping by one band - almost exactly the applier's 85.2%.
+
+### Changed
+- Nothing behavioral. `docs/self-review.md`, `SKILL.md`, `docs/workflow.md` and `docs/design-quality-rubric.md` are byte-identical to 1.28.0.
+
+### Corrected
+- 1.28.0's subsidiary claim that the cap catches a contradiction in two of six real outputs rests on one draw per cell. The **defects** in those two artifacts are hand-verified and real; whether the scorer catches them on a given run is subject to the one-in-six flip rate measured here. The headline - 0 bands to 2 - is far outside that and stands.
+
+### Still open
+- The unreachable exit condition remains in the shipped `docs/self-review.md`. The diagnosis is measured; no fix has passed its own test.
+- The narrower gate the phase-3 data suggests - dropping `contradicted value` from the blocking tier, keeping the four that fired on 1 of 6 good drafts - is post-hoc, computed from the run that would justify it, and needs a fresh corpus.
+
 ## [1.28.0] - 2026-08-15
 
 **The Mode D review names 34 of 36 deliberately injected defects. The score those same reviews produce separates the arms by zero bands. One cap closes the gap: 0 -> 2 bands.**
