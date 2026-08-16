@@ -1939,3 +1939,76 @@ No shape check reaches this class. A bar's scope is semantic, and a validator as
 protection here is the recorded measurement and the twelve probes, and the probes are not committed
 because nothing in the repository reads them — the same rule §24 set for its own corpus. That is a
 real gap, and naming it is the honest alternative to a guard that would only look like one.
+
+---
+
+## 28. Three cheap closures, one of them negative
+
+Closing what could be closed without a new corpus. Three items, one shipped guard, one corrected
+calibration corpus, one measured revert.
+
+### The README guard — a class nobody was watching
+
+v1.30.1 repaired three files shipped in 1.26.0-1.27.0 that no validator noticed were missing from
+the README: `docs/motion-system.md`, the tablet golden, the stretched-phone fixture. Each was
+registered in its own index and in `validate_repo.py`, and all 32 validators passed, because none of
+them reads the README's enumerations.
+
+`validate_readme_enumerates_shipped_files()` closes it — every `docs/*.md`, golden, fixture and
+domain pack must be named in `README.md`. Verified by four injections, including a replay of the
+exact miss. Unlike §27's bar-scope gap this one **is** mechanical, which is why it exists and that
+one does not.
+
+### The goldens against their own labels
+
+Old backlog item: *"the golden examples read lower than their label — five of seven land at median
+3."* Measured properly for the first time, each golden output block scored blind against the current
+rubric with its stated label withheld from the scorer:
+
+| | |
+|---|---|
+| label matches the derivation | **6 of 8** |
+| label above the derivation | **2 of 8** |
+| label below the derivation | 0 of 8 |
+
+The historical claim was too pessimistic. But **both over-claims are the two blocks that claim 5/5**,
+and both were confirmed by a second independent draw agreeing exactly:
+
+- `enterprise-saas` claims 5/5, derives **3/5** twice. Production readiness sits at band 2: the spec
+  offers *"bottom sheet or detail screen"* instead of choosing, and a live-data queue defines
+  neither loading nor error.
+- `health` claims 5/5, derives **2/5** twice. Context and brand fit is at 4 and the value/unit/range
+  triad is a real owned asset — and Typography craft is at band 1 with no type role named at all,
+  Interaction polish at 1, and a network-fetched clinical value carries no fetch states.
+
+Both labels are corrected to the derived number with the blocker named, and both carry a note that
+the number is derived and was scored twice. Rule 1 is the reason this matters: a filled-in example
+outweighs a prose instruction, and two exemplars claiming the top band without the bands to support
+it teach exactly that.
+
+Worth recording: the one golden written this session with a deliberately honest label —
+`tablet-list-detail`, claiming 4/5 — derives 4/5 and is the only one of the eight with no cap.
+
+### `missing_state`, rewritten and reverted
+
+§26 measured the gate's weakest question at 7 of 12. It was rewritten from "is any required state
+absent" into a roll-call — enumerate the required states, point at the section defining each, and
+anything you cannot point at is missing. At equal n it scored **4 of 12**. Worse, and reverted.
+
+The likely mechanism, and the reason a third rewording is not the next move: a roll-call gets a
+formal answer. The author points at the section where a state is *mentioned* without checking that
+it is *defined*, and procedure does not substitute for the thing that makes this class hard — **a
+deleted state is the only one of the four gate conditions that leaves no trace on the page.** The
+same class scored 6/6 for an outside reviewer in §24.
+
+The gate is unharmed: cell C still blocks 6/6 in both new draws, carried by `invented_given` and
+`accessibility_hard_rule` at 6/6 each. The honest conclusion is that state coverage is not well
+checked from the author's seat and wants a different instrument — Mode D, or a template-level
+machine check — rather than a better question.
+
+### Rule 23
+
+**Two failed attempts at the same instrument question are evidence about the question's class, not
+an invitation to a third wording.** Both rewrites of `missing_state` were reasonable and one made it
+worse. What separates it from the three questions that work is not phrasing: those three are
+answered by reading what the draft says, and this one is answered by noticing what it does not say.

@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.31.0] - 2026-08-16
+
+**Two goldens claimed 5/5 and derive 3/5 and 2/5. A README guard for the class that let three files ship unlisted. And a rewrite of the gate's weakest question, measured worse and reverted.**
+
+### Added
+- `validate_readme_enumerates_shipped_files()` - every `docs/*.md`, golden, visual-review fixture and domain pack must be named in `README.md`. 1.30.1 repaired three files that shipped between 1.26.0 and 1.27.0 while all 32 validators passed, because none of them reads the README's enumerations. Verified by four injections including a replay of the exact miss.
+- `docs/proposals/quality-and-diversity-upgrade.md` section 28, and **rule 23: two failed attempts at the same instrument question are evidence about the question's class, not an invitation to a third wording.**
+
+### Fixed
+- **`examples/golden/enterprise-saas.md` claimed 5/5 and derives 3/5**, twice, by two independent scorings. Production readiness sits at band 2 - the spec offers "bottom sheet or detail screen" instead of choosing one, and a live-data queue defines neither a loading nor an error state. Label corrected with the blocker named.
+- **`examples/golden/health.md` claimed 5/5 and derives 2/5**, twice. Context and brand fit is at 4 and the value/unit/range triad is a real owned asset; Typography craft is at band 1 with no type role named at all, Interaction polish at 1, and a network-fetched clinical value carries no fetch states. Label corrected with the blocker named.
+- Both now carry a note that the number is derived and was scored twice. Rule 1 is why this matters: two exemplars claiming the top band without the bands to support it teach the model to claim it.
+
+### Measured, not shipped
+- The old backlog claim that the goldens read lower than their label was **too pessimistic**: 6 of 8 match their derivation exactly, 2 over-claim, none under-claims. The two over-claims are exactly the two 5/5 labels.
+- The gate's `missing_state` question, at 7/12 in 1.29.0, was rewritten as a roll-call - enumerate the required states, point at the section defining each - and scored **4/12 at equal n**. Reverted. A roll-call gets a formal answer: the author points at where a state is mentioned without checking it is defined, and a deleted state is the only one of the four gate conditions that leaves no trace on the page. The same class scores 6/6 for an outside reviewer.
+- The gate is unaffected: the categorical cell still blocks 6/6 in both new draws, carried by `invented_given` and `accessibility_hard_rule` at 6/6 each. State coverage wants a different instrument, not a third wording.
+
 ## [1.30.1] - 2026-08-16
 
 **README drift repair: three files shipped between 1.26.0 and 1.28.0 were never added to the README's reference lists or its directory tree.**

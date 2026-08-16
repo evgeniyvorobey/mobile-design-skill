@@ -48,7 +48,7 @@ Incident queue with filtering, scannable status, and quick assignment for one in
 - Do not hide SLA-risk filters in overflow; this is core triage, not a utility setting.
 
 ## Design quality calibration
-- Quality target: 5/5 - resilient at density: alignment, tabular numerals, filtered-empty recovery, and permission-aware states hold together under large text and long queues. Exact incident-state naming is a product decision, not a design gap.
+- Quality target: 3/5 - derived, not claimed: the queue's structure, its risk-over-action weighting and its filtered-empty recovery are decided, and the severity rail is a real owned asset (Attention path 4, Distinctiveness 4). Blocked from 4/5 by Production readiness at 2, which fails its 2 -> 3 question - the spec offers "bottom sheet or detail screen" instead of choosing one, and a queue whose whole point is live data defines neither a loading nor an error state. Choosing the surface and defining those two states is the work; two independent scorings of this block both land it at 3.
 - Signature move: `layout.severity-rail` - a 4dp leading rail carrying severity on every incident row. Repeated in the list, the detail header, and the filtered-empty state, so severity is legible from the edge of the screen before any text is read, and never depends on color alone.
 - Enterprise quality means dense but organized: alignment, repeatable row rhythm, clear status semantics, and low ornament.
 - Use 16dp horizontal padding, 8-12dp row internals, and strong vertical alignment for metadata comparison.
@@ -70,3 +70,4 @@ Incident queue with filtering, scannable status, and quick assignment for one in
 - Reward density that supports the stated enterprise task instead of reflexively simplifying the queue.
 - Penalize decorative cards, marketing-style empty states, or recommendations that move critical filters behind overflow.
 - A strong answer names data freshness, permissions, and mistake prevention as first-class design constraints.
+- The `3/5` is derived from the nine bands, not from how finished the block reads. Two independent scorings agreed on it and on the blocker. A reader who thinks this deserves more should re-derive rather than adopt the number — and if they reach 4, the thing that moved is Production readiness answering its own question.

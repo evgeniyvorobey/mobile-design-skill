@@ -2294,6 +2294,38 @@ def validate_large_screen_coverage() -> None:
         fail("Large-screen coverage validation failed:\n" + "\n".join(errors))
 
 
+# The defect class: a file ships, every validator passes, and the README never learns about it.
+# v1.30.1 repaired three of these at once -- docs/motion-system.md, the tablet golden and the
+# stretched-phone fixture were registered in their own indexes and in this script, and none of the
+# 32 validators reads the README's enumerations. Scoped to the class rather than to those three.
+README_MUST_ENUMERATE = [
+    "docs/*.md",
+    "examples/golden/*.md",
+    "examples/visual-review-fixtures/*.md",
+    "docs/domain-packs/*.md",
+]
+
+
+def validate_readme_enumerates_shipped_files() -> None:
+    """Every shipped reference file is named somewhere in README.md."""
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    for pattern in README_MUST_ENUMERATE:
+        for path in sorted(ROOT.glob(pattern)):
+            if path.name.lower() == "index.md":
+                continue
+            if path.name not in readme:
+                relative_path = path.relative_to(ROOT).as_posix()
+                errors.append(
+                    f"README.md: never names `{relative_path}` -- a file can ship, pass every "
+                    "other validator, and stay invisible to the one document a reader starts from"
+                )
+
+    if errors:
+        fail("README enumeration validation failed:\n" + "\n".join(errors))
+
+
 def validate_projected_score_lines() -> None:
     """The projected score is a flat median, never a ceiling and never `up to N/5`."""
     errors: list[str] = []
@@ -2571,6 +2603,7 @@ def main() -> None:
     validate_inspiration_gate_parity()
     validate_motion_band_consistency()
     validate_large_screen_coverage()
+    validate_readme_enumerates_shipped_files()
     validate_projected_score_lines()
     validate_documentation_hygiene()
     validate_links()
