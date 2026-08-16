@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.30.1] - 2026-08-16
+
+**README drift repair: three files shipped between 1.26.0 and 1.28.0 were never added to the README's reference lists or its directory tree.**
+
+`docs/motion-system.md` (1.27.0), `examples/golden/tablet-list-detail.md` (1.26.0) and `examples/visual-review-fixtures/ipad-team-inbox-stretched-phone.md` (1.26.0) were registered in the validators and in their own index documents, and every validator passed - none of them reads the README's enumerations, so the omission was invisible.
+
+### Fixed
+- `docs/motion-system.md` added to the README's reference list, its inline API snippet, and the directory tree.
+- The tablet golden and the stretched-phone fixture added to the directory tree.
+
+### Not guarded
+- Nothing checks that the README's three enumerations match the files on disk. A validator asserting that every `docs/*.md` appears in `README.md` would have caught all three and is a genuinely mechanical check, unlike section 27's semantic gap. It is not in this release because the release is a documentation repair, and a new guard is a change that should be measured against the class it claims to cover rather than bolted onto a typo fix.
+
 ## [1.30.0] - 2026-08-16
 
 **The repository's most common inter-instrument disagreement, closed by scoping the bar that caused it: 9/12 correct decisions to 12/12, with detection of real violations unchanged.**

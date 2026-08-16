@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.30.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.30.1-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.30.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.30.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -220,6 +220,7 @@ Keep these files loaded alongside the active prompt for full skill behavior:
 - `docs/guardrails.md`
 - `docs/sources.md`
 - `docs/quality-bars.md`
+- `docs/motion-system.md`
 - `docs/context-defaults.md`
 - `docs/heuristics.md`
 - `docs/patterns-catalog.md`
@@ -259,7 +260,7 @@ system_prompt = (SKILL_ROOT / "SKILL.md").read_text()
 for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
             "docs/clarification-policy.md", "docs/judged-mode.md",
             "docs/principles.md", "docs/guardrails.md",
-            "docs/sources.md", "docs/quality-bars.md",
+            "docs/sources.md", "docs/quality-bars.md", "docs/motion-system.md",
             "docs/context-defaults.md", "docs/heuristics.md",
             "docs/patterns-catalog.md", "docs/adaptive-layout.md",
             "docs/design-quality.md",
@@ -506,6 +507,7 @@ mobile-design-skill/
 │   ├── guardrails.md                     Hard constraints (do not invent, do not claim compliance, etc.)
 │   ├── sources.md                        Source hierarchy (Apple HIG, Material 3, WCAG, ISO, GOV.UK)
 │   ├── quality-bars.md                   Concrete numeric thresholds
+│   ├── motion-system.md                  Named platform curves and springs, duration scaling, stagger caps
 │   ├── design-quality.md                 Visual hierarchy, composition, density, and craft calibration
 │   ├── design-quality-rubric.md          1-5 design quality scoring and improvement ladder
 │   ├── golden-examples.md                Golden example index and calibration guide
@@ -566,14 +568,16 @@ mobile-design-skill/
     │   ├── health.md                     Health calibration
     │   ├── onboarding.md                 Onboarding calibration
     │   ├── settings.md                   Settings calibration
-    │   └── checkout.md                   Checkout calibration
+    │   ├── checkout.md                   Checkout calibration
+    │   └── tablet-list-detail.md         Tablet list-detail calibration
     ├── visual-review-fixtures/           Figma-like text review fixtures
     │   ├── fintech-dashboard-dense-summary.md
     │   ├── health-appointment-booking.md
     │   ├── enterprise-saas-mobile-table-card-list.md
     │   ├── marketplace-product-detail-checkout-edge.md
     │   ├── social-profile-privacy-control.md
-    │   └── education-quiz-results.md
+    │   ├── education-quiz-results.md
+    │   └── ipad-team-inbox-stretched-phone.md
     ├── rendered-output-qa/
     │   ├── report-schema.json            Optional rendered QA report schema
     │   └── sample-report.json            Example rendered QA report
