@@ -1868,3 +1868,74 @@ The maintenance rule now states the entry condition for the gate: a prompt joins
 draft answers it cleanly, the answer is checkable against the draft rather than judged, and the
 condition has no legitimate version. `Contradicted value` fails the third, which is exactly why it
 blocked 5 of 6 good drafts in §25.
+
+---
+
+## 27. Floors, defaults, and what a bar governs — the repository's most common disagreement, closed
+
+Three runs produced the same argument: §25's W03 (contiguous list rows against the 8 pt gap bar),
+§26's H05 (4 pt between chips), §26's H10 (a 32 pt segmented control against the 44 pt minimum). One
+instrument applied a bar literally, another read its scope, both defensible.
+
+### The audit split the item in two, and corrected §26
+
+`docs/quality-bars.md` already carried the answer to the segmented-control case, forty lines below
+the number: *"Visual size may be smaller than the tap area as long as the hit region meets the
+minimum."*
+
+But the probe corpus shows §26's reading of H10 was too confident in the other direction. A probe
+stating *"drawn 32 pt, hit region 44 pt"* is judged within scope by the unmodified file — the
+qualifier is found when there is something to find. H10 said *"View switch — pinned, 32 pt"* and
+stopped. **With no hit region stated, the scorer that flagged it was judging what was written, and
+the gate that passed it was supplying a fact the draft never gave.** Neither was wrong; the draft
+was underspecified. §26 called the cap wrong and the gate right, and that is corrected here.
+
+The other two are a different failure: the bar reads *"minimum gap between independent tap
+targets"*, list rows and filter chips genuinely are independent targets, and both HIG and Material 3
+ship contiguous rows and edge-to-edge tab bars. **The bar overreached its own intent.**
+
+### The measurement
+
+Twelve short probes, each one spec fragment carrying one touch-or-gap decision, six legitimately
+within scope and six genuine violations, ground truth fixed in advance and argued from platform
+practice rather than preference. One judge per probe, reading `docs/quality-bars.md` and nothing else.
+
+| | false positives on the 6 correct decisions | detection on the 6 violations | accuracy |
+|---|---|---|---|
+| bars as they stood | **3/6** | 6/6 | 9/12 |
+| bars scoped and annotated | **0/6** | 6/6 | **12/12** |
+
+Every false positive in the baseline was the same one: the gap bar applied to a repeating structure
+— 60 pt contiguous list rows, a contiguous 44 pt calendar grid, a five-destination tab bar running
+edge to edge. Exactly the live dispute, reproduced on demand.
+
+### What changed in the file
+
+- **The gap bar now states what it is for**: a mis-tap that costs the user something different from
+  what they intended. Two questions decide it — do the neighbours carry different consequences, and
+  is either at or under the size floor. A repeating structure whose cells each clear the floor needs
+  no inter-cell gap, because that is how both platforms ship list rows, calendar cells, segments and
+  tab bars.
+- **The hit-region qualifier moved to the table**, and gained the clause H10 needed: when the drawn
+  size is below the minimum, **state the hit region**. A spec that says "segmented control, 32 pt"
+  and stops has not made the hit region reviewable and will be read as a violation, correctly.
+- **Floor or default is marked** on every touch and contrast row where the distinction has been
+  disputed, with the cost of each misreading stated: a default read as a floor flags correct work,
+  a floor read as a default ships a defect.
+- Destructive-adjacent-to-primary is explicitly not waived by the new scope.
+
+### Rule 22
+
+**When two instruments keep disagreeing about the same rule, the rule is the defect — but audit
+before rewriting it, because half of these disputes are a qualifier nobody could find.** One of the
+three instances was a clause already in the file, in its own subsection, referenced by nothing. The
+other two were a bar written more broadly than its purpose. A dispute rate is a symptom; it does not
+say which.
+
+### What has no guard
+
+No shape check reaches this class. A bar's scope is semantic, and a validator asserting the word
+"floor" appears in a table would pass the next over-broad bar as easily as this one. The regression
+protection here is the recorded measurement and the twelve probes, and the probes are not committed
+because nothing in the repository reads them — the same rule §24 set for its own corpus. That is a
+real gap, and naming it is the honest alternative to a guard that would only look like one.

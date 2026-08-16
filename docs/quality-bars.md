@@ -2,6 +2,8 @@
 
 This document defines concrete numeric thresholds the skill must meet. Principles in `docs/principles.md` describe intent; this file describes measurable minimums.
 
+Every bar is marked **floor** or **default** where the distinction has ever been disputed. A **floor** is a value nothing may sit under, whatever component it is; a **default** is what to use unless a platform component or a stated context legitimately differs. Reading a default as a floor flags correct work — measured at three of six correct decisions wrongly flagged before these annotations existed — and reading a floor as a default ships a defect.
+
 Use these values as defaults in every mode output. When deviating from a bar, state the reason explicitly — and note that stating it keeps the artifact honest without making the value right: the contradicted-value cap in `docs/design-quality-rubric.md` still applies unless the user's own input requires the deviation.
 
 Bars are drawn from Apple Human Interface Guidelines, Material Design 3, WCAG 2.2, W3C mobile guidance, and established typography research. Where guidance differs between iOS and Android, both thresholds are listed.
@@ -91,20 +93,25 @@ The platform system faces already carry per-style tracking: on iOS the Dynamic T
 
 ### Minimum sizes
 
-| Platform | Minimum | Preferred |
-|----------|---------|-----------|
-| iOS | 44 × 44 pt | 48 × 48 pt |
-| Android | 48 × 48 dp | 56 × 56 dp |
+| Platform | Minimum | Preferred | |
+|----------|---------|-----------|---|
+| iOS | 44 × 44 pt | 48 × 48 pt | minimum is a **floor**, preferred is a **default** |
+| Android | 48 × 48 dp | 56 × 56 dp | minimum is a **floor**, preferred is a **default** |
+
+**The minimum governs the hit region, not the drawn control.** A 24 pt glyph inside a 44 pt target passes; a 44 pt-looking control with a 32 pt hit region does not. Platform components are frequently drawn under the minimum — a segmented control is 32 pt tall on iOS — and that is not a violation when the hit region is padded out to the floor.
+
+**So state the hit region whenever the drawn size is below the minimum.** A spec that says "segmented control, 32 pt" and stops has not made a hit region reviewable, and it will be read as a violation — correctly, because nothing in it says otherwise. One clause fixes that: "32 pt drawn, 44 pt hit region".
 
 ### Spacing between targets
 
-- Minimum gap between independent tap targets: **8 pt / 8 dp**.
-- Preferred gap: **12 pt / 12 dp** when the targets have similar visual weight.
+- Minimum gap between separately-consequenced adjacent controls: **8 pt / 8 dp**. **Floor.**
+- Preferred gap: **12 pt / 12 dp** when the targets have similar visual weight. **Default.**
 
-### Tap area vs visual size
+**What this bar is for, and what it does not govern.** It protects against a mis-tap that costs the user something different from what they intended — two buttons side by side, a destructive action beside a benign one, a small control near another small control. It does **not** govern the seams inside one repeating structure whose cells each meet the size floor: contiguous list rows, calendar cells, segmented-control segments, and bottom-navigation destinations ship edge to edge on both platforms, and requiring 8 pt between them would contradict HIG and Material 3 rather than follow them.
 
-- Visual size may be smaller than the tap area as long as the hit region meets the minimum.
-- Never reduce the hit region below the minimum to match a smaller visual.
+Two questions decide it. Do the neighbours carry **different consequences**, and is either one **at or under the size floor**? A yes to either means the gap bar applies. A repeating row of same-consequence cells, each above the floor, is within scope with no gap at all.
+
+Adjacency of a destructive action to a primary one is a separate rule and is never waived by this one — see `Thumb reach` below.
 
 ### Thumb reach
 
@@ -116,13 +123,13 @@ The platform system faces already carry per-style tracking: on iOS the Dynamic T
 
 ## Color and contrast (WCAG 2.2 AA)
 
-| Element | Minimum contrast ratio |
-|---------|------------------------|
-| Body text (under 18pt or under 14pt bold) | 4.5:1 |
-| Large text (≥18pt regular or ≥14pt bold) | 3:1 |
-| UI components and meaningful graphics | 3:1 |
-| Focus indicators | 3:1 against adjacent colors |
-| Disabled elements | No minimum, but must be visually distinct |
+| Element | Minimum contrast ratio | |
+|---------|------------------------|---|
+| Body text (under 18pt or under 14pt bold) | 4.5:1 | **floor** |
+| Large text (≥18pt regular or ≥14pt bold) | 3:1 | **floor** |
+| UI components and meaningful graphics | 3:1 | **floor** |
+| Focus indicators | 3:1 against adjacent colors | **floor** |
+| Disabled elements | No minimum, but must be visually distinct | — |
 
 ### Non-color indicators
 

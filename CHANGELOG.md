@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.30.0] - 2026-08-16
+
+**The repository's most common inter-instrument disagreement, closed by scoping the bar that caused it: 9/12 correct decisions to 12/12, with detection of real violations unchanged.**
+
+Three runs produced the same argument — contiguous list rows against the 8 pt gap bar, 4 pt between chips, a 32 pt segmented control against the 44 pt minimum. Twelve probes with ground truth fixed in advance, six legitimately within scope and six genuine violations, one judge each:
+
+| | false positives on the 6 correct decisions | detection on the 6 violations | accuracy |
+|---|---|---|---|
+| bars as they stood | **3/6** | 6/6 | 9/12 |
+| bars scoped and annotated | **0/6** | 6/6 | **12/12** |
+
+Every baseline false positive was the same one: the gap bar applied to a repeating structure — contiguous list rows, a calendar grid, an edge-to-edge tab bar. All three are how HIG and Material 3 ship those components.
+
+### Changed
+- **The gap bar states what it protects against**: a mis-tap that costs the user something different from what they intended. Two questions decide it — do the neighbours carry different consequences, and is either at or under the size floor. A repeating structure whose cells each clear the floor needs no inter-cell gap. Destructive-adjacent-to-primary is explicitly not waived by this.
+- **The hit-region qualifier moved into the touch-target section** from a subsection forty lines below, and gained the clause the disputes needed: when the drawn size is below the minimum, **state the hit region**. "Segmented control, 32 pt" with nothing further will be read as a violation, correctly - nothing in it says otherwise.
+- **Floor or default is marked** on every touch and contrast row where the distinction has been disputed, with both costs stated: a default read as a floor flags correct work, a floor read as a default ships a defect.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 27, and **rule 22: when two instruments keep disagreeing about the same rule, the rule is the defect — but audit before rewriting it, because half of these disputes are a qualifier nobody could find.** One of the three instances was already answered in the file, in its own subsection, referenced by nothing.
+
+### Corrected
+- Section 26 said the cap that flagged the 32 pt segmented control was wrong and the gate that passed it was right. The probes show a stated hit region is found by the unmodified file, so with **no** hit region stated the scorer was judging what was written and the gate was supplying a fact the draft never gave. Neither was wrong; the draft was underspecified, and that is now what the bar asks authors to fix.
+
+### Not guarded
+- No shape check reaches a bar's scope, and a validator asserting the word "floor" appears in a table would pass the next over-broad bar as easily as this one. The regression protection is the recorded measurement; the probes are not committed because nothing in the repository reads them.
+
 ## [1.29.0] - 2026-08-16
 
 **The mandatory self-review pass can be passed again. Four blocking questions instead of forty, validated on a fresh three-cell corpus where the falsifier cell is the one the old gate failed.**
