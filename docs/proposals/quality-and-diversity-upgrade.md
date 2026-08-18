@@ -2483,3 +2483,103 @@ and before treating any per-X rate as a property of X, check what else varied.**
 reproduced within 1.7 pp across two corpora while individual cells moved by up to four of six, in both
 directions. The ranking that two backlog items were built on was corpus composition, and the largest
 component of that composition — output mode — was never recorded by the run that produced it.
+
+---
+
+## 33. Backlog item 1 — the gate is void, and why that is the most useful thing this run produced
+
+Item 1: *"every instrument asks whether a rule is stated or whether a stated value contradicts an
+authority. An artifact can pass both and still be a mediocre design."* Four releases in this series
+have died on an unaudited premise, so the premise was made the gate: **score a quality degradation
+with the existing instrument first, and if the instrument separates the arms, close the item.**
+
+### The corpus item 1 has always needed
+
+§24 built its twins by replacing values with wrong ones — that is correctness, and the
+contradicted-value cap already scores it at two bands. A quality twin must change **no value**, delete
+**no statement**, contradict **no bar**, keep its **own self-description consistent with the worse
+design**, and still be worse. Six degradation classes, fixed in advance, one per artifact: priority
+inversion, emphasis misallocation, grouping incoherence, pattern mismatch, signature dilution,
+attention-path incoherence.
+
+Two of the four constraints were verified **mechanically**: every `## ` heading and every
+numeric-plus-unit token survives in all six twins — 21/21, 14/14, 5/5, 22/22, 24/24, 45/45. The
+degradations are substantive and were hand-checked: `fintech` demotes the answer (`38%`, *"13 points
+above the 25% limit you set"*) below six ladder rows and from Display to Title, where it is
+typographically identical to the row values, and puts a definition of what a percentage is at the top
+in the largest type on the screen.
+
+### The result, and the branch the rule did not have
+
+Twelve artifacts, opaque labels, one joint blind pass, rubric plus contradicted-value cap.
+
+| | gate | result |
+|---|---|---|
+| P1a — median band separation between arms | 0 | **0** ✓ |
+| P1b — contradicted-value cap on the degraded arm | ≤ 1/6 | **5/6** ✗ |
+
+By the letter of the decision rule the gate fails and item 1 closes. **That conclusion does not
+follow, because P1b was mis-specified**: it set an absolute threshold without a clean-arm base rate,
+and **the cap fires on 3 of 6 clean artifacts**. A 5-versus-3 differential is not evidence that the
+instrument reads quality. §24 recorded the same kind of gap rather than backfilling a branch that
+fired, and this follows it.
+
+### The hand adjudication, which voids the run
+
+§25's precedent — *the gate reported 5 of 6, by hand it is 2 of 6* — applied to every cap, each
+degraded artifact checked against its own clean twin:
+
+| twin | cap | also in the clean twin? |
+|---|---|---|
+| `tablet-list-detail` | two-pane threshold ≥ 700 pt against the expanded ≥ 840 dp bar | **yes — same cap, both arms** |
+| `premium-ui` (1) | Headline 17/20 and Body 17/24 while claiming 1.125× | **yes — same cap, both arms** |
+| `fintech` | Android Label 13 sp → 18 sp off the 4 pt grid | value pre-existing; clean scorer missed it |
+| `premium-ui` (2) | screen title at Footnote 13/16 against the 22 pt minimum | **no — introduced by the degradation** |
+| `checkout` | 12 pt between zones against the 24 pt section bar | **no — introduced by the degradation** |
+| `onboarding` | sheet entry in the 200–300 ms band against 250–350 ms | **no — introduced by the degradation** |
+
+**Three of six degradations introduced a correctness defect. Constraint 3 was violated in half the
+corpus, so the gate cannot answer its own question** — in half the pairs the instrument had exactly
+the signal it is built to catch. The run is void as pre-registered, and is reported as void rather
+than as either verdict.
+
+### What voided it is the finding
+
+The three degraders that broke a bar **never changed a number**. They changed which content a number
+applies to — the screen title moved into an existing small role, existing spacing values were
+reassigned to group differently, a legitimate pattern swap brought a different duration bar with it —
+and that was enough.
+
+**The space of "meaningfully worse design that is still fully correct" is much smaller than item 1
+assumes,** because the bars already encode a great deal of design quality: minimum sizes encode
+hierarchy, section gaps encode grouping, per-pattern duration bands encode pattern fit. An artifact
+cannot be made much worse along those axes without becoming incorrect. Item 1's premise is not
+refuted — but it is narrower than written, and the axes on which it can hold are the ones no bar
+reaches: ordering, emphasis allocation among *conforming* values, and coherence.
+
+The uncontaminated subset says as much as n = 3 can:
+
+| pair | degradation | clean | degraded |
+|---|---|---|---|
+| `enterprise-saas` | attention-path incoherence | 4 | 4 |
+| `tablet-list-detail` | signature dilution | 3 | 3 |
+| `fintech` | priority inversion | 4 | 3 — scorer variance on a pre-existing value |
+
+**Zero of three separated on substance.** This repository's own floor for a result is about eight
+cells. It cannot carry the premise, and it is not claimed to.
+
+### What item 1 needs next, concretely
+
+The corpus is buildable, but **constraint 3 has to be enforced by a checker, not by an instruction**:
+score each twin for caps *before* admitting it, reject and re-degrade until the twin is cap-clean
+against its own clean baseline. Only then is the gate meaningful. And the degradation classes should
+be restricted to the three axes no bar reaches, since the other three provably collide with bars.
+
+### Rule 29
+
+**When you build a corpus by constraint, verify every constraint mechanically before you measure — an
+instruction to an agent is not a constraint.** Two of this corpus's four constraints were checked by
+script and held perfectly; the two left to the prompt were "contradict no bar", which broke in half
+the corpus, and it broke *without a single number being changed*. The same lesson as verifying a
+contamination control by transcript rather than by self-report, one level up: it now applies to the
+properties a corpus is defined by, not just to the behaviour of the agents building it.

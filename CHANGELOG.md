@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.32.4] - 2026-08-18
+
+**Backlog item 1's gate is void, and what voided it is the finding: three of six quality degradations broke a bar without changing a single number.**
+
+### Measured, and reported as void
+- **The premise was made the gate.** Six twins were built to be worse designs while changing no value, deleting no statement, contradicting no bar, and keeping their own self-description consistent with the worse design. Then twelve artifacts - six clean, six degraded - were scored blind under opaque labels in one joint pass with the existing rubric and its contradicted-value cap.
+- **P1a held: median band separation between the arms is 0.** P1b failed by its letter - the cap fired on **5 of 6** degraded artifacts against a gate of 1 - **but P1b was mis-specified**: it set an absolute threshold with no clean-arm base rate, and the cap fires on **3 of 6 clean** artifacts. A 5-versus-3 differential is not evidence the instrument reads quality. Recorded as a gap in the rule rather than backfilled into a branch that fired, following section 24.
+- **Hand adjudication voids the run.** Every cap was checked against its own clean twin: two are the same pre-existing defect present in both arms, one is scorer variance on a pre-existing value, and **three were introduced by the degradation itself** - a screen title moved into an existing 13/16 role against the 22 pt minimum, existing spacing values reassigned to 12 pt between sections against the 24 pt bar, and a pattern swap that brought a different duration band with it. **Constraint 3 was violated in half the corpus**, so in half the pairs the instrument had exactly the signal it is built to catch.
+- **The uncontaminated subset separates 0 of 3** - and n = 3 is below this repository's own floor of about eight cells, so it is not claimed as a result.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 33.
+- **Rule 29: when you build a corpus by constraint, verify every constraint mechanically before you measure - an instruction to an agent is not a constraint.** The two constraints checked by script held perfectly (every heading and every numeric-plus-unit token survives in all six twins); the two left to the prompt did not.
+
+### Changed
+- **Item 1 stays open and is now specified.** Its premise is not refuted, but it is narrower than written: **the space of "meaningfully worse design that is still fully correct" is much smaller than the item assumes**, because the bars already encode a great deal of design quality - minimum sizes encode hierarchy, section gaps encode grouping, per-pattern duration bands encode pattern fit. The three degraders that broke a bar never changed a number; they changed which content a number applies to.
+- **The redesign is concrete:** enforce the no-contradiction constraint with a checker rather than an instruction - score each twin for caps before admitting it, reject and re-degrade until it is cap-clean against its own baseline - and restrict the degradation classes to the axes no bar reaches: ordering, emphasis allocation among conforming values, and coherence.
+
 ## [1.32.3] - 2026-08-18
 
 **Backlog items 7 and 8 rewritten. The pooled band-5 closure reproduces within 1.7 pp across two corpora; the per-dimension floor table the two items were built on does not reproduce at all.**
