@@ -215,6 +215,21 @@ def run_release_checks() -> None:
         ],
     )
     run_step(
+        "Paired comparison self-test",
+        [sys.executable, "scripts/run_paired_eval.py", "--self-test"],
+    )
+    run_step(
+        "Paired comparison judge adapter",
+        [
+            sys.executable,
+            "scripts/run_paired_eval.py",
+            "--fixture-arms",
+            "separating",
+            "--judge-command",
+            f"{sys.executable} scripts/paired_eval_oracle_agent.py",
+        ],
+    )
+    run_step(
         "Rubric judge dry-run",
         [sys.executable, "scripts/run_rubric_judge.py", "--dry-run"],
     )

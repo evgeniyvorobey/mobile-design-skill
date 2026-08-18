@@ -2306,6 +2306,86 @@ README_MUST_ENUMERATE = [
 ]
 
 
+def validate_paired_eval_falsifier() -> None:
+    """The falsifier cell must still falsify, and the two refusals must still refuse.
+
+    `run_paired_eval.py` is worth having only because it declines to report a
+    contrast whose own control failed. Both the ceiling that makes it decline and
+    the fixture corpus that proves it declines can be deleted without any other
+    check in this repository noticing — the self-test would keep passing on the two
+    corpora that remain, and the harness would keep printing win rates it has no
+    right to print.
+
+    Asserting that the word "null" appears somewhere would be the shape check
+    proposal section 27 warned about. These four are computable properties of the
+    thing itself: the falsifier corpus exists, its nulls really do draw agreed
+    winners, and neither refusal has been widened into a no-op.
+    """
+    errors: list[str] = []
+
+    script = (ROOT / "scripts/run_paired_eval.py").read_text(encoding="utf-8")
+
+    ceiling = re.search(r"^NULL_AGREED_WINNER_MAX = (?P<expr>.+)$", script, re.MULTILINE)
+    if not ceiling:
+        errors.append("scripts/run_paired_eval.py: no `NULL_AGREED_WINNER_MAX` ceiling on the control")
+    else:
+        try:
+            value = eval(ceiling.group("expr"), {"__builtins__": {}})  # noqa: S307 - a literal ratio
+        except Exception:
+            value = None
+        if not isinstance(value, (int, float)) or not 0 < value < 1:
+            errors.append(
+                f"scripts/run_paired_eval.py: `NULL_AGREED_WINNER_MAX` is {ceiling.group('expr')!r}; "
+                "a ceiling at or above 1 never refuses a failed control, which is the "
+                "only reason this harness exists"
+            )
+
+    minimum = re.search(r"^MIN_NULL_PAIRS = (?P<value>\d+)$", script, re.MULTILINE)
+    if not minimum or int(minimum.group("value")) < 1:
+        errors.append(
+            "scripts/run_paired_eval.py: `MIN_NULL_PAIRS` must require at least one null "
+            "pair; a contrast with no control is the failure this guards"
+        )
+
+    try:
+        pack = json.loads((ROOT / "examples/evals/paired-comparison-fixtures.json").read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        fail("Paired-comparison falsifier validation failed:\n  - missing examples/evals/paired-comparison-fixtures.json")
+    except json.JSONDecodeError as exc:
+        fail(f"Paired-comparison falsifier validation failed:\n  - fixture pack is not valid JSON ({exc})")
+
+    for corpus in ("separating", "indistinguishable", "broken_control"):
+        if corpus not in pack:
+            errors.append(f"examples/evals/paired-comparison-fixtures.json: missing the `{corpus}` corpus")
+
+    broken = pack.get("broken_control", {})
+    verdicts = broken.get("verdicts", {})
+    null_pairs: dict[str, set[str]] = {}
+    for pair_id, verdict in verdicts.items():
+        if not pair_id.startswith("null-"):
+            continue
+        null_pairs.setdefault(pair_id.rsplit("-", 1)[0], set()).add(verdict)
+    agreed = sum(
+        1
+        for calls in null_pairs.values()
+        if len(calls) == 2 and calls == {"document-1", "document-2"}
+    )
+    if not null_pairs:
+        errors.append(
+            "examples/evals/paired-comparison-fixtures.json: the `broken_control` corpus has "
+            "no null-pair verdicts, so it cannot falsify anything"
+        )
+    elif agreed == 0:
+        errors.append(
+            "examples/evals/paired-comparison-fixtures.json: no null pair in `broken_control` "
+            "draws an agreed winner across both orders, so the corpus no longer represents a "
+            "failed control and the self-test's refusal assertion is vacuous"
+        )
+
+    if errors:
+        fail("Paired-comparison falsifier validation failed:\n" + "\n".join(f"  - {e}" for e in errors))
+
+
 def validate_readme_enumerates_shipped_files() -> None:
     """Every shipped reference file is named somewhere in README.md."""
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
@@ -2603,6 +2683,7 @@ def main() -> None:
     validate_inspiration_gate_parity()
     validate_motion_band_consistency()
     validate_large_screen_coverage()
+    validate_paired_eval_falsifier()
     validate_readme_enumerates_shipped_files()
     validate_projected_score_lines()
     validate_documentation_hygiene()

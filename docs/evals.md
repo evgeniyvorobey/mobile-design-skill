@@ -467,3 +467,34 @@ python3 scripts/run_diversity_eval.py --self-test
 ```
 
 `examples/evals/diversity-fixtures.json` holds two corpora: `uniform` reproduces the failure the 1.17.0 acceptance actually found, and `varied` is what a sampled catalog looks like. The self-test asserts the measurements **separate** them, and that the extractor reads score, provenance and blocker out of a real committed response. A self-test that only proves the pipe works is worth nothing — this repository shipped a green oracle over a broken function once already.
+
+## Comparing two arms of output
+
+The rubric above scores one artifact and asks what it states. It does not read whether one design is better than another: measured on six designs against six deliberately worse twins, its nine boundary questions returned the identical band **12 paired scorings out of 12**, while a rubric-free forced choice on the same pairs returned **12 of 12** in the right direction and named the injected mechanism every time.
+
+Use [`paired-comparison.md`](paired-comparison.md) and `../scripts/run_paired_eval.py` when the question is whether a change made the output better — one prompt pack run against two trees.
+
+Prove the report discriminates, with no model in the loop:
+
+```bash
+python3 scripts/run_paired_eval.py --self-test
+```
+
+Prove the judge adapter round-trips:
+
+```bash
+python3 scripts/run_paired_eval.py --fixture-arms separating \
+    --judge-command "python3 scripts/paired_eval_oracle_agent.py"
+```
+
+Run a real comparison:
+
+```bash
+python3 scripts/run_paired_eval.py --arm-a before.jsonl --arm-b after.jsonl \
+    --nulls cosmetic-rewrites.jsonl --export-requests tmp/pairs.jsonl
+python3 scripts/run_paired_eval.py --arm-a before.jsonl --arm-b after.jsonl \
+    --nulls cosmetic-rewrites.jsonl --verdicts tmp/verdicts.jsonl
+```
+
+**Null pairs are required, not optional.** A judge handed two documents will find a winner; a run without cosmetic-rewrite pairs cannot see that happening, and the harness refuses to report one. A run whose judge names an agreed winner on more than a third of its null pairs is reported as unreadable and exits non-zero.
+

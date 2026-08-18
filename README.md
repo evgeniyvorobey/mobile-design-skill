@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.32.6-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.33.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.32.6** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.33.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -493,6 +493,8 @@ mobile-design-skill/
 │   ├── validate_repo.py                  Repository structure, docs hygiene, link, and example-response validator
 │   ├── validate_release.py               Release validation and version/tag sanity checks
 │   ├── rubric_judge_oracle_agent.py      Deterministic stdin/stdout agent for judge-command CI self-tests
+│   ├── paired_eval_oracle_agent.py       Deterministic stand-in judge that proves the paired-eval adapter
+│   ├── run_paired_eval.py                Forced-choice paired comparison of two arms, with a mandatory null-pair control
 │   └── run_rubric_judge.py               Provider-agnostic LLM-as-judge runner and external-agent adapter
 ├── skill/
 │   ├── modes.md                          Per-mode inputs, outputs, validation, fallback
@@ -510,6 +512,7 @@ mobile-design-skill/
 │   ├── motion-system.md                  Named platform curves and springs, duration scaling, stagger caps
 │   ├── design-quality.md                 Visual hierarchy, composition, density, and craft calibration
 │   ├── design-quality-rubric.md          1-5 design quality scoring and improvement ladder
+│   ├── paired-comparison.md              Which of two designs is better: the instrument the rubric's boundary questions cannot be
 │   ├── golden-examples.md                Golden example index and calibration guide
 │   ├── synthetic-case-studies.md         Synthetic bad-to-good case-study index
 │   ├── visual-review-fixtures.md         Text-only visual review fixture index
@@ -651,6 +654,7 @@ Fork the repository, edit the files that govern skill behavior, and run the inst
 - [`docs/quality-bars.md`](docs/quality-bars.md) — tighten numeric thresholds for your design system
 - [`docs/design-quality.md`](docs/design-quality.md) — tune design-quality calibration for hierarchy, rhythm, visual craft, and production readiness
 - [`docs/design-quality-rubric.md`](docs/design-quality-rubric.md) — tune 1-5 design-quality scoring, caps, and improvement ladder
+- [`docs/paired-comparison.md`](docs/paired-comparison.md) — compare two arms of output; the pre/post instrument for an instruction-text change
 - [`docs/golden-examples.md`](docs/golden-examples.md) — tune compact taste and domain calibration examples
 - [`docs/synthetic-case-studies.md`](docs/synthetic-case-studies.md) — tune synthetic bad-to-good calibration cases
 - [`docs/domain-packs/index.md`](docs/domain-packs/index.md) — tune domain-specific mobile playbooks

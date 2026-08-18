@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.33.0] - 2026-08-18
+
+**The paired-comparison instrument validated in 1.32.6 now ships. The repository can ask, for the first time, whether a change made the output better - and it refuses to answer when its own control failed.**
+
+### Added
+- **`scripts/run_paired_eval.py`** - forced-choice paired comparison of two arms of skill output. Two structural refusals are enforced by the tool rather than left to whoever runs it: **a contrast without null pairs is not reported** (at least three, and at least one per three signal pairs), and **a contrast whose judge names an agreed winner on more than a third of null pairs is reported as unreadable and exits non-zero**. Every prior release in this series had to notice that class of failure by hand, and three of them did not.
+- **`docs/paired-comparison.md`** - what the instrument is, how to build the null pairs, the validation record, and four things it cannot do.
+- **`scripts/paired_eval_oracle_agent.py`** - a deliberately weak deterministic stand-in judge, so CI proves the `--judge-command` adapter without a model. It applies a presence proxy, which sections 34-35 measured at 0 of 12 on real degradations; keeping it apart from the discrimination proof is deliberate, because an oracle supplying both would be a green oracle over the thing under test.
+- **`examples/evals/paired-comparison-fixtures.json`** - three corpora the `--self-test` must tell apart: one where an arm genuinely wins, one where the arms are indistinguishable, and one whose control failed and must be refused.
+- **`validate_paired_eval_falsifier()`** in `validate_repo.py` - the falsifier corpus can be deleted and both refusals widened into no-ops without any other check noticing. This asserts the falsifier still falsifies and neither refusal has been neutered. Verified by four injections; asserting that the word "null" appears somewhere would have been the shape check section 27 warned about.
+- Release validation runs the self-test and the adapter proof.
+- `docs/proposals/quality-and-diversity-upgrade.md` section 36.
+
+### Changed
+- `docs/evals.md` gains a section on comparing two arms, with the head-to-head numbers: the rubric's nine boundary questions separate **0 of 12** paired scorings on a corpus of designs against deliberately worse twins; the rubric-free comparison separates **12 of 12**.
+- README enumerates the new document, both scripts and the fixture pack - caught, as designed, by the 1.31.0 enumeration guard the moment the document landed.
+
+### Not changed
+- **No instruction text.** This is an evaluation instrument, not an authoring one: paired comparison needs two artifacts and most modes produce one. Nothing in `SKILL.md`, `skill/` or any mode contract moves in this release.
+
 ## [1.32.6] - 2026-08-18
 
 **Backlog item 1 is answered. On the same corpus where the rubric's boundary questions separated 0 of 12, a rubric-free forced-choice paired comparison separated 12 of 12 and named the injected mechanism every time.**

@@ -2772,3 +2772,80 @@ the corpus, the degradations, or the property.
 The instrument is validated and **not wired into the repository**. It has no home, no document, no
 harness, and no place in any mode. Deciding that is its own change with its own pre-registration —
 paired comparison needs two artifacts, and most of what this skill does produces one.
+
+---
+
+## 36. The instrument ships — as an eval, with its control welded on
+
+§35 validated a rubric-free paired comparison at 12/12 and left it with no home. Placing it was the
+open question, and the difficulty was real: **paired comparison needs two artifacts and most modes
+produce one.**
+
+### The audit answered it before any file was written
+
+The instrument compares two outputs, so it is an **evaluation** instrument, not an authoring one. Its
+home is the eval layer beside `run_rubric_judge.py` and `run_diversity_eval.py` — and once that is
+said, what it is *for* becomes obvious and considerably more useful than a new mode would have been:
+
+**it is the pre/post instrument this series never had.** Sections 13 through 35 could not ask whether
+a change made the output better, so every one of them measured a proxy — presence of a rule (§23),
+coverage of a tier (§22), correctness of a decision (§27), closure of a boundary (§32). Not because
+the question was uninteresting, but because no instrument here could read it.
+
+### What ships
+
+- **`scripts/run_paired_eval.py`** — builds counterbalanced pairs from two arms, exports judge
+  requests, ingests verdicts, reports a win rate with a binomial p, an order-invariance rate, and the
+  null-pair control.
+- **`docs/paired-comparison.md`**, **`scripts/paired_eval_oracle_agent.py`**,
+  **`examples/evals/paired-comparison-fixtures.json`**, and wiring into `docs/evals.md`, the README
+  and both validators.
+
+### The two refusals are in the tool, not in the documentation
+
+This is the whole design point. §35's protocol worked because it carried null pairs and
+counterbalancing; a protocol is a habit, and habits are what this series has watched fail four times.
+So:
+
+- **A contrast without null pairs is not reported.** At least three, and at least one per three
+  signal pairs, or `build_pairs()` refuses with the reason.
+- **A contrast whose control failed is reported as unreadable and exits non-zero.** If the judge names
+  an agreed winner on more than a third of null pairs, no win rate from that run means anything.
+
+Rule 21 said *build the falsifier cell, or the corpus proves nothing.* This makes the falsifier
+structural instead of remembered.
+
+### Keeping the two proofs apart
+
+The oracle judge is **deliberately weak**: it counts stated values and calls a tie no-difference —
+precisely the presence proxy §§34–35 measured at 0 of 12 on real degradations. It proves the
+`--judge-command` adapter round-trips and nothing else. The proof that the *report* discriminates is
+`--self-test`, which needs no judge at all and asserts the harness tells three corpora apart: one
+where an arm genuinely wins, one where the arms are indistinguishable, and one whose control failed
+and must be refused. An oracle supplying both proofs would be a green oracle over the thing under
+test, which this repository has shipped once already.
+
+### The guard, and what it deliberately does not assert
+
+`validate_paired_eval_falsifier()` exists because **the falsifier corpus can be deleted and both
+refusals widened into no-ops while every other check in this repository stays green** — the self-test
+would keep passing on the two remaining corpora, and the harness would keep printing win rates it has
+no right to print.
+
+It asserts four computable properties of the thing itself: the ceiling is a ratio strictly between 0
+and 1, the null minimum is at least one, all three fixture corpora exist, and `broken_control`'s nulls
+**still draw agreed winners across both orders**. Verified by four injections, each failing on its own
+message and restoring clean.
+
+What it does not do is assert that the word "null" appears somewhere. §27 named that class — *a
+validator asserting the word "floor" appears in a table would pass the next over-broad bar as easily
+as this one* — and the difference here is that these four properties are mechanical, so the guard is
+real rather than decorative.
+
+### What did not change, and why that is the honest scope
+
+**No instruction text moves.** Not `SKILL.md`, not `skill/`, not a mode contract, not a template. The
+instrument compares two artifacts; the skill produces one per run. Wiring it into an authoring mode
+would mean asking the model to generate a variant of its own work to compete against, which is a
+different change with a different cost and no measurement behind it. Naming that boundary is worth
+more than crossing it on the strength of a good result elsewhere.

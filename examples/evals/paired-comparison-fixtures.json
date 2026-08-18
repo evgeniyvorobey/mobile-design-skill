@@ -1,0 +1,132 @@
+{
+ "separating": {
+  "arm_a": {
+   "p1": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p1.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p2": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p2.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p3": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p3.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p4": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p4.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p5": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p5.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p6": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p6.\n\n## Structural zones\n- Top area: header carrying the task\n"
+  },
+  "arm_b": {
+   "p1": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p1.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p2": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p2.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p3": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p3.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p4": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p4.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p5": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p5.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p6": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p6.\n\n## Structural zones\n- Top area: header carrying the task\n"
+  },
+  "nulls": {
+   "p1": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture null for prompt p1.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p2": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture null for prompt p2.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p3": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture null for prompt p3.\n\n## Structural zones\n- Top area: header carrying the task\n"
+  },
+  "verdicts": {
+   "signal-p1-ab": "document-1",
+   "signal-p1-ba": "document-2",
+   "signal-p2-ab": "document-1",
+   "signal-p2-ba": "document-2",
+   "signal-p3-ab": "document-1",
+   "signal-p3-ba": "document-2",
+   "signal-p4-ab": "document-1",
+   "signal-p4-ba": "document-2",
+   "signal-p5-ab": "document-1",
+   "signal-p5-ba": "document-2",
+   "signal-p6-ab": "document-1",
+   "signal-p6-ba": "document-2",
+   "null-p1-ab": "no-meaningful-difference",
+   "null-p1-ba": "no-meaningful-difference",
+   "null-p2-ab": "no-meaningful-difference",
+   "null-p2-ba": "no-meaningful-difference",
+   "null-p3-ab": "no-meaningful-difference",
+   "null-p3-ba": "no-meaningful-difference"
+  }
+ },
+ "indistinguishable": {
+  "arm_a": {
+   "p1": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p1.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p2": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p2.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p3": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p3.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p4": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p4.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p5": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p5.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p6": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p6.\n\n## Structural zones\n- Top area: header carrying the task\n"
+  },
+  "arm_b": {
+   "p1": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p1.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p2": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p2.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p3": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p3.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p4": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p4.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p5": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p5.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p6": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p6.\n\n## Structural zones\n- Top area: header carrying the task\n"
+  },
+  "nulls": {
+   "p1": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture null for prompt p1.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p2": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture null for prompt p2.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p3": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture null for prompt p3.\n\n## Structural zones\n- Top area: header carrying the task\n"
+  },
+  "verdicts": {
+   "signal-p1-ab": "document-1",
+   "signal-p1-ba": "document-2",
+   "signal-p2-ab": "document-2",
+   "signal-p2-ba": "document-1",
+   "signal-p3-ab": "document-1",
+   "signal-p3-ba": "document-2",
+   "signal-p4-ab": "document-2",
+   "signal-p4-ba": "document-1",
+   "signal-p5-ab": "document-1",
+   "signal-p5-ba": "document-2",
+   "signal-p6-ab": "document-2",
+   "signal-p6-ba": "document-1",
+   "null-p1-ab": "no-meaningful-difference",
+   "null-p1-ba": "no-meaningful-difference",
+   "null-p2-ab": "no-meaningful-difference",
+   "null-p2-ba": "no-meaningful-difference",
+   "null-p3-ab": "no-meaningful-difference",
+   "null-p3-ba": "no-meaningful-difference"
+  }
+ },
+ "broken_control": {
+  "arm_a": {
+   "p1": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p1.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p2": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p2.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p3": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p3.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p4": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p4.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p5": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p5.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p6": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture A for prompt p6.\n\n## Structural zones\n- Top area: header carrying the task\n"
+  },
+  "arm_b": {
+   "p1": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p1.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p2": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p2.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p3": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p3.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p4": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p4.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p5": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p5.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p6": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture B for prompt p6.\n\n## Structural zones\n- Top area: header carrying the task\n"
+  },
+  "nulls": {
+   "p1": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture null for prompt p1.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p2": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture null for prompt p2.\n\n## Structural zones\n- Top area: header carrying the task\n",
+   "p3": "Mode: Create platform-aware UI spec\n\n## Screen or flow scope\nFixture null for prompt p3.\n\n## Structural zones\n- Top area: header carrying the task\n"
+  },
+  "verdicts": {
+   "signal-p1-ab": "document-1",
+   "signal-p1-ba": "document-2",
+   "signal-p2-ab": "document-1",
+   "signal-p2-ba": "document-2",
+   "signal-p3-ab": "document-1",
+   "signal-p3-ba": "document-2",
+   "signal-p4-ab": "document-1",
+   "signal-p4-ba": "document-2",
+   "signal-p5-ab": "document-1",
+   "signal-p5-ba": "document-2",
+   "signal-p6-ab": "document-1",
+   "signal-p6-ba": "document-2",
+   "null-p1-ab": "document-1",
+   "null-p1-ba": "document-2",
+   "null-p2-ab": "document-1",
+   "null-p2-ba": "document-2",
+   "null-p3-ab": "document-1",
+   "null-p3-ba": "document-2"
+  }
+ },
+ "_note": "Three corpora the self-test must tell apart: one where an arm genuinely wins, one where the arms are judged indistinguishable, and one whose null pairs draw agreed winners and must be refused. A harness that always reports `readable`, or always reports significance, fails on one of the three."
+}
