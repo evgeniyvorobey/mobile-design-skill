@@ -2924,6 +2924,12 @@ That is rule 18's displacement, seen for the first time **on the outcome instead
 §23 could report that colour cells were given back; it could not report what the trade bought or cost
 a user. n = 3, so this is a direction to test, not a finding.
 
+> **Corrected in §38.** This paragraph over-reads its own evidence. A mechanical count of labelled
+> states shows **only one of the three arm-A wins** has any state-count difference; the other two turn
+> on disclosure and on flow structure, and the largest state gap in the corpus produced a tie. What
+> survives is narrower and mode-scoped: the displacement is a **Mode C** phenomenon (specs 19 against
+> 5; concepts run the other way). Read §38 before carrying anything from this paragraph.
+
 ### The instrument behaved, and its confidence signal is now interpretable
 
 Confidence on the null pairs was **3.00** — every judge certain the designs were the same — against
@@ -2951,3 +2957,75 @@ discovered in the results.
 - **Six briefs, twelve judgements.** The honest summary is that the largest instruction-text effect
   this series has ever shipped does not show up as a better design on ordinary work at this power.
 - Judge and both arms share a model family; the null pairs bound that and do not remove it.
+
+---
+
+## 38. §37's mechanism paragraph was an over-reading, and one count refuted it for free
+
+§37 closed with an observation offered as a direction to test: *"All three arm-A wins turn on the
+granularity of degraded states."* It was read out of three judgement paragraphs after the fact. Before
+spending a corpus on it, it was checked mechanically on the corpus that already existed — and the
+check cost one script.
+
+**Pre-registered**: P1, arm A carries more distinct labelled states in total; P2, the gap is
+**concentrated in the three briefs the judges gave arm A**, because if arm A simply writes more states
+everywhere then the judges' reasons are a story laid over a corpus-wide difference.
+
+### P1 holds, P2 fails
+
+| brief | arm A | arm B | A−B | judge |
+|---|---|---|---|---|
+| `spec-ipad-clinician` | 10 | 1 | **+9** | **tie / split** |
+| `spec-package-tracking` | 9 | 4 | **+5** | A |
+| `concept-budgeting-home` | 7 | 7 | 0 | B |
+| `concept-medication-reminder` | 6 | 6 | **0** | **A** |
+| `flow-onboarding` | 0 | 0 | **0** | **A** |
+| `concept-marketplace-listing` | 5 | 7 | −2 | tie |
+| **total** | **37** | **25** | **+12** | |
+
+**Two of the three arm-A wins have no state-count difference at all, and the largest difference in the
+corpus — +9 — produced a tie.** The concentration prediction is refuted, and by the pre-registered
+rule the hypothesis is weaker than §37 stated.
+
+### What the two zero-delta wins were actually decided on
+
+Re-read rather than summarised:
+
+- `concept-medication-reminder` — *"it comes down to how each structures the moment the patient is
+  actually in"*: a focal slot that holds exactly one item against a dock that presents a shared time
+  window as one decision, and a collapse policy that hides unresolved doses behind a count row. That is
+  **disclosure**, not state coverage.
+- `flow-onboarding` — *"where the flow spends its screens and where the completion physically
+  happens"*: a welcome screen whose only job is to advance, and a first completion performed inside a
+  wizard rather than on the surface the user returns to. That is **flow structure**.
+
+Only `spec-package-tracking` turns on degraded-state granularity, and there the count agrees with the
+judge exactly. **One of three, not three of three.** §37's sentence is corrected here.
+
+### What survives, and it is sharper than what it replaces
+
+The state-count difference is real, and it is **entirely a Mode C phenomenon**:
+
+| | arm A | arm B | A−B |
+|---|---|---|---|
+| Mode A concepts | 18 | **20** | −2 |
+| Mode C specs | **19** | 5 | **+14** |
+
+v1.27.0's substrate does not cost state coverage in concepts — concepts run marginally the other way.
+It costs it **in specs**, where the output budget is tightest and where state definitions are the
+mode's own contract. That is a narrower, mode-scoped claim than §37's, it rests on two briefs rather
+than an inference from three paragraphs, and it is what should be tested next if anything is.
+
+### A blind spot in the measure, recorded rather than smoothed over
+
+`flow-onboarding` reads 0 states in **both** arms. That is the measure failing, not the artifacts: both
+carry failure→recovery arrows in quantity (**21 and 22** of them). A label-shaped count cannot see
+Mode B's contract, so the Mode B row is missing data and is not evidence of anything.
+
+### Rule 34
+
+**A mechanism read out of judges' reasons is a summary of prose, not a measurement — count it before
+you carry it.** §37's paragraph generalised three qualitative paragraphs into one mechanism and was
+wrong on two of the three. The check that refuted it was one regex over a corpus already on disk, run
+before the hypothesis was allowed to justify a new corpus. **The cheapest test of a post-hoc
+hypothesis is whether the thing it names is even present**, and it should always run first.

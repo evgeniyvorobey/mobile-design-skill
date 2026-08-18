@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.33.2] - 2026-08-18
+
+**A correction to 1.33.1, found by one regex over a corpus already on disk: section 37's mechanism paragraph generalised three judgement paragraphs into one mechanism and was wrong on two of the three.**
+
+### Measured
+- Section 37 offered a direction to test: *"all three arm-A wins turn on the granularity of degraded states."* Before spending a corpus on it, it was checked mechanically, with a pre-registered concentration prediction.
+- **P1 held** - arm A carries more distinct labelled states in total, **37 against 25**. **P2 failed** - the gap is **not** concentrated in the three arm-A wins. Two of those three wins have a state-count difference of **zero**, and the largest gap in the corpus (**+9**, `spec-ipad-clinician`) produced a **tie**.
+- Re-read rather than summarised, the two zero-delta wins were decided on **disclosure** (a focal slot holding one item, a collapse policy hiding unresolved doses behind a count row) and on **flow structure** (where the flow spends its screens, where the first completion physically happens). Only `spec-package-tracking` turns on degraded-state granularity, and there the count agrees with the judge exactly.
+- **What survives is sharper and mode-scoped**: the displacement is **entirely a Mode C phenomenon** - specs **19 against 5**, while concepts run marginally the other way (**18 against 20**). v1.27.0's substrate does not cost state coverage in concepts; it costs it in specs, where the output budget is tightest and where state definitions are the mode's own contract.
+- **A blind spot in the measure is recorded rather than smoothed over**: `flow-onboarding` reads 0 states in both arms because a label-shaped count cannot see Mode B's `failure -> recovery` contract - both arms carry 21 and 22 such arrows. That row is missing data, not evidence.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 38, and an inline correction notice on section 37's paragraph pointing at it.
+- **Rule 34: a mechanism read out of judges' reasons is a summary of prose, not a measurement - count it before you carry it.** The cheapest test of a post-hoc hypothesis is whether the thing it names is even present, and it should always run first.
+
 ## [1.33.1] - 2026-08-18
 
 **The paired-comparison instrument's first real use, pointed at this series' own flagship release: P1-2's presence gain of +45.8 pp did not produce a better design, and the nominal direction runs against the shipped version.**
