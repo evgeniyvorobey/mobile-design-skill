@@ -2583,3 +2583,97 @@ script and held perfectly; the two left to the prompt were "contradict no bar", 
 the corpus, and it broke *without a single number being changed*. The same lesson as verifying a
 contamination control by transcript rather than by self-report, one level up: it now applies to the
 properties a corpus is defined by, not just to the behaviour of the agents building it.
+
+---
+
+## 34. Item 1's gate, run properly — the boundary questions return the identical band 12 times out of 12, against an instrument that demonstrably moves
+
+§33 voided run 1: three of six degradations broke a bar without changing a number, so half the corpus
+carried a correctness signal. Rule 29 said enforce the constraint with a checker. This is that run.
+
+### The corpus, verified rather than asserted
+
+- **Degradation restricted to the three axes no bar reaches** — ordering, emphasis allocation among
+  conforming values, coherence. The three classes that collided with bars in run 1 are not reused.
+- **Three twins rebuilt**, each told exactly how the previous attempt failed: *changing which content a
+  value applies to can break a bar just as surely as changing the value.* Six independent
+  cap-checkers, one per twin, reading only the artifact and `docs/quality-bars.md`: the three rebuilt
+  twins return **zero contradictions**.
+- **Three twins carried**, and their caps are admissible because the cited values — `13 sp`, `700`,
+  `14sp / 20dp, w500` — appear **verbatim in their own clean baselines**, checked by script.
+- Headings and numeric tokens preserved in every twin, checked by script: 14/14, 22/22, 5/5.
+
+**The corpus is provably pure, and building it proved §33's other half too:** the three bar-free axes
+do allow a design to be made worse while staying correct, and the other three do not.
+
+### The result of the gate
+
+Twelve artifacts, opaque labels, two independent passes with **identical prompts**, both arms scored
+in each pass.
+
+| | pass A | pass B | pooled, 12 pairs |
+|---|---|---|---|
+| **pre-cap band separation** (the nine boundary questions) | **0.0** | **0.0** | clean higher **0**, degraded higher **0**, tied **12** — p = 1.000 |
+| post-cap final separation | 0.5 | 0.0 | clean higher 3, degraded higher 1, tied 8 — p = 0.312 |
+
+**The rubric's nine boundary questions assign the identical band to a design and its deliberately
+degraded twin, on every pair, in both passes. Not one of twelve paired scorings differs, in either
+direction.**
+
+### The control that makes the null readable
+
+A null means nothing from an instrument that never moves. The same two passes measure exactly that,
+on identical text:
+
+| | reproduces across two identical passes |
+|---|---|
+| pre-cap dimension read | **10/12 = 83%** |
+| post-cap final score | **7/12 = 58%** |
+
+**The instrument moves.** It changes its answer on one artifact in six when nothing about the artifact
+has changed — matching §25's 83.3% for the rubric scorer, now measured within one design instead of
+across sections. And it moves **zero** times out of twelve between a design and a worse version of it.
+That is not a rubber stamp returning the same number to everything; it is an instrument with real
+jitter and no sensitivity to the thing item 1 is about.
+
+### Item 1's premise is supported, for the first time
+
+*An artifact can pass presence and correctness and still be a mediocre design* — and the instrument
+stack cannot tell. `fintech` puts a definition of what a percentage is at the largest type on the
+screen and files the user's answer below six rows at row size; `premium-ui` sets the fee components
+larger than the total they sum to; `tablet-list-detail` runs its one decision-carrying treatment down
+the sidebar, the chips and the toolbar until it marks nothing. Every one of them scores exactly what
+its clean twin scores.
+
+### A second finding, unlooked-for: the cap is the unstable component
+
+The contradicted-value cap costs **25 pp of reproducibility** — 83% pre-cap against 58% post-cap — and
+in this corpus it fired on **pre-existing** values inconsistently: `tablet-list-detail` drew it on both
+arms in run 1, on one arm in pass A, and the same text drew it differently again in pass B. §24
+shipped the cap on a measured 0 → 2 band separation and its *reliability* was never measured. It is
+now, and it is the least reproducible part of the stack.
+
+### The pre-registered rule, and the indicator that failed
+
+P4 — scorer test–retest — was pre-registered against run 1's clean scores and returned **3/6**, voiding
+the run by the letter. **It was confounded by my own change to the scorer prompt between passes**, so
+it did not measure test–retest at all: the second pre-registered indicator in a row that failed to
+measure what it was written for (§33's P1b was the first). It was replaced by **P6**, stated before
+pass B ran and measured the only clean way — the same script, the same prompts, fresh agents — and it
+returns 10/12. The failure is recorded rather than deleted, and the replacement is not backfilled into
+the branch that fired.
+
+### Rule 30
+
+**Measure the instrument's own movement on identical text, in the same run as the effect. A null is
+unreadable without it, and a null against demonstrated jitter is strong.** Twelve identical paired
+readings would be worthless from an instrument that always says the same thing; from one that changes
+its own answer 17% of the time on unchanged text, they are the finding. The resolution measurement is
+not a limitation section — it is the control, and it belongs in the design.
+
+### What is now unblocked
+
+Phase 2 as §33 specified it: a forced-choice paired comparison over this corpus, with **null pairs**
+so a judge that always finds a winner is visible. The corpus is built, verified, and carries a known
+direction on all six pairs. That is the candidate instrument for reading design quality, and this run
+is what makes its validation possible.

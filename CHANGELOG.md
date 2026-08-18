@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.32.5] - 2026-08-18
+
+**Item 1's gate, run on a corpus verified pure: the rubric's nine boundary questions return the identical band to a design and its deliberately degraded twin, 12 paired scorings out of 12, against an instrument that changes its own answer 17% of the time on unchanged text.**
+
+### Measured
+- **The corpus is provably pure this time.** Degradation restricted to the three axes no bar reaches - ordering, emphasis allocation among conforming values, coherence. Three twins rebuilt and checked by six independent cap-checkers: **zero contradictions**. Three carried, their caps admissible because the cited values (`13 sp`, `700`, `14sp / 20dp, w500`) appear verbatim in their own clean baselines, verified by script. Building it confirmed section 33's other half: the three bar-free axes do allow a worse design that stays correct, and the other three do not.
+- **Pre-cap separation is 0.0 in both passes**: clean higher 0, degraded higher 0, tied 12, p = 1.000. Not one of twelve paired scorings differs in either direction.
+- **The control that makes the null readable:** across two passes with identical prompts on identical text, the pre-cap dimension read reproduces **10/12 = 83%** - matching section 25's 83.3%, now measured within one design. The instrument moves. It moves zero times out of twelve between a design and a worse version of it.
+- **The contradicted-value cap is the least reproducible part of the stack**, costing **25 pp**: 83% pre-cap against **58%** post-cap. In this corpus it fired inconsistently on *pre-existing* values across three passes. Section 24 shipped it on a measured 0 -> 2 band separation; its reliability had never been measured until now.
+- **A pre-registered indicator failed and is recorded, not deleted.** P4 returned 3/6 and voided the run by the letter - and it was confounded by my own change to the scorer prompt between passes, so it did not measure test-retest at all. It was replaced by P6, stated before the repeat pass and measured the only clean way (same script, same prompts, fresh agents): **10/12**. The second pre-registered indicator in a row that failed to measure what it was written for.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 34.
+- **Rule 30: measure the instrument's own movement on identical text, in the same run as the effect.** A null is unreadable without it, and a null against demonstrated jitter is strong. The resolution measurement is not a limitations note - it is the control, and it belongs in the design.
+
+### Changed
+- **Item 1's premise is supported for the first time.** An artifact can pass presence and correctness and still be a worse design, and the instrument stack cannot tell: a screen that puts a definition of what a percentage is at the largest type on it and files the user's answer below six rows at row size scores exactly what its clean twin scores.
+- **Phase 2 is unblocked** - a forced-choice paired comparison over this corpus, with null pairs so a judge that always finds a winner is visible. The corpus is built, verified, and carries a known direction on all six pairs.
+
 ## [1.32.4] - 2026-08-18
 
 **Backlog item 1's gate is void, and what voided it is the finding: three of six quality degradations broke a bar without changing a single number.**
