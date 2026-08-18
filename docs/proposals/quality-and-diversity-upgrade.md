@@ -3004,6 +3004,12 @@ judge exactly. **One of three, not three of three.** §37's sentence is correcte
 
 ### What survives, and it is sharper than what it replaces
 
+> **Withdrawn in §39.** The count below is produced by a measure that breaks on punctuation: it
+> requires `- Label:` or `| Label |` and cannot see `- **Label** — text`, which real specs use
+> constantly. Against a repaired diagnostic it undercounts by **7.8 states per artifact on average**,
+> with errors to **+25** — it read 1 where the repaired count reads 26. **19 against 5 is not evidence
+> of anything.** Read §39.
+
 The state-count difference is real, and it is **entirely a Mode C phenomenon**:
 
 | | arm A | arm B | A−B |
@@ -3029,3 +3035,86 @@ you carry it.** §37's paragraph generalised three qualitative paragraphs into o
 wrong on two of the three. The check that refuted it was one regex over a corpus already on disk, run
 before the hypothesis was allowed to justify a new corpus. **The cheapest test of a post-hoc
 hypothesis is whether the thing it names is even present**, and it should always run first.
+
+---
+
+## 39. The count in §38 was measuring punctuation, and its own control says so
+
+§38 replaced §37's over-reading with a narrower, mode-scoped claim: v1.27.0's substrate costs state
+coverage **in specs** — Mode C 19 against 5. That rested on two briefs at **one draw per cell**, and a
+single draw cannot separate a displacement from generation variance. This run adds the missing control.
+
+### Design of the replication
+
+Three fresh Mode C briefs — the golden `## Prompt` blocks for `checkout`, `enterprise-saas` and
+`tablet-list-detail`, never run against these two trees. Two arms, **two independent draws per cell**,
+twelve generations. The measure is §38's, **frozen byte-for-byte** with its hash recorded before
+generation, because it was written after seeing the original gap and must not be tuned to defend it.
+
+### P3, the falsifier, fires
+
+| brief | A d1 | A d2 | B d1 | B d2 | delta |
+|---|---|---|---|---|---|
+| `checkout` | 11 | 10 | 1 | 3 | **+8.5** |
+| `enterprise-saas` | 2 | 0 | 13 | 11 | **−11.0** |
+| `tablet-list-detail` | 2 | **16** | 13 | **1** | +2.0 |
+| **mean** | | | | | **−0.17** |
+
+Mean within-cell draw-to-draw spread **5.50**, against a mean between-arm delta of **0.17** — the noise
+is thirty-two times the effect. By the pre-registered rule the run is **unreadable** and no claim about
+displacement follows, in either direction.
+
+### But it is not generation variance. It is the measure.
+
+The per-brief deltas swing to **+8.5** and **−11.0** with tight within-cell agreement on both, which is
+not what noise looks like. The diagnosis is in one artifact. `arm-b/checkout-d1` scored **1**. Its
+`## State definitions` reads:
+
+> - **Default** — every row resolved, total settled, commit enabled.
+> - **Loading (initial)** — rows render from cached cart data immediately; only the fee block and total show skeletons…
+> - **Recalculating** — after any change: previous total stays visible…
+> - **Unresolved** — a required row missing its value renders as `row.action`…
+> - **Error (row-level)** / **Error (screen-level)** / **Error (commit-level)** …
+
+Ten well-differentiated states, scored as one. The measure requires `- Label:` or `| Label |`; this
+artifact writes `- **Label** — text`. **It breaks on punctuation.**
+
+A repaired diagnostic count — accepting all three shapes, and offered as diagnosis rather than as a
+result, because it is itself unvalidated — puts the frozen measure's error at **+7.8 states per
+artifact on average**, ranging from **−3 to +25**. It read 1 where the repaired count reads 26.
+
+**So §38's 19 against 5 is not evidence of anything**, and the Mode C claim is withdrawn. The repaired
+count happens to show no displacement either (deltas +5.0, −0.5, −6.5), but that number is not offered
+as the answer: an unvalidated measure does not get to settle a question just because it agrees with the
+conclusion.
+
+### What still stands
+
+- **§37's headline is untouched.** 6/3/3 at p = 0.254 with the control held came from judges reading
+  designs, not from this count.
+- **§37's manipulation check stands**, and for a stated reason rather than by assumption: it asks
+  whether a token appears *anywhere in the document*, so it has no label-shape to break on, and its
+  0/6 baseline reproduced §23's independent measurement of the same indicators.
+
+### The blind spot is a repeat, in the same session
+
+§30 recorded exactly this class: *"a state defined in a markdown table row was invisible to the bullet
+parser"* — a false positive on correct work, from a parser that read one shape while real output used
+another. That lesson was written down, and then a new counting measure was written days later with the
+same shape of blind spot and believed immediately.
+
+### Rule 35
+
+**A measure written to check a hypothesis is an instrument, and rule 2 applies to it — validate it
+against hand-read cases before you believe a single number it produces.** Rule 2 was applied to the
+state-coverage detector (four injections), to the paired-comparison harness (a discriminating self-test
+plus four injections), and skipped for a five-line regex because it looked like arithmetic rather than
+an instrument. §34 said *count it before you carry it*; it did not say *validate the count*, and one
+sentence of §38 survived a day on the strength of that gap.
+
+### The chain, kept whole because each link is cheaper than the claim it killed
+
+§37 read three judgement paragraphs into one mechanism → §38 refuted that with a count and kept a
+narrower claim → §39 finds the count was reading punctuation and withdraws that too. Three
+self-corrections, each one costing less than the release it corrected, and the last of them arrived
+because a falsifier was pre-registered rather than because anything looked wrong.

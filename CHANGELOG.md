@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.33.3] - 2026-08-18
+
+**The count that corrected 1.33.1 was itself measuring punctuation. Its pre-registered falsifier fired, and section 38's Mode C claim is withdrawn.**
+
+### Measured
+- Three fresh Mode C briefs, two arms (v1.26.0 / v1.27.0), **two independent draws per cell** - the control section 38 could not have, since a single draw cannot separate a displacement from generation variance. The measure was frozen byte-for-byte with its hash recorded before generation.
+- **P3 fired.** Mean within-cell draw-to-draw spread **5.50** against a mean between-arm delta of **0.17** - noise thirty-two times the effect. By the pre-registered rule the run is **unreadable** and no displacement claim follows in either direction.
+- **It is not generation variance, it is the measure.** `arm-b/checkout-d1` scored **1** while defining ten well-differentiated states - Default, Loading (initial), Recalculating, Unresolved, Empty, and Error at row, screen and commit level. The measure requires `- Label:` or `| Label |`; that artifact writes `- **Label** — text`. Against a repaired diagnostic the frozen measure undercounts by **7.8 states per artifact on average**, errors from **-3 to +25**; it read 1 where the repaired count reads 26.
+- **Section 38's "19 against 5, entirely a Mode C phenomenon" is withdrawn**, with an inline notice on the section. The repaired count happens to show no displacement either, and is deliberately **not** offered as the answer: an unvalidated measure does not get to settle a question because it agrees with the conclusion.
+- **What still stands, and why**: section 37's 6/3/3 at p = 0.254 with the control held came from judges reading designs, not from this count; and section 37's manipulation check asks whether a token appears anywhere in a document, so it has no label shape to break on, and its 0/6 baseline reproduced section 23's independent measurement.
+- **The blind spot is a repeat from the same session.** Section 30 recorded a state defined in a markdown table row being invisible to a bullet parser. That lesson was written down, and a new counting measure was written days later with the same shape of blind spot and believed immediately.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 39, and an inline withdrawal notice on section 38.
+- **Rule 35: a measure written to check a hypothesis is an instrument, and rule 2 applies to it - validate it against hand-read cases before believing a single number it produces.** Rule 2 was applied to the state-coverage detector and to the paired-comparison harness, and skipped for a five-line regex because it looked like arithmetic. Rule 34 said count it before you carry it; it did not say validate the count.
+
 ## [1.33.2] - 2026-08-18
 
 **A correction to 1.33.1, found by one regex over a corpus already on disk: section 37's mechanism paragraph generalised three judgement paragraphs into one mechanism and was wrong on two of the three.**
