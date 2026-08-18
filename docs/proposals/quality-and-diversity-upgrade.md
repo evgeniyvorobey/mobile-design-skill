@@ -2849,3 +2849,105 @@ instrument compares two artifacts; the skill produces one per run. Wiring it int
 would mean asking the model to generate a variant of its own work to compete against, which is a
 different change with a different cost and no measurement behind it. Naming that boundary is worth
 more than crossing it on the strength of a good result elsewhere.
+
+---
+
+## 37. The instrument's first real use — P1-2's +45.8 pp of presence did not make the design better
+
+§23 shipped P1-2 on a presence measurement and wrote down what it could not answer:
+
+> **Presence is not quality.** A response can name `emphasized decelerate`, a 4 pt grid and a tracking
+> table and still be an ugly screen. Nothing here measures that.
+
+Two years of sections later there is an instrument for it, so the first thing it was pointed at is
+that sentence. Arm A = **v1.26.0**, arm B = **v1.27.0**, checked out as git worktrees, same six briefs
+from the committed prompt pack, twelve blind writers.
+
+### The manipulation landed, harder than the original
+
+The briefs are **ordinary product briefs**, not the craft-forcing briefs §23 selected — the live
+question is whether the substrate helps on ordinary work. It still took, on P1-2's own indicators:
+
+| | v1.26.0 | v1.27.0 |
+|---|---|---|
+| a **named curve** (`cubic-bezier`, spring params, an M3 easing token) | **0/6** | **4/6** |
+| baseline grid | 0/6 | 4/6 |
+| tracking | 0/6 | 1/6 |
+| type role mapped to a platform style | 3/6 | 5/6 |
+| **total** | **3/24** | **14/24** — **+45.8 pp** |
+
+§23 measured +32.5 pp on its own tier; this is larger. The `M-curve` baseline reproduces §23's exactly:
+**without the substrate the model never names a curve, in six responses out of six.** A null on quality
+therefore cannot be explained by the change failing to arrive.
+
+One thing §23 could not see: **arm B is 8.7% shorter** (19,908 words against 21,802). §23 reported flat
+length on craft-forcing briefs. On ordinary briefs the substrate does not add text, it **displaces** it.
+
+### The result of the first real contrast
+
+Judges were told, in a line §35's protocol did not need, that *a longer document is not a better
+design, and a document that names more values is not thereby describing a better screen* — because
+here the arms differ precisely in how many values they name, and without that line the run would have
+measured presence a third way.
+
+| | gate | result |
+|---|---|---|
+| **P1 — control** | nulls ≤ 1/3 agreed winners | **0/3**, and `no-meaningful-difference` on **6/6** null judgements |
+| **P2 — arm B reaches significance** | predicted **no** | **no**: 6 / 3 / 3, **p = 0.254** |
+| **P3 — if anything moves, it moves toward B** | predicted B | **refuted — the nominal lead is arm A** |
+
+| brief | both orders |
+|---|---|
+| `concept-medication-reminder` | **A (v1.26.0)** |
+| `flow-onboarding` | **A (v1.26.0)** |
+| `spec-package-tracking` | **A (v1.26.0)** |
+| `concept-budgeting-home` | B (v1.27.0) |
+| `concept-marketplace-listing` | tie |
+| `spec-ipad-clinician` | split (B / tie) |
+
+**The +45.8 pp presence gain did not produce a better design**, and the nominal direction runs against
+the shipped release. At n = 6 this is nowhere near significance and is **not** a claim that P1-2 made
+the output worse — the run can find a large effect or rule one out, and it cannot resolve a small one.
+
+### What the losing pairs have in common, offered as an observation and not a result
+
+All three arm-A wins turn on the **granularity of degraded states**, in the judges' own words:
+
+- `spec-package-tracking` — v1.27.0 *"collapses 'we couldn't reach the carrier' and 'the carrier hasn't
+  scanned in days' into a single `unknown` role"*; v1.26.0 keeps them apart, and they are opposite next
+  moves for the user: wait and retry, or stop retrying and chase the sender.
+- `concept-medication-reminder` — v1.26.0's dock treats a shared time window as one decision and keeps
+  unresolved doses expanded; v1.27.0's focal slot *"holds exactly one item"* and hides the rest behind
+  a count row, so a missed dose can sit out of sight.
+
+That is rule 18's displacement, seen for the first time **on the outcome instead of on an indicator**.
+§23 could report that colour cells were given back; it could not report what the trade bought or cost
+a user. n = 3, so this is a direction to test, not a finding.
+
+### The instrument behaved, and its confidence signal is now interpretable
+
+Confidence on the null pairs was **3.00** — every judge certain the designs were the same — against
+**1.83** on the signal pairs, where the judges hedged. §35 saw the same ordering (3.00 against 2.83) and
+§35's P4 called it a failure because it had predicted confidence would track effect size. Across two
+runs the pattern is consistent and it is not a defect: **confidence measures certainty of the verdict,
+and both a real sameness and a genuinely close call report honestly.** The signal-arm figure falling
+from 2.83 on deliberate gross degradations to 1.83 on two real versions of the skill is the instrument
+saying, correctly, that this contrast is much harder than that one.
+
+### Rule 33
+
+**Neutralise the confound the arms are made of, in the judge's instruction, before the run.** These two
+arms differ by construction in how many values they state; a judge that rewards specification density
+would have voted for the substrate arm and the run would have measured presence a third time, wearing a
+comparison's clothes. §24 found that an instrument reading the format one arm writes in cannot be
+symmetric. Here the asymmetry was visible in advance, so it was written out of the judge rather than
+discovered in the results.
+
+### What this does not settle
+
+- **P1-2 is not reverted and nothing here asks for that.** p = 0.254 is not evidence of harm, the
+  release's presence gain is real and measured twice, and the craft substrate may well pay on the
+  craft-forcing briefs it was measured against.
+- **Six briefs, twelve judgements.** The honest summary is that the largest instruction-text effect
+  this series has ever shipped does not show up as a better design on ordinary work at this power.
+- Judge and both arms share a model family; the null pairs bound that and do not remove it.

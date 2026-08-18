@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.33.1] - 2026-08-18
+
+**The paired-comparison instrument's first real use, pointed at this series' own flagship release: P1-2's presence gain of +45.8 pp did not produce a better design, and the nominal direction runs against the shipped version.**
+
+### Measured
+- **Arm A = v1.26.0, arm B = v1.27.0**, checked out as git worktrees, six briefs from the committed prompt pack, twelve blind writers. Ordinary product briefs, not the craft-forcing briefs section 23 selected.
+- **The manipulation landed harder than the original.** On P1-2's own indicators: a named curve **0/6 -> 4/6** (reproducing section 23's zero baseline exactly - without the substrate the model never names a curve, in six responses of six), baseline grid 0/6 -> 4/6, type-to-platform-style mapping 3/6 -> 5/6. Total **3/24 -> 14/24, +45.8 pp**, against section 23's +32.5 pp. A null on quality cannot be explained by the change failing to arrive.
+- **Section 23 reported flat length; on ordinary briefs arm B is 8.7% shorter.** The substrate does not add text, it displaces it.
+- **Control held**: `no-meaningful-difference` on **6 of 6** null judgements, 0 of 3 null pairs drew an agreed winner.
+- **Result: 6 / 3 / 3 with p = 0.254.** The presence gain did not produce a better design, and the nominal lead is **arm A**, the pre-P1-2 tree. At n = 6 this is not a claim of harm and does not ask for a revert - the run can find a large effect or rule one out, and cannot resolve a small one.
+- **All three arm-A wins turn on the granularity of degraded states** - v1.27.0 collapses "we couldn't reach the carrier" and "the carrier hasn't scanned in days" into one role; v1.26.0 keeps them apart, and they are opposite next moves for a user. That is rule 18's displacement seen **on the outcome instead of on an indicator**, for the first time. n = 3, so it is a direction to test.
+- **The confidence signal is now interpretable across two runs.** Null pairs 3.00, signal pairs 1.83, against section 35's 3.00 and 2.83. Confidence measures certainty of the verdict; the signal figure falling from 2.83 on gross deliberate degradations to 1.83 on two real versions of the skill is the instrument reporting, correctly, that this contrast is the harder one.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 37.
+- **Rule 33: neutralise the confound the arms are made of, in the judge's instruction, before the run.** These arms differ by construction in how many values they state; a judge rewarding specification density would have voted for the substrate arm and the run would have measured presence a third time wearing a comparison's clothes.
+
+### Changed
+- Section 23's open limitation - *"a response can name `emphasized decelerate`, a 4 pt grid and a tracking table and still be an ugly screen; nothing here measures that"* - is now measured. The answer, at this power, is that the largest instruction-text effect this series has shipped does not show up as a better design on ordinary work.
+
 ## [1.33.0] - 2026-08-18
 
 **The paired-comparison instrument validated in 1.32.6 now ships. The repository can ask, for the first time, whether a change made the output better - and it refuses to answer when its own control failed.**
