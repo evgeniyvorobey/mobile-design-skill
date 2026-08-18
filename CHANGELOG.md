@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.32.3] - 2026-08-18
+
+**Backlog items 7 and 8 rewritten. The pooled band-5 closure reproduces within 1.7 pp across two corpora; the per-dimension floor table the two items were built on does not reproduce at all.**
+
+### Measured, not shipped
+- **The hypothesis that would have merged items 7 and 8 is dead on its pre-registered rule.** The rubric's `4 -> 5` column is one question asked nine times, and section 31 found the skill writes admission criteria rather than generators - so H was that the floors are one failure shape. Nine independent raters, one per dimension, six fresh artifacts, taxonomy fixed before the run: the criterion/closed-world classes take **59.4%** of non-closures against a 70% gate and appear in **6 of 9** dimensions against a gate of 7. `no_rule_at_all` at 31% is a real competing class. H does not survive, and the items do not merge.
+- **Section 31 replicated exactly.** A rater who had never seen it, and was told nothing about it, returned `Color, state, and contrast` at **0/6** - the same cell section 31 measured at 0/6. That is what makes the rest of the run readable.
+- **A scoping error in this run, found by hand and reported both ways.** `docs/design-quality-rubric.md:32` exempts Mode B flows from a visual quality score; the corpus holds one flow, its rater quoted the artifact saying so, and scored nine non-closures anyway because the schema offered no `n/v`. Excluding it moves pooled closure 40.7% -> 48.9% and lifts one of P1's two clauses over its gate. **H fails the conjunction either way**, so the conclusion is robust to the error and the pre-registered numbers stand as primary.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 32.
+- **Rule 28: a per-dimension rate is not a property of the dimension until it reproduces on a second corpus - and before treating any per-X rate as a property of X, check what else varied.**
+
+### Changed
+- **Items 7 and 8 lose their premise.** Two corpora, two cohorts, two tree versions: pooled closure moves **47.2% -> 48.9%**, while `Composition and spacing` - one of the four named floors - goes **1/6 -> 5/5**, and `Interaction polish and motion` goes **4/6 -> 0/5**. Only `Distinctiveness` and `Attention path` hold their place, and `Distinctiveness` is already flagged as structurally suspicious. Targeting the named dimensions would be optimising against corpus noise.
+- **Output mode is a large uncontrolled factor in every per-dimension number in this series.** Mode C specs close **17/27 = 63%**, Mode A concepts **5/18 = 28%** - which is the rubric working as written four lines below its own table: *"Band 3 is where a good concept lives; band 4 is where a spec has to get to."* Section 19 records "six briefs in domains absent from the corpus" and **never records what modes they were**.
+- What survives as a target is the pooled band-5 closure near **48%**, the most stable number this series has produced, read per mode - and the question worth asking is about specs at 63%, because concepts at 28% is the rubric doing its job.
+
 ## [1.32.2] - 2026-08-18
 
 **Backlog item 3 closed. The two colour instruments never disagreed except in one place, the audit found it on paper, and the corpus measured it at total separation with a passing control.**

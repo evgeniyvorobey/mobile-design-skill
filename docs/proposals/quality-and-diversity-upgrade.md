@@ -2381,3 +2381,105 @@ closure-tested, and seven sections later the same repository built a presence-sh
 the same question and read 83% where the repaired cell reads 0%. The two lived in one file, one
 series, one author's hands. Nothing flagged it, because nothing in this repository maps its
 instruments onto each other — which is what the audit half of this section had to do by hand.
+
+---
+
+## 32. Backlog items 7 and 8 — the pooled floor reproduces, the per-dimension floor table does not, and the hypothesis that would have explained it is dead
+
+Items 7 and 8 name four floors from §19 — `Production readiness` 1/6, `Context and brand fit` 1/6,
+`Composition and spacing` 1/6, `Color, state, and contrast` 2/6 — and treat them as four
+dimension-specific problems to fix.
+
+§31 suggested they might be one problem. The rubric's `4 → 5` column is one question asked nine
+times — *does a stated rule produce an output for a case the artifact does not list* — and the two
+floor descriptions §19 recorded in the appliers' own words have the shape §31 found in colour: a
+closed-world checklist (*"the checks cover only what is listed"*) and a ranking with no output
+(*"the precedence only ranks categories; no stated treatment"*). **H: the floors are one failure
+shape, not nine.**
+
+### Design of the one-shape test
+
+Nine agents, **one per dimension**, each closure-testing all six `clean2` artifacts on that
+dimension's `4 → 5` cell and classifying every non-closure against a taxonomy fixed before the run.
+One rater per dimension rather than one per artifact, deliberately: a single rater answering all nine
+questions about one document would produce the cross-dimension agreement H predicts, as a habit.
+
+### H is dead, on the pre-registered rule, in both readings of the corpus
+
+| | gate | result |
+|---|---|---|
+| P1a — `rule_is_a_criterion` + `rule_is_closed_world` share of non-closures | ≥ 70% | **59.4%** |
+| P1b — dimensions in which those classes appear | ≥ 7/9 | **6/9** |
+| P2 — colour reproduces §31 | 0 or 1 of 6 | **0/6** ✓ |
+| P3 — `Typography craft`, the one cell that accepts an admission criterion, above the other eight | ≥ +2 cells | **+0.62** |
+
+**P2 held exactly.** A rater who had never seen §31, told nothing about it, returned 0/6 on the same
+cell §31 measured at 0/6. The instrument is sound, which is what makes the rest of the run readable.
+
+**P1 and P3 failed, so H does not survive**, and the decision rule fires: items 7 and 8 do not merge.
+`no_rule_at_all` at 31% is a real competing class, not a residue.
+
+### A scoping error in this run, found by hand and reported both ways
+
+`docs/design-quality-rubric.md:32` says **"Mode B user flows normally do not need a visual quality
+score"**. The corpus contains one flow, and its rater quoted the artifact's own line — *"This is a
+flow, not a visual spec — per-screen visual calibration is out of scope and deliberately omitted"* —
+and then scored nine non-closures anyway, because the schema offered no `n/v`. That is my design
+error, not the rater's.
+
+| | pooled closure | P1a | P1b |
+|---|---|---|---|
+| primary, as pre-registered | 22/54 = **40.7%** | 59.4% | 6/9 |
+| secondary, Mode B excluded per the rubric's own line | 22/45 = **48.9%** | 73.9% | **6/9** |
+
+The secondary analysis lifts P1a over its gate and leaves P1b under it. **H fails the pre-registered
+conjunction either way**, so the conclusion is robust to the error, and the primary numbers stand as
+the ones registered.
+
+### What the run actually found, which is larger than the hypothesis it killed
+
+**The pooled level reproduces and the per-dimension table does not.**
+
+| dimension | §19 | this run (Mode B excluded) |
+|---|---|---|
+| Distinctiveness and owned assets | 5/5 | 5/5 |
+| Attention path and hierarchy | 3/6 | 3/5 |
+| Production readiness | 1/6 | 2/5 |
+| Context and brand fit | 1/6 | 2/5 |
+| Density and rhythm | 3/6 | 2/5 |
+| Typography craft | 5/6 | 3/5 |
+| Color, state, and contrast | 2/6 | 0/5 |
+| **Interaction polish and motion** | **4/6** | **0/5** |
+| **Composition and spacing** | **1/6** | **5/5** |
+| **pooled** | **25/53 = 47.2%** | **22/45 = 48.9%** |
+
+Two corpora, two cohorts, two tree versions, and the pooled number moves **1.7 pp**. Meanwhile
+`Composition and spacing` — one of the four floors items 7 and 8 exist to fix — goes from the bottom
+of the table to the top, and `Interaction polish`, which was mid-table, goes to zero. Only
+`Distinctiveness` and `Attention path` hold their place, and `Distinctiveness` is already flagged as
+structurally suspicious.
+
+**And mode is a large uncontrolled factor.** Mode C specs close **17/27 = 63%**; Mode A concepts close
+**5/18 = 28%**. That is not a defect — it is the rubric working exactly as written, four lines below
+the table: *"Band 3 is where a good concept lives; band 4 is where a spec has to get to. Do not fail a
+concept for lacking a number its own output contract never asked for."* A corpus's mode mix therefore
+sets its per-dimension numbers before any property of the skill does, and **§19 records "six briefs in
+domains absent from the corpus" and never records what modes they were.**
+
+### Items 7 and 8, rewritten
+
+Their premise — that four named dimensions are the skill's weak points — **is not supported**. Two of
+the four reversed on a fresh corpus, one by four cells. Targeting `Production readiness` or
+`Composition and spacing` would be optimising against corpus noise plus an unrecorded mode mix.
+
+What is left is real and smaller: **the pooled band-5 closure sits near 48% and is the most stable
+number this series has produced.** If anything here is a target, it is that, read per mode — and the
+question worth asking is about specs at 63%, because concepts at 28% is the rubric doing its job.
+
+### Rule 28
+
+**A per-dimension rate is not a property of the dimension until it reproduces on a second corpus —
+and before treating any per-X rate as a property of X, check what else varied.** Pooled closure
+reproduced within 1.7 pp across two corpora while individual cells moved by up to four of six, in both
+directions. The ranking that two backlog items were built on was corpus composition, and the largest
+component of that composition — output mode — was never recorded by the run that produced it.
