@@ -2677,3 +2677,98 @@ Phase 2 as §33 specified it: a forced-choice paired comparison over this corpus
 so a judge that always finds a winner is visible. The corpus is built, verified, and carries a known
 direction on all six pairs. That is the candidate instrument for reading design quality, and this run
 is what makes its validation possible.
+
+---
+
+## 35. Phase 2 — a rubric-free paired comparison reads exactly what the rubric could not, 12 of 12
+
+§34 established that the rubric's nine boundary questions return the identical band to a design and
+its degraded twin, twelve paired scorings of twelve, against an instrument with a measured 17% jitter
+on unchanged text. Phase 2 asks the obvious next question on the **same corpus**: is design quality
+unmeasurable here, or was that a property of the instrument's shape?
+
+### Design of the paired comparison
+
+Nine pairs, two presentation orders each, **18 judgments, one fresh judge per judgment**. Order
+counterbalancing supplies two independent judgments per pair from different agents, so inter-judge
+agreement and position bias fall out of one design.
+
+- **6 signal pairs** — clean against its verified-pure degraded twin, known direction.
+- **3 null pairs** — clean against a **cosmetic rewrite of itself**: same design, same decisions, same
+  values, different prose. Chosen over identical-text nulls because identical text is a trivial null;
+  a rewrite tests whether the judge reads the design or reads the document. Verified mechanically —
+  headings identical and in order, numeric-token multisets identical (37, 7, 84), length within +1.9%
+  to +4.5%.
+
+Judges got **no rubric and no boundary questions**, were told to judge the screen and explicitly to
+ignore prose style, thoroughness and length, and had three verdicts available, with
+`no-meaningful-difference` presented as an ordinary answer rather than a failure to decide (rule 21).
+
+### The result of the paired comparison
+
+| | gate | result |
+|---|---|---|
+| **P1** — signal pairs, clean named | ≥ 10/12 | **12/12**, p = 0.00024 |
+| **P2** — both orders land on the same document | ≥ 5/6 | **6/6** |
+| **P3** — null pairs where both orders agree on a winner | ≤ 1/3 | **0/3** — `no-meaningful-difference` on **6 of 6** judgments |
+
+**And the verdicts are right for the right reason.** Each judge was asked to name the single
+difference that decided it, and all six signal pairs came back with the **exact injected degradation
+class**, unprompted:
+
+| injected | the judge, unprompted |
+|---|---|
+| signature dilution | *"the signature spread until it stops signalling"* |
+| priority inversion | *"what occupies the top of the screen and the Display type role"* |
+| ordering inversion | *"Document 2 hands the above-the-fold position to the settled [zone]"* |
+| emphasis misallocation | *"the number that decides the purchase is the biggest thing on the screen"* — in the other one |
+| attention-path incoherence | *"document 1's first visible row is an owned incident with hours of slack"* |
+| coherence / dilution | *"reserves its two emphasis devices for the moments that carry weight"* |
+
+### Head to head, one corpus, two instruments
+
+| | separation on six known-direction pairs |
+|---|---|
+| the rubric's nine boundary questions | **0 of 12** paired scorings, p = 1.000 |
+| rubric-free forced-choice comparison | **12 of 12**, p = 0.00024 |
+
+**Item 1 is answered.** Design quality is measurable in this corpus. What could not see it was the
+shape of the instrument — thirty-six questions asking whether something is *stated* — and not the
+question.
+
+### The limitation that matters most, and its defence
+
+**Judge, degrader and null-writer share a model family.** A judge disposed to recognise the kind of
+change its sibling makes would produce exactly this result. The null pairs are the defence and the
+reason they were built as cosmetic rewrites rather than identical text: **the same model family wrote
+those too, and the judge declined all six of them at high confidence.** So the judge is not detecting
+"an agent edited this document" — it declined the agent-edited nulls and caught the agent-edited
+degradations. That does not eliminate the confound; it bounds it.
+
+The channel limit is unchanged and Phase 2 does not escape it: the judge reads a document describing a
+screen, not a screen. Only a rendered artifact would — which is P2-4, still unbuilt.
+
+### P4 failed, and it is the third in a row
+
+P4 predicted higher confidence on signal pairs than on nulls. Signal 2.83, null **3.00** — refuted.
+The reason is that the verdict space includes a null verdict, so confidence on a null pair measures
+*confidence that the two are the same*, and the judges were certain of it. P4 was written as though
+confidence tracked effect size. **It was a prediction and not a gate, which is the only reason it did
+not void the run** — and it is the third pre-registered indicator in three sections to fail to measure
+what it was written for (§33's P1b, §34's P4, this). The pattern is now on the record: this series is
+better at designing corpora than at designing its own indicators, and every indicator should be
+checked against what it would return under the null before it is registered.
+
+### Rule 31
+
+**When an instrument returns a null, try a differently-shaped instrument on the same corpus before
+concluding the property is unmeasurable.** The rubric's 0 of 12 read as "design quality is hard to
+measure"; a rubric-free paired comparison on the identical twelve pairs returned 12 of 12 and named
+the mechanism each time. The null was a fact about a question shape — *is it stated* — and not about
+the corpus, the degradations, or the property.
+
+### What this does not yet do
+
+The instrument is validated and **not wired into the repository**. It has no home, no document, no
+harness, and no place in any mode. Deciding that is its own change with its own pre-registration —
+paired comparison needs two artifacts, and most of what this skill does produces one.

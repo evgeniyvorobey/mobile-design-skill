@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.32.6] - 2026-08-18
+
+**Backlog item 1 is answered. On the same corpus where the rubric's boundary questions separated 0 of 12, a rubric-free forced-choice paired comparison separated 12 of 12 and named the injected mechanism every time.**
+
+### Measured
+- **18 judgments, one fresh judge each, nine pairs in two presentation orders.** Six signal pairs (clean against its verified-pure degraded twin) and three null pairs (clean against a **cosmetic rewrite of itself** - same design, same decisions, same values, different prose, verified mechanically: headings identical and in order, numeric-token multisets identical, length within +1.9% to +4.5%).
+- **P1: 12/12** signal judgments named the clean artifact, p = 0.00024. **P2: 6/6** order invariance. **P3, the falsifier: `no-meaningful-difference` on 6 of 6 null judgments**, 0 of 3 null pairs drew an agreed winner.
+- **The verdicts are right for the right reason.** All six signal pairs came back with the exact injected degradation class, unprompted - *"the signature spread until it stops signalling"*, *"what occupies the top of the screen and the Display type role"*, *"the number that decides the purchase is the biggest thing on the screen"*.
+- **Head to head on one corpus:** the nine boundary questions separate **0 of 12** (p = 1.000); the rubric-free comparison separates **12 of 12** (p = 0.00024).
+- **The confound is bounded, not eliminated.** Judge, degrader and null-writer share a model family. The null pairs are the defence and the reason they were cosmetic rewrites rather than identical text: the same family wrote those too, and the judge declined all six at high confidence. It is not detecting "an agent edited this".
+- **P4 was refuted** - confidence on nulls (3.00) exceeded confidence on signal pairs (2.83), because a null verdict's confidence measures certainty that the two are the same. It was a prediction and not a gate, which is the only reason it did not void the run, and it is **the third pre-registered indicator in three sections** to fail to measure what it was written for.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 35.
+- **Rule 31: when an instrument returns a null, try a differently-shaped instrument on the same corpus before concluding the property is unmeasurable.** The rubric's 0 of 12 read as "design quality is hard to measure". It was a fact about a question shape - *is it stated* - and not about the corpus, the degradations, or the property.
+
+### Changed
+- **Item 1's core question is answered: design quality is measurable here, and an instrument that reads it exists.** What could not see it was the shape of thirty-six questions asking whether something is stated.
+- **The instrument is validated and not wired into the repository.** It has no home, no document, no harness and no place in any mode. That is its own change with its own pre-registration - paired comparison needs two artifacts, and most of what this skill does produces one.
+
 ## [1.32.5] - 2026-08-18
 
 **Item 1's gate, run on a corpus verified pure: the rubric's nine boundary questions return the identical band to a design and its deliberately degraded twin, 12 paired scorings out of 12, against an instrument that changes its own answer 17% of the time on unchanged text.**
