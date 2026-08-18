@@ -2289,3 +2289,95 @@ Three consecutive principled repairs each closed one word sense and exposed anot
 design-failure noun, a heuristic citation, a configuration default, a submit affordance — and the one
 format-independent leg was beaten by a markdown table. When an instrument's failures keep arriving
 from a different direction each time, the question is not under-specified, it is out of class.
+
+---
+
+## 31. Backlog item 3 — the two colour instruments never disagreed, except in one place, and that place is rule 8
+
+The backlog line: *"§23 measures colour at 93.8%; §§16–19 measured `Color, state and contrast` at a
+live floor of 2/6. Both cannot be a full description."* The audit ran before the corpus, as §27
+established, and it changed what needed measuring.
+
+### The paper audit — the headline conflict is a band mismatch
+
+| §23 gate indicator | baseline | the rubric cell it actually asks | band |
+|---|---|---|---|
+| `C-role` — roles | 6.0/6 | "Is each semantic role decided … rather than a palette listed?" | **2 → 3** |
+| `C-pair` — pairs with their ratio | 6.0/6 | "Are the foreground/background pairs stated, and what they become in dark…" | **3 → 4** |
+| `C-dark` — the dark transform | 5.0/6 | the same cell, its second half | **3 → 4** |
+| `C-rule` — a rule for an unlisted role | 5.0/6 | "Does a stated rule **return** the dark and increased-contrast **values** for a role the artifact does not list?" | **4 → 5** |
+
+Three of the four scored indicators sit at `2 → 3` and `3 → 4`. Only `C-rule` reaches `4 → 5`.
+**"Colour is at 93.8%" is a statement about band-3 and band-4 material; "colour closes 2/6" is a
+statement about the band-5 closure. Both are true, of different bands of one dimension.** They were
+never rival descriptions, and the premise is refuted without a corpus.
+
+### The chronology makes the surviving dispute worse than a coincidence
+
+One dispute survives the mapping: `C-rule` **5/6 = 83%** against the rubric's `4 → 5` **2/6 = 33%**.
+`C-rule` asks whether a rule is **present**; the cell asks what a stated rule **returns**. That is
+rule 8.
+
+And the cell did not always ask it. **§16 rewrote it for exactly this reason** — the old wording
+never asked for an output, the closure test structurally could not run on it, and three readers
+unanimously called a complete OKLCh transform underdetermined. §16 precedes §23 by seven sections in
+this document. **The indicator built in §23 was written in the shape §16 had already diagnosed and
+repaired, in the same file.**
+
+### One corpus, both instruments, mutually blind
+
+The six `clean2` artifacts — fresh output from the six golden `## Prompt` blocks at the current tree,
+2 × Mode A, 1 × Mode B, 3 × Mode C. Spent for state-coverage false positives; their colour content had
+never been read by anyone. Two arms of six agents, neither told the other existed.
+
+| | presence arm | rubric arm | |
+|---|---|---|---|
+| `C-role` | **5/6** | `2 → 3` **5/6** | cell-for-cell agreement **6/6** |
+| `C-pair` ∧ `C-dark` | **0/6** | `3 → 4` **1/6** | cell-for-cell agreement **5/6** |
+| **`C-rule`** | **6/6** | **`4 → 5`** | **0/6** |
+
+**The effect is total and the control holds.** The band-matched pairs agree 6/6 and 5/6 cell for
+cell; the presence-versus-returns pair separates 6/6 against 0/6, every artifact, no exceptions.
+Without the control this would be two cohorts disagreeing. With it, the disagreement is isolated to
+the one pair where the two questions are not the same question.
+
+The rubric cell is a conjunction of exactly `C-pair` and `C-dark`, so the conjunction is its
+operationalization; `C-pair` alone stands 3/6, two above the cell, which is what half of a
+conjunction does.
+
+### What the artifacts actually write, which neither instrument had stated
+
+Every one of the six states a rule covering an unlisted colour role. Not one returns a value:
+
+- *"A new state role must declare its three appearance values and its glyph before use."*
+- *"A new status role must be introduced as a (container, on-container) pair measured ≥4.5:1 for text
+  and ≥3:1 for its mark in light **and** dark, and must carry a text token."*
+- *"Any element whose meaning is a cost, an availability, or a failure is semantic and outside brand
+  control."*
+
+**The skill writes admission criteria, not transforms.** Each says what a new role must satisfy, or
+where its authority comes from — none says what values it gets. A presence indicator cannot tell the
+two apart; the closure test cannot fail to.
+
+### The corpus-selection qualifier the backlog line never carried
+
+`C-dark` was **5.0/6** in §23 and is **0/6** here. §23's six briefs were *craft-forcing*, chosen to
+force craft statements; these six are ordinary product briefs. Absolute rates do not transfer between
+sections (the standing instrument-ceiling note), so this is not a regression claim — but it does
+qualify the 93.8% in a way nothing in the record did.
+
+**And it corrects a standing "do not re-assert".** That list carried *"the skill needs a colour system
+document — 93.8% before one existed"*. §23 withdrew `docs/color-system.md` on `C-dark` at 5/6. That
+number is a band-3-to-4 presence rate on briefs selected to force craft. On ordinary briefs the dark
+transform is stated **zero times in six** and the `3 → 4` cell closes once. The withdrawal is not
+hereby reversed — one corpus does not reverse it — but **the evidence it rested on does not reach the
+case, and the question goes back to the backlog as open rather than settled.**
+
+### Rule 27
+
+**A repair to one instrument does not propagate to the next instrument built beside it — check the
+neighbours when a cell is rewritten.** §16 fixed a cell because presence-shaped wording cannot be
+closure-tested, and seven sections later the same repository built a presence-shaped indicator for
+the same question and read 83% where the repaired cell reads 0%. The two lived in one file, one
+series, one author's hands. Nothing flagged it, because nothing in this repository maps its
+instruments onto each other — which is what the audit half of this section had to do by hand.

@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.32.2] - 2026-08-18
+
+**Backlog item 3 closed. The two colour instruments never disagreed except in one place, the audit found it on paper, and the corpus measured it at total separation with a passing control.**
+
+### Measured
+- **The headline conflict was a band mismatch, refuted on paper before any corpus ran.** Three of the four scored colour indicators from section 23 (`C-role`, `C-pair`, `C-dark`) sit at the rubric's `2 -> 3` and `3 -> 4` boundaries; only `C-rule` reaches `4 -> 5`. "Colour is at 93.8%" describes band-3 and band-4 material and "colour closes 2/6" describes the band-5 closure. Both true, of different bands, never rival descriptions.
+- **One dispute survived, and it is rule 8.** `C-rule` asks whether a rule is *present*; the rubric cell asks what a stated rule *returns*. Section 16 had rewritten that cell for exactly this reason - presence-shaped wording cannot be closure-tested - **seven sections before section 23 built a presence-shaped indicator for the same question**.
+- **One corpus, both instruments, mutually blind, six fresh artifacts:** `C-rule` **6/6** against the rubric's `4 -> 5` **0/6**. Total separation, every artifact. The control holds: band-matched pairs agree **6/6** (`C-role` vs `2 -> 3`) and **5/6** (`C-pair` and `C-dark` vs `3 -> 4`) cell for cell, so this is not two cohorts disagreeing.
+- **What the artifacts write:** all six state a rule for an unlisted colour role; none returns a value. *"A new state role must declare its three appearance values and its glyph before use."* **The skill writes admission criteria, not transforms.** A presence indicator cannot tell the two apart; the closure test cannot fail to.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` section 31.
+- **Rule 27: a repair to one instrument does not propagate to the next instrument built beside it - check the neighbours when a cell is rewritten.** Nothing in this repository maps its instruments onto each other, which is what section 31's audit had to do by hand.
+
+### Changed
+- **Backlog item 3 is closed.**
+- **A standing "do not re-assert" is corrected.** It carried *"the skill needs a colour system document - 93.8% before one existed"*. Section 23 withdrew `docs/color-system.md` on `C-dark` at 5.0/6, measured on six **craft-forcing** briefs. On six ordinary product briefs the dark transform is stated **0 times in 6** and the `3 -> 4` cell closes once. The withdrawal is not reversed on one corpus, but the evidence it rested on does not reach the case, and the question returns to the backlog as open rather than settled.
+
 ## [1.32.1] - 2026-08-16
 
 **Backlog item 2 closes negative. The blocker 1.32.0 named turned out not to exist, the corpus it asked for was already in the repository, and a third draw with two principled repairs failed both gates from a third direction.**
