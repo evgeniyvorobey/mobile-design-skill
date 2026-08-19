@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.33.5] - 2026-08-19
+
+### Added
+-
+
+### Changed
+-
+
+## [1.33.5] - 2026-08-19
+
+**Backlog item B closed, negative. The displacement hypothesis was hand-read for the first time, the measure that had refuted it was rebuilt three times better, and the null survives both.**
+
+### Measured
+- **A state-count measure rebuilt and frozen before the test corpus was opened** (SHA-256 `ea7c9ce9…`, thirteen shape fixtures, two of them asserting what it deliberately does not count). Against hand-read truth on twelve artifacts it scores **MAE 4.58, max error 12, Spearman 0.612** — against section 38's **14.08 / 30 / 0.143** — and **fails all three pre-registered validation bars**, so it reports diagnosis and settles nothing. All twelve errors are negative in both measures: a machine state count is a strict lower bound, never an over-count.
+- **The hypothesis itself, tested at last.** Hand-counted across three Mode C briefs, two arms and two draws per cell, the mean between-arm delta is **+2.67** against a mean within-cell spread of **6.33**. The pre-registered readability gate fires for the second run running — and section 39's diagnosis that *"it is not generation variance, it is the measure"* does not survive: with a human reading every word the noise is still **2.4x** the effect. The spreads are 1, 1, 1, 6, 14, 15, and what splits them is whether a draw happened to write a component-level state matrix, not which arm wrote it.
+- **The reason the item closes is the construct, not the sample.** Hand count against word count is **r = 0.777** while the arms are the same length (4816 against 4930 words). Eighty percent power at the observed effect would need **76 briefs, about 306 generations**, to better estimate a quantity that is 60% verbosity.
+- **A third blind-spot shape**, after section 30's table row and section 39's bold em dash: a state table whose rows are components and whose cells are comma-separated state lists. Every label-shaped parser reads the first column and returns the component count.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` **section 41**, carrying the design, the freeze, the blinded hand read, the four pre-registered predictions and their outcomes, the limitations as registered, and **rule 36 — a measure repaired until it is three times better can still be unfit, and the test of fitness is what it correlates with, not how close it gets to a hand count.**
+
+### Changed
+- Section 40's open item B is annotated **closed negative**, with a pointer to section 41 and an instruction not to reopen it as a count.
+
+### Not changed
+- **No rule, bar, band, template or mode contract moves**, and nothing measurement-shaped is committed. Section 39's corpus and frozen script were reused from a session scratchpad and reproduce that section's table cell for cell.
+
 ## [1.33.4] - 2026-08-18
 
 **Handoff release. A current "where to pick this up", and three live documents corrected where nine sections of measurement had made their text false.**
