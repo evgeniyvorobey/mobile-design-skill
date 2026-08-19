@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.35.0] - 2026-08-19
+
+### Added
+-
+
+### Changed
+-
+
+## [1.35.0] - 2026-08-19
+
+**Backlog item C gated before it was built. A rendered contrast measures the renderer, and the reason is that a spec's stated rules do not survive implementation.**
+
+### Changed
+- **`docs/design-quality-rubric.md` no longer claims that stating values makes two implementers produce the same screen.** Band 4/5 and the `Production readiness` 3 -> 4 cell both said so; four specs that state their values, tokens, spacing ladders and alignment rules produced **8 of 8 structurally different judgements** between two blind implementations. Both sites now say the implementers have the same **decisions in front of them**, and band 4 records what stating does not buy. The boundary cell stays a question - the repo validator refused a first edit that turned it into a statement.
+
+### Measured
+- **The render gate: 8 of 8 judgements named a winner between two renderings of ONE document**, every one marked structural, order-invariant across all four documents, mean confidence 3.50. A rendered contrast between two skill versions would measure the renderer rather than the skill, so **item C's phase 2 is refuted** for the cost of twenty-four agents.
+- **Hand-adjudication changed what that means.** Every structural difference the judges named is explicitly stated in the source spec - the money column "right-aligned to the single money column edge" stated three times, the 24dp/12dp and 32/16/4 proximity ladders stated outright. The specs did not leave these open; a competent blind implementer did not obey them.
+- **A fidelity measure that had to be rebuilt before it could be believed.** Asking what share of each render's spacing sits on its spec's stated scale first returned "the judged-worse render is more faithful, 4 of 4"; the renders express spacing through CSS custom properties, so a raw px regex saw 5 of 30 declarations. With variables resolved and validated against declaration counts, it is **2 of 4 each way** - and scale fidelity predicts nothing about which render was judged better, because every deciding difference is a relation rather than a value.
+- **The first render run was voided and is reported, not replaced.** The prompt did not forbid previewing; four of eight agents started local HTTP servers, two outlived their agents, and preview use split within pairs on two of four documents - a process asymmetry inside the measured variable. The re-run forbade it and was verified per tool call at 0 attempts in 20 calls.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` **section 43**, with the audit, the voided run and its cause, the gate, the hand-adjudication, and **rule 38 - a value on the stated scale is not the rule the scale exists to serve; checking membership instead of relation is the presence trap one level down.**
+
+### Not changed
+- **No rule, bar, band, template or mode contract moves.** `docs/rendered-output-qa.md` is untouched: the finding is about what a rendered channel can measure, not about that workflow's content.
+- Item C is annotated in section 40 as phase-2-refuted and re-opened as a spec-implementability check, which is the one thing this repo has never had an instrument for.
+
 ## [1.34.0] - 2026-08-19
 
 ### Added
