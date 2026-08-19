@@ -263,7 +263,7 @@ Structural/content evals answer "does the response satisfy the skill contract?" 
 
 For generated concepts, UI specs, typography systems, and handoff:
 
-- [ ] The score is derived from a visible dimension read, not asserted; a run of identical scores across unrelated artifacts is evidence of retrieval.
+- [ ] The score is derived from a visible dimension read, not asserted. (Identical scores across unrelated artifacts are **not** evidence of retrieval — this scale returns the same band to a design and a deliberately worse twin, 12 paired scorings of 12, and concentrates by output mode. See `design-quality-rubric.md`.)
 - [ ] The `Quality target` line names the dimension blocking the next level and what would lift it, rather than printing a bare number — or, at the top band, says that nothing blocks it instead of manufacturing a blocker.
 - [ ] Every dimension whose failed boundary question the available input could answer was lifted and re-derived; every dimension left where it is has its missing input named. A band is reported at whatever the artifact states, including a low one.
 - [ ] The output does not average away a serious flaw such as missing states, weak accessibility behavior, or platform flattening.
@@ -401,7 +401,7 @@ Generation needs a model. **Scoring does not.** So:
 
 - `--dry-run` lists the prompt pack and validates its shape. Runs anywhere.
 - `--replayable-only --generate-command "python3 scripts/generation_oracle_agent.py"` replays committed examples through the scorer. This proves the stdin/stdout adapter, the JSONL parser, and that the scorer accepts output the repository already considers correct. **It proves nothing about a model.**
-- `--generate-command "<your agent>"` with a real model behind it is the actual eval, run during maintenance. There are no provider keys in this repository.
+- `--generate-command "<your agent>"` with a real model behind it is the actual eval, to be run during maintenance. There are no provider keys in this repository. **It has never been run.** Only the `--replayable-only` oracle path has ever executed, and that path proves the adapter, not a model — so no claim in this repository rests on this script having read live generated text.
 
 ### Eval-only checks
 

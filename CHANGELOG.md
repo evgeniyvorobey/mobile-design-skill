@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.33.4] - 2026-08-18
+
+**Handoff release. A current "where to pick this up", and three live documents corrected where nine sections of measurement had made their text false.**
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` **section 40 — the current handoff**, replacing section 12, which describes the tree at v1.20.0, twenty sections and nineteen releases ago. Section 12 keeps its text and gains a superseded notice, because the record is append-only. Section 40 carries the state, what the last nine sections settled, the three open items specified enough to start, and the two standing items that are not on that list.
+
+### Changed
+- **`docs/design-quality-rubric.md` states what its number records.** Every boundary question asks what an artifact *states*; held against six designs and six deliberately worse twins it returned the **identical band 12 paired scorings of 12**, while showing 17% jitter on unchanged text. A band is not a verdict on which of two designs is better - `docs/paired-comparison.md` is, and the two are named as complements.
+- **A diagnostic in `docs/design-quality-rubric.md` and `docs/evals.md` pointed at the wrong cause and is corrected.** Both told a reviewer to read identical scores across a corpus as evidence the score was asserted or retrieved. That is what a faithful application of this scale produces - it returns the same band to a design and a worse version of it - and output mode concentrates it further (specs 63%, concepts 28%). A reviewer following the old line would fail a response for retrieval on a pattern the instrument produces by itself, or nudge bands apart to look computed.
+- **`docs/evals.md` no longer implies the generation eval has been run with a model.** `--generate-command` has never executed against one; only the `--replayable-only` oracle path has, and it proves the adapter rather than a model. No claim in this repository rests on that script having read live generated text, and the file now says so.
+
+### Not changed
+- **No rule, bar, band, template or mode contract moves.** These are corrections of statements measurement has made false, not new instructions hoping to change behaviour - which would need an outcome measurement under rule 15.
+- README was audited alongside the three and found clean.
+
 ## [1.33.3] - 2026-08-18
 
 **The count that corrected 1.33.1 was itself measuring punctuation. Its pre-registered falsifier fired, and section 38's Mode C claim is withdrawn.**

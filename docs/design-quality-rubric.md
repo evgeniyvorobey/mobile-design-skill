@@ -2,6 +2,8 @@
 
 This document turns design quality into a 1-5 scoring system. Use it to raise the quality of proposed designs, not only to critique existing ones.
 
+**What the number records, measured.** Every boundary question here asks what an artifact *states*. Held against six designs and six twins made deliberately worse without changing a value, deleting a statement or breaking a bar, this scale returned the **identical band 12 paired scorings out of 12** — while showing 17% jitter on unchanged text, so it moves, just not with quality. **A band is not a verdict on which of two designs is better.** For that question use `docs/paired-comparison.md`, which separated the same twelve pairs 12 of 12. The two are complements: this scale says what an artifact has decided and where it sits; that one says which of two is the better screen.
+
 The rubric complements:
 
 - `docs/design-quality.md` for quality dimensions and mechanisms
@@ -201,7 +203,9 @@ The rungs below are the **artifact-level** ladder, for the score the median prod
 - 3 → 4 **when the inert cap applies**: bring `Distinctiveness and owned assets` to band 4 by answering its `3 → 4` question. Nothing else lifts this cap — more mechanism detail, more platform notes and more QA checks all leave it at 3/5. This rung and the inert cap above name one condition between them, and the requirement itself lives in the dimension table.
 - 4 → 5: replace enumerations with rules that decide the cases the artifact does not list
 
-**Derive the score; do not choose it.** If the derivation lands at 3/5, report 3/5 and name the boundary question that would lift the blocking dimension. If the bands support the top level, report 5/5 without inventing a blocker to look modest. A corpus where every artifact scores the same number is evidence the score is being asserted rather than computed — and so is a dimension read where every dimension carries the same band across every artifact.
+**Derive the score; do not choose it.** If the derivation lands at 3/5, report 3/5 and name the boundary question that would lift the blocking dimension. If the bands support the top level, report 5/5 without inventing a blocker to look modest. A dimension read where every dimension carries the same band across every artifact is evidence the score is being asserted rather than computed.
+
+But **a corpus where every artifact scores the same number is not**, and reading it that way chases the wrong cause. This scale returns the same band to a design and a deliberately worse version of it, so flatness across artifacts is what a faithful application produces. Output mode moves it further: band-5 closure runs at 63% for specs against 28% for concepts, so a same-mode corpus concentrates by construction. Diagnose a flat corpus by checking one artifact's derivation against its text, never by nudging bands apart to look computed.
 
 ---
 

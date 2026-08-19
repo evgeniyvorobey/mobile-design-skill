@@ -566,6 +566,10 @@ It also asserts the extractor reads score, provenance and blocker out of a real 
 
 ## 12. Where to pick this up
 
+> **Superseded by §40.** This section describes the tree at v1.20.0 — twenty sections and nineteen
+> releases ago — and its state, backlog and open questions are all stale. It is kept because the record
+> is append-only. **A cold reader should start at §40.**
+
 State at hand-off: `main` == `origin/main`, HEAD `68412ed` plus the pre-handoff fix commit, tags `v1.17.0` … `v1.20.0`, working tree clean, both validators green.
 
 ### Corrections that outrank the P-tables above
@@ -3118,3 +3122,74 @@ sentence of §38 survived a day on the strength of that gap.
 narrower claim → §39 finds the count was reading punctuation and withdraws that too. Three
 self-corrections, each one costing less than the release it corrected, and the last of them arrived
 because a falsifier was pre-registered rather than because anything looked wrong.
+
+---
+
+## 40. Where to pick this up — replacing §12
+
+§12 carries this title and describes the tree at **v1.20.0**, twenty sections and nineteen releases ago.
+Anything it says about state, backlog or open questions is superseded. It is kept because the record is
+append-only; **start here instead.**
+
+### State
+
+`main` == `origin/main` at **v1.33.3**, working tree clean, both validators green. 34 validator
+functions in `validate_repo.py`, 14 in `validate_release.py`, 8 rubric fixtures, plus the paired-eval
+self-test and its judge-adapter proof.
+
+**Nothing measurement-shaped is committed, by convention, and nothing needs to be.** Every corpus this
+series built lives in a session scratchpad that does not survive. All of it regenerates from committed
+briefs — `examples/evals/generation-prompts.json` (10 prompts) and the eight golden `## Prompt` blocks
+— and no file in the repository references a scratchpad path.
+
+### What the last nine sections settled
+
+| | |
+|---|---|
+| **Item 1 — quality vs presence** | **Answered.** The rubric's nine boundary questions give a design and its degraded twin the identical band, **12 paired scorings of 12**, against an instrument with **17% jitter** on unchanged text. A rubric-free paired comparison gets **12 of 12** and names the mechanism each time. The instrument ships: `scripts/run_paired_eval.py`, `docs/paired-comparison.md`. |
+| **Item 2 — state coverage** | **Closed negative.** Not checkable from the author's seat (7/12, 4/12), not by a keyword machine (three draws, both gates missed each time, a new failure class deciding each). |
+| **Item 3 — the two colour instruments** | **Closed.** There was no conflict; three of four indicators sit at bands 2→3 and 3→4 and only one reaches 4→5. |
+| **Items 7–8 — the live floors** | **Premise lost.** The pooled band-5 closure reproduces (47.2% → 48.9%); the per-dimension table does not (`Composition and spacing` 1/6 → 5/5). |
+
+### The three things left open, specified enough to start
+
+**A. Power on the real contrast.** §37 measured P1-2 at **6/3/3, p = 0.254** on six briefs. That can find
+a large effect or rule one out; it cannot resolve a small one. The same design at 12–18 briefs would.
+*Cost*: roughly double §37's run. *Assets*: the harness ships; the briefs are committed; §37 records the
+protocol including the confound line rule 33 requires in the judge prompt. *Trap*: rule 33 — these arms
+differ by construction in how many values they state, so the judge must be told that naming more values
+is not describing a better screen.
+
+**B. Spec displacement, with a validated measure.** §38 claimed it, §39 withdrew it — **the hypothesis
+was never tested, only the measure was refuted**, and it broke on punctuation (`- **Label** — text`
+against `- Label:`). *First step, and it is not a corpus*: build a state-count measure and validate it
+against hand-read ground truth on a dozen artifacts before it produces a number anyone believes — rule
+35. *Then* re-run §39's design, which is sound: three-plus Mode C briefs, two arms, **two draws per
+cell**, with the noise-versus-effect falsifier pre-registered. *Trap*: §30 and §39 hit the same
+blind-spot class twice; a parser that reads one label shape while real output writes another is the
+failure mode to test for first, not last.
+
+**C. P2-4, render-and-critique.** The only route past the standing channel limit: every instrument here,
+including the paired comparison, reads a document describing a screen rather than a screen.
+`docs/rendered-output-qa.md` is a 359-line workflow whose entry condition is an artifact the skill is
+never told to produce. *Cost*: the largest of the three, and the only one that buys a new evidence
+channel rather than more of an existing one.
+
+### Two standing items that are not on that list and should not be forgotten
+
+- **`run_generation_eval.py --generate-command` has still never run with a real model behind it.** It is
+  the seam item 2's closure points at, and the honest instrument for state coverage is a judged check
+  rather than a scanned one.
+- **The colour-document question is open, not settled.** §23 withdrew `docs/color-system.md` on `C-dark`
+  at 5/6 measured on *craft-forcing* briefs; on ordinary briefs the dark transform is stated **0 times in
+  6**. That is a corrected "do not re-assert", and re-opening it needs a pre/post on ordinary briefs.
+
+### How to work here, in one paragraph
+
+Audit before building — four releases in this series died on an unaudited premise and the audit cost
+less than the build each time. Pre-register the corpus, the indicators, the predictions **and a
+falsifier** before anything runs, and check each indicator against what it would return under the null,
+because three in a row failed to measure what they were written for. Verify every constraint and every
+guard mechanically, including the ones that look like arithmetic. Hand-adjudicate before believing a
+rate. And when a claim is refuted, annotate the section that made it rather than editing it — the chain
+from §37 to §39 is worth more intact than any of its three links.
