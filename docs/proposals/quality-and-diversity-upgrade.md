@@ -3160,7 +3160,8 @@ protocol including the confound line rule 33 requires in the judge prompt. *Trap
 differ by construction in how many values they state, so the judge must be told that naming more values
 is not describing a better screen.
 
-**B. Spec displacement, with a validated measure.** §38 claimed it, §39 withdrew it — **the hypothesis
+**B. Spec displacement, with a validated measure.** **CLOSED NEGATIVE in §41 — the construct is a
+length proxy; do not reopen it as a count.** §38 claimed it, §39 withdrew it — **the hypothesis
 was never tested, only the measure was refuted**, and it broke on punctuation (`- **Label** — text`
 against `- Label:`). *First step, and it is not a corpus*: build a state-count measure and validate it
 against hand-read ground truth on a dozen artifacts before it produces a number anyone believes — rule
@@ -3193,3 +3194,126 @@ because three in a row failed to measure what they were written for. Verify ever
 guard mechanically, including the ones that look like arithmetic. Hand-adjudicate before believing a
 rate. And when a claim is refuted, annotate the section that made it rather than editing it — the chain
 from §37 to §39 is worth more intact than any of its three links.
+
+---
+
+## 41. Item B — the displacement hypothesis, hand-read at last, and the noise survives the repair
+
+§38 claimed v1.27.0's craft substrate costs state coverage in Mode C specs (19 against 5). §39 refuted
+**the measure** — it requires `- Label:` or `| Label |` while real specs write `- **Label** — text` — and
+withdrew the claim, leaving the hypothesis itself untested. §40 listed it as open item B and named the
+first step: *build a state-count measure and validate it against hand-read ground truth before it
+produces a number anyone believes.*
+
+That is what this section is. It needs no new corpus: §39's twelve artifacts — three Mode C briefs, two
+arms, **two independent draws per cell** — survive on disk and were reused, so the entire cost was one
+instrument and twelve careful reads.
+
+### The wall, and the freeze
+
+Two corpora, kept apart on purpose. The **shape-development set** is §37's twelve real-contrast
+artifacts, used only to enumerate the label shapes real output writes; no hand count was taken there and
+no number from it is reported. The **test set** is §39's twelve specs, not opened until the new measure
+was frozen at SHA-256 `ea7c9ce9…` with thirteen passing shape fixtures beside it.
+
+Then the test artifacts were copied to `blind/tNN.md` under a shuffled naming whose map was not read
+until every hand count was on disk, and counted one at a time against a rule fixed in advance: a
+condition counts when the artifact **names** it and specifies what a surface, region or component shows
+or does while in it; branches of a decision rule do not count; enumerations of content values (P1–P4,
+severity levels) do not count.
+
+### What the new measure fixed, and what it did not
+
+The shape survey alone refuted §38's design before any count ran. §38 keys on a fixed twenty-word
+vocabulary, and one arm-A table carries `First load`, `Refreshing`, `No movement`, `Attention`,
+`Action required`, `Delivered`, `Not found`, `Over budget` — **eight of its twelve rows are outside any
+finite list**. Punctuation was the half §39 found; open vocabulary is the other half. The replacement is
+structural: inside a state-definition region every top-level item counts whatever its punctuation, and
+outside one a short leading state word is still required.
+
+| | MAE | max abs error | error range | Spearman ρ |
+|---|---|---|---|---|
+| §38's measure, frozen | 14.08 | 30 | −30 … −4 | 0.143 |
+| This measure, frozen | **4.58** | **12** | **−12 … −2** | **0.612** |
+| Pre-registered bar (P3) | ≤ 2.0 | ≤ 4 | — | ≥ 0.80 |
+
+Three times better on every axis and it **fails all three bars**, so by the pre-registered rule it
+reports diagnosis and settles nothing. One property is worth keeping: all twelve errors are negative in
+both measures. A machine state count is a **strict lower bound**, never an over-count.
+
+The residual is a third distinct blind-spot shape, after §30's table-row-invisible-to-a-bullet-parser
+and §39's bold-em-dash. The worst artifact (error −12) writes its component states as a table whose rows
+are **components** and whose cells are comma-separated state lists — `| Slot row | Empty (required),
+chosen, held-with-time, expiring within 5 minutes, expired, sold out while held |`. Every label-shaped
+parser reads the first column and returns the component count. **Three shapes, three parsers, three
+misses: the format of a state definition is not convergent enough for a scanner, which is what backlog
+item 2 concluded in v1.32.1 and this is the same finding arriving from the count side.**
+
+### P2 fires again — and this time it is not the measure
+
+| brief | A d1 | A d2 | B d1 | B d2 | delta A−B |
+|---|---|---|---|---|---|
+| `checkout` | 37 | 22 | 17 | 18 | **+12.0** |
+| `enterprise-saas` | 17 | 18 | 18 | 17 | **0.0** |
+| `tablet-list-detail` | 17 | 23 | 17 | 31 | **−4.0** |
+
+Hand-counted, the mean between-arm delta is **+2.67** against a mean within-cell spread of **6.33**. The
+run is unreadable by the rule registered before the data, for the second time — but §39's diagnosis does
+not survive. §39 said *"it is not generation variance, it is the measure"*; with a human reading every
+word the noise is still **2.4×** the effect. The within-cell spreads are `1, 1, 1, 6, 14, 15`: three
+cells agree almost exactly and three disagree enormously, and the split is not the arm. **It is whether
+that draw happened to write a component-level state matrix.** One arm-A checkout draw enumerates states
+for eight components and reaches 37; its twin from the same arm and brief reaches 22.
+
+Both machine measures return the same verdict on the same corpus, and §38's reproduces §39's table cell
+for cell — the corpus and the frozen script are intact, which is what makes the hand read readable
+against them.
+
+### The finding that closes the item is about the construct, not the power
+
+Hand count against word count across the twelve: **r = 0.777**. The arms are the same length (4816
+against 4930 words). **A state count is substantially a verbosity measure**, and the thing it varies
+with most is a format choice orthogonal to what either arm changed.
+
+Scaling would not rescue it. At the observed effect (+2.67) and between-brief sd (8.33), 80% power needs
+**76 briefs — about 306 generations**, and it would buy a better-powered estimate of a quantity that is
+60% length. **Item B is closed, negative**, and the reason is the construct rather than the sample.
+
+### What stands, and what is now retired
+
+- **§37's headline is untouched** for the third section running: 6/3/3 at p = 0.254 came from judges
+  reading designs, not from any count.
+- **§38's claim stays withdrawn**, and its hypothesis is now tested rather than merely unmeasured.
+- **§39's "it is the measure, not generation variance" is corrected.** It was half right: the measure was
+  broken and is now three times better, and the null it was offered to explain reproduces without it.
+- **Do not build a fourth state-counting parser.** Three shapes have each defeated one, and the count
+  they compete to produce is a length proxy.
+
+### Limitations, as registered before the data
+
+One rater, who holds the hypothesis, hand-counting under partial blinding — and the blinding **broke on
+one artifact of twelve**: `t06`'s state section is the excerpt published in §39, so it was identifiable
+as `arm-b/checkout-d1` on sight. Recorded rather than repaired, because the alternative is discarding a
+cell. The counting rule was also tightened after reading the first artifact and before recording any
+number, and the tightening is written into the pre-registration with that timestamp; each artifact's
+count is stored as `core` plus `extra` so the total's sensitivity to that judgement stays recomputable.
+n = 3 briefs bounds a large displacement and cannot resolve a small one — which is the whole point of the
+paragraph above it.
+
+### Rule 36
+
+**A measure repaired until it is three times better can still be unfit, and the test of fitness is what
+it correlates with — not how close it gets to a hand count.** The instrument here went from MAE 14.08 to
+4.58 and from ρ 0.143 to 0.612, and the honest reading of it is not "closer" but *r = 0.777 with word
+count*. Rule 2 asks whether an instrument separates a bad corpus from a good one; rule 35 asks whether it
+is validated against hand-read cases; **neither asks what else it moves with, and a measure that tracks
+length will produce a clean, reproducible, meaningless number forever.** The cheapest form of this check
+is one correlation against document length, and it should run in the same pass as the validation.
+
+Also from this run:
+- **Reuse of a frozen corpus is worth what a fresh one costs.** Twelve artifacts, one blinding script and
+  twelve reads answered a question §39 left open, because nothing measurement-shaped had been thrown
+  away that could not regenerate and the arms' generation was already spent.
+- **A shape survey is cheaper than a corpus and can refute a design before it runs.** Eight of twelve
+  labels in one table sit outside any finite vocabulary; that alone condemned §38's approach without a
+  single count.
