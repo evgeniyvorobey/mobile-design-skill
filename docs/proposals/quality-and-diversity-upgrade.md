@@ -3171,6 +3171,8 @@ cell**, with the noise-versus-effect falsifier pre-registered. *Trap*: §30 and 
 blind-spot class twice; a parser that reads one label shape while real output writes another is the
 failure mode to test for first, not last.
 
+**C. PHASE 2 REFUTED in §43 — a rendered contrast measures the renderer (8/8 structural winners
+between two renderings of one document). Re-open it as a spec-implementability check instead.**
 **C. P2-4, render-and-critique.** The only route past the standing channel limit: every instrument here,
 including the paired comparison, reads a document describing a screen rather than a screen.
 `docs/rendered-output-qa.md` is a 359-line workflow whose entry condition is an artifact the skill is
@@ -3422,3 +3424,103 @@ Also from this run:
 - **A claimed control that is not in the tool is not a control.** §37's line was real in intent and
   absent from the record; the same sentence in `build_system_prompt()` is verifiable forever.
 - **The mechanical check earned its cost on the first use**, at 1 of 6.
+
+---
+
+## 43. Item C — the rendered channel, gated before it was built, and what the gate found instead
+
+§40 names P2-4 *"the only route past the standing channel limit"*: every instrument in this series,
+including the paired comparison, reads a document describing a screen rather than a screen. Building
+that channel means document → renderer → screen → judge, which inserts a **renderer** the series has
+never had to control. So the renderer was measured first, before a corpus was spent on it.
+
+### The audit, and the premise it narrowed
+
+`docs/rendered-output-qa.md` is 359 lines and is **not** orphaned — six files reference it. What is true
+is narrower: `SKILL.md:205` gates it on *"only when a rendered artifact exists"*, and nothing in the
+skill produces one. The item is not "wire up a dead document"; it is "does a rendered channel read".
+
+### The gate
+
+Four arm-A responses — two Mode C specs, two Mode A concepts — each rendered **twice by mutually blind
+agents** into self-contained HTML, captured at 390 × 844 through one headless binary with identical font
+availability, then handed to §42's judge as image pairs, both orders. Pre-registered: **≥ 6 of 8
+`no-meaningful-difference`** means the renderer's share is small and phase 2 can proceed; **≥ 6 of 8
+naming a winner** refutes item C as specified.
+
+**The first run was voided and is reported, not replaced.** The render prompt said "write the file" and
+did not forbid previewing; four of eight agents started `python3 -m http.server` to look at their own
+work, two outlived their agents as orphans, and — the part that mattered — preview use **split within
+pairs** on two of four documents. A process asymmetry I introduced sat inside the variable being
+measured. The re-run forbade it explicitly and was verified per tool call: 0 server or preview attempts
+in 20 calls. Rule 29 again, on process rather than corpus.
+
+### P2, met on every judgement
+
+| | |
+|---|---|
+| named a winner between two renderings of **one** document | **8 / 8** |
+| `no-meaningful-difference` | **0 / 8** |
+| `difference_kind` | **structural on all 8** |
+| order-invariant | **4 / 4 documents** — `r1` won both orders every time |
+
+Mean confidence 3.50. **Item C's phase 2 is refuted**: a rendered contrast between two skill versions
+would measure the renderer, not the skill.
+
+### But the reason is not the one the pre-registration guessed, and it is better
+
+The pre-registration allowed that a P2 result would mean *the document underdetermines the screen*.
+Hand-adjudication says something sharper. **Every structural difference the judges named is explicitly
+stated in the source spec.** `checkout-d1` states the money column three times — *"right-aligned to the
+single money column edge"*, *"the money column is the screen's spine — one right-aligned edge"* — and one
+render abandoned it, running prices inline. `spec-package-tracking` states *"Between blocks 24dp.
+Between rows inside a block 12dp"* and *"grouping is done with spacing, not with borders"*; the judges'
+complaint is precisely that one render flattened that ladder. `g-fintech` states *"32 pt between
+sections, 16 pt between blocks inside a section, 4 pt between a figure and its scope label"* and calls
+the differential *"Gestalt proximity doing the work"*.
+
+**The spec did not leave these open. It stated them, and a competent blind implementer did not obey
+them.** That is a fact about the skill's output that no document-channel instrument in this series could
+have produced, and it lands directly on a claim the rubric makes.
+
+### The claim it lands on
+
+`docs/design-quality-rubric.md` said, at band 4/5 and again in the `Production readiness` 3 → 4 cell,
+that stated values and mappings mean *"two implementers produce the same screen"*. Four specs that state
+them produced **8 of 8 structurally different judgements**. Both sites now say the implementers have the
+same **decisions in front of them**, and the band-4 note records what stating does not buy. The
+questions stay questions — the validator refused a first edit that turned the boundary cell into a
+statement, which is rule 1's guard working.
+
+### A measure that had to be rebuilt before it could be believed, again
+
+A fidelity check — what share of each render's spacing values sit on the scale its spec states — first
+returned **"the judged-worse render is more faithful, 4 of 4"**. It was wrong: the renders express
+spacing through CSS custom properties, so a raw `px` regex saw 5 of 30 declarations. With variables
+resolved (validated against declaration counts, 87–121%), the result is **2 of 4 each way**. The broken
+version would have shipped a confident inversion of the truth. Fourth instance this session of rule 35.
+
+What survives it is the more interesting half: **scale fidelity does not predict which render was
+judged better.** It cannot, because every difference the judges named is a *relation* — between-block
+space exceeding within-block space, money sharing one right edge, the accent holding one job — and a
+render can draw every value from 4/8/16/32 while setting 24 between rows and 24 between sections.
+
+### Rule 38
+
+**A value on the stated scale is not the rule the scale exists to serve, and checking membership instead
+of relation is the presence trap one level down.** §24 established that presence-of-statement is not
+quality. This is the same failure at presence-of-value: 42–96% "on scale" across four renders,
+predicting nothing about which screen a judge preferred, while the deciding differences were all
+relational. Any future implementation check must measure the relation the rule encodes, not the
+vocabulary it draws from.
+
+Also from this run:
+- **Gate before building, fourth time it has paid.** Twenty-four agents refuted a phase that would have
+  cost a corpus, and returned a finding the corpus would not have produced.
+- **The rendered channel is not a version comparator. It is a spec-implementability check** — the one
+  thing this repo has never had an instrument for, and exactly what `Production readiness` claims to
+  score. That is where item C should be re-opened, with the renderer as the subject rather than the
+  nuisance.
+- **A silent side effect is worse than a loud one.** The orphaned servers ran for minutes and nothing in
+  the pipeline surfaced them; the repo's owner did, from outside. Any future run that spawns processes
+  needs a mechanical sweep, not an instruction.
