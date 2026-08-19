@@ -35,7 +35,9 @@ Arm files carry one `{"id", "response"}` object per line, the same shape `run_ge
 
 ## Building the null pairs
 
-A null must be a **cosmetic rewrite, not identical text**. Identical text is a trivial null that any judge passes. A same-design/different-prose twin tests whether the judge reads the design or reads the document — and it is what bounds the shared-model-family confound, since the rewrite is written by the same kind of agent as everything else in the run. In the validation, judges declined all six cosmetic nulls at high confidence, so the instrument is not merely detecting that an agent edited a file.
+A null must be a **cosmetic rewrite, not identical text**, and it must **not be length-matched to its original**. Identical text is a trivial null that any judge passes. A same-design/different-prose twin tests whether the judge reads the design or reads the document — and it is what bounds the shared-model-family confound, since the rewrite is written by the same kind of agent as everything else in the run. In the validation, judges declined all six cosmetic nulls at high confidence, so the instrument is not merely detecting that an agent edited a file.
+
+**Vary the length of the rewrite, deliberately, by the same order the contrast varies it.** A null written to hold length constant is blind to a length effect, and length is the correlate this instrument most needs cleared: in the 18-pair run of proposal section 42 the longer document won 27 of 36 signal judgements (p = 0.004), and the six nulls of that run — written to a "within 5% of the original" instruction, so differing by a median 2.3% against the contrast's 13.7% — could not say whether that was bias or substance. Rebuilt as five nulls varying by -15% to +40%, with every numeric value, backticked token and heading verified to survive as an exact multiset, the judge returned `no-meaningful-difference` on **10 of 10** judgements at maximum confidence, including on a document 40% longer than its twin. That is what clears the confound; a matched control never could.
 
 Hold the rewrite to: every `## ` heading identical and in order, the numeric-token multiset identical, length within a few percent, and no decision, order, pattern, role assignment or state behaviour changed.
 
@@ -44,6 +46,7 @@ Hold the rewrite to: every `## ` heading identical and in order, the numeric-tok
 - **It reads a document describing a screen, not a screen.** Nothing here escapes that channel; only a rendered artifact would.
 - **Judge, author and null-writer share a model family.** The null pairs bound this confound. They do not remove it.
 - **It compares. It does not score.** There is no band, no absolute number, and no way to ask it whether a single artifact is any good — only whether one is better than another. Most modes produce one artifact, so this is an evaluation instrument and not an authoring one.
+- **The judge's verdict correlates with length on real contrasts, and that correlation is substance, not bias.** Measured both ways in section 42: 27 of 36 to the longer document on genuinely different designs, and 0 of 10 to the longer document when the design is held identical. Read a length gap between arms as a signal about how much each one decided, not as a defect in the instrument.
 - **`confidence` does not track effect size.** In validation, confidence on null pairs (3.00) *exceeded* confidence on signal pairs (2.83), because certainty that two things are the same is still certainty. Do not read confidence as a proxy for how large a difference is.
 
 ## Where it belongs

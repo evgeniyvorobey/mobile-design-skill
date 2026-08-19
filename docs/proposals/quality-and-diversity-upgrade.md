@@ -3153,7 +3153,8 @@ briefs — `examples/evals/generation-prompts.json` (10 prompts) and the eight g
 
 ### The three things left open, specified enough to start
 
-**A. Power on the real contrast.** §37 measured P1-2 at **6/3/3, p = 0.254** on six briefs. That can find
+**A. CLOSED BOUNDED in §42 — 18 pairs, p = 0.203, and the effect ruled out is anything above a ~85%
+brief win rate.** §37 measured P1-2 at **6/3/3, p = 0.254** on six briefs. That can find
 a large effect or rule one out; it cannot resolve a small one. The same design at 12–18 briefs would.
 *Cost*: roughly double §37's run. *Assets*: the harness ships; the briefs are committed; §37 records the
 protocol including the confound line rule 33 requires in the judge prompt. *Trap*: rule 33 — these arms
@@ -3317,3 +3318,107 @@ Also from this run:
 - **A shape survey is cheaper than a corpus and can refute a design before it runs.** Eight of twelve
   labels in one table sit outside any finite vocabulary; that alone condemned §38's approach without a
   single count.
+
+---
+
+## 42. Item A — P1-2 at eighteen pairs, and the instrument survives the diagnostic that should have killed it
+
+§37 pointed the paired comparison at P1-2 and returned **6 / 3 / 3, p = 0.254, nominal lead to arm A —
+the *pre*-substrate tree**. §40 asked for the same design at 12–18 briefs. This is that run, at 18, plus
+a second run the first one's own diagnostic made unavoidable.
+
+### Audit first, and it found something
+
+§37's prose says its judges were told *"a longer document is not a better design, and a document that
+names more values is not thereby describing a better screen"* — rule 33's confound control, and the
+reason §37 believed its result was not presence measured a third time. **The system prompt stored in
+§37's own `pairs.jsonl` contains only the length half.** The phrase appears nowhere in that session's
+files, and its saved judge directories hold two documents and nothing else. **Rule 33's own release
+cannot prove it applied rule 33.**
+
+The gap runs *toward* arm B — it is the half that would have suppressed B's specification-density
+advantage — and arm A led anyway, so §37's direction survives it. Its protocol claim does not. The line
+now lives in `build_system_prompt()`, so it is generated into every request and greppable afterwards
+(rule 32, third application). That makes this a different instrument from §37's, so **§37's twelve
+verdicts are not pooled; its six pairs were re-judged from scratch.**
+
+### The run
+
+18 signal pairs in three sets — §37's six re-judged, §39's spec corpus of six judged for the first time,
+and six fresh briefs generated from unused golden `## Prompt` blocks against worktrees at v1.26.0 and
+v1.27.0. Mode mix **A 5, B 2, C 8, D 1, E 1, F 1**, recorded because rule 28 makes mode a large
+uncontrolled factor. Contamination control verified by transcript, not self-report: **247 tool calls
+inspected, zero with an input touching `examples/golden/`**. 48 judgements, one fresh judge each.
+
+| | pre-registered | result |
+|---|---|---|
+| **P1 — control** | agreed winner on ≤ 2 of 6 nulls | **0 of 6**, `no-meaningful-difference` on **12/12**, confidence 5.00 |
+| **P2 — arm B reaches significance** | predicted no | **no**; B does not lead at all |
+| **P3 — §37's arm-A lead replicates at its magnitude** | predicted no | **it does not**: 67% → **58%** A of decided |
+| **P4 — no per-mode concentration** | predicted none | **strained**: Mode C **11/5** (69%), the fresh non-spec modes 5/7 to B |
+
+Pooled: **arm A 21 / arm B 15 / tied 0, p = 0.203**, order-invariant on 15 of 18 pairs. At brief level,
+**A 9 / B 6 / split 3**, sign test p = 0.304.
+
+**Item A closes as bounded, not resolved.** The brief-level 95% CI is **[−0.26, +0.59]**, and this design
+reaches 80% power only against a tree winning **~85%** of briefs. P1-2 neither helps nor harms by any
+margin 18 pairs can see. Mode C's 69% is p = 0.105 on its own and is **not** offered as the finding —
+that is the post-hoc subgroup rescue §29 exists to forbid.
+
+One number worth keeping: re-judging §37's own six pairs reproduced **4 of 6** brief-level verdicts.
+That is the first test–retest this instrument has on *real* output rather than deliberate degradations,
+and it is lower than the ~84% every other instrument here sits at — though it mixes instrument jitter
+with the prompt change above.
+
+### The diagnostic that nearly ended the instrument
+
+Rule 36, written one release ago, says check what else a measure moves with. Applied here: **the longer
+document won 27 of 36 signal judgements, two-sided p = 0.004.** Where arm A is longer it wins 83%; where
+arm A is shorter it wins 33%.
+
+And the six null pairs could not adjudicate it, because of an instruction I wrote: *"aim for a length
+within 5% of the original."* The nulls differ by a median **2.3%** against the signal pairs' **13.7%**.
+**A control matched on the confound is blind to the confound.** They prove the judge ignores prose
+variation — what §35 built them for — and they are structurally incapable of saying anything about
+length.
+
+### The falsifier, pre-registered before it ran
+
+Six arm-A responses rewritten as pure verbosity in both directions, every design decision frozen. The
+mechanical check (rule 29 — an instruction to an agent is not a constraint) required every
+numeric-plus-unit token, every backticked token and every heading to survive as an exact multiset;
+**`g-fintech` drifted on four tokens and was excluded rather than repaired**, leaving five pairs, ten
+judgements, spanning **−15.2% to +40.2%** with a median gap of 12.0% — the same order as the contrast.
+
+| | |
+|---|---|
+| longer document won | **0 / 10** |
+| shorter document won | **0 / 10** |
+| `no-meaningful-difference` | **10 / 10**, confidence **5.00**, including at +40.2% |
+
+**P5 (bias) not met. P6 (no bias) met.** The instrument has no length bias, and the 27/9 association is
+length acting as a **proxy for design substance**: when two genuinely different designs are compared,
+the one with more decided is described at greater length and judged better. When the design is held
+identical, forty percent more words buys nothing.
+
+Across both runs the separation is total: **22 of 22 null judgements returned no difference; 36 of 36
+signal judgements found one.** The judge declines exactly when it should and never otherwise.
+
+### Rule 37
+
+**A control matched on the confound cannot test the confound — check what your null pairs hold constant
+before you trust them to clear anything.** Rule 36 says find what else the measure moves with; it does
+not say the control you already have can answer it. These nulls were built to a length-matching
+instruction, which made them incapable of detecting the one correlate that mattered, and no amount of
+re-reading them would have revealed it — the fix was five rewrites and ten judgements that deliberately
+*moved* the thing under suspicion. **A null that answers "no difference" at 40% more words is worth more
+than twenty that answer it at 2%.**
+
+Also from this run:
+- **The instrument came out stronger for being attacked.** The paired comparison is now the only
+  instrument in this series with a control that varies its principal confound and clears it.
+- **`docs/paired-comparison.md` now requires a length-varied null**, with both numbers, so the next
+  contrast cannot inherit this blind spot.
+- **A claimed control that is not in the tool is not a control.** §37's line was real in intent and
+  absent from the record; the same sentence in `build_system_prompt()` is verifiable forever.
+- **The mechanical check earned its cost on the first use**, at 1 of 6.
