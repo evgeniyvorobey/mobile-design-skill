@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.34.0] - 2026-08-19
+
+### Added
+-
+
+### Changed
+-
+
+## [1.34.0] - 2026-08-19
+
+**Backlog item A closed, bounded. P1-2 measured at eighteen pairs instead of six, and the instrument that measured it survived a diagnostic that should have killed it.**
+
+### Changed
+- **`scripts/run_paired_eval.py` carries rule 33's confound control in the tool.** The judge system prompt now states that a longer document is not a better design and that naming more values is not describing a better screen. Section 37 claimed judges were told this; the prompt stored in its own `pairs.jsonl` contains only the length half, and the phrase appears nowhere in that run's files. A claimed control that is not in the tool is not a control - this one is now generated into every request and greppable afterwards.
+- **`docs/paired-comparison.md` requires a length-varied null.** A null written to hold length constant is blind to a length effect. The file now says so with both measurements, so the next contrast cannot inherit the blind spot.
+
+### Measured
+- **Item A: 18 signal pairs, 48 judgements, one fresh judge each.** Control held at **0 of 6** agreed winners with `no-meaningful-difference` on 12/12. Signal: **arm A 21 / arm B 15 / tied 0, p = 0.203**, order-invariant on 15 of 18. Section 37's arm-A lead **does not replicate at its magnitude** - 67% to **58%** - and the brief-level 95% CI is **[-0.26, +0.59]**. P1-2 neither helps nor harms by any margin this design can see; 80% power arrives only against a tree winning ~85% of briefs.
+- **The diagnostic rule 36 requires, applied to the judge: the longer document won 27 of 36 signal judgements (p = 0.004)** - and the run's own six nulls could not say whether that was bias or substance, because they were written to a "within 5% of the original" instruction and differ by a median 2.3% against the contrast's 13.7%.
+- **The falsifier that settles it.** Five nulls rewritten as pure verbosity across **-15.2% to +40.2%**, every numeric value, backticked token and heading verified to survive as an exact multiset (one of six rewrites drifted and was excluded, not repaired). The judge returned `no-meaningful-difference` on **10 of 10** at maximum confidence, including at +40.2%. **The instrument has no length bias**; the association is length acting as a proxy for design substance. Across both runs: 22 of 22 null judgements found no difference, 36 of 36 signal judgements found one.
+- **First test-retest on real output**: re-judging section 37's six pairs reproduced 4 of 6 brief-level verdicts.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` **section 42**, with the audit, both runs, the pre-registered predictions and their outcomes, and **rule 37 - a control matched on the confound cannot test the confound; check what your null pairs hold constant before you trust them to clear anything.**
+
+### Not changed
+- **No rule, bar, band, template or mode contract moves.** P1-2 is not reverted: a bounded null is not a revert-grade finding, and section 42 says which effect size it rules out rather than claiming there is none.
+- Section 40's item A is annotated closed-bounded; nothing measurement-shaped is committed.
+
 ## [1.33.5] - 2026-08-19
 
 ### Added
