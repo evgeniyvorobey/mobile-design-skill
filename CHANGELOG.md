@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.35.1] - 2026-08-20
+
+### Added
+-
+
+### Changed
+-
+
+## [1.35.1] - 2026-08-20
+
+**Item C re-opened and answered. An implementer obeys 81.1% of the rules a spec explicitly states, and the gap is structured by the grammatical form of the rule.**
+
+### Measured
+- **Obedience to stated rules: 81.1%** (107 obeyed, 25 violated), 95% CI [74.4%, 87.7%], with **zero** `cannot-tell` verdicts across 132 checks. Roughly one stated rule in five is violated by a competent implementer working from the document alone.
+- **The gap is structured by rule form**, which is the finding: presence ("the screen has X") **14/14 = 100%**; prohibition ("X never appears") 35/42 = 83.3%; value ("X is 24dp") 48/60 = 80.0%; **relation ("X exceeds Y", "aligned to one edge") 10/16 = 62.5%**. Relations are violated at nearly twice the rate of values (17.5 pp, Fisher exact p = 0.187 - a direction on a 16-cell, and P4 was registered as underpowered before the data). Naming a thing survives implementation; relating two things does not.
+- **Ten of 66 rules were violated by BOTH independent implementations** - not implementer noise but a form that does not survive: zone spacing intervals, row minimum height, the money role, the 8dp scale, "no cards, no elevation, no fills".
+- **Obedience does not explain judged quality.** The render section 43's judges preferred in all four pairs and both orders obeys 82%; the loser obeys 80%. Following the spec and being the better screen are two axes.
+- **23% of stated rules are unreachable from a static default-state render** - loading and error states, motion, focus order, screen reader, large text, dark mode - and were excluded with reasons rather than counted as passes.
+
+### Instrument
+- **Falsifier passed 10/10.** Three violations were injected mechanically into a copy of each r1, ground truth fixed in advance. The checker caught 10 of 12; hand-adjudication showed the two misses were bad injections, verified mechanically - one edited a class that does not match the money elements (the checker identified the injection and explained why it does not touch the money column), the other targeted a class with zero elements on the page. Both figures are reported.
+- **Checker test-retest measured in the same run: 93%** (50/54 agreement on rules the injections did not touch), above the ~84% ceiling every other instrument in this series sits at.
+- **All 87 extracted rule quotes verified verbatim against source, 0 mismatches**, and the 66-rule set frozen with a SHA-256 before any checker saw it.
+
+### Added
+- `docs/proposals/quality-and-diversity-upgrade.md` **section 44**, with the design, the falsifier and its hand-adjudication, the per-form decomposition, and **rule 39 - the form of a rule predicts whether it survives implementation: naming survives, relating does not.**
+
+### Not changed
+- **No rule, bar, band, template or mode contract moves.** P4 is not significant and rule 15 requires measuring a change on the surface it ships to; the direction is recorded and the instruction text is untouched.
+- Nothing measurement-shaped is committed. Section 40's item C is annotated as answered.
+
 ## [1.35.0] - 2026-08-19
 
 ### Added
