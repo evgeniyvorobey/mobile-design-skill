@@ -227,17 +227,23 @@ case "$METHOD" in
         # For a self-contained copy install, inline the canonical SKILL.md and
         # supporting files into the wrapper so the ../../../ references in the
         # wrapper do not break.
-        mkdir -p "$TARGET_DIR/skill" "$TARGET_DIR/docs" "$TARGET_DIR/examples"
+        mkdir -p "$TARGET_DIR/skill" "$TARGET_DIR/docs" "$TARGET_DIR/examples" "$TARGET_DIR/scripts"
         cp "$REPO_ROOT/SKILL.md" "$TARGET_DIR/SKILL.md.canonical"
         cp -R "$REPO_ROOT/skill/." "$TARGET_DIR/skill/"
         cp -R "$REPO_ROOT/docs/." "$TARGET_DIR/docs/"
         # SKILL.md and docs/evals.md reference examples/ in twenty-plus places; without
         # this the copy install degrades silently instead of failing.
         cp -R "$REPO_ROOT/examples/." "$TARGET_DIR/examples/"
+        # SKILL.md names run_rubric_judge.py, run_generation_eval.py and run_paired_eval.py.
+        # Without scripts/ those three references dangle in every copy install, and the
+        # calibration harnesses cannot be run from an installed skill at all.
+        cp -R "$REPO_ROOT/scripts/." "$TARGET_DIR/scripts/"
         # Replace the wrapper SKILL.md with one whose paths point to the inlined files.
         sed -e 's|${CLAUDE_SKILL_DIR}/../../../SKILL.md|${CLAUDE_SKILL_DIR}/SKILL.md.canonical|g' \
             -e 's|${CLAUDE_SKILL_DIR}/../../../skill/|${CLAUDE_SKILL_DIR}/skill/|g' \
             -e 's|${CLAUDE_SKILL_DIR}/../../../docs/|${CLAUDE_SKILL_DIR}/docs/|g' \
+            -e 's|${CLAUDE_SKILL_DIR}/../../../examples/|${CLAUDE_SKILL_DIR}/examples/|g' \
+            -e 's|${CLAUDE_SKILL_DIR}/../../../scripts/|${CLAUDE_SKILL_DIR}/scripts/|g' \
             "$SOURCE_SKILL_MD" > "$TARGET_DIR/SKILL.md"
         cp "$SOURCE_AGENT" "$AGENT_TARGET"
         echo "[OK] Copied self-contained skill to $TARGET_DIR"

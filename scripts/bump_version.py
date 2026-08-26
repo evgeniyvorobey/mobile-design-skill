@@ -16,7 +16,7 @@ The single source of truth is `skill/metadata.yaml`. This script:
 1. Reads the current version.
 2. Computes the new version.
 3. Updates every file that carries the version string.
-4. Inserts a placeholder entry at the top of CHANGELOG.md.
+4. Inserts an `## [Unreleased]` placeholder at the top of CHANGELOG.md.
 5. Prints next steps (edit the CHANGELOG entry, commit, tag, push).
 """
 from __future__ import annotations
@@ -130,14 +130,25 @@ def update_readme_badge(new_version: str) -> bool:
 
 
 def insert_changelog_placeholder(new_version: str) -> bool:
-    """Insert an empty placeholder entry for the new version at the top of the CHANGELOG."""
+    """Insert an `## [Unreleased]` placeholder at the top of the CHANGELOG.
+
+    The placeholder is deliberately NOT labelled with the new version. A placeholder
+    that already carries the version number is structurally indistinguishable from a
+    finished release entry: releases 1.33.5 through 1.35.1 each shipped with the
+    placeholder left in place and the real entry appended underneath, producing two
+    `## [x.y.z]` headings for one release, and `validate_release.py` accepted every
+    one of them. `## [Unreleased]` cannot be mistaken for a release -- the release
+    gate rejects a non-semver top heading, so the entry has to be written and
+    renamed before the version can be tagged.
+    """
     text = CHANGELOG_PATH.read_text(encoding="utf-8")
     if re.search(rf"^## \[{re.escape(new_version)}\]", text, re.MULTILINE):
         return False
+    if re.search(r"^## \[Unreleased\]", text, re.MULTILINE):
+        return False
 
-    today = date.today().isoformat()
     placeholder = (
-        f"## [{new_version}] - {today}\n\n"
+        "## [Unreleased]\n\n"
         "### Added\n"
         "- \n\n"
         "### Changed\n"
@@ -190,10 +201,11 @@ def main() -> None:
     if readme_updated:
         print(f"  - {README_PATH.relative_to(ROOT)} (badge)")
     if changelog_inserted:
-        print(f"  - {CHANGELOG_PATH.relative_to(ROOT)} (placeholder entry)")
+        print(f"  - {CHANGELOG_PATH.relative_to(ROOT)} (`## [Unreleased]` placeholder)")
     print("")
     print("Next steps:")
-    print(f"  1. Fill in the CHANGELOG.md entry for {new_version}")
+    print(f"  1. Write the CHANGELOG.md entry, then rename `## [Unreleased]` to "
+          f"`## [{new_version}] - {date.today().isoformat()}`")
     print("  2. Run: python3 scripts/validate_repo.py")
     print("  3. Commit the changes")
     print(f"  4. Tag: git tag v{new_version}")

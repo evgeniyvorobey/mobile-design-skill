@@ -76,12 +76,12 @@ The script:
 1. Reads the current version from `skill/metadata.yaml`.
 2. Computes the new version.
 3. Updates `skill/metadata.yaml`, both `SKILL.md` frontmatters, and the README badge.
-4. Inserts a placeholder entry at the top of `CHANGELOG.md`.
+4. Inserts an `## [Unreleased]` placeholder at the top of `CHANGELOG.md`.
 5. Prints the remaining manual steps.
 
 After running the script:
 
-1. Fill in the CHANGELOG placeholder with real `### Added`, `### Changed`, `### Fixed`, `### Removed` entries.
+1. Fill in the `## [Unreleased]` placeholder with real `### Added`, `### Changed`, `### Fixed`, `### Removed` entries, then rename its heading to `## [X.Y.Z] - YYYY-MM-DD`. The placeholder is deliberately unversioned: `validate_release.py` rejects a non-semver top heading, an empty top entry, and a version heading that appears twice, so a placeholder cannot be tagged as a release.
 2. Run `python3 scripts/validate_repo.py`.
 3. Run `python3 scripts/validate_release.py --tag-or-ref vX.Y.Z`.
 4. Commit the changes.

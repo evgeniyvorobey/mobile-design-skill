@@ -2298,11 +2298,22 @@ def validate_large_screen_coverage() -> None:
 # v1.30.1 repaired three of these at once -- docs/motion-system.md, the tablet golden and the
 # stretched-phone fixture were registered in their own indexes and in this script, and none of the
 # 32 validators reads the README's enumerations. Scoped to the class rather than to those three.
+# v1.35.1 shipped the same class again in a directory the globs did not reach: `SKILL.md`
+# sends the reader to `scripts/run_generation_eval.py`, and the README -- the document a
+# reader starts from -- names neither it nor `run_diversity_eval.py`. Shipped code is a
+# shipped file. The `examples/` globs below were already satisfied when they were added;
+# they are here to keep them satisfied, which is what a guard is for.
 README_MUST_ENUMERATE = [
     "docs/*.md",
+    "docs/domain-packs/*.md",
+    "scripts/*.py",
+    "scripts/*.sh",
+    "examples/*.md",
     "examples/golden/*.md",
     "examples/visual-review-fixtures/*.md",
-    "docs/domain-packs/*.md",
+    "examples/case-studies/*.md",
+    "examples/evals/*.json",
+    "examples/rendered-output-qa/*.json",
 ]
 
 
@@ -2384,6 +2395,62 @@ def validate_paired_eval_falsifier() -> None:
 
     if errors:
         fail("Paired-comparison falsifier validation failed:\n" + "\n".join(f"  - {e}" for e in errors))
+
+
+# The mirror of README_MUST_ENUMERATE, for the document the MODEL starts from. Until
+# 1.35.2 the asymmetry ran the wrong way: every shipped doc had to be named in the README,
+# which a human reads, and nothing had to be named in `SKILL.md`, which is what actually
+# gets loaded at runtime. `docs/paired-comparison.md` sat outside the entrypoint that way
+# while its siblings `docs/evals.md` and `docs/llm-judge-runner.md` were inside it.
+#
+# The four exclusions below are process documents about releasing this repository, not
+# about designing a screen. They are deliberately outside a runtime reading list; each
+# one carries the reason it is excluded, so a fifth cannot be added silently.
+SKILL_ENTRYPOINT_DOC_EXCLUSIONS = {
+    "docs/commands.md": "invocation reference for the slash command, not runtime design guidance",
+    "docs/github-publishing.md": "publishing kit for maintainers of this repository",
+    "docs/release-automation.md": "release validation workflow, run by CI and maintainers",
+    "docs/versioning.md": "semver policy for this repository",
+}
+
+
+def validate_skill_entrypoint_enumerates_docs() -> None:
+    """Every runtime doc is named in the canonical `SKILL.md`, and the wrapper mirrors it.
+
+    Two failures this catches, both of which shipped:
+
+    1. A doc lands under `docs/`, is wired into its neighbours, passes every validator,
+       and the entrypoint the model reads never mentions it.
+    2. The canonical entrypoint and the Claude Code wrapper drift apart, so the same
+       skill loads a different set of documents depending on how it was invoked. Before
+       1.35.2 the wrapper was missing five docs the canon named.
+    """
+    errors: list[str] = []
+    canonical = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+    wrapper_path = ROOT / ".claude/skills/mobile-design-skill/SKILL.md"
+    wrapper = wrapper_path.read_text(encoding="utf-8")
+
+    for path in sorted(ROOT.glob("docs/*.md")):
+        relative_path = path.relative_to(ROOT).as_posix()
+        if relative_path in SKILL_ENTRYPOINT_DOC_EXCLUSIONS:
+            continue
+        if path.name not in canonical:
+            errors.append(
+                f"SKILL.md: never names `{relative_path}` -- a document the model is never "
+                "told to read is not shipped guidance. Add it to the reference list, or add "
+                "it to SKILL_ENTRYPOINT_DOC_EXCLUSIONS with the reason it is not runtime"
+            )
+
+    for name in sorted(set(re.findall(r"`(docs/[A-Za-z0-9_./-]+\.md)`", canonical))):
+        if Path(name).name not in wrapper:
+            errors.append(
+                f".claude/skills/mobile-design-skill/SKILL.md: canonical SKILL.md names "
+                f"`{name}` and the wrapper does not -- /mobile-design-skill would load a "
+                "different document set than the canonical entrypoint"
+            )
+
+    if errors:
+        fail("Skill entrypoint enumeration failed:\n" + "\n".join(f"  - {e}" for e in errors))
 
 
 def validate_readme_enumerates_shipped_files() -> None:
@@ -2685,6 +2752,7 @@ def main() -> None:
     validate_large_screen_coverage()
     validate_paired_eval_falsifier()
     validate_readme_enumerates_shipped_files()
+    validate_skill_entrypoint_enumerates_docs()
     validate_projected_score_lines()
     validate_documentation_hygiene()
     validate_links()

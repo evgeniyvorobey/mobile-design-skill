@@ -21,6 +21,11 @@ jobs:
       - name: Validate repository structure, links, and examples
         run: python3 scripts/validate_repo.py
 
+      # Reads the INSTALL, not the repo. A copy install inlines a subset of the tree next
+      # to a rewritten wrapper, so a reference valid here can dangle in what a user loads.
+      - name: Verify both install methods resolve every reference
+        run: python3 scripts/verify_install.py
+
       - name: Validate rubric fixture pack (schema, coverage, median rule)
         run: python3 scripts/run_rubric_judge.py --dry-run
 
@@ -47,3 +52,14 @@ jobs:
       # oracle replay this can fail when the measurement stops discriminating.
       - name: Self-test diversity metric (discriminating, still not a model run)
         run: python3 scripts/run_diversity_eval.py --self-test
+
+      # The only thing this harness is for is REFUSING to report a contrast whose own
+      # null control failed. Reading the source for two constants cannot see a refusal
+      # that has been widened into a no-op; running it can.
+      - name: Self-test paired comparison (must refuse a failed control)
+        run: python3 scripts/run_paired_eval.py --self-test
+
+      # The stdin/stdout contract for an external paired judge. Proves the adapter,
+      # NOT that any model prefers the better design.
+      - name: Self-test paired comparison judge adapter (oracle, not a quality check)
+        run: python3 scripts/run_paired_eval.py --fixture-arms separating --judge-command "python3 scripts/paired_eval_oracle_agent.py"

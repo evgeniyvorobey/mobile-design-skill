@@ -1,6 +1,9 @@
 name: Release Validate
 
 on:
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
     inputs:
       release_ref:
@@ -13,7 +16,7 @@ permissions:
 
 jobs:
   release-validate:
-    name: Manual release validation
+    name: Release validation
     runs-on: ubuntu-latest
 
     steps:
@@ -27,9 +30,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      # On a tag push the tag itself is the ref under validation, so the version/tag
+      # sanity check runs with `--tag-or-ref` instead of being silently skipped.
       - name: Run release validation
         env:
-          RELEASE_REF: ${{ inputs.release_ref }}
+          RELEASE_REF: ${{ inputs.release_ref || (github.ref_type == 'tag' && github.ref_name) || '' }}
         run: |
           set -euo pipefail
           args=()

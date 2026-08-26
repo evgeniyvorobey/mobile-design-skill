@@ -115,15 +115,70 @@ def read_readme_versions() -> tuple[list[str], str]:
     return badge_versions, current_version
 
 
+def changelog_entry_body(text: str, match: re.Match[str]) -> str:
+    """Everything between one `## [x.y.z]` heading and the next one, or the end of file."""
+    following = CHANGELOG_ENTRY_RE.search(text, match.end())
+    return text[match.end():following.start() if following else len(text)]
+
+
+def changelog_body_is_empty(body: str) -> bool:
+    """True when the entry carries no prose: only `### Section` headings and bare bullets.
+
+    `bump_version.py` writes exactly that shape as a placeholder. A placeholder is
+    indistinguishable from a described release to every other check in this file,
+    so a release with zero lines of description would otherwise pass the gate.
+    """
+    for line in body.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped.startswith("#"):
+            continue
+        if re.fullmatch(r"[-*+]\s*", stripped):
+            continue
+        return False
+    return True
+
+
 def read_changelog_top_version() -> str:
     text = read_text(CHANGELOG_PATH)
-    match = CHANGELOG_ENTRY_RE.search(text)
-    if not match:
+    matches = list(CHANGELOG_ENTRY_RE.finditer(text))
+    if not matches:
         fail("CHANGELOG.md must contain a top release entry like `## [1.2.3] - YYYY-MM-DD`")
 
+    match = matches[0]
     label = match.group("label").strip()
     if not SEMVER_RE.match(label):
+        if label.lower() == "unreleased":
+            fail(
+                "CHANGELOG.md still opens with the `## [Unreleased]` placeholder that "
+                "`bump_version.py` wrote. Write the entry, then rename the heading to "
+                "`## [x.y.z] - YYYY-MM-DD` -- a release is not describable until it is"
+            )
         fail(f"CHANGELOG.md top release entry is not a semver version: `{label}`")
+
+    # Two ways a release ships with no readable history, both observed on this repo:
+    # a placeholder left unfilled, and a placeholder left in place above the real entry.
+    if changelog_body_is_empty(changelog_entry_body(text, match)):
+        fail(
+            f"CHANGELOG.md entry `## [{label}]` has an empty body -- section headings and "
+            "bare bullets only. Fill in the placeholder that `bump_version.py` wrote, or "
+            "delete it if the real entry is written elsewhere in the file"
+        )
+
+    counts: dict[str, int] = {}
+    for entry in matches:
+        entry_label = entry.group("label").strip()
+        counts[entry_label] = counts.get(entry_label, 0) + 1
+    duplicates = sorted(version for version, count in counts.items() if count > 1)
+    if duplicates:
+        fail(
+            "CHANGELOG.md repeats these version headings: "
+            + ", ".join(f"`## [{version}]`" for version in duplicates)
+            + " -- a duplicate heading means an unfilled placeholder was left above the "
+            "real entry, and the release history reads as two entries for one release"
+        )
+
     return label
 
 
@@ -196,6 +251,10 @@ def release_tmp_dir() -> Path:
 
 def run_release_checks() -> None:
     run_step("Repository validation", [sys.executable, "scripts/validate_repo.py"])
+    run_step(
+        "Install verification (both methods, every reference resolves)",
+        [sys.executable, "scripts/verify_install.py"],
+    )
     run_step(
         "Diversity metric self-test",
         [sys.executable, "scripts/run_diversity_eval.py", "--self-test"],

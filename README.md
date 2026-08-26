@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.35.1-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.36.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.35.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.36.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -492,9 +492,13 @@ mobile-design-skill/
 │   ├── bump_version.py                   Version bumper (synchronizes all version references)
 │   ├── validate_repo.py                  Repository structure, docs hygiene, link, and example-response validator
 │   ├── validate_release.py               Release validation and version/tag sanity checks
+│   ├── verify_install.py                 Installs into a throwaway dir and checks every reference resolves
 │   ├── rubric_judge_oracle_agent.py      Deterministic stdin/stdout agent for judge-command CI self-tests
 │   ├── paired_eval_oracle_agent.py       Deterministic stand-in judge that proves the paired-eval adapter
+│   ├── generation_oracle_agent.py        Deterministic stand-in generator that proves the generation-eval adapter
 │   ├── run_paired_eval.py                Forced-choice paired comparison of two arms, with a mandatory null-pair control
+│   ├── run_generation_eval.py            Scores what the skill generates against the committed-example contract
+│   ├── run_diversity_eval.py             Decision-vector spread across generated responses — measures sameness
 │   └── run_rubric_judge.py               Provider-agnostic LLM-as-judge runner and external-agent adapter
 ├── skill/
 │   ├── modes.md                          Per-mode inputs, outputs, validation, fallback
@@ -585,11 +589,17 @@ mobile-design-skill/
     │   ├── report-schema.json            Optional rendered QA report schema
     │   └── sample-report.json            Example rendered QA report
     └── evals/
-        ├── rubric-score-1.json           Rubric fixture: broken or misleading
-        ├── rubric-score-2.json           Rubric fixture: structurally weak
-        ├── rubric-score-3.json           Rubric fixture: acceptable baseline
-        ├── rubric-score-4.json           Rubric fixture: strong and shippable
-        └── rubric-score-5.json           Rubric fixture: excellent and resilient
+        ├── rubric-score-1.json                       Rubric fixture: broken or misleading
+        ├── rubric-score-2.json                       Rubric fixture: structurally weak
+        ├── rubric-score-2-adversarial.json           Rubric fixture: complete template, weak specification
+        ├── rubric-score-3.json                       Rubric fixture: acceptable baseline
+        ├── rubric-score-3-contradicted-value.json    Rubric fixture: baseline clamped by a contradicted value
+        ├── rubric-score-3-visual-rules-state-gap.json  Rubric fixture: visual rules stated, states missing
+        ├── rubric-score-4.json                       Rubric fixture: strong and shippable
+        ├── rubric-score-5.json                       Rubric fixture: excellent and resilient
+        ├── generation-prompts.json                   Prompt pack for the generation eval
+        ├── diversity-fixtures.json                   Uniform/varied corpora the diversity self-test must separate
+        └── paired-comparison-fixtures.json           Separating, null, and broken-control arms for the paired eval
 ```
 
 ---
@@ -676,7 +686,7 @@ After editing:
 python3 scripts/validate_repo.py             # check structure, docs hygiene, links, and example outputs
 python3 scripts/validate_release.py          # run deterministic release checks
 python3 scripts/bump_version.py minor        # bump version
-# fill in the generated CHANGELOG placeholder
+# write the CHANGELOG entry, then rename `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD`
 git commit -am "customize for <product>"
 ```
 

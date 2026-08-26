@@ -14,3 +14,6 @@ Thumbs.db
 
 # User work output, not part of the skill
 concepts/
+
+# Playwright MCP session artefacts (console logs + accessibility snapshots)
+.playwright-mcp/

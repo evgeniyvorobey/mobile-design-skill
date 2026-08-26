@@ -2,13 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.35.1] - 2026-08-20
+## [1.36.0] - 2026-08-26
+
+**The release gate had never run, and nothing had ever read an install.** Every check that only `validate_release.py` performs — version parity across five places, the CHANGELOG top entry, the paired-comparison self-test — was unexecuted in CI for the entire history of this repository, and defects rode through underneath it. Separately, every validator in this repository reads the repository; none had ever looked at the tree a user installs, where `scripts/run_rubric_judge.py` has been dangling since 1.12.0 and `scripts/run_generation_eval.py` since 1.19.0.
+
+### Fixed
+- **`release-validate.yml` now triggers on a pushed `v*` tag.** It carried `workflow_dispatch` alone, so it had never run once: `gh run list --workflow=release-validate.yml` returns empty across every tag. The tag is passed through as `--tag-or-ref`, so a tag that disagrees with `skill/metadata.yaml` now fails the run instead of being skipped.
+- **The CHANGELOG top entry can no longer be satisfied by an empty placeholder.** `read_changelog_top_version()` checked one thing — that the first `## [x.y.z]` label parses as semver. A release with zero lines of description passed. It now also fails on an empty body (section headings and bare bullets only), on the unfilled `## [Unreleased]` placeholder, and on any version that heads two entries.
+- **Removed four duplicate CHANGELOG headings.** `1.35.1`, `1.35.0`, `1.34.0` and `1.33.5` each appeared twice — an empty `bump_version.py` placeholder left in place above the real entry, four releases running. The gate now refuses that shape.
+- **`bump_version.py` writes `## [Unreleased]` instead of a placeholder already labelled with the new version.** A placeholder carrying the version is structurally indistinguishable from a finished entry, which is how the four duplicates formed. An unversioned placeholder cannot be mistaken for a release: the gate rejects a non-semver top heading, so the entry has to be written before the version can be tagged.
+- **`README_MUST_ENUMERATE` now reaches `scripts/`, `examples/*.md`, `examples/case-studies/`, `examples/evals/` and `examples/rendered-output-qa/`.** The guard added in 1.31.0 covered four globs and missed the directory holding shipped code: `SKILL.md` sends the reader to `scripts/run_generation_eval.py` and the README named neither it, `run_diversity_eval.py`, `generation_oracle_agent.py`, nor six of the eleven eval fixtures. All nine are now in the architecture tree.
+- **`.playwright-mcp/` is untracked and ignored.** 32 files, 168 KB of console logs and accessibility snapshots from a local Playwright session, committed in `f008f2e`. Content checked before removal: only `http://127.0.0.1` URLs, no secrets — refuse, not leak.
 
 ### Added
--
+- **`docs/paired-comparison.md` is in the canonical `SKILL.md` reference list.** Its siblings `docs/evals.md` and `docs/llm-judge-runner.md` were already there; the one instrument that answers *which of two designs is better* was reachable only through the README. The Claude Code wrapper listed it in one downstream copy and not in this repository's own.
+- **The Claude Code wrapper now mirrors the canonical reference list, in the same order.** It was missing five documents the canon names — `motion-system.md`, `adaptive-layout.md`, `evals.md`, `llm-judge-runner.md` and `paired-comparison.md` — so `/mobile-design-skill` and a direct read of `SKILL.md` loaded different document sets.
+- **`validate_skill_entrypoint_enumerates_docs()` in `validate_repo.py`**, the mirror of the README guard for the document the *model* starts from: every `docs/*.md` must be named in `SKILL.md`, and the wrapper must name every doc the canon names. The four process docs (`commands`, `github-publishing`, `release-automation`, `versioning`) are excluded by name, each carrying the reason, so a fifth cannot be added silently.
+- **`scripts/verify_install.py`, and a CI step that runs it.** Nothing in this repository had ever looked at an install. `install.sh --method copy` inlines a subset of the tree next to a rewritten wrapper, so a reference valid in the working copy can dangle in what a user loads. The script performs a real install in both methods into a throwaway directory and resolves every path either wrapper names against what actually landed.
+- **`install.sh --method copy` now copies `scripts/`.** `SKILL.md` has named `scripts/run_rubric_judge.py` since 1.12.0 and `scripts/run_generation_eval.py` since 1.19.0, while the copy install placed no `scripts/` directory at all — three dangling references in every copy install, which is what the new verifier reports the moment the copy line is removed.
+- **`run_paired_eval.py --self-test` runs on every push**, alongside its judge adapter, next to the three neighbouring self-tests that were already there. On pushes the refusal was previously guarded by `validate_paired_eval_falsifier()`, which reads the source for two constants; deleting the refusal itself (`readable = null_rate <= NULL_AGREED_WINNER_MAX` → `readable = True`) leaves both constants intact, and `validate_repo.py` stayed green on that mutation. The new step goes red. A harness whose only value is declining to report a failed control was shipping with a disableable refusal.
 
 ### Changed
--
+- `docs/release-automation.md` no longer calls the workflow manual, and its check list now matches what `validate_release.py` actually runs — the diversity, generation and paired-comparison steps were absent from the document.
+- `docs/versioning.md` and the README maintenance block describe the `## [Unreleased]` ritual and what the gate rejects.
+
+### Not changed
+- **No rule, bar, band, template or mode contract moves, and no guidance text is edited.** The audit that produced this release was scoped to the harness and states outright that it says nothing about the quality of the guides. This is MINOR rather than PATCH for one reason: `docs/paired-comparison.md` enters the runtime reading list and the wrapper gains five documents, so the set of files the model may load is larger than it was.
+- `validate_paired_eval_falsifier()` is kept. With a real run in CI it is a fast structural check on the fixture corpus; it was never evidence that the refusal refuses.
 
 ## [1.35.1] - 2026-08-20
 
@@ -35,14 +55,6 @@ All notable changes to this project will be documented in this file.
 
 ## [1.35.0] - 2026-08-19
 
-### Added
--
-
-### Changed
--
-
-## [1.35.0] - 2026-08-19
-
 **Backlog item C gated before it was built. A rendered contrast measures the renderer, and the reason is that a spec's stated rules do not survive implementation.**
 
 ### Changed
@@ -60,14 +72,6 @@ All notable changes to this project will be documented in this file.
 ### Not changed
 - **No rule, bar, band, template or mode contract moves.** `docs/rendered-output-qa.md` is untouched: the finding is about what a rendered channel can measure, not about that workflow's content.
 - Item C is annotated in section 40 as phase-2-refuted and re-opened as a spec-implementability check, which is the one thing this repo has never had an instrument for.
-
-## [1.34.0] - 2026-08-19
-
-### Added
--
-
-### Changed
--
 
 ## [1.34.0] - 2026-08-19
 
@@ -89,14 +93,6 @@ All notable changes to this project will be documented in this file.
 ### Not changed
 - **No rule, bar, band, template or mode contract moves.** P1-2 is not reverted: a bounded null is not a revert-grade finding, and section 42 says which effect size it rules out rather than claiming there is none.
 - Section 40's item A is annotated closed-bounded; nothing measurement-shaped is committed.
-
-## [1.33.5] - 2026-08-19
-
-### Added
--
-
-### Changed
--
 
 ## [1.33.5] - 2026-08-19
 
