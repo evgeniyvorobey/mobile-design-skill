@@ -49,10 +49,10 @@ When no pattern fits cleanly: prefer the simplest pattern that solves the task, 
 | Discoverability | High — always visible | Low — hidden behind icon | High when at top of screen |
 | Switching cost | One tap | Two taps (open + pick) | One tap |
 | Platform fit iOS | Native (tab bar) | Non-native | Acceptable as segmented or under nav bar |
-| Platform fit Android | Native (Material bottom nav) | Native (Material drawer) | Native (Material tabs) |
+| Platform fit Android | Native (Material navigation bar) | Deprecated in Material 3 Expressive; the expanded navigation rail replaces it | Native (Material tabs) |
 
 **Use bottom nav when** the app has 3–5 top-level destinations the user moves between frequently.
-**Use nav drawer when** the hierarchy is deep (>5 primary areas) and frequency of switching is low.
+**Use nav drawer when** the hierarchy is deep (>5 primary areas) and frequency of switching is low — on Android with Material 3 Expressive, build it as an expanded navigation rail.
 **Use top tabs when** the user switches between related views of the same content (segments of one destination), not between destinations.
 
 **Trade-off**: bottom nav consumes vertical space continuously; drawer gives screen real estate but adds a tap. Top tabs combine well with bottom nav (bottom nav switches destinations, top tabs switch views within a destination).
@@ -672,12 +672,12 @@ When no pattern fits cleanly: prefer the simplest pattern that solves the task, 
 |---------|----------|
 | Email + password | Default fallback; required for some account types |
 | Magic link | Low-stakes; eliminates password management |
-| Social (Apple, Google, Facebook) | Reduces friction; Sign-in with Apple is required on iOS when other third-party sign-ins exist |
+| Social (Apple, Google, Facebook) | Reduces friction. On iOS, a third-party or social login needs an equivalent alongside it that limits data to name and email, lets the user keep the email private, and does not track for advertising without consent (App Review Guideline 4.8, revised January 2024); Sign in with Apple meets it |
 | Phone + OTP | Phone-first audiences; SMS-gated accounts |
 | Biometric (Face/Touch ID) | Re-auth on a signed-in device; never the only auth factor |
 
 **Red flag**:
-- Email+password as the only option on an iOS app with third-party sign-in (missing Sign-in with Apple).
+- An iOS app offering a third-party or social login with no equivalent login that meets Guideline 4.8's privacy terms (Sign in with Apple is the usual way to meet them).
 - OTP form that doesn't auto-fill from SMS (iOS autofill / Android SMS Retriever).
 
 ---
@@ -720,15 +720,15 @@ When cross-platform output is required, share structure first and split only whe
 | Primary action on a form | Top-right nav bar ("Save", "Done") | Bottom sheet action or top-bar action button |
 | Destructive confirmation | Action sheet with red destructive action | Material dialog with red text destructive button |
 | Navigation back | Top-left chevron + edge swipe | System back button + predictive back |
-| Tab bar | Bottom, 3–5 items, native tab bar | Bottom nav (Material) with 3–5 destinations |
+| Tab bar | Bottom on iPhone, 3–5 items; since iOS 26 it floats above content on Liquid Glass. On iPad the system tab bar sits near the top | Navigation bar (Material 3 Expressive, 64 dp) with 3–5 destinations |
 | Date picker | Wheel picker in sheet | Material date picker (calendar or input) |
 | Share | UIActivityViewController (native share sheet) | Android share sheet (system) |
 | Haptics | System haptic feedback taxonomy | Material haptic patterns |
-| Large-screen primary navigation | Sidebar at regular width; collapses to rail-equivalent behaviour | Navigation rail 600–839 dp; standard navigation drawer ≥ 840 dp |
+| Large-screen primary navigation | The system tab bar near the top, convertible to a sidebar; a sidebar when the destination set has hierarchy. iPadOS has no rail | Navigation rail (96 dp) at 600–839 dp; expanded navigation rail (220–360 dp) at ≥ 840 dp, replacing the deprecated drawer |
 | Two-pane container | Split view, two- or three-column | Material 3 adaptive list-detail / supporting-pane scaffold |
 | Contextual overlay at regular width | Popover anchored to its source | Menu or dialog — a popover is not a Material surface |
-| Multitasking surface | Split View, Slide Over, Stage Manager | Split-screen and freeform multi-window |
-| Keyboard shortcut discovery | Command-key HUD | Keyboard shortcuts helper |
+| Multitasking surface | Resizable windows (iPadOS 26), Slide Over, Stage Manager | Split-screen, freeform windows, desktop windowing (Android 16) |
+| Keyboard shortcut discovery | The menu bar (iPadOS 26; holding Command is the iPadOS 18-and-earlier method) | Keyboard shortcuts helper |
 
 Component and API names in the large-screen rows are library- and OS-version-bound. Name the version a recommendation assumes when it materially changes the answer (guardrail 16).
 
@@ -820,19 +820,19 @@ Width, not the device, drives every matrix here — compact < 600 dp, medium 600
 | Width | Primary navigation | Destinations | Why |
 |-------|--------------------|--------------|-----|
 | Compact (< 600 dp) | Bottom bar / bottom navigation | 3–5 | Thumb reach; the phone rule, unchanged |
-| Medium (600–839 dp) | Navigation rail, 80 dp, leading edge | 3–7 | Leading edge is closer to the holding hand than the bottom of a 10-inch screen, and the vertical space is free |
-| Expanded (≥ 840 dp) | Sidebar / permanent drawer, 240–360 dp | 5+, grouped and hierarchical | Width is available; labels and grouping fit; the destination is visible without a tap |
+| Medium (600–839 dp) | Android: navigation rail, 96 dp collapsed, leading edge. iPadOS: the system tab bar near the top (no rail) | 3–7 | Leading edge is closer to the holding hand than the bottom of a 10-inch screen, and the vertical space is free |
+| Expanded (≥ 840 dp) | Android: expanded navigation rail, 220–360 dp, replacing the drawer. iPadOS: the tab bar, converted to a sidebar when the set has hierarchy | 5+, grouped and hierarchical | Width is available; labels and grouping fit; the destination is visible without a tap |
 
 **Use a rail when** the width is medium or the sidebar's labels would cost the content more width than they are worth.
-**Use a sidebar when** the width is expanded and the destination set has hierarchy (folders, projects, saved filters) — a rail cannot express grouping.
+**Use a sidebar or an expanded rail when** the width is expanded and the destination set has hierarchy (folders, projects, saved filters) — a collapsed rail cannot express grouping.
 **Keep the bottom bar when** the app is at compact width, including a tablet in Slide Over or a narrow Split View.
 
-**Trade-off**: the sidebar takes 240–360 pt from the content permanently; make it collapsible to a rail when the primary task is reading or editing at full width. A rail costs 80 dp and holds no hierarchy.
+**Trade-off**: a sidebar or an expanded rail takes 220–360 dp from the content permanently; make it collapsible (to the collapsed rail on Android, behind the sidebar toggle on iPadOS) when the primary task is reading or editing at full width. A collapsed rail costs 96 dp and holds no hierarchy.
 
 **Rule**: navigation changes container with width, never destination set. The same destinations appear at every width, so a user who resizes mid-session never loses a section. Never map navigation to a device model.
 
 **Red flag**:
-- A bottom bar at expanded width — the single most common large-screen defect. The controls sit as far from the eye as the layout allows and the width above them goes unused.
+- A bottom bar at expanded width on Android, or a custom bottom bar on iPad, where the system tab bar sits at the top — the single most common large-screen defect. The controls sit as far from the eye as the layout allows and the width above them goes unused.
 - Five bottom tabs centred as a group in the middle of a 1366 pt bar.
 - A hamburger drawer at expanded width, hiding destinations that would fit permanently.
 - A rail with more than about seven items, or icon-only rail items whose meaning is not obvious.

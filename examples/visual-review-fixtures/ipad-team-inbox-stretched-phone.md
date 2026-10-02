@@ -113,9 +113,9 @@ The app runs on iPad but has no regular-width layout: the phone screen is centre
 ### F2 — Bottom tab bar at expanded width
 - Lens: Navigation & interaction
 - Observation: Five tabs sit in a bar spanning 1366 pt, centred as a group, 10 pt labels, at the bottom edge of a 1024 pt-tall window.
-- Violated principle: Fitts's Law; platform convention for regular width (sidebar or navigation rail, not a bottom bar).
+- Violated principle: Fitts's Law; platform convention for regular width (the iPadOS system tab bar sits near the top and converts to a sidebar; iPadOS has no navigation rail, and a bottom bar is the iPhone layout).
 - User consequence: Primary navigation sits at the far edge from where the user is reading, the tab targets are small relative to the window, and the horizontal space the bar occupies does nothing.
-- Change: Navigation rail (80 dp, leading edge) at medium width and a permanently visible sidebar (240–360 pt) at expanded width, carrying the same five destinations; keep the bottom bar at compact width.
+- Change: Adopt the system tab bar, which iPadOS places near the top at regular width, and show it as a sidebar at expanded width, carrying the same five destinations; keep the bottom tab bar at compact width.
 - Predicted effect: Should shorten the travel to a destination and free the bottom edge; confidence M (D2 text-only).
 - Severity: 2 (minor) — frequent, moderate impact, persistent.
 - Moves: Attention path and hierarchy 2→3.
@@ -195,7 +195,7 @@ The app runs on iPad but has no regular-width layout: the phone screen is centre
 - 1 (cosmetic): F6
 
 ## Platform-convention mismatches
-- Bottom tab bar at expanded width where iPadOS convention is a sidebar or rail.
+- Bottom tab bar at expanded width where iPadOS convention is the top tab bar or a sidebar.
 - A full-screen push where the platform's canonical layout for a collection-and-item task is a split view.
 - Compose as a full-window modal at 1366 pt where a sheet or a pane-scoped composer fits the platform better.
 - Split View treated as an afterthought rather than as a width the app is handed at runtime.
@@ -207,7 +207,7 @@ The app runs on iPad but has no regular-width layout: the phone screen is centre
 - Cannot judge visual balance or the perceived emptiness of the side margins without a screenshot.
 
 ## Next actions
-- Introduce list-detail at regular width with the compact layout kept as a first-class state, then move navigation to a rail and sidebar.
+- Introduce list-detail at regular width with the compact layout kept as a first-class state, then move navigation to the system tab bar and its sidebar form.
 - Cap the reading measure, define the detail pane's empty state and back behaviour in both states, and add the second cue to unread, urgent, and assigned.
 - Guard the team-wide Delete with a scoped confirmation and an undo window.
 ```
@@ -215,7 +215,7 @@ The app runs on iPad but has no regular-width layout: the phone screen is centre
 ## Expected critique
 
 - The review should identify that the screen has no regular-width layout at all, and name list-detail as the canonical layout rather than describing a bespoke one.
-- The review should flag the bottom tab bar at expanded width and name the navigation rail and sidebar as the width-appropriate replacements.
+- The review should flag the bottom tab bar at expanded width and name the iPadOS top tab bar and sidebar as the width-appropriate replacements; a review that prescribes a navigation rail for iPad has imported an Android pattern.
 - The review should flag the unbounded reading measure in the thread body and compose field, and give a numeric cap.
 - The review should note that a two-pane layout needs the detail pane's own empty state and a back rule for both the two-pane and the collapsed state.
 - The review should flag colour-only unread, urgent, and assignment cues.

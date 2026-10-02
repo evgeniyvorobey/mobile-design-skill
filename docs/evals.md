@@ -184,7 +184,7 @@ Hard-fail the response if it matches a P0 or P1 weakness in `docs/weaknesses.md`
 ### Fail conditions
 - Review asserts visual properties (color, contrast, spacing) from text-only input without qualifier
 - No strengths section or "no strengths found"
-- A finding splits the issue from its fix, or a change is stated without a predicted effect
+- A finding splits the issue from its fix, or a severity 3–4 finding states a change without a predicted effect (severity 0–2 findings may use the compressed Observation → Change → Severity form the template allows)
 - Projected score asserted without conditional phrasing (IF fixes land AND assumptions hold), or a P0/Fail projected up to a number
 - Bold move offered without its trigger met, or missing required fields (deviation, JTBD job, validation path)
 - Compliance claim without verified evidence
@@ -271,7 +271,7 @@ For generated concepts, UI specs, typography systems, and handoff:
 
 For reviews:
 
-- [ ] `Design quality score (current → projected)` includes both a current score and a projected score, each on its own `Current:` / `Projected:` line. Both are flat medians of the assessable dimensions — the current over the bands as found, the projected over the bands once the fixes land — not "up to"; any higher post-visual-pass figure is confined to a `Ceiling note`.
+- [ ] `Design quality score (current → projected)` includes both a current score and a projected score, each on its own `Current:` / `Projected:` line. Both are medians of the assessable dimensions, lowered by the critical-dimension step and clamped by caps (rubric, Final scoring method) — the current over the bands as found, the projected over the bands once the fixes land — and plain numbers, not "up to"; any higher post-visual-pass figure is confined to a `Ceiling note`.
 - [ ] The projection is conditional (IF fixes land AND assumptions hold) and capped at 4/5 unless resilience is named; a P0/Fail is not projected up to a number.
 - [ ] Text-only reviews label both scores as structural/provisional, and visual dimensions are not projected upward.
 - [ ] The per-dimension table carries all nine rubric dimensions, distinctiveness included, and the score rationale references the concrete ones it moves.
@@ -470,7 +470,7 @@ python3 scripts/run_diversity_eval.py --self-test
 
 ## Comparing two arms of output
 
-The rubric above scores one artifact and asks what it states. It does not read whether one design is better than another: measured on six designs against six deliberately worse twins, its nine boundary questions returned the identical band **12 paired scorings out of 12**, while a rubric-free forced choice on the same pairs returned **12 of 12** in the right direction and named the injected mechanism every time.
+The rubric above scores one artifact and asks what it states. It does not read whether one design is better than another: measured on six designs against six deliberately worse twins, its nine boundary questions returned the identical band **12 paired scorings out of 12**, while a rubric-free forced choice on the same pairs returned **12 of 12** judgements (6 of 6 pairs) in the right direction and named the injected mechanism every time.
 
 Use [`paired-comparison.md`](paired-comparison.md) and `../scripts/run_paired_eval.py` when the question is whether a change made the output better — one prompt pack run against two trees.
 

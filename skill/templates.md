@@ -93,14 +93,15 @@ Assumptions:
 <!-- Include only when Device class is not Phone. Omit entirely for phone-only work. -->
 - Breakpoint: [compact < 600dp / medium 600-839dp / expanded >= 840dp — name the ones this product supports]
 - Canonical layout: [list-detail / supporting pane / feed] — [why this one]
-- Navigation by width: [bottom bar at compact / rail at medium / sidebar at expanded]
+- Navigation by width: [Android: navigation bar at compact / rail at medium / expanded rail at expanded; iPadOS: tab bar, top tab bar or sidebar at regular width — no rail]
 - Collapse rule: [what the two-pane layout becomes at compact, and what back does in each state]
 - Detail-pane empty state: [placeholder with an action / default selection]
-- Multitasking: [Split View / Slide Over / Stage Manager / multi-window — what survives a resize]
+- Multitasking: [iPadOS resizable windows / Slide Over / Stage Manager, Android multi-window / desktop windowing, a fold — what survives a resize]
 - Input additions: [pointer / hardware keyboard / drag-and-drop / stylus] — touch minimums unchanged, every drag has a non-drag path
 
 ## Design quality calibration
 - Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
+- (Optional — print the next two lines only when the user asked for a quality score or the response is judged; otherwise keep the derivation internal.)
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
 - Quality target: [derived]/5 — [below the top band: blocked from [next]/5 by [outlying dimension] until [named input or fix] | at the top band: nothing blocks 5/5 — [the resilience the bands record]]
 - Attention path:
@@ -244,14 +245,15 @@ Assumptions:
 <!-- Include only when Device class is not Phone. Omit entirely for phone-only work. -->
 - Breakpoint: [compact < 600dp / medium 600-839dp / expanded >= 840dp — name the ones this product supports]
 - Canonical layout: [list-detail / supporting pane / feed] — [why this one]
-- Navigation by width: [bottom bar at compact / rail at medium / sidebar at expanded]
+- Navigation by width: [Android: navigation bar at compact / rail at medium / expanded rail at expanded; iPadOS: tab bar, top tab bar or sidebar at regular width — no rail]
 - Collapse rule: [what the two-pane layout becomes at compact, and what back does in each state]
 - Detail-pane empty state: [placeholder with an action / default selection]
-- Multitasking: [Split View / Slide Over / Stage Manager / multi-window — what survives a resize]
+- Multitasking: [iPadOS resizable windows / Slide Over / Stage Manager, Android multi-window / desktop windowing, a fold — what survives a resize]
 - Input additions: [pointer / hardware keyboard / drag-and-drop / stylus] — touch minimums unchanged, every drag has a non-drag path
 
 ## Design quality requirements
-- Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
+- Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two directions recorded in `Key decision tradeoffs`
+- (Optional — print the next two lines only when the user asked for a quality score or the response is judged; otherwise keep the derivation internal.)
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
 - Quality target: [derived]/5 — [below the top band: blocked from [next]/5 by [outlying dimension] until [named input or fix] | at the top band: nothing blocks 5/5 — [the resilience the bands record]]
 - Attention path:
@@ -308,7 +310,7 @@ Assumptions:
 - User consequence: [the mechanism by which it hurts the user — not a restatement of the observation]
 - Change: [the specific edit]
 - Predicted effect: [directional + confidence — "should reduce mis-submits; confidence M (D2 text-only)". Never a fabricated %]
-- Severity: [0–4, Nielsen] — [frequency × impact × persistence, one line]
+- Severity: [0–4, Nielsen] — [frequency, impact and persistence, one line]
 - Moves: [dimension] [n]→[n] — the boundary question the fix answers; + "lifts cap: …" if applicable
 
 ### F2 — [short title]  (full form, repeat F1's fields)
@@ -343,7 +345,7 @@ Assumptions:
 | Context & brand fit | [n] | [n] | | |
 | Production readiness | [n] | [n] | | |
 | Distinctiveness & owned assets | [n] | [n] | | |
-- Both overall numbers = the median of the assessable (non-`n/v`) bands in the matching column, lowered if a critical task dimension stays weak. Neither is the sum of per-dimension gains, and neither is raised by a dimension the input cannot verify. A higher number reachable only after a visual pass belongs in `Ceiling note`, not here.
+- Both overall numbers = the median of the assessable (non-`n/v`) bands in the matching column, lowered if a critical task dimension stays weak, then clamped by any cap (`docs/design-quality-rubric.md`, Final scoring method). Neither is the sum of per-dimension gains, and neither is raised by a dimension the input cannot verify. A higher number reachable only after a visual pass belongs in `Ceiling note`, not here.
 - A band is `n/v` only when the evidence channel cannot carry the question — not when the input is merely thin. See the two-axis rule in `docs/design-quality-rubric.md`: routing thin evidence to `n/v` removes the weakest dimension from the median.
 
 ## Severity index
@@ -426,7 +428,8 @@ Assumptions:
 - [rule]
 
 ## Visual rhythm rules
-- Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
+- Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two rejected directions, each named in one line under `Assumptions` (Mode 5 has no alternatives section)
+- (Optional — print the next two lines only when the user asked for a quality score or the response is judged; otherwise keep the derivation internal.)
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
 - Quality target: [derived]/5 — [below the top band: blocked from [next]/5 by [outlying dimension] until [named input or fix] | at the top band: nothing blocks 5/5 — [the resilience the bands record]]
 - [rule]
@@ -479,7 +482,8 @@ Assumptions:
 - [pattern] over [alternative pattern] because [reason]
 
 ## Design quality rationale
-- Direction: [thesis] (from: [catalog entry name / baseline]) — committed over the two in `Alternatives considered`
+- Direction: [the direction the delivered design embodies] (from: the supplied design or brief) — name rejected alternatives only where the input describes them; never invent design history
+- (Optional — print the next two lines only when the user asked for a quality score or the response is judged; otherwise keep the derivation internal.)
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
 - Quality target: [derived]/5 — [below the top band: blocked from [next]/5 by [outlying dimension] until [named input or fix] | at the top band: nothing blocks 5/5 — [the resilience the bands record]]
 - Signature move: [owned asset as a token] repeated at [locations] — or: none, this design is inert because [reason], and [what would change it]

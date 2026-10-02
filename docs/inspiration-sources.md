@@ -165,17 +165,17 @@ These are the direction vocabulary for step 5.5 in `SKILL.md`. Each entry carrie
 
 The principle is what transfers; the token consequence is what makes it show up in the output. Take one principle as the forced input in the generative method below, or as the thesis of a candidate direction in step 5.5.
 
-| Product | The one transferable principle | Token consequence when you take it |
-|---------|-------------------------------|-------------------------------------|
-| Linear | Opinionated defaults reduce decision cost | Remove one control per screen and ship its most common value as the default; density tightens one step because fewer options need room |
-| Arc / The Browser Company | The "novelty tax": weigh novelty against learnability | Budget exactly one unfamiliar interaction per flow, and pair it with a conventional path to the same outcome |
-| Things / Cultured Code | Craft as subtraction | Cap type roles at 3 and elevation levels at 2; spacing, not borders or cards, carries every grouping |
-| Teenage Engineering | Constraints as a creative feature | Fix the palette at 2 colours plus neutrals, or the grid at one column count, and let the constraint become the recognizable asset |
-| Superhuman | Perceived speed as a design material | Optimistic UI plus skeletons at the 200 ms threshold; the signature transition goes to the *fastest* band, not the showiest |
-| Duolingo | Motivation mechanics on named psychology (with an ethics caveat) | One progress token (streak, ring, bar) repeated in at least three surfaces; never gate a required task behind it |
-| Monzo / Revolut / Robinhood | Personality inside a trust constraint | Personality lives in the accent and in empty/success states only; money, status, and destructive actions stay on neutral semantic colour |
-| Headspace / Calm | Pace and calm as design materials | Raise the base unit to 8 and the section gap to 32; motion signature at the slow end of its band; one focal element per screen |
-| Spotify Wrapped | Data storytelling over data visualization | One number per screen at display size, its context as a caption below — replacing a chart, not annotating one |
+| Product | The one transferable principle | Token consequence when you take it | Do NOT use for |
+|---------|-------------------------------|-------------------------------------|----------------|
+| Linear | Opinionated defaults reduce decision cost | Remove one control per screen and ship its most common value as the default; density tightens one step because fewer options need room | Defaults that decide something consequential for the user — consent, privacy, an amount, a dose; a default there is a decision taken on their behalf |
+| Arc / The Browser Company | The "novelty tax": weigh novelty against learnability | Budget exactly one unfamiliar interaction per flow, and pair it with a conventional path to the same outcome | Proof that an unfamiliar interaction is learnable; rarely used or task-critical flows where nobody gets the practice |
+| Things / Cultured Code | Craft as subtraction | Cap type roles at 3 and elevation levels at 2; spacing, not borders or cards, carries every grouping | Dense comparison or admin surfaces where the removed structure carried the comparison; borders or cards that are the affordance cue a low-vision user relies on |
+| Teenage Engineering | Constraints as a creative feature | Fix the palette at 2 colours plus neutrals, or the grid at one column count, and let the constraint become the recognizable asset | Semantic state colour — the fixed palette never absorbs error, warning, or success; any constraint that costs contrast or a redundant cue |
+| Superhuman | Perceived speed as a design material | Optimistic UI plus skeletons at the 200 ms threshold; the signature transition goes to the *fastest* band, not the showiest | Irreversible or money-moving actions, where optimistic UI would show success before the server confirms it |
+| Duolingo | Motivation mechanics on named psychology (with an ethics caveat) | One progress token (streak, ring, bar) repeated in at least three surfaces; never gate a required task behind it | Health, finance, or any domain where a streak or loss-aversion mechanic pressures a consequential choice; products for children |
+| Monzo / Revolut / Robinhood | Personality inside a trust constraint | Personality lives in the accent and in empty/success states only; money, status, and destructive actions stay on neutral semantic colour | Celebratory feedback on risky financial actions or gamified trading; proof the trust constraint is met — that needs the domain's own rules |
+| Headspace / Calm | Pace and calm as design materials | Raise the base unit to 8 and the section gap to 32; motion signature at the slow end of its band; one focal element per screen | Time-critical or high-frequency task flows (alerts, checkout, field work), where slow motion and one focal element cost speed |
+| Spotify Wrapped | Data storytelling over data visualization | One number per screen at display size, its context as a caption below — replacing a chart, not annotating one | Dashboards a user scans to compare or act on; clinical or financial figures where one number without its range misleads |
 
 ---
 

@@ -45,7 +45,10 @@ from validate_repo import (  # noqa: E402
     catalog_entry_tokens,
     check_response,
     extract_section,
-    label_body,
+    find_section,
+    parse_dimension_read,
+    primary_device_class,
+    provenance_matches,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -140,21 +143,26 @@ def check_derived_score(response: str, label: str) -> list[str]:
     passes chased: a score asserted rather than derived. If a response prints a
     dimension read at all, the arithmetic has to hold.
     """
-    for section in ("Design quality calibration", "Design quality requirements", "Design quality rationale"):
-        body = extract_section(response, section)
-        if not body:
+    for section in ("Design quality calibration", "Design quality requirements", "Design quality rationale", "Visual rhythm rules"):
+        present, body = find_section(response, section)
+        if not present or not body:
             continue
-        read = label_body(body, "Dimension read:")
-        stated = re.search(r"Quality target:\s*\[?([1-5])/5", body)
-        if not read or not stated:
+        # The same parser the corpus checks use: it drops the line's own
+        # `Median of the assessable = N` restatement, which this check used to count as
+        # a band, and it reads bold labels.
+        bands = [band for band in parse_dimension_read(body) if band is not None]
+        stated = re.search(r"Quality target:\**\s*\**\s*\[?([1-5])/5", body)
+        if not bands or not stated:
             return []
-        scores = [int(n) for n in re.findall(r"\b([1-5])\b(?!\s*/)", read)]
-        if len(scores) < 5:
+        if len(bands) < 5:
             return [
-                f"{label}: `Dimension read:` lists {len(scores)} dimension scores; "
+                f"{label}: `Dimension read:` lists {len(bands)} dimension scores; "
                 "the rubric has nine, so the median cannot be checked"
             ]
-        median = int(statistics.median(sorted(scores)))
+        # The rubric: "With an even number of assessable dimensions the median falls
+        # between two bands: report the lower one." statistics.median averaged them.
+        ordered = sorted(bands)
+        median = ordered[(len(ordered) - 1) // 2]
         claimed = int(stated.group(1))
         if claimed > median:
             return [
@@ -166,17 +174,23 @@ def check_derived_score(response: str, label: str) -> list[str]:
 
 
 def check_provenance(response: str, label: str, tokens: set[str]) -> list[str]:
-    """Rejected directions must cite a real catalog entry, not an invented one."""
+    """Rejected directions, and the committed one, must cite a real catalog entry."""
     body = extract_section(response, "Alternatives considered") or extract_section(
         response, "Key decision tradeoffs"
     )
+    # The committed direction's `(from: ...)` is the slot SKILL.md calls the one that must
+    # be verifiable; it used to be checked for shape only. Mode 6 is exempt: its direction
+    # is the user's delivered design, not a catalog sample.
+    for section in ("Design quality calibration", "Design quality requirements", "Visual rhythm rules"):
+        committed = re.search(r"Direction:[^\n]*\(from:\s*([^)\n,;]*)", find_section(response, section)[1])
+        if committed:
+            body = (body or "") + f"\n(from: {committed.group(1)})"
     if not body:
         return []
     errors: list[str] = []
-    sources = re.findall(r"from:\s*([^)\n,;]+)", body, re.IGNORECASE)
+    sources = re.findall(r"from:\s*([^)\n,;]*)", body, re.IGNORECASE)
     for source in sources:
-        normalized = re.sub(r"[*_`]", "", source).strip().lower()
-        if not any(tok in normalized or normalized in tok for tok in tokens):
+        if not provenance_matches(source, tokens):
             errors.append(
                 f"{label}: `from: {source.strip()}` is not an entry in the direction "
                 "catalog in docs/inspiration-sources.md"
@@ -193,7 +207,7 @@ def check_expectations(response: str, entry: dict[str, Any], label: str) -> list
         found = re.search(r"^Device class:\s*(?P<value>\S.*)$", response, re.MULTILINE)
         if not found:
             errors.append(f"{label}: missing `Device class:` line")
-        elif wanted.lower() not in found.group("value").lower():
+        elif primary_device_class(found.group("value")) != wanted.lower():
             errors.append(
                 f"{label}: prompt expects device class `{wanted}` but the response says "
                 f"`{found.group('value').strip()}`"
@@ -324,6 +338,52 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def self_check_eval_checks() -> None:
+    """The eval-only checks must catch what they exist for, on shapes live output uses.
+
+    Each case is a response shape that used to slip through: the restated median counted
+    as a band, an even count averaged instead of taking the lower band, bold labels, a
+    blank or invented `from:` on the committed direction, and a phone answer to a tablet
+    prompt passing because the value mentioned 'tablet'.
+    """
+    def calibration(read: str, target: str, direction: str = "baseline") -> str:
+        return (
+            "## Design quality calibration\n"
+            f"- Direction: thesis (from: {direction})\n"
+            f"- Dimension read: {read}\n"
+            f"- Quality target: {target}\n"
+        )
+
+    nine = "attention path {0}, composition and spacing {1}, typography craft {2}, colour, state and contrast {3}, density and rhythm {4}, interaction polish and motion {5}, context and brand fit n/v, production readiness {6}, distinctiveness and owned assets {7}"
+    errors: list[str] = []
+    must_flag = {
+        "restated median counted as a band": calibration(nine.format(3, 3, 3, 3, 4, 4, 4, 4) + ". Median of the assessable = 4.", "4/5 — blocked from 5/5 by typography craft until x"),
+        "even count averaged, not the lower band": calibration(nine.format(2, 2, 2, 2, 4, 4, 4, 4) + ".", "3/5 — blocked from 4/5 by typography craft until x"),
+        "bold Dimension read label": calibration(nine.format(3, 3, 3, 3, 3, 3, 3, 3) + ".", "5/5 — nothing blocks 5/5 — x").replace("- Dimension read:", "- **Dimension read:**"),
+        "bold score": calibration(nine.format(3, 3, 3, 3, 3, 3, 3, 3) + ".", "**5/5** — nothing blocks 5/5 — x"),
+    }
+    for case, response in must_flag.items():
+        if not check_derived_score(response, "probe"):
+            errors.append(f"check_derived_score misses: {case}")
+    if check_derived_score(calibration(nine.format(3, 3, 3, 3, 4, 4, 4, 4) + ". Median of the assessable = 3.", "3/5 — blocked from 4/5 by x until y"), "probe"):
+        errors.append("check_derived_score flags a correctly derived score")
+
+    tokens = catalog_entry_tokens()
+    for source, should_pass in (("Arc", True), ("baseline", True), ("", False), ("Zorblax Hypergrid Studio", False)):
+        flagged = bool(check_provenance(calibration(nine.format(3, 3, 3, 3, 3, 3, 3, 3), "3/5", direction=source), "probe", tokens))
+        if flagged == should_pass:
+            errors.append(f"check_provenance {'rejects' if flagged else 'accepts'} committed direction `from: {source}`")
+
+    tablet_prompt = {"expects": {"device_class": "tablet"}}
+    if not check_expectations("Device class: Phone (compact only; a tablet layout can be added on request)\n", tablet_prompt, "probe"):
+        errors.append("check_expectations accepts a phone answer to a tablet prompt")
+    if check_expectations("Device class: Tablet (iPad), with a phone fallback in Slide Over\n", tablet_prompt, "probe"):
+        errors.append("check_expectations rejects a tablet answer that mentions a phone fallback")
+
+    if errors:
+        fail("Generation eval checks are not catching what they exist for:\n" + "\n".join(f"  - {e}" for e in errors))
+
+
 def main() -> None:
     args = parse_args()
     prompts = load_prompts()
@@ -351,6 +411,7 @@ def main() -> None:
         return
 
     if args.dry_run or not args.export_requests:
+        self_check_eval_checks()
         print_dry_run(prompts)
 
 

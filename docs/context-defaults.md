@@ -114,7 +114,7 @@ Signals: "health app", "medical", "clinical", "medication", "patient", "fitness 
 |----------|---------|
 | Data-entry tolerance | Low; validate aggressively, surface format before submit |
 | Units | Always labeled (mg, mmHg, kg, bpm); support locale variants |
-| Critical alerts | Never suppressed by notification settings; separate channel |
+| Critical alerts | Their own channel (Android) or interruption level (iOS). iOS Critical Alerts, which sound through the mute switch and Focus, need an Apple-granted entitlement and the user's permission, and the user can turn them off; an Android channel can be silenced too. Never promise an alert cannot be suppressed: design the fallback for when it is off |
 | Privacy surface | Explicit; what is shared, with whom, retention periods |
 | Destructive actions | Multi-step; history of changes visible |
 | Medication flows | Never allow silent skip; confirm dose; clear timing |
@@ -214,13 +214,13 @@ Signals: "streaming", "music", "video", "gaming", "reading".
 | Variable | Default |
 |----------|---------|
 | Navigation | Native UINavigationController patterns; large titles for top-level |
-| Tab bar | 3–5 tabs; "More" for overflow |
+| Tab bar | 3–5 tabs; above 5, rework the IA rather than relying on the "More" overflow tab, which the HIG advises against |
 | Sheet presentation | Bottom sheet or form sheet for secondary flows |
 | Destructive actions | Red text in action sheets; confirm via system-style alert |
 | Pull-to-refresh | Where list data is user-driven and cacheable |
 | Haptics | Used for success, warning, error confirmations; not on every tap |
 | Apple Pay | Above manual card entry for payment |
-| Sign in with Apple | Required where other third-party sign-in is offered |
+| Login services | Where a third-party or social login sets up the primary account, also offer an equivalent login that limits data to name and email, lets the user keep the email private, and does not track for advertising without consent (App Review Guideline 4.8, revised January 2024). Sign in with Apple meets it; it is no longer the only way |
 | Dark mode | Respect system setting; semantic colors, not hardcoded hex |
 | Dynamic Type | Full support for accessibility sizes |
 
@@ -259,7 +259,7 @@ Signals: "iPad", "iPadOS", "tablet", "Android tablet", "Chromebook", "large scre
 |----------|---------|
 | Width classes | Compact < 600 dp / medium 600–839 dp / expanded ≥ 840 dp — design against the class, never the device model |
 | Layout | List-detail once the window clears ~700 pt (list 320–400 pt, detail ≥ 320 pt); one pane below that |
-| Primary navigation | Bottom bar at compact / navigation rail 80 dp at medium / sidebar 240–360 dp at expanded |
+| Primary navigation | Android: navigation bar at compact / navigation rail (96 dp) at medium / expanded navigation rail (220–360 dp) at expanded; Material 3 Expressive retires the drawer. iPadOS: the system tab bar near the top, convertible to a sidebar; iPadOS has no rail |
 | Screen margin | 16 pt compact / 24 pt medium / 24–32 pt expanded |
 | Reading column | 640–720 pt maximum; extra width becomes margins or columns, never longer lines |
 | Grid columns | 2 compact / 4–6 medium / 6–8 expanded |

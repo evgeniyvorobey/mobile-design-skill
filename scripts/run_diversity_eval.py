@@ -176,11 +176,23 @@ def classify_asset(signature: str) -> str | None:
     return None
 
 
+# The score the response printed, bold or not: `Quality target: 3/5`, `Quality target: **3/5**`
+# and `**Quality target:** 3/5` are all shapes the response contract accepts.
+QUALITY_TARGET_SCORE = re.compile(r"Quality target:\**\s*\**\s*\[?([1-5])/5")
+# The blocking DIMENSION, not the clause after it. The template's shape is
+# `blocked from N/5 by <dimension> until <fix>`; capturing to the first dash or period kept
+# the whole until-clause, so four runs blocked by one dimension read as four blockers.
+BLOCKER = re.compile(
+    r"blocked from\s*\**\s*\[?[1-5]\]?/5\**\s*by\s*\**\s*(?P<dim>[^*(—\-.;,\n]+?)(?=\s+until\b|\s*[*(—\-.;,\n]|$)",
+    re.IGNORECASE,
+)
+
+
 def decision_vector(response: str, label: str) -> dict[str, Any]:
     body = calibration_body(response)
     signature = label_body(body, "Signature move:")
-    score = re.search(r"Quality target:\s*\[?([1-5])/5", body)
-    blocker = re.search(r"blocked from\s*\[?[1-5]\]?/5\s*by\s*\**([^*(—\-.;\n]+)", body, re.IGNORECASE)
+    score = QUALITY_TARGET_SCORE.search(body)
+    blocker = BLOCKER.search(body)
 
     alternatives = extract_section(response, "Alternatives considered") or extract_section(
         response, "Key decision tradeoffs"
@@ -196,7 +208,7 @@ def decision_vector(response: str, label: str) -> dict[str, Any]:
         "dimensions": dimension_read(body) or dimension_read(response),
         "asset_class": classify_asset(signature),
         "score": score.group(1) if score else None,
-        "blocker": blocker.group(1).strip().lower() if blocker else None,
+        "blocker": blocker.group("dim").strip().lower() if blocker else None,
         "base_units": sorted(set(re.findall(r"base unit\s*(\d+)", response, re.IGNORECASE))),
         "ratios": sorted(set(re.findall(r"ratio\s*(\d\.\d+)", response, re.IGNORECASE))),
     }
@@ -351,6 +363,26 @@ def self_test() -> None:
                 f"(uniform {uniform[name]} vs varied {varied[name]})"
             )
 
+    # Shapes the response contract accepts must parse the same way: a bolded score, and a
+    # blocker followed by its until-clause, which must not become part of the blocker.
+    for text, want_score, want_blocker in (
+        ("- Quality target: **3/5** — blocked from 4/5 by Production readiness until the error copy is written",
+         "3", "production readiness"),
+        ("- **Quality target:** 3/5 — blocked from 4/5 by **Typography craft** until the brand face is named",
+         "3", "typography craft"),
+        ("- Quality target: 3/5 — blocked from 4/5 by production readiness, stalled at its 2→3 boundary",
+         "3", "production readiness"),
+    ):
+        got_score = QUALITY_TARGET_SCORE.search(text)
+        got_blocker = BLOCKER.search(text)
+        if not got_score or got_score.group(1) != want_score:
+            errors.append(f"score extractor misreads {text!r}")
+        if not got_blocker or got_blocker.group("dim").strip().lower() != want_blocker:
+            errors.append(
+                f"blocker extractor read {got_blocker.group('dim') if got_blocker else None!r} from {text!r}, "
+                f"expected {want_blocker!r}"
+            )
+
     # The extractor has to work on a real committed response, not only on fixtures.
     example = (ROOT / "examples/generate-screen.md").read_text(encoding="utf-8")
     match = re.search(r"## Example output\s*\n\s*```md\n(?P<body>.*?)\n```", example, re.DOTALL)
@@ -411,9 +443,13 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    if args.self_test or not args.responses:
+    if args.self_test or len(sys.argv) == 1:
         self_test()
         return
+    if not args.responses:
+        # Falling back to the self-test here printed [OK] and exited 0 for `--assert`
+        # with no corpus: a met threshold that never read a response.
+        fail("supply --responses (or --self-test)")
 
     vectors = [decision_vector(response, label) for label, response in load_responses(args.responses)]
     if args.baseline:

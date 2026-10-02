@@ -11,7 +11,7 @@ Six real skill outputs were each given a twin that is a worse design while chang
 | instrument, same twelve pairs | separation |
 |---|---|
 | the nine rubric boundary questions | **0 of 12**, p = 1.000 |
-| forced-choice paired comparison, no rubric | **12 of 12**, p = 0.00024 |
+| forced-choice paired comparison, no rubric | **12 of 12** judgements, **6 of 6** pairs, two-sided sign test p = 0.031 |
 
 The rubric is not a rubber stamp: the same read reproduces only **10/12 = 83%** on unchanged text. It moves. It moves zero times out of twelve between a design and a worse version of it.
 
@@ -33,13 +33,17 @@ Arm files carry one `{"id", "response"}` object per line, the same shape `run_ge
 
 **A contrast whose control failed is reported as unreadable, and exits non-zero.** If the judge names an agreed winner on more than a third of null pairs, no win rate from that run means anything. Every prior release in this series had to notice that kind of failure by hand, and three of them did not.
 
+**The judge never sees which pair is a null, or the presentation order.** Each request carries an opaque id; the internal id (`null-p3-ab`) stays inside the harness, because a judge that could read it could pass the control and pick an arm without reading either document. A failed control prints the control and nothing else: no win rate or p-value reaches stdout.
+
+**The unit of inference is the pair.** Both presentation orders of one pair judge the same two documents, so the p-value is a two-sided exact sign test over pairs (a pair goes to the arm that won more of its two judgements; ties are dropped), not a binomial over judgements.
+
 ## Building the null pairs
 
 A null must be a **cosmetic rewrite, not identical text**, and it must **not be length-matched to its original**. Identical text is a trivial null that any judge passes. A same-design/different-prose twin tests whether the judge reads the design or reads the document — and it is what bounds the shared-model-family confound, since the rewrite is written by the same kind of agent as everything else in the run. In the validation, judges declined all six cosmetic nulls at high confidence, so the instrument is not merely detecting that an agent edited a file.
 
 **Vary the length of the rewrite, deliberately, by the same order the contrast varies it.** A null written to hold length constant is blind to a length effect, and length is the correlate this instrument most needs cleared: in the 18-pair run of proposal section 42 the longer document won 27 of 36 signal judgements (p = 0.004), and the six nulls of that run — written to a "within 5% of the original" instruction, so differing by a median 2.3% against the contrast's 13.7% — could not say whether that was bias or substance. Rebuilt as five nulls varying by -15% to +40%, with every numeric value, backticked token and heading verified to survive as an exact multiset, the judge returned `no-meaningful-difference` on **10 of 10** judgements at maximum confidence, including on a document 40% longer than its twin. That is what clears the confound; a matched control never could.
 
-Hold the rewrite to: every `## ` heading identical and in order, the numeric-token multiset identical, length within a few percent, and no decision, order, pattern, role assignment or state behaviour changed.
+Hold the rewrite to: every `## ` heading identical and in order, the numeric-token multiset identical, the length deliberately varied as above (never matched), and no decision, order, pattern, role assignment or state behaviour changed. The harness refuses a null whose text is identical to its original.
 
 ## What it cannot do
 

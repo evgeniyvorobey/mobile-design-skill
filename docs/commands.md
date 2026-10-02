@@ -218,15 +218,16 @@ Screen description:
 Constraints: enterprise app, high density, many older users
 ```
 
-What the skill returns:
+What the skill returns (the authoritative section list is the Mode 4 entry of the mode output requirements in `SKILL.md`):
+- sub-case (D1–D4: what the evidence lets the review claim)
 - quick summary
 - strengths
-- usability issues
-- accessibility issues
-- hierarchy and readability issues
-- navigation and interaction issues
-- severity or priority
-- recommended fixes
+- findings, one causal chain each: lens, observation, violated principle, user consequence, change, predicted effect, severity (Nielsen 0–4), and the design-quality dimension it moves
+- design quality score, current → projected, with a per-dimension table
+- severity index
+- bold move, only when its trigger is met
+- platform-convention mismatches
+- unresolved assumptions
 
 ---
 

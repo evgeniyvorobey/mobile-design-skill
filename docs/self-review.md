@@ -4,7 +4,7 @@ This document defines the mandatory self-review pass every skill response must u
 
 Self-review is the single highest-impact lever for output quality. Without it, LLM responses drift toward plausible-sounding but shallow output — visible structure, weak substance. With it, most low-quality outputs are caught before the user ever sees them.
 
-Self-review runs inside the workflow as **Step 9: Self-review against quality bar**, after the draft is complete and before it is returned.
+Self-review runs inside the workflow as **step 10 (`SKILL.md`): run mandatory self-review**, after the draft is complete and before it is returned.
 
 ---
 
@@ -104,7 +104,7 @@ These never block a return. A "no" here is the next edit, and the draft goes out
 ### Design quality calibration
 - If the response proposes, specifies, reviews, or rationalizes a design artifact, did I apply the relevant lenses from `docs/design-quality.md`?
 - Did I apply the 1-5 rubric from `docs/design-quality-rubric.md`?
-- For generated/specification outputs, does the number I printed equal the median of the dimension read I actually wrote — and for each dimension below the top band, did I answer the boundary question it failed or state the missing input?
+- For generated/specification outputs where I printed a score, does it equal the median of the dimension read I actually wrote, lowered only by the critical-dimension step or a named cap — and for each dimension below the top band, did I answer the boundary question it failed or state the missing input?
 - For Mode D reviews, did I expose both a current and a projected (conditional) design-quality score with a reason and evidence limits?
 - For every dimension I put at band 5: did I run the closure test — take one ordinary case the artifact does not list, and state what my own statement returns for it? If I cannot write that answer, the band is 4, however well the statement reads.
 - Did I define the intended attention path rather than only listing components?
@@ -169,8 +169,8 @@ These never block a return. A "no" here is the next edit, and the draft goes out
 - Did I find at least one genuine strength? A review with only negatives is biased, not thorough.
 - Is each finding a single causal chain (observation → violated principle → user consequence → change → predicted effect), with no issue split from its fix and no orphaned fix?
 - Does every finding name the violated principle, and does every predicted effect name a user outcome (directional + confidence), not a restatement of the change?
-- Is severity rated 0–4 (Nielsen = frequency × impact × persistence) and based on user impact, not on how much it bothers me visually?
-- Did I expose both a current and a projected score, the projected number being the flat median of the assessable (non-`n/v`) projected dimensions — not the sum of per-dimension gains, and never "up to" — with the projection conditional, capped at 4/5 unless resilience is named, any higher post-visual-pass figure confined to a `Ceiling note`, and the whole block labeled provisional for D2/D3?
+- Is severity rated 0–4 (Nielsen, judged from frequency, impact and persistence) and based on user impact, not on how much it bothers me visually?
+- Did I expose both a current and a projected score, the projected number being the median of the assessable (non-`n/v`) projected dimensions, lowered and clamped as the rubric's Final scoring method says — not the sum of per-dimension gains, and never "up to" — with the projection conditional, capped at 4/5 unless resilience is named, any higher post-visual-pass figure confined to a `Ceiling note`, and the whole block labeled provisional for D2/D3?
 - If a Bold move is present: is its trigger met, all fields complete, and kept separate from required fixes — and did I withhold any UX-strengthening move only because it contradicts the product (if so, move it here)?
 
 ### Mode E: Create typography and spacing system
@@ -182,7 +182,7 @@ These never block a return. A "no" here is the next edit, and the draft goes out
 - If multilingual was requested, did I address script-specific adjustments (CJK, Arabic, Devanagari)?
 
 ### Mode F: Prepare design rationale / handoff
-- Does every "Key design decision" have an alternative that was considered and rejected, with reason?
+- Does every "Key design decision" carry the alternative that was considered and rejected, with its reason, or say it is a default? Is every alternative one the input describes, not invented design history?
 - Is the rationale connected to the specific design in question, or does it read like a generic essay?
 - Does the validation plan specify what to test and how (method, metric, acceptance), not just "test with users"?
 - Are open questions genuinely open (blocking or undecided), not filler?

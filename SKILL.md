@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 1.36.0
+version: 1.37.0
 ---
 
 # Mobile Design Skill
@@ -94,7 +94,7 @@ If the request begins with `--judge` or explicitly asks for judge mode, strip th
 Judged mode means:
 - draft the response privately using the normal workflow
 - run an independent judge pass in the same session when the host supports subagents or parallel reviewers
-- revise the draft when the judge score is below 4/5 and the issue can be fixed without inventing facts
+- revise the draft once when the judge names a dimension short of a boundary question the available input can answer, without inventing facts; never revise toward a number
 - append a compact `Judge summary` section to the final response
 
 Do not ask the user to run `scripts/run_rubric_judge.py` manually for interactive judged mode.
@@ -134,7 +134,7 @@ Scope has two independent axes. Resolve both.
 - foldable
 - adaptive (one layout serves every width)
 
-Resolve to tablet, foldable, or adaptive — and load `docs/adaptive-layout.md` before drafting — when the request names any of: iPad, iPadOS, tablet, Chromebook, large screen; Split View, Slide Over, Stage Manager, multi-window, multitasking; foldable, Fold, hinge, dual-screen, posture; external display, hardware keyboard, Apple Pencil, stylus; or a use context implying a mounted or two-handed device (kiosk, point of sale, clinician or bedside, field technician, warehouse, classroom, studio, control room).
+Resolve to tablet, foldable, or adaptive — and load `docs/adaptive-layout.md` before drafting — when the request names any of: iPad, iPadOS, tablet, Chromebook, large screen; Split View, Slide Over, Stage Manager, multi-window, multitasking; foldable, Fold, iPhone Duo, hinge, dual-screen, posture; external display, hardware keyboard, Apple Pencil, stylus; or a use context implying a mounted or two-handed device (kiosk, point of sale, clinician or bedside, field technician, warehouse, classroom, studio, control room).
 
 An iOS tablet and an Android tablet share more layout structure with each other than either shares with its own phone, which is why this is a second axis and not a fifth platform value.
 
@@ -189,7 +189,7 @@ Preferred source families:
 
 Use `docs/design-quality.md` when the output proposes, critiques, specifies, or rationalizes the quality of a design artifact. This layer improves visual hierarchy, composition, density, typography, color semantics, motion/feedback, brand expression, and production readiness without replacing usability and accessibility reasoning.
 
-Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. Walk each dimension's four boundary questions, take the median of the assessable bands, then apply caps as a downward clamp — the same derivation Mode D uses for both its current and its projected number. **Write the bands before the number.** Report what they give: if the input supports answering the boundary question a dimension failed, answer it and re-derive; if it does not, report the derived score and name that question. A score asserted without a dimension read behind it is a default, not an assessment. For reviews, expose both a current and a projected score: the projected number is the flat median of the assessable (non-`n/v`) projected dimensions, stated as a plain number and never as "up to". Any higher figure reachable only after a visual pass belongs in a separate `Ceiling note`, never in the projected number.
+Use `docs/design-quality-rubric.md` to score the design-quality level from 1-5. Walk each dimension's four boundary questions, take the median of the assessable bands, lower it if a dimension critical to the primary task sits below it, then apply caps as a downward clamp — the same derivation Mode D uses for both its current and its projected number. **Write the bands before the number.** Report what they give: if the input supports answering the boundary question a dimension failed, answer it and re-derive — once, not in a loop; if it does not, report the derived score and name that question. A mid-scale result is a legitimate result, not a trigger to redraft. A score asserted without a dimension read behind it is a default, not an assessment. For reviews, expose both a current and a projected score: the projected number is the median of the assessable (non-`n/v`) projected dimensions, derived the same way and stated as a plain number, never as "up to". Any higher figure reachable only after a visual pass belongs in a separate `Ceiling note`, never in the projected number.
 
 Use `docs/synthetic-case-studies.md` and `examples/case-studies/` during maintenance, calibration, or quality-sensitive drafting to compare weak vs strong answer shapes. Treat these examples as synthetic fixtures, not real-world validation.
 
@@ -222,7 +222,7 @@ Selecting D2 and D3:
 
 1. Read each entry's `Do NOT use for` line and discard the entries it disqualifies for this domain, audience, and use context. A regulated or safety-critical surface rules out several; say which one you discarded and why when that exclusion is load-bearing.
 2. From the entries that survive, do not take the first that fits. Name the surviving set, then pick the one whose token consequences differ **most** from D1 — the point is to widen the spread, not to find a second version of the baseline.
-3. Record the provenance. Every direction carries `from:` its source (`baseline`, or the catalog entry's name) — **including the one you commit to**, which is named in the design-quality block. Labelling only the two rejects leaves the third slot unverifiable: a reader cannot tell whether a school *and* a product were both considered, or whether the set was two candidates wearing three labels. A candidate set with no provenance is a candidate set that was never sampled.
+3. Record the provenance. Every direction carries `from:` its source (`baseline`, or the catalog entry's name) — **including the one you commit to**, which is named in the design-quality block's `Direction:` line. Labelling only the two rejects leaves the third slot unverifiable: a reader cannot tell whether a school *and* a product were both considered, or whether the set was two candidates wearing three labels. A candidate set with no provenance is a candidate set that was never sampled.
 
 Each direction is one thesis line plus its token consequences:
 
@@ -232,13 +232,13 @@ Each direction is one thesis line plus its token consequences:
 - **One composition move** — the single structural gesture (full-bleed hero, asymmetric grid, bottom-anchored action, dense two-column list, single-focus card)
 - **Motion signature** — one recurring transition, its duration taken from `docs/quality-bars.md` and its curve **named** from `docs/motion-system.md` — an M3 easing token, a `cubic-bezier`, a SwiftUI spring preset, or Compose `dampingRatio`/`stiffness` — with a reduced-motion fallback. "Ease-out" is a family, not a value.
 
-Rank the three against user goal, task, context defaults, platform conventions, and accessibility. Commit to one — the baseline wins often, and that is a legitimate outcome; what is not legitimate is never having considered anything else. The two rejects are not discarded: they populate `Alternatives considered` in Mode 1 or `Key decision tradeoffs` in Mode 3, each with its `from:` provenance and the mechanism that killed it.
+Rank the three against user goal, task, context defaults, platform conventions, and accessibility. Commit to one — the baseline wins often, and that is a legitimate outcome; what is not legitimate is never having considered anything else. The two rejects are not discarded: they populate `Alternatives considered` in Mode 1 or `Key decision tradeoffs` in Mode 3, each with its `from:` provenance and the mechanism that killed it; in Mode 5, which has neither section, name each reject in one line under `Assumptions`.
 
 **Asset-class divergence.** The committed direction's owned asset (its `Signature move`) must not be the same **asset class** as the one carried by the nearest golden example in `examples/golden/` for this domain. The six classes are colour, geometry/shape, type treatment, motion signature, layout structure, and illustration/mascot.
 
 Name the class you chose and say in one clause why at least two of the other five fit this surface worse. Picking whichever class the nearest golden did *not* use is how a six-class palette collapses into two: choose against the surface, not against the golden. Three answers reaching for the same notch-on-a-track under three different token names is one retrieved asset wearing three labels, not three owned assets — the test is whether the objects differ, not whether the names do.
 
-Four constraints keep this from becoming theatre:
+Five constraints keep this from becoming theatre:
 
 - Directions must differ in **at least two token fields**. Three variants of one structure wearing different adjectives is one direction, not three.
 - The candidate set is **auditable**. If the same two rejects appear for every product in a domain, the catalog is not being sampled — it is being bypassed.
@@ -250,7 +250,7 @@ Four constraints keep this from becoming theatre:
 
 For Mode 6 the direction already exists — name the direction the delivered design embodies and the alternatives its authors rejected only where the input supports that. Do not invent rejected alternatives the user never described.
 
-When the input genuinely supports only one direction (spec completion, an extension bound to an existing design system), state that in one line under `Assumptions` instead of inventing two throwaway rejects.
+When the input genuinely supports only one direction (spec completion, an extension bound to an existing design system), state that in one line under `Assumptions`, naming the omitted `Alternatives considered` (or `Key decision tradeoffs`) section, instead of inventing two throwaway rejects.
 
 ### 6. Build the response by mode
 Load the classified mode's section in `skill/modes.md` and follow both its `### Output structure` and its `### Validation checklist`. Use the matching skeleton from `skill/templates.md`.
@@ -383,8 +383,8 @@ Include:
 - Sub-case (D1 / D2 / D3 / D4) — D1 visual evidence, D2 description only, D3 problem statement, D4 context change. Classify explicitly at the top; it sets what may be claimed.
 - Quick summary
 - Strengths — at least one genuine strength; a review with only negatives is biased, not thorough.
-- Findings — one causal chain per finding, never an issue split from its fix: Lens (Usability / Accessibility / Hierarchy & readability / Design quality / Navigation & interaction), Observation, Violated principle (named), User consequence, Change, Predicted effect (directional + confidence), Severity (Nielsen 0–4 = frequency × impact × persistence), Moves (which design-quality dimension it shifts, band→band).
-- Design quality score (current → projected) — current and projected scores plus a per-dimension table. The projected number is the flat median of the assessable (non-`n/v`) projected dimensions, not the sum of per-dimension gains; visual dimensions are never projected upward from a text-only review. Any higher number reachable only after a visual pass goes in a separate `Ceiling note`.
+- Findings — one causal chain per finding, never an issue split from its fix: Lens (Usability / Accessibility / Hierarchy & readability / Design quality / Navigation & interaction), Observation, Violated principle (named), User consequence, Change, Predicted effect (directional + confidence), Severity (Nielsen 0–4, judged from frequency, impact and persistence), Moves (which design-quality dimension it shifts, band→band). A severity 0–2 finding may compress to Observation → Change → Severity.
+- Design quality score (current → projected) — current and projected scores plus a per-dimension table. The projected number is the median of the assessable (non-`n/v`) projected dimensions, lowered and clamped as the rubric's Final scoring method says — not the sum of per-dimension gains; visual dimensions are never projected upward from a text-only review. Any higher number reachable only after a visual pass goes in a separate `Ceiling note`.
 - Severity index — findings rolled up by Nielsen 0–4 level.
 - Bold move (optional) — include only when all hold: current ≥3/5 but inert, no unresolved severity-3 or severity-4 finding, and a concrete UX upside. Omit the section entirely when the trigger is not met.
 - Platform-convention mismatches
@@ -450,8 +450,8 @@ When platform scope is Android:
 When device class is tablet, foldable, or adaptive, load `docs/adaptive-layout.md` and additionally:
 - give the layout at compact **and** regular width, naming the breakpoint that separates them
 - name the canonical layout (list-detail, supporting pane, or feed) rather than describing a bespoke one
-- change navigation with width: bottom bar at compact, navigation rail at medium, sidebar at expanded
-- state multitasking behavior — iPadOS Split View / Slide Over / Stage Manager and Android multi-window can hand the app compact width at any moment, and resize must not lose state
+- change navigation with width: on Android a navigation bar at compact, a navigation rail at medium, and an expanded navigation rail at expanded (Material 3 Expressive retires the drawer); on iPadOS the system tab bar, which sits near the top and can convert to a sidebar — iPadOS has no rail. `docs/adaptive-layout.md` holds the dated platform baseline
+- state multitasking behavior — iPadOS resizable windows, Slide Over and Stage Manager, Android multi-window and desktop windowing, and a foldable's fold can hand the app compact width at any moment, and resize must not lose state
 - treat pointer, hardware keyboard, drag-and-drop, and stylus as additive; touch minimums are unchanged and every drag has a non-drag path
 - give the detail pane its own empty state, and define back-navigation in both the two-pane and the collapsed state
 

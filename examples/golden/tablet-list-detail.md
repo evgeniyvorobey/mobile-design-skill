@@ -31,11 +31,11 @@ The library screen: choose a collection, pick an article from it, read the artic
 
 ## Structural zones
 Expanded width (≥ 840 dp): three columns.
-- **Sidebar**, 280 dp, permanently visible: All, Unread, Offline, then user collections, then sources.
+- **Sidebar** (iPadOS) / **expanded navigation rail** (Android), 280 dp, permanently visible: All, Unread, Offline, then user collections, then sources.
 - **List pane**, 360 dp: the articles in the selected collection.
 - **Detail pane**, remaining width: the article, its body column measure-locked to 680 pt with the leftover width as margin.
 
-Medium width (600–839 dp): two panes — navigation rail 80 dp + list — with the detail pushed over both. The sidebar's contents move into the rail's overflow, not into a hamburger.
+Medium width (600–839 dp): two panes — navigation + list — with the detail pushed over both. On Android the navigation is a 96 dp collapsed rail whose expanded state carries the collections; on iPadOS, which has no rail, the sidebar hides behind its toolbar toggle. Neither becomes a hamburger.
 
 Compact width (< 600 dp): one pane. Bottom bar with the sidebar's four fixed destinations; collections open as a pushed list; articles push over it.
 
@@ -99,10 +99,10 @@ Compact width (< 600 dp): one pane. Bottom bar with the sidebar's four fixed des
 | Width | Navigation | Panes | Overlays |
 |-------|------------|-------|----------|
 | Compact < 600 dp | Bottom bar, 4 destinations | 1 | Annotation as a bottom sheet |
-| Medium 600–839 dp | Navigation rail, 80 dp | List, detail pushed over | Annotation as a bottom sheet |
-| Expanded ≥ 840 dp | Sidebar 280 dp, collapsible to the rail | Sidebar + list + detail | Annotation as an anchored popover |
+| Medium 600–839 dp | Navigation rail, 96 dp (Android) / sidebar behind its toggle (iPadOS) | List, detail pushed over | Annotation as a bottom sheet |
+| Expanded ≥ 840 dp | Sidebar (iPadOS) / expanded rail (Android), 280 dp, collapsible | Navigation + list + detail | Annotation as an anchored popover |
 
-Multitasking: Slide Over and a narrow Split View hand the app compact width mid-session, so the compact layout is a first-class state, not a fallback. Stage Manager and external displays only widen it — the same three-column rule applies, with the body column still capped at 680 pt.
+Multitasking: Slide Over and a narrow resizable window hand the app compact width mid-session, so the compact layout is a first-class state, not a fallback. Stage Manager and external displays only widen it — the same three-column rule applies, with the body column still capped at 680 pt.
 
 ## Design quality requirements
 - Quality target: 4/5 — the structure, the states, and the values are decided across the widths the spec declares, and four dimensions carry a rule for cases the spec does not list. Held below 5 by Colour, state and contrast and by Context and brand fit, both of which stop at stated pairs and a stated departure budget because the brand palette was not supplied, so neither can settle an unlisted case.
@@ -112,8 +112,8 @@ Multitasking: Slide Over and a narrow Split View hand the app compact width mid-
 - Hard bars vs negotiable: touch minimums, the contrast pairs, and the 680 pt measure cap are hard bars; tint hues, corner radii, and the 88 dp row height are negotiable against the design system.
 
 ## Platform-specific implementation notes
-- **iPadOS**: three-column split view; the sidebar is the primary column and collapses to the rail behaviour on width change. Annotation popover anchors to the highlight. Keyboard shortcuts appear in the command-key HUD.
-- **Android tablet**: Material 3 adaptive list-detail; navigation rail at medium, standard navigation drawer at expanded. Annotation uses a menu or bottom sheet — a popover is not a Material surface. Predictive back applies at compact width only, where back is a navigation action.
+- **iPadOS**: three-column split view; the sidebar is the primary column and hides behind its toolbar toggle on width change. Annotation popover anchors to the highlight. Keyboard shortcuts appear in the menu bar (iPadOS 26).
+- **Android tablet**: Material 3 adaptive list-detail; navigation rail at medium, expanded navigation rail at expanded (Material 3 Expressive retires the drawer). Annotation uses a menu or bottom sheet — a popover is not a Material surface. Predictive back applies at compact width only, where back is a navigation action.
 - Component and API names above are library-version-bound; check them against the versions in the project before implementation.
 
 ## Key decision tradeoffs

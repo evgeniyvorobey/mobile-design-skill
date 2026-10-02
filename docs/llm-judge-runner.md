@@ -100,7 +100,8 @@ The runner sends provider-agnostic judge request JSONL to the command's stdin. E
 - `schema_version`
 - `id`
 - `messages`
-- `expected`
+
+The request carries no answer key. Earlier versions sent the fixture's expected score, verdict and caps in an `expected` block, so a judge handed the whole record could pass by copying it. The CI oracle (`scripts/rubric_judge_oracle_agent.py`) reads the fixture pack itself.
 
 The command must write judge-output JSONL to stdout using the same contract as `--judge-output`.
 

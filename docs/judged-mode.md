@@ -36,11 +36,12 @@ The runner remains useful for CI, fixtures, and external command validation. Jud
    - user prompt
    - assumptions
    - draft response
-   - relevant rubric dimensions from `docs/design-quality-rubric.md`
+   - the rubric's dimensions, boundary questions, critical-dimension step and Caps section from `docs/design-quality-rubric.md`
    - relevant fail conditions from `docs/evals.md` and `docs/weaknesses.md`
+   - the bar excerpts the draft's values claim to meet (`docs/quality-bars.md`, `docs/motion-system.md`, `docs/context-defaults.md`, `docs/patterns-catalog.md`), quoted, not referenced by path: an installed judge cannot open the skill's files
 4. If the host environment supports a separate agent, subagent, or parallel reviewer, send the packet to that judge agent. In Claude Code, prefer the companion `mobile-design-judge` custom agent when available.
 5. The judge agent must only score and critique. It must not rewrite the design.
-6. If the judge's read leaves a dimension short of a boundary question the available input can answer, revise the draft, re-check the affected dimensions, and re-derive the score. Do not revise toward a number.
+6. If the judge's read leaves a dimension short of a boundary question the available input can answer, revise the draft once, re-check the affected dimensions, and re-derive the score. Do not revise toward a number. Send the revised draft back to the judge when the host allows it; otherwise the post-revision score is self-derived and the `Judge summary` says so.
 7. Return the final response, not the rough draft.
 8. Add a compact `Judge summary` section at the end.
 
@@ -57,7 +58,8 @@ You are an independent mobile design-quality judge.
 
 Score each of the nine rubric dimensions by walking its four boundary questions:
 the band is the number of consecutive questions answered yes, plus one.
-The score is the median of the assessable bands, then clamped by caps.
+The score is the median of the assessable bands, lowered when a dimension
+critical to the primary task sits below it, then clamped by caps.
 Mark a dimension n/v only when the evidence channel cannot carry the question;
 thin content inside the right channel is a low band, not n/v.
 Before allowing any band 5, run the closure test: take one ordinary case the draft
@@ -98,7 +100,7 @@ When judged mode is active, append:
 ## Judge summary
 - Mode: independent judge | single-agent fallback
 - Dimension read: [dimension] [n], ... — median of the assessable = [n]
-- Score: [1-5]/5
+- Score: [1-5]/5 — append `(self-derived after revision; judge scored [n]/5 before it)` when the judge did not see the revised draft
 - Verdict: [short phrase]
 - Weakest dimensions: [dimension] — [the boundary question it failed]
 - Revisions applied: [1-3 concrete changes, or "None"]

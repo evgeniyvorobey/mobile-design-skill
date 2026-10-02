@@ -270,8 +270,8 @@ At least one of:
 - Assumptions
 - Quick summary
 - Strengths
-- Findings — each finding is one causal chain with: Lens (Usability / Accessibility / Hierarchy & readability / Design quality / Navigation & interaction), Observation, Violated principle (named), User consequence, Change, Predicted effect (directional + confidence), Severity (Nielsen 0–4 = frequency × impact × persistence), Moves (which design-quality dimension it shifts, band→band)
-- Design quality score (current → projected) — current and projected scores plus a per-dimension table carrying all nine rubric dimensions; both numbers are flat medians of the assessable bands in their column, the current over the bands as found and the projected over the bands once the fixes land (visual dimensions are never projected upward from a text-only review); a higher number reachable only after a visual pass goes in a separate Ceiling note
+- Findings — each finding is one causal chain with: Lens (Usability / Accessibility / Hierarchy & readability / Design quality / Navigation & interaction), Observation, Violated principle (named), User consequence, Change, Predicted effect (directional + confidence), Severity (Nielsen 0–4, judged from frequency, impact and persistence), Moves (which design-quality dimension it shifts, band→band); a severity 0–2 finding may compress to Observation → Change → Severity
+- Design quality score (current → projected) — current and projected scores plus a per-dimension table carrying all nine rubric dimensions; both numbers are flat medians of the assessable bands in their column (a plain number, never "up to"), lowered by the critical-dimension step and clamped by caps as the rubric's Final scoring method says — the current over the bands as found and the projected over the bands once the fixes land, a cap lifting only when the fix that meets its condition is present (visual dimensions are never projected upward from a text-only review); a higher number reachable only after a visual pass goes in a separate Ceiling note
 - Severity index — findings rolled up by Nielsen 0–4 level
 - Bold move (optional) — include only when the trigger is met (see below)
 - Platform-convention mismatches
@@ -284,9 +284,9 @@ The Bold move trigger: offer one only when ALL hold — the screen is already co
 - Is the sub-case (D1 / D2 / D3 / D4) classified explicitly?
 - Does the review distinguish strengths from problems, with at least one genuine strength?
 - Is each finding a single causal chain (observation → violated principle → user consequence → change → predicted effect), not an issue split from its fix?
-- Does every finding name the violated principle (heuristic/law), instead of "this feels off"?
+- Does every severity 3–4 finding name the violated principle (heuristic/law), instead of "this feels off"? (Severity 0–2 findings may use the compressed Observation → Change → Severity form.)
 - Does every predicted effect name a user outcome, stated directionally with a confidence level and no fabricated percentages?
-- Is severity rated on the Nielsen 0–4 scale and justified as frequency × impact × persistence?
+- Is severity rated on the Nielsen 0–4 scale and justified by frequency, impact and persistence?
 - For D2: are visual claims qualified as unverifiable, or restricted to structure?
 - For D3: is diagnosis separated from assessment?
 - For D4: is the review framed as a delta against the changed context, not a full re-review?

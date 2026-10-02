@@ -9,7 +9,7 @@
   "expected_cap": "2/5 cap from aesthetic-only recommendations that are never translated into task, accessibility, or implementation mechanisms",
   "hard_limits": [
     "Aesthetic-only recommendations cap the design-quality score at 2/5 until translated into mechanisms",
-    "Missing empty/error state definitions cap generated concepts and UI specs at 3/5"
+    "Missing empty/loading/error states where relevant caps generated concepts and UI specs at 3/5"
   ],
   "dimension_scores": {
     "attention_path_and_hierarchy": 4,

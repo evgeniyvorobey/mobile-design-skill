@@ -101,7 +101,7 @@ Platform: iOS.
 - Spacing, contrast, button appearance, and touch-target size were never shown — only field names were provided.
 - These statements are hallucinated visual assessments presented as observations.
 - Compliance language ("fails WCAG AA") is used without evidence.
-- Violates guardrails 2, 3, and 9.
+- Violates guardrails 2, 3, and 11.
 
 ### Good response (fragment)
 ```md
@@ -288,7 +288,7 @@ Users can go back between steps.
 ### Why it fails
 - No recovery path for any step (network failure on card-add, ID verification rejected, PIN mismatch, etc.).
 - "Users can go back between steps" does not define what happens to data entered on the later step, or whether regulated steps (identity verification) can be replayed.
-- Violates guardrail 7 (do not invent without labeling assumptions) — the flow assumes each step is mandatory and completes on first try.
+- Violates guardrail 9 (do not invent without labeling assumptions) — the flow assumes each step is mandatory and completes on first try.
 - Mode B validation checklist fails: "Are error and recovery paths present?" → no.
 
 ### Good response (fragment)

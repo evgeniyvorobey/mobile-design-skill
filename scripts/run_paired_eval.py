@@ -44,7 +44,9 @@ Verdict JSONL: {"pair": "<pair id>", "verdict": "document-1"|"document-2"|"no-me
 from __future__ import annotations
 
 import argparse
+import contextlib
 import hashlib
+import io
 import json
 import shlex
 import subprocess
@@ -94,6 +96,13 @@ def load_responses(path: Path, label: str) -> dict[str, str]:
     return out
 
 
+def request_id(internal: str) -> str:
+    """The id a judge sees. Opaque on purpose: the internal id (`null-p3-ab`) names the
+    control pairs and the presentation order, so a judge that read it could pass the
+    control and pick an arm without reading either document."""
+    return "r-" + hashlib.sha256(("paired-eval-request:" + internal).encode()).hexdigest()[:12]
+
+
 def build_pairs(
     arm_a: dict[str, str], arm_b: dict[str, str], nulls: dict[str, str]
 ) -> list[dict[str, Any]]:
@@ -129,6 +138,14 @@ def build_pairs(
             "control can carry the contrast it is guarding."
         )
 
+    identical = [pid for pid in null_ids if " ".join(nulls[pid].split()) == " ".join(arm_a[pid].split())]
+    if identical:
+        fail(
+            f"null rewrite(s) identical to their arm-A response: {', '.join(identical)}. Identical "
+            "text is a trivial null that any judge passes; a null must be a cosmetic rewrite of "
+            "the same design in different words."
+        )
+
     pairs: list[dict[str, Any]] = []
     for pid in shared:
         pairs.append({"id": pid, "kind": "signal", "a": arm_a[pid], "b": arm_b[pid],
@@ -141,8 +158,10 @@ def build_pairs(
     for pair in pairs:
         for order in ("ab", "ba"):
             first, second = (("a", "b") if order == "ab" else ("b", "a"))
+            internal = f"{pair['kind']}-{pair['id']}-{order}"
             presented.append({
-                "pair": f"{pair['kind']}-{pair['id']}-{order}",
+                "pair": internal,
+                "request_id": request_id(internal),
                 "id": pair["id"],
                 "kind": pair["kind"],
                 "document_1": pair[first],
@@ -178,7 +197,7 @@ def render_request_jsonl(presented: list[dict[str, Any]]) -> str:
     for record in presented:
         lines.append(json.dumps({
             "schema": REQUEST_SCHEMA_VERSION,
-            "pair": record["pair"],
+            "pair": record["request_id"],
             "system": build_system_prompt(),
             "document_1": record["document_1"],
             "document_2": record["document_2"],
@@ -213,8 +232,21 @@ def binomial_p(wins: int, decided: int) -> float:
     return sum(comb(decided, k) for k in range(wins, decided + 1)) / 2 ** decided
 
 
+def verdict_for(record: dict[str, Any], verdicts: dict[str, str]) -> str | None:
+    # Judges answer with the opaque request id; fixture packs are keyed by the internal id.
+    return verdicts.get(record["request_id"], verdicts.get(record["pair"]))
+
+
+def sign_test_two_sided(wins: int, losses: int) -> float:
+    """Exact two-sided sign test over decided pairs (ties dropped)."""
+    decided = wins + losses
+    if decided == 0:
+        return 1.0
+    return min(1.0, 2 * binomial_p(max(wins, losses), decided))
+
+
 def measure(presented: list[dict[str, Any]], verdicts: dict[str, str]) -> dict[str, Any]:
-    missing = [r["pair"] for r in presented if r["pair"] not in verdicts]
+    missing = [r["pair"] for r in presented if verdict_for(r, verdicts) is None]
     if missing:
         fail(
             f"{len(missing)} presented pair(s) have no verdict, so order counterbalancing "
@@ -224,7 +256,7 @@ def measure(presented: list[dict[str, Any]], verdicts: dict[str, str]) -> dict[s
 
     by_pair: dict[tuple[str, str], list[str]] = {}
     for record in presented:
-        verdict = verdicts[record["pair"]]
+        verdict = verdict_for(record, verdicts)
         if verdict == "no-meaningful-difference":
             picked = "none"
         else:
@@ -237,8 +269,15 @@ def measure(presented: list[dict[str, Any]], verdicts: dict[str, str]) -> dict[s
     a_wins = sum(1 for picks in signal.values() for p in picks if p == "arm-a")
     b_wins = sum(1 for picks in signal.values() for p in picks if p == "arm-b")
     ties = sum(1 for picks in signal.values() for p in picks if p == "none")
-    decided = a_wins + b_wins
-    leader, lead_wins = ("arm-a", a_wins) if a_wins >= b_wins else ("arm-b", b_wins)
+
+    # The unit of inference is the pair, not the judgement. Both presentation orders of
+    # one pair judge the same two documents, so counting them as independent coin flips
+    # (and testing one-sided toward whichever arm happens to lead) reported p < 0.05 in
+    # up to ~29% of runs with equal arms.
+    pair_a = sum(1 for picks in signal.values() if picks.count("arm-a") > picks.count("arm-b"))
+    pair_b = sum(1 for picks in signal.values() if picks.count("arm-b") > picks.count("arm-a"))
+    pair_tied = len(signal) - pair_a - pair_b
+    leader = "arm-a" if pair_a > pair_b else "arm-b" if pair_b > pair_a else "none"
 
     order_invariant = sum(1 for picks in signal.values() if picks[0] == picks[1] != "none")
     null_agreed_winner = sum(1 for picks in nulls.values() if picks[0] == picks[1] != "none")
@@ -253,8 +292,11 @@ def measure(presented: list[dict[str, Any]], verdicts: dict[str, str]) -> dict[s
         "arm_a_wins": a_wins,
         "arm_b_wins": b_wins,
         "ties": ties,
+        "pair_a_wins": pair_a,
+        "pair_b_wins": pair_b,
+        "pair_ties": pair_tied,
         "leader": leader,
-        "p_value": binomial_p(lead_wins, decided),
+        "p_value": sign_test_two_sided(pair_a, pair_b),
         "order_invariant": order_invariant,
         "null_agreed_winner": null_agreed_winner,
         "null_agreed_winner_rate": null_rate,
@@ -264,11 +306,8 @@ def measure(presented: list[dict[str, Any]], verdicts: dict[str, str]) -> dict[s
 
 
 def report(result: dict[str, Any]) -> None:
-    print("== Paired comparison ==")
-    print(f"  signal pairs        : {result['signal_pairs']} ({result['signal_pairs'] * 2} judgements)")
-    print(f"  arm A / arm B / tied: {result['arm_a_wins']} / {result['arm_b_wins']} / {result['ties']}")
-    print(f"  order-invariant     : {result['order_invariant']}/{result['signal_pairs']} pairs")
-    print(f"  one-sided p         : {result['p_value']:.5f} (leader: {result['leader']})")
+    # The control is printed first and a failed control stops the report before any win
+    # rate or p-value reaches stdout: a number printed next to a refusal still gets read.
     print("== Control ==")
     print(f"  null pairs          : {result['null_pairs']}")
     print(f"  no-difference calls : {result['null_no_difference_judgements']}/{result['null_pairs'] * 2} judgements")
@@ -276,11 +315,19 @@ def report(result: dict[str, Any]) -> None:
           f" ({result['null_agreed_winner_rate']:.0%}, ceiling {NULL_AGREED_WINNER_MAX:.0%})")
 
     if not result["readable"]:
+        print("[UNREADABLE] The control failed; the contrast is withheld.")
         fail(
             "The control failed: this judge picks a winner between two documents that "
-            "describe the same design. The contrast above is UNREADABLE and no win rate "
-            "from it means anything. Fix the judge before reading the arms."
+            "describe the same design. The contrast is UNREADABLE and no win rate from it "
+            "means anything. Fix the judge before reading the arms."
         )
+
+    print("== Paired comparison ==")
+    print(f"  signal pairs        : {result['signal_pairs']} ({result['signal_pairs'] * 2} judgements)")
+    print(f"  pairs A / B / tied  : {result['pair_a_wins']} / {result['pair_b_wins']} / {result['pair_ties']}")
+    print(f"  judgements A / B / no-difference: {result['arm_a_wins']} / {result['arm_b_wins']} / {result['ties']}")
+    print(f"  order-invariant     : {result['order_invariant']}/{result['signal_pairs']} pairs")
+    print(f"  two-sided sign test (pairs): p = {result['p_value']:.5f} (leader: {result['leader']})")
     print("[OK] Control held; the contrast is readable.")
 
 
@@ -332,6 +379,58 @@ def self_test() -> None:
             "reported as readable. The refusal is the point of this harness"
         )
 
+    # The refusals themselves, run rather than read: each must exit non-zero, and the
+    # failed control must not print a contrast on its way out. Reading the constants
+    # cannot see a refusal that has been widened into a no-op; running it can.
+    def refuses(action) -> tuple[bool, str]:
+        out, err = io.StringIO(), io.StringIO()
+        try:
+            with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+                action()
+        except SystemExit as exc:
+            return bool(exc.code), out.getvalue()
+        return False, out.getvalue()
+
+    refused, printed = refuses(lambda: report(broken_control))
+    if not refused:
+        errors.append("report(): a failed control exits 0; the refusal has been widened into a no-op")
+    if "p =" in printed or "pairs A / B" in printed:
+        errors.append("report(): a failed control still prints the contrast to stdout")
+
+    case = pack["separating"]
+    refused, _ = refuses(lambda: build_pairs(case["arm_a"], case["arm_b"], {pid: case["arm_a"][pid] for pid in case["nulls"]}))
+    if not refused:
+        errors.append("build_pairs(): byte-identical nulls are accepted as a control")
+    many = {f"x{i}": f"design {i}" for i in range(3 * MIN_NULL_PAIRS + 3)}
+    few_nulls = {pid: many[pid] + " (reworded)" for pid in list(many)[:MIN_NULL_PAIRS]}
+    refused, _ = refuses(lambda: build_pairs(many, {pid: v + " b" for pid, v in many.items()}, few_nulls))
+    if not refused:
+        errors.append("build_pairs(): too few nulls for the number of signal pairs is accepted")
+
+    # The unit of inference is the pair: three pairs won by one arm in both orders is a
+    # two-sided sign test of 3/3 (p = 0.25), not six independent judgements (p = 0.016).
+    three = {f"t{i}": f"three-pair design {i}" for i in range(3)}
+    three_nulls = {pid: text + " (reworded)" for pid, text in three.items()}
+    three_presented = build_pairs(three, {pid: text + " worse" for pid, text in three.items()}, three_nulls)
+    three_verdicts = {}
+    for record in three_presented:
+        if record["kind"] == "null":
+            three_verdicts[record["pair"]] = "no-meaningful-difference"
+        else:
+            three_verdicts[record["pair"]] = "document-1" if record["doc1_role"] == "arm-b" else "document-2"
+    three_result = measure(three_presented, three_verdicts)
+    if three_result["p_value"] < 0.2:
+        errors.append(
+            f"p-value: three pairs won in both orders report p = {three_result['p_value']:.4f}; "
+            "the two orders of one pair are being counted as independent judgements"
+        )
+
+    # What the judge actually receives, not what this module calls it internally.
+    sent = [json.loads(line)["pair"] for line in render_request_jsonl(build_pairs(case["arm_a"], case["arm_b"], case["nulls"])).splitlines()]
+    leaked = [pid for pid in sent if pid.startswith(("signal", "null")) or pid.endswith(("-ab", "-ba"))]
+    if leaked:
+        errors.append(f"requests sent to the judge reveal the pair kind or order: {', '.join(leaked[:3])}")
+
     if errors:
         fail("Paired-comparison self-test failed:\n" + "\n".join(f"  - {e}" for e in errors))
     print("[OK] Paired comparison separates a real contrast from a null one, and refuses a failed control.")
@@ -365,9 +464,14 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    if args.self_test or not (args.arm_a or args.arm_b or args.fixture_arms):
+    if args.self_test or len(sys.argv) == 1:
         self_test()
         return
+    if not (args.arm_a or args.arm_b or args.fixture_arms):
+        # Falling back to the self-test here used to print [OK] and exit 0 for
+        # `--verdicts missing.jsonl` or `--judge-command ...` with no arms: a passed
+        # comparison that never read the data or ran the judge.
+        fail("supply --arm-a, --arm-b and --nulls (or --fixture-arms); use --self-test for the self-test")
 
     if args.fixture_arms:
         pack = json.loads(FIXTURES.read_text(encoding="utf-8"))

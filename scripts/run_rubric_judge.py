@@ -88,7 +88,9 @@ def build_user_prompt(fixture: dict[str, Any]) -> str:
         # fills -- shipping `1` nine times taught the judge what a vector looks like.
         "# Required JSON output\n"
         "Replace every <...> placeholder. Derive each dimension score from the "
-        "rubric's boundary questions, then take their median for `score`.\n"
+        "rubric's boundary questions. `score` is the median of the assessable dimension "
+        "scores, lowered when a dimension critical to the primary task sits below it, then "
+        "clamped by any cap (the rubric's Final scoring method); it is never above that median.\n"
         "{\n"
         '  "score": <1-5>,\n'
         '  "verdict": "fail | needs major revision | acceptable baseline | strong and shippable | excellent and resilient",\n'
@@ -113,14 +115,8 @@ def build_request_record(fixture: dict[str, Any]) -> dict[str, Any]:
             {"role": "system", "content": build_system_prompt()},
             {"role": "user", "content": build_user_prompt(fixture)},
         ],
-        "expected": {
-            "score": fixture["expected_score"],
-            "verdict": fixture["expected_verdict"],
-            "cap": fixture["expected_cap"],
-            "hard_limits": fixture["hard_limits"],
-            "dimension_scores": fixture["dimension_scores"],
-            "failed_dimensions": fixture["expected_failed_dimensions"],
-        },
+        # No `expected` block: the request goes to the judge, and a judge handed the
+        # answer key can pass the pack by copying it. The oracle reads the fixtures itself.
     }
 
 
@@ -166,6 +162,19 @@ def export_expected_outputs(fixtures: list[dict[str, Any]], output_path: Path) -
 
 def normalize(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", value.lower()).strip()
+
+
+def verdict_label(verdict: str) -> str:
+    """The rubric label a verdict starts with. Fixtures may qualify it ("acceptable baseline,
+    clamped by a contradicted value"), but the judge is offered only the five bare labels."""
+    return normalize(verdict.split(",", 1)[0])
+
+
+def hard_limit_key(limit: str) -> str:
+    """The name of a cap, not its full sentence: the text before `cap`/`caps`/`:`. A judge
+    quoting the rubric's own cap sentence must match a fixture paraphrasing the same cap."""
+    head = re.split(r"\s+caps?\b|:", limit, maxsplit=1)[0]
+    return head.strip() or limit
 
 
 def contains_semantic_item(needle: str, haystack_items: list[Any], extra_text: str = "") -> bool:
@@ -319,7 +328,7 @@ def compare_judgement(fixture: dict[str, Any], judgement: dict[str, Any]) -> lis
                 "never raised above it"
             )
 
-    expected_verdict = normalize(fixture["expected_verdict"])
+    expected_verdict = verdict_label(fixture["expected_verdict"])
     actual_verdict = normalize(str(judgement["verdict"]))
     if expected_verdict and expected_verdict not in actual_verdict:
         errors.append(
@@ -332,7 +341,7 @@ def compare_judgement(fixture: dict[str, Any], judgement: dict[str, Any]) -> lis
 
     for hard_limit in fixture["hard_limits"]:
         if not contains_semantic_item(
-            hard_limit,
+            hard_limit_key(hard_limit),
             judgement["hard_limits"],
             extra_text=f"{judgement['cap']} {judgement['rationale']}",
         ):
@@ -422,7 +431,54 @@ def run_judge_command(
     validate_loaded_judge_outputs(fixtures, outputs)
 
 
+RUBRIC_VERDICTS = ("fail", "needs major revision", "acceptable baseline", "strong and shippable", "excellent and resilient")
+
+
+def check_a_faithful_judge_can_pass(fixtures: list[dict[str, Any]]) -> None:
+    """A judge that follows the request exactly must be able to pass every fixture.
+
+    It answers with one of the five verdict labels the request offers and names caps in
+    the rubric's own words. Before this check, two fixtures demanded strings only the
+    answer key contained, so the pack could be passed by copying and not by judging.
+    A wrong verdict must still fail, or the leniency has gone too far.
+    """
+    rubric_lines = [re.sub(r"[*`]", "", line).strip("- ").strip() for line in RUBRIC_PATH.read_text(encoding="utf-8").splitlines()]
+
+    def in_rubric_words(limit: str) -> str:
+        # A judge quoting the rubric's own cap sentence, where the fixture names a rubric cap.
+        key = normalize(hard_limit_key(limit))
+        for line in rubric_lines:
+            if key and normalize(line).startswith(key):
+                return line
+        return limit
+
+    errors: list[str] = []
+    for fixture in fixtures:
+        label = verdict_label(fixture["expected_verdict"])
+        if label not in RUBRIC_VERDICTS:
+            errors.append(f"{fixture['id']}: expected verdict `{fixture['expected_verdict']}` does not start with a label the request offers")
+        faithful = {
+            "score": fixture["expected_score"],
+            "verdict": label,
+            "cap": fixture["expected_cap"],
+            "hard_limits": [in_rubric_words(limit) for limit in fixture["hard_limits"]],
+            "dimension_scores": fixture["dimension_scores"],
+            "failed_dimensions": fixture["expected_failed_dimensions"],
+            "rationale": fixture["expected_rationale"],
+            "improvement_suggestions": fixture["improvement_suggestions"],
+        }
+        problems = compare_judgement(fixture, faithful)
+        if problems:
+            errors.append(f"{fixture['id']}: a schema-following judge fails: {problems[0]}")
+        wrong = dict(faithful, verdict=next(v for v in RUBRIC_VERDICTS if v != label))
+        if not compare_judgement(fixture, wrong):
+            errors.append(f"{fixture['id']}: a wrong verdict passes")
+    if errors:
+        fail("Rubric fixture pack cannot be passed by judging:\n" + "\n".join(f"  - {e}" for e in errors))
+
+
 def print_dry_run_summary(fixtures: list[dict[str, Any]]) -> None:
+    check_a_faithful_judge_can_pass(fixtures)
     scores = sorted(fixture["expected_score"] for fixture in fixtures)
     print(f"[OK] Loaded {len(fixtures)} rubric fixtures covering scores: {scores}")
     for fixture in fixtures:

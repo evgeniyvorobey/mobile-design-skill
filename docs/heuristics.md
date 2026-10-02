@@ -75,7 +75,7 @@ Heuristics are rules of thumb, not laws. Apply them with context in mind (`docs/
 **What**: Users spend most of their time on other apps, so they expect yours to work the way those other apps work.
 
 **Mobile application**:
-- Respect platform conventions over clever divergence (see `docs/guardrails.md` #6).
+- Respect platform conventions over clever divergence (see `docs/guardrails.md` #8).
 - For a new category (first banking app in a market), anchor to the closest neighboring category the user already knows.
 - Novel interactions require explicit onboarding or an affordance; do not ship new gestures with no discovery path.
 - Do not rename system concepts ("Account" → "My Realm") without a reason.

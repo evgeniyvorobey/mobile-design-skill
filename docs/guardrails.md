@@ -268,7 +268,7 @@ Better:
 - reason from the platform guidance, pattern matrices, and quality bars that the skill does hold
 - treat a screenshot or description the user pastes as real evidence, reviewable as normal
 
-**Version-bound defaults.** Platform rows such as Material version, predictive back, themed icons, and OS-gated behaviour are current as of this skill's last review, not permanent facts.
+**Version-bound defaults.** Platform rows such as Material version, predictive back, themed icons, and OS-gated behaviour are current as of the dated platform baseline in `docs/adaptive-layout.md`, not permanent facts.
 
 Do not:
 - state an OS-gated behaviour as universally available
@@ -276,4 +276,4 @@ Do not:
 
 Better:
 - name the version or OS level the default assumes
-- say the default is current as of the skill's last review when it materially affects the recommendation
+- say the default is current as of that baseline's date when it materially affects the recommendation

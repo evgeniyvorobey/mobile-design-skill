@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.36.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.37.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.36.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.37.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -110,18 +110,18 @@ cd ~/mobile-design-skill
 ./scripts/install.sh
 ```
 
-This creates a symlink from `~/.claude/skills/mobile-design-skill` to the cloned repo, making the skill available globally in every Claude Code session.
+This creates `~/.claude/skills/mobile-design-skill` holding a generated wrapper whose references are absolute paths into the cloned repo, so the skill is available globally in every Claude Code session and `git pull` updates its content. (It is deliberately not a symlink to the repo's wrapper: Claude Code passes the skill its unresolved directory and resolves `..` textually, so a symlinked wrapper's relative references point outside the repo and nothing loads.)
 
 **Alternatives**:
 
 ```bash
-# Install only inside the current project (not global)
-./scripts/install.sh --scope project
-
-# Install inside a specific project
+# Install only inside one project (not global): pass the project explicitly...
 ./scripts/install.sh --scope project --project-path /absolute/path/to/project
 
-# Use a self-contained copy instead of a symlink (for filesystems without symlink support)
+# ...or run the script from inside that project
+cd /absolute/path/to/project && ~/mobile-design-skill/scripts/install.sh --scope project
+
+# Use a self-contained copy instead of a live install (for filesystems without symlink support)
 ./scripts/install.sh --method copy
 
 # Check where the skill is installed
@@ -129,8 +129,10 @@ This creates a symlink from `~/.claude/skills/mobile-design-skill` to the cloned
 
 # Remove the install
 ./scripts/install.sh --uninstall
-./scripts/install.sh --uninstall --scope project
+./scripts/install.sh --uninstall --scope project --project-path /absolute/path/to/project
 ```
+
+`install.sh` refuses any target that is the clone itself or inside it, and `--uninstall` only removes what the script created.
 
 **Verify**:
 
@@ -138,7 +140,7 @@ This creates a symlink from `~/.claude/skills/mobile-design-skill` to the cloned
 ./scripts/install.sh --status
 ```
 
-Output should show `symlink -> /path/to/mobile-design-skill/.claude/skills/mobile-design-skill` for your chosen scope.
+Output should show `link install from /path/to/mobile-design-skill` for your chosen scope.
 
 Open Claude Code and try:
 
@@ -153,18 +155,15 @@ Open Claude Code and try:
 If you prefer to bypass the install script:
 
 ```bash
-# Global install (any Claude Code session)
-mkdir -p ~/.claude/skills
-ln -s /absolute/path/to/mobile-design-skill/.claude/skills/mobile-design-skill \
-      ~/.claude/skills/mobile-design-skill
-
-# Or project-local install (only for one project)
-mkdir -p /path/to/project/.claude/skills
-ln -s /absolute/path/to/mobile-design-skill/.claude/skills/mobile-design-skill \
-      /path/to/project/.claude/skills/mobile-design-skill
+# Global install (any Claude Code session): a real directory, with the wrapper's
+# `${CLAUDE_SKILL_DIR}/../../../` prefix replaced by the clone's absolute path
+REPO=/absolute/path/to/mobile-design-skill
+mkdir -p ~/.claude/skills/mobile-design-skill
+sed -e "s|\${CLAUDE_SKILL_DIR}/\.\./\.\./\.\./|$REPO/|g" \
+    "$REPO/.claude/skills/mobile-design-skill/SKILL.md" > ~/.claude/skills/mobile-design-skill/SKILL.md
 ```
 
-The symlink must point to the `.claude/skills/mobile-design-skill` subdirectory of the cloned repo, not to the repo root.
+Do not symlink the wrapper directory: the host resolves `${CLAUDE_SKILL_DIR}/../../../` textually from the symlink's own location, so every reference misses the repo.
 
 If you cannot use symlinks, run `./scripts/install.sh --method copy`, which builds a self-contained copy with paths rewritten to stay within the installed directory.
 
@@ -488,7 +487,7 @@ mobile-design-skill/
 │       ├── validate.yml                  CI: structure + link validation
 │       └── release-validate.yml          Manual release validation
 ├── scripts/
-│   ├── install.sh                        Install script (symlink or copy)
+│   ├── install.sh                        Install script (live link or copy)
 │   ├── bump_version.py                   Version bumper (synchronizes all version references)
 │   ├── validate_repo.py                  Repository structure, docs hygiene, link, and example-response validator
 │   ├── validate_release.py               Release validation and version/tag sanity checks
@@ -613,7 +612,7 @@ cd ~/mobile-design-skill
 git pull
 ```
 
-If the install uses the default symlink method, the new version is active immediately — no reinstall needed.
+If the install uses the default link method, the new content is active immediately. Re-run `./scripts/install.sh` only when the pull changed `.claude/skills/mobile-design-skill/SKILL.md` or the judge agent, or after moving the clone.
 
 If the install uses `--method copy`, re-run the install script to sync the copy:
 
@@ -643,7 +642,7 @@ Compare to the latest release on [GitHub](https://github.com/evgeniyvorobey/mobi
 ./scripts/install.sh --uninstall --scope project --project-path /path/to/project
 
 # Manual removal
-rm ~/.claude/skills/mobile-design-skill
+rm -r ~/.claude/skills/mobile-design-skill
 ```
 
 Then you can delete the cloned repo if no longer needed:

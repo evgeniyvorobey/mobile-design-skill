@@ -38,7 +38,7 @@ Bars are drawn from Apple Human Interface Guidelines, Material Design 3, WCAG 2.
 
 ### Type scale
 
-- Minimum ratio between adjacent roles: **1.125× (major second)**.
+- Minimum ratio between adjacent roles of a custom scale: **1.125× (major second)**. On a scale derived from a ratio, check the ratio rather than the rounded sizes: whole-point rounding can bring a pair just under it (a 1.125 scale from 17 pt rounds to 19 / 17). Roles left at a platform text style's own default size (iOS Dynamic Type, the Material type scale) are exempt: those ramps separate some adjacent roles by weight or by a smaller step (iOS Headline and Body are both 17 pt).
 - Preferred ratio between display and body: **at least 1.5×**.
 - Use role-based tokens (Display, Title, Body, Caption), not ad-hoc sizes.
 
@@ -302,8 +302,8 @@ Every screen or spec covering interactive content must address:
 ### Tab bar vs drawer vs bottom nav
 
 - Phone apps: bottom navigation with 3–5 primary destinations is the default.
-- Above 5 destinations: reconsider the information architecture; add "More" rather than a 6th tab.
-- Navigation drawers on phone should only be used when bottom nav cannot fit the information architecture, not as a hiding place for features.
+- Above 5 destinations: reconsider the information architecture. Do not add a 6th tab, and do not plan on a "More" overflow tab either: Apple's HIG advises against overflow tabs because they make content harder to reach and notice.
+- A navigation drawer is not the overflow. It is not an iOS pattern, and Material 3 Expressive deprecates it in favour of the expanded navigation rail. Neither is a hiding place for features that did not earn a destination.
 
 ### Deep links and resumption
 
@@ -342,17 +342,17 @@ Every screen or spec covering interactive content must address:
 
 ### iOS
 
-- Navigation bar height: 44pt (compact), 96pt (large title).
-- Tab bar height: 49pt (standard), 83pt (with safe area on home-bar devices).
+- Navigation bar height: 44pt (compact), 96pt (large title). These are legacy UIKit values (iOS 11–18), not HIG figures: since iOS 26 the system bars float on Liquid Glass and size themselves, so use the system components and do not pin these numbers in a spec.
+- Tab bar height: 49pt (standard), 83pt (with safe area on home-bar devices), with the same caveat. The iOS 26 tab bar floats above content and can minimise as the user scrolls.
 - Safe area insets must be respected at the top (notch, Dynamic Island) and bottom (home indicator).
-- Minimum 44pt between the home indicator and the nearest interactive element.
+- Keep custom controls and custom gestures out of the bottom safe-area inset, where the home indicator's system swipes win. System bars sit directly on that inset by design; no extra clearance value applies to them.
 
 ### Android
 
-- App bar height: 56dp (standard), 64dp (medium), 152dp (large).
-- Bottom navigation: 80dp total height.
-- Edge-to-edge content must handle the system bars correctly with `WindowInsets`.
-- FAB size: 56dp standard, 40dp mini, 96dp extended minimum width.
+- Top app bar height (Material 3): 64dp small, 112dp medium, 152dp large. 56dp is the Material 2 bar.
+- Navigation bar: 64dp, the Material 3 Expressive flexible bar; 80dp is the earlier, taller variant.
+- Edge-to-edge content must handle the system bars correctly with `WindowInsets`. Apps targeting Android 16 (API 36) cannot opt out of edge-to-edge.
+- FAB size: 56dp standard, 40dp small (Material 2 called it mini), 96dp large. The extended FAB is 56dp tall.
 
 ---
 
@@ -376,8 +376,8 @@ The 600 / 840 dp values are Android's official window size class breakpoints. iP
 |---------|------|
 | Reading column (body text) | 640–720 pt maximum — the 45–75 character bar, expressed as width |
 | List pane in a list-detail layout | 320–400 pt |
-| Navigation rail (medium width) | 80 dp |
-| Sidebar / standard drawer (expanded width) | 240–360 dp |
+| Navigation rail (medium width, Android) | 96 dp collapsed (Material 3 Expressive; 80 dp in baseline Material 3) |
+| Expanded navigation rail (Android) / sidebar (iPadOS), expanded width | 220–360 dp for the expanded rail; the iPadOS sidebar keeps the split view's default width unless the app sets one |
 | Screen margin | 16 pt compact / 24 pt medium / 24–32 pt expanded |
 | Grid columns | 2 compact / 4–6 medium / 6–8 expanded |
 
@@ -402,7 +402,7 @@ Wider screens get **more columns or wider margins, never longer lines**. A singl
 1. When generating a design (Mode A, C, E), use these values as defaults unless the user has provided stronger constraints.
 2. When reviewing a design (Mode D), compare observed values against these bars; flag any deviation without a stated reason as an issue.
 3. When writing a rationale or spec (Mode C, F), cite the specific bar a decision respects or deviates from.
-4. When self-reviewing (Step 9 in the workflow), confirm at least that touch targets, contrast, line-heights, and state coverage are addressed against these bars.
+4. When self-reviewing (step 10 in the workflow), confirm at least that touch targets, contrast, line-heights, and state coverage are addressed against these bars.
 
 ---
 

@@ -270,7 +270,7 @@ def run_release_checks() -> None:
             "scripts/run_generation_eval.py",
             "--replayable-only",
             "--generate-command",
-            f"{sys.executable} scripts/generation_oracle_agent.py",
+            f"{shlex.quote(sys.executable)} scripts/generation_oracle_agent.py",
         ],
     )
     run_step(
@@ -285,7 +285,7 @@ def run_release_checks() -> None:
             "--fixture-arms",
             "separating",
             "--judge-command",
-            f"{sys.executable} scripts/paired_eval_oracle_agent.py",
+            f"{shlex.quote(sys.executable)} scripts/paired_eval_oracle_agent.py",
         ],
     )
     run_step(

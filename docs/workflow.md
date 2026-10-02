@@ -1,6 +1,6 @@
 # Internal Workflow
 
-This document defines the internal workflow the skill must follow for every request.
+This is the long-form companion to the workflow in `SKILL.md`: the same steps, with the same numbers, and more reasoning per step. Where the two ever differ, `SKILL.md` is authoritative.
 
 ---
 
@@ -108,7 +108,11 @@ When multiple contexts apply, state the resolution in `Assumptions` so the user 
 
 ---
 
-## Step 3: Check information sufficiency
+## Step 3: Determine platform scope and device class
+
+Resolve both axes exactly as `SKILL.md` step 3 defines them: platform scope (iOS, Android, cross-platform, unspecified) and device class (phone, tablet, foldable, adaptive). Load `docs/adaptive-layout.md` before drafting whenever the device class is not phone, and state a phone-first default as a reversible assumption.
+
+## Step 4: Check information sufficiency
 
 Determine whether the request includes enough information for the chosen mode.
 
@@ -143,7 +147,7 @@ Still provide a useful structure, but:
 
 ---
 
-## Step 4: Select source priority
+## Step 5: Select source priority
 
 Use the source hierarchy in this order:
 
@@ -166,7 +170,7 @@ Use the source hierarchy in this order:
 - Use `docs/design-quality-rubric.md` when the output needs a 1-5 quality target or review score. Generated/specification outputs derive the score from the assessable dimensions; Mode D reviews expose both a current and a projected score.
 - Use `docs/domain-packs/index.md` and the closest pack in `docs/domain-packs/` when fintech, health, SaaS, marketplace, social, or education materially changes trust, safety, hierarchy, state coverage, or handoff requirements.
 - Use `docs/synthetic-case-studies.md` and `examples/case-studies/` during maintenance or quality-sensitive calibration to compare weak vs strong response shapes. Do not treat synthetic cases as real-world validation.
-- Use `docs/inspiration-sources.md` only when the user asks for visual inspiration, moodboards, benchmarks, or "best-in-class" examples. Treat it as a non-authoritative layer for visual range and production references, not as evidence for usability, accessibility, platform behavior, or compliance.
+- Use `docs/inspiration-sources.md` as a reference layer whenever the request carries any of the trigger signals that document lists (mirrored at the inspiration gate in `SKILL.md`). Step 5.5 also loads it for direction vocabulary on every Mode 1, 3 and 5 request, regardless of those signals. Treat it as a non-authoritative layer for visual range and production references, not as evidence for usability, accessibility, platform behavior, or compliance.
 - Use `docs/benchmark-report-format.md` when a request asks to compare 3-5 references or turn benchmark inspiration into tokens, components, states, and QA checks.
 - Use `docs/visual-review-fixtures.md` as maintenance calibration for Mode D text-description reviews and apply the same evidence limits in live reviews.
 - Use `docs/rendered-output-qa.md` only after a rendered artifact exists or when the user asks for post-implementation QA. It is optional and must not block normal design generation.
@@ -174,7 +178,7 @@ Use the source hierarchy in this order:
 
 ---
 
-## Step 4.5: Set the design direction (Modes A, C, E)
+## Step 5.5: Set the design direction (Modes A, C, E)
 
 Before drafting a generated artifact, build three candidate directions internally, then commit to one. The step sits between grounding and building so divergence happens *before* the evidence gauntlet, not instead of it.
 
@@ -200,7 +204,7 @@ Rules:
 
 - Directions must differ in at least two token fields; three variants of one structure is one direction.
 - The step is internal — the response commits to one direction and never presents a menu.
-- Divergence is perceptual and compositional. Functional patterns stay convergent (see Step 7, "Choose from known patterns, do not invent").
+- Divergence is perceptual and compositional. Functional patterns stay convergent (see Step 8, "Choose from known patterns, do not invent").
 - Token values are directional defaults, not invented brand facts. Work inside a supplied design system when there is one; say so when there is not.
 - Mode F names the direction the delivered design already embodies; it does not generate new ones or invent rejected alternatives the user never described.
 - When the input supports only one direction, state that under `Assumptions` rather than inventing two throwaway rejects.
@@ -209,7 +213,7 @@ Vocabulary and the long form of this step live in `docs/inspiration-sources.md`.
 
 ---
 
-## Step 5: Build the response by mode
+## Step 6: Build the response by mode
 
 Use the response structure defined in `skill/templates.md`.
 
@@ -217,6 +221,7 @@ Use the response structure defined in `skill/templates.md`.
 Every response begins with:
 - Mode
 - Platform scope
+- Device class
 - Assumptions
 
 ### Mandatory response footer
@@ -225,7 +230,7 @@ Every response ends with:
 
 ---
 
-## Step 6: Apply universal review lenses
+## Step 7: Apply universal review lenses
 
 Before finalizing, check the draft against these lenses:
 
@@ -279,7 +284,7 @@ Before finalizing, check the draft against these lenses:
 
 ---
 
-## Step 7: Apply design reasoning
+## Step 8: Apply design reasoning
 
 Every major design decision in the response must have:
 
@@ -300,11 +305,11 @@ For design-quality decisions, state the mechanism that makes the quality happen:
 - Mode C: structural zone choice, state definition granularity, platform divergence choices
 - Mode D: fix recommendations (why this fix, not another)
 - Mode E: role scale ratio, weight strategy, density preset
-- Mode F: every "Key design decision" must pair with an alternative and a reason
+- Mode F: every "Key design decision" carries the alternative the input describes and why it lost, or is labeled a default; never an invented alternative
 
 ### How to surface
 
-- In Mode A, C, and F: populate the `Alternatives considered` block in the template.
+- In Mode A: populate `Alternatives considered`. In Mode C: record the rejected directions in `Key decision tradeoffs`. In Mode E: name each reject in one line under `Assumptions`. In Mode F: name only the alternatives the input describes, never invented ones.
 - In other modes: fold the alternative inline into the rationale, not as a separate section.
 
 ### Ground reasoning in established heuristics
@@ -325,7 +330,7 @@ For every pattern-level decision (navigation, presentation overlay, list vs grid
 
 - Use the matching Use-when / Avoid-when criteria to pick a pattern, not aesthetic preference.
 - Cite the pattern choice in the `Pattern choices and why` block.
-- The losing pattern goes into `Alternatives considered` with the reason it lost.
+- The losing pattern goes into the rationale with the reason it lost (in Mode F, `Pattern choices and why`); `Alternatives considered` is reserved for the rejected step-5.5 directions.
 - During Mode D reviews, use the pattern entries' red flags as a violation check.
 
 Never invent a novel pattern when an established one covers the case. Novelty breaks Jakob's Law. Invent only when no established pattern applies, and document the deviation with reasons.
@@ -347,10 +352,10 @@ Keep this calibration concise. It should make the design more buildable, not tur
 
 Use `docs/design-quality-rubric.md` after calibration:
 
-- For generated concepts, UI specs, typography systems, and handoff: derive the score as the median of the assessable dimensions, then apply caps. Do not aim at a number; report what the dimensions give.
-- If the draft scores 3/5 or below and context is sufficient, revise the weak dimension before returning.
-- If the derivation lands below 4/5 and the context cannot lift it, report the derived score and state the missing input under `Assumptions`, `Unresolved assumptions`, or `Open questions`. Do not round up to 4/5.
-- For Mode D reviews: expose both a current and a projected score inside `Design quality score (current → projected)`. The exact contract — flat median of the assessable dimensions, `n/v` handling, `Ceiling note`, and the Bold move trigger — lives in the Mode D section of `skill/modes.md`. Follow it there rather than a summary here.
+- For generated concepts, UI specs, typography systems, and handoff: derive the score as the median of the assessable dimensions, lowered by the critical-dimension step, then clamped by caps. Do not aim at a number; report what the dimensions give.
+- If a named dimension fails a boundary question the available context can answer, revise that dimension once before returning; a mid-scale score is not by itself a reason to redraft.
+- If the context cannot lift a dimension, report the derived score as it stands and state the missing input under `Assumptions`, `Unresolved assumptions`, or `Open questions`. Never round a score up.
+- For Mode D reviews: expose both a current and a projected score inside `Design quality score (current → projected)`. The exact contract — flat median of the assessable dimensions, lowered by the critical-dimension step and clamped by caps, `n/v` handling, `Ceiling note`, and the Bold move trigger — lives in the Mode D section of `skill/modes.md`. Follow it there rather than a summary here.
 - Do not let a high visual score hide P0/P1 weaknesses, missing states, accessibility risks, or unsupported claims.
 
 ### Keep inspiration separate from rationale
@@ -364,7 +369,7 @@ When the response uses inspiration sources:
 
 ---
 
-## Step 8: Check concrete quality bars
+## Step 9: Check concrete quality bars
 
 Compare the draft against the numeric thresholds in `docs/quality-bars.md`.
 
@@ -377,14 +382,14 @@ At minimum, confirm:
 - States include at minimum default, loading, empty, error.
 - Spacing values come from the canonical scale, not ad-hoc numbers.
 - Design-quality calibration does not contradict task clarity, accessibility, quality bars, or platform conventions.
-- The design-quality rubric is applied when relevant, and the score printed is the median of the dimension read written above it; a dimension whose failed boundary question the input can answer is lifted and the score re-derived.
+- The design-quality rubric is applied when relevant; a printed score is the median of the dimension read written above it, lowered only by the critical-dimension step or a named cap; a dimension whose failed boundary question the input can answer is lifted once and the score re-derived.
 - Known weakness patterns from `docs/weaknesses.md` are addressed before self-review.
 
 When the mode does not produce concrete values (Mode B flow, Mode F rationale), this check is lighter — confirm that the output does not contradict any bar.
 
 ---
 
-## Step 9: Self-review against the quality bar
+## Step 10: Self-review against the quality bar
 
 Run the self-review pass defined in `docs/self-review.md`.
 
@@ -398,7 +403,7 @@ Self-review is not optional. It is the single highest-impact quality mechanism i
 
 ---
 
-## Step 10: Finalize responsibly
+## Step 11: Finalize responsibly
 
 Make sure the final answer:
 

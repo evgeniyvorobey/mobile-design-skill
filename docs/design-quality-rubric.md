@@ -41,21 +41,21 @@ Mode B user flows normally do not need a visual quality score unless screen paci
 
 For generated or specified design artifacts, the score is primarily internal:
 
-- derive the score: bands per dimension, median of the assessable ones, then caps as a downward clamp
-- if the derivation lands **at or below the midpoint** and the missing context is not blocking, revise the design and re-derive before returning
+- derive the score: bands per dimension, median of the assessable ones, lowered if a dimension critical to the primary task sits below it, then caps as a downward clamp
+- revise **at most once**, and only when a named dimension fails a boundary question that the available input can answer: lift that dimension, re-derive, and return. Band 3 is where a good concept lives, so landing there is not a reason to redraft, and the derivation is never re-run to reach a number
 - if missing input prevents lifting a dimension past the boundary question it failed, state the limitation in `Assumptions` or `Unresolved assumptions`
 
 For reviews, expose both a current and a projected score. Both are medians of the same dimension table — the current over the bands as found, the projected over the bands once the listed fixes land:
 
 ```md
-- Current: [1-5]/5 — the median of the assessable dimensions as found; [short evidence-based reason; "provisional" for D2/D3 text-only]
-- Projected: [1-5]/5 — the median of the assessable projected dimensions once the listed fixes land; conditional: requires those fixes AND the named assumptions to hold. State a flat number, not "up to". For D2/D3, provisional — visual dimensions stay unassessable (n/v) and are never projected upward.
+- Current: [1-5]/5 — the median of the assessable dimensions as found, after the critical-dimension step and the caps; [short evidence-based reason; "provisional" for D2/D3 text-only]
+- Projected: [1-5]/5 — the median of the assessable projected dimensions once the listed fixes land, after the critical-dimension step and any cap the fixes leave in place; conditional: requires those fixes AND the named assumptions to hold. State a flat number, not "up to". For D2/D3, provisional — visual dimensions stay unassessable (n/v) and are never projected upward.
 - Ceiling note: with a visual pass confirming [x], the ceiling is [1-5]/5 (capped at 4/5 unless resilience is named).
 ```
 
-Both numbers are derived the same way, and the current one is derived too: a review that states a current score without a band per dimension has asserted it. The projected score is the median of the assessable (non-`n/v`) projected dimensions, not the sum of per-dimension gains; a cap lifts only when the specific fix that meets its condition is present; a P0/Fail is never projected up to a number; and a higher figure reachable only after a visual pass belongs in `Ceiling note`, never in the projected number.
+Both numbers are derived the same way, and the current one is derived too: a review that states a current score without a band per dimension has asserted it. The projected score is the median of the assessable (non-`n/v`) projected dimensions, lowered and clamped the same way, not the sum of per-dimension gains; a cap lifts only when the specific fix that meets its condition is present; a P0/Fail is never projected up to a number; and a higher figure reachable only after a visual pass belongs in `Ceiling note`, never in the projected number.
 
-For generation, specs, typography systems, and handoff, expose the read and the target together:
+For generation, specs, typography systems, and handoff, the read and the target are optional output: print them when the user asks for a quality score or the response is judged (`--judge`), and print both together when you do:
 
 ```md
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
@@ -64,7 +64,7 @@ For generation, specs, typography systems, and handoff, expose the read and the 
 
 Derive the bracketed values. Do not reuse the dimension named in any example you have read — if `Context & brand fit` is the blocker in three consecutive answers, it is being retrieved, not assessed.
 
-**Name the blocker, at every level.** Below the top band, state which dimension holds the score there and whether the available input supports lifting it past the boundary question it failed. If it does, lift it and re-derive before returning. If it does not, say what input is missing. A score with no named blocker is a default, not a score — see `SKILL.md` on flagging defaults as such. When no dimension blocks the top band, say that instead of manufacturing a blocker to fill the slot.
+**Name the blocker, at every level.** Below the top band, state which dimension holds the score there and whether the available input supports lifting it past the boundary question it failed. If it does, lift it and re-derive before returning — once; one revision pass, not a loop. If it does not, say what input is missing. A score with no named blocker is a default, not a score — see `SKILL.md` on flagging defaults as such. When no dimension blocks the top band, say that instead of manufacturing a blocker to fill the slot.
 
 Do not let the score replace the reasoning. The score is a compression of the critique, not the critique itself.
 
@@ -111,7 +111,7 @@ So band 5 is not awarded on the reading. It is awarded on a closure test you act
 
 The case has to be ordinary — one a competent team meets in the first month — not an edge case chosen to be survivable. And the answer has to be the answer, not a restatement of the rule.
 
-Two constraints on the case, both of which cost a measurement to learn:
+Three constraints on the case, each of which cost a measurement to learn:
 
 - **It must be an instance of the unlisted thing this dimension's question names** — a surface, a pair of competing signals, new content, a section, a content volume, an interaction class, a decision class, an unlisted value. A case drawn from a different band's question fails a statement that answered its own question correctly: in one run, three dimensions were graded against cases their `4 → 5` cell never asked about, and 17 of 18 readings came back underdetermined on mechanisms that worked.
 - **The answer must not already be printed in the statement.** A case can be unlisted while its answer is listed — the statement then closes it by quotation rather than by derivation, which is a band-2 reading dressed as a band-5 one. If you can answer by pointing at a sentence, pick another case.
@@ -213,7 +213,7 @@ But **a corpus where every artifact scores the same number is not**, and reading
 
 Before returning a design artifact, silently answer:
 
-- Did I write the bands before the number, and does the number I printed equal the median of the bands I wrote?
+- Did I write the bands before the number, and does the number I printed equal the median of the bands I wrote, lowered only by the critical-dimension step or a named cap (Final scoring method, steps 4-5)?
 - For each dimension, which boundary question did the artifact fail — and did I name it in the `Quality target` line rather than printing a bare number?
 - Can I answer that question with the information already available? If yes, do it and re-derive. If not, did I state the missing input clearly?
 - For every dimension I put at band 5: did I run the closure test — one ordinary unlisted case, and the answer the statement returns for it — or did I award it on how the statement reads?
@@ -222,7 +222,7 @@ Before returning a design artifact, silently answer:
 - Does this screen carry one owned asset, expressed as a token with repeat locations — or did I record honestly that it is inert?
 - Did I avoid using the score as a substitute for concrete design mechanisms?
 
-If the derivation lands at or below the midpoint and can be improved without inventing facts, revise it and re-derive before returning. If the bands support the top level, report it rather than trimming to look modest.
+If a named dimension can be lifted with the available input and without inventing facts, revise once and re-derive before returning; a score the input cannot lift is reported as derived. If the bands support the top level, report it rather than trimming to look modest.
 
 ---
 

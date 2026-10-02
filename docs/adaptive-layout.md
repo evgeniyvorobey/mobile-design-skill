@@ -6,7 +6,19 @@ Platform scope answers *which OS*. Device class answers *how much width the layo
 
 The rest of the skill still applies unchanged. Nothing here relaxes touch minimums, contrast, Dynamic Type, state coverage, or the pattern discipline in `patterns-catalog.md`.
 
-This document holds the width classes, the canonical layouts, and the multitasking rules. The decision matrices that choose between their large-screen siblings — layout, detail-pane state, secondary content, navigation, overlays, action placement, columns, and cross-pane drag — are `docs/patterns-catalog.md` §15. The numbers are in `docs/quality-bars.md`.
+This document holds the dated platform baseline, the width classes, the canonical layouts, and the multitasking rules. The decision matrices that choose between their large-screen siblings — layout, detail-pane state, secondary content, navigation, overlays, action placement, columns, and cross-pane drag — are `docs/patterns-catalog.md` §15. The numbers are in `docs/quality-bars.md`.
+
+---
+
+## Platform baseline (verified 2026-10-02)
+
+The platform facts this layer depends on, and the date they were last checked against Apple's and Google's documentation. Anything after that date is unverified; name the version a recommendation assumes when it changes the answer (guardrail 16). Where an older line elsewhere in the skill disagrees with this section, this section wins until it is re-verified.
+
+- **iOS and iPadOS 26–27 (Liquid Glass).** System bars float above content on Liquid Glass. On iPhone the tab bar sits at the bottom and can minimise as the user scrolls; on iPad the system tab bar sits near the top and can convert to a sidebar. Apple has no navigation rail. iPadOS 26 made app windows freely resizable, and from iPadOS 27 `UIRequiresFullScreen` no longer opts an app out of resizing (TN3192), so an iPad app must work at any width.
+- **iPhone Duo.** Apple's first foldable iPhone; its HIG page ("Designing for iPhone Duo", added 2026-09-09) covers device poses, layouts across the folded and unfolded displays, and toolbars and tab bars on the vertical axis, and steers design toward size classes rather than specific poses. The device ships 2026-10-23. Pose-level values were not verified here: read them from the HIG page before pinning any.
+- **Android 16 (API 36, required for Play updates since 2026-08-31).** On displays whose smallest width is at least 600 dp the system ignores orientation, resizability, and aspect-ratio restrictions (games are exempt), and Android 17 removes the developer opt-out. Edge-to-edge has no opt-out. Predictive back animations are on by default and `onBackPressed` is no longer called, so an unsaved-changes prompt must use the back callbacks. Desktop windowing joins split-screen and freeform windows.
+- **Material 3 Expressive (May 2025).** The navigation drawer is deprecated in favour of the expanded navigation rail (220–360 dp); the collapsed rail is 96 dp; the navigation bar is 64 dp. Component motion moves to spring-based motion physics.
+- **Foldable postures (Android).** Tabletop is half-opened with a horizontal hinge; book is half-opened with a vertical hinge. Keep content and controls off a hinge that separates or occludes the display (`FoldingFeature.isSeparating`, `occlusionType`), and treat a posture change like a width change: state survives it.
 
 ---
 
@@ -23,7 +35,7 @@ Resolve to tablet, foldable, or adaptive when the request names any of:
 
 - iPad, iPadOS, tablet, Android tablet, Chromebook, large screen, big screen
 - Split View, Slide Over, Stage Manager, multi-window, multitasking, freeform
-- foldable, Fold, flip, unfolded, hinge, dual-screen, posture
+- foldable, Fold, flip, unfolded, hinge, dual-screen, posture, iPhone Duo
 - landscape-primary, external display, desk mode, keyboard case, Apple Pencil, stylus
 - a use context that implies a mounted or two-handed device: kiosk, point of sale, clinician or bedside, field technician, warehouse, classroom, studio, cockpit, control room
 
@@ -68,13 +80,13 @@ Two rules that break more tablet layouts than anything else:
 
 ## 4. Navigation by width
 
-| Width | Primary navigation |
-|-------|--------------------|
-| Compact | Bottom tab bar (iOS) / bottom navigation (Android), as on phones |
-| Medium | Navigation rail — 80 dp wide, leading edge |
-| Expanded | Standard navigation drawer / sidebar, ~240–360 dp, permanently visible |
+| Width | Android | iPadOS |
+|-------|---------|--------|
+| Compact | Navigation bar, as on phones; `NavigationSuiteScaffold` also keeps it at compact height and in tabletop posture | Tab bar at the bottom, as on iPhone |
+| Medium | Navigation rail, 96 dp collapsed, leading edge | The system tab bar, near the top of the screen, convertible to a sidebar |
+| Expanded | Expanded navigation rail, 220–360 dp, permanently visible; it replaces the deprecated navigation drawer | The same tab bar, or a sidebar when the destination set has hierarchy (the HIG says to consider a tab bar first) |
 
-Bottom navigation at expanded width is the single most common tablet failure: the controls sit as far from the user's hands and eyes as the layout allows, and the horizontal space above them goes unused. Moving to a rail or sidebar is not novelty — these are canonical HIG and Material 3 patterns, so the no-novelty rule points toward them, not away.
+iPadOS has no navigation rail; do not specify one for iPad. On Android, bottom navigation at expanded width is the single most common tablet failure: the controls sit as far from the user's hands and eyes as the layout allows, and the horizontal space above them goes unused. On iPad the system tab bar already sits at the top, so the same failure there is a custom bottom bar. Moving to a rail, a top tab bar, or a sidebar is not novelty — these are canonical HIG and Material 3 patterns, so the no-novelty rule points toward them, not away.
 
 Sheets and popovers also diverge: a popover is native on iPad at regular width and collapses to a full-width sheet at compact width. State which surface is used at which width rather than naming one and hoping.
 
@@ -84,8 +96,9 @@ Sheets and popovers also diverge: a popover is native on iPad at regular width a
 
 A tablet layout is never guaranteed the full screen.
 
-- **iPadOS**: Split View, Slide Over, and Stage Manager can hand the app any width at any time, including compact. Slide Over in particular returns a regular-width app to compact width mid-session.
-- **Android**: split-screen and freeform multi-window do the same; foldables add posture changes as the device folds.
+- **iPadOS**: resizable windows (iPadOS 26), Slide Over, and Stage Manager can hand the app any width at any time, including compact, and from iPadOS 27 an app cannot opt out of resizing. Slide Over in particular returns a regular-width app to compact width mid-session.
+- **Android**: split-screen, freeform windows, and desktop windowing do the same, and from Android 16 a large screen ignores orientation and resizability locks; foldables add posture changes (tabletop, book) as the device folds.
+- **Foldable iPhone**: iPhone Duo brings the fold to iOS. Design for the size class each pose produces, not for the pose.
 - **Resize without state loss** is the hard requirement. Scroll position, selection, in-progress input, and open sheets survive a width change, or the layout is broken regardless of how it looks at rest.
 - Configuration changes are frequent, not exceptional. Design for the transition, not only for the two end states.
 
@@ -138,7 +151,12 @@ State this explicitly in output so a tablet layout is not read as an accessibili
 - [Apple HIG: Layout](https://developer.apple.com/design/human-interface-guidelines/layout)
 - [Apple HIG: Multitasking](https://developer.apple.com/design/human-interface-guidelines/multitasking)
 - [Apple HIG: Split views](https://developer.apple.com/design/human-interface-guidelines/split-views)
+- [Apple HIG: Tab bars](https://developer.apple.com/design/human-interface-guidelines/tab-bars)
+- [Apple TN3192: Migrating from the deprecated UIRequiresFullScreen key](https://developer.apple.com/documentation/technotes/tn3192-migrating-your-app-from-the-deprecated-uirequiresfullscreen-key)
 - [Material 3: Applying layout](https://m3.material.io/foundations/layout/applying-layout/window-size-classes)
 - [Material 3: Canonical layouts](https://m3.material.io/foundations/layout/canonical-layouts/overview)
 - [Android: Support different screen sizes / window size classes](https://developer.android.com/develop/ui/compose/layouts/adaptive/use-window-size-classes)
 - [Android: Large screen app quality guidelines](https://developer.android.com/docs/quality-guidelines/large-screen-app-quality)
+- [Android 16 behavior changes](https://developer.android.com/about/versions/16/behavior-changes-16)
+- [Android: Make your app fold aware](https://developer.android.com/develop/ui/compose/layouts/adaptive/foldables/make-your-app-fold-aware)
+- [Material Components Android: Navigation rail](https://github.com/material-components/material-components-android/blob/master/docs/components/NavigationRail.md)

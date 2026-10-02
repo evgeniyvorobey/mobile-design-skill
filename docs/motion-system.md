@@ -65,7 +65,7 @@ Apple's idiom is springs, not cubic-beziers. Matching an iOS transition to an M3
 | `Spring.DampingRatioHighBouncy` | 0.2 | playful; rarely right for utility UI |
 | `Spring.StiffnessHigh` | 10000 | fast, tight |
 | `Spring.StiffnessMedium` | 1500 | the default |
-| `Spring.StiffnessMediumLow` | 600 | slower settle |
+| `Spring.StiffnessMediumLow` | 400 | slower settle; Compose's default for enter and exit transitions |
 | `Spring.StiffnessLow` | 200 | slow, expressive |
 
 `spring(dampingRatio = …, stiffness = …)` for physical motion; `tween(durationMillis = …, easing = …)` for timed motion.

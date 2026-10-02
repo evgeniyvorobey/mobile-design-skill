@@ -3,7 +3,7 @@ name: mobile-design-skill
 description: Generate, review, and structure mobile UI/UX decisions for iOS, Android, and cross-platform products. Use when you want to invoke the mobile design workflow directly in Claude Code with /mobile-design-skill.
 argument-hint: "[--judge] [task / screen / flow]"
 disable-model-invocation: true
-version: 1.36.0
+version: 1.37.0
 ---
 
 # Mobile Design Skill
@@ -13,8 +13,8 @@ Use the repository's canonical mobile design skill for this request.
 When invoked:
 
 1. Read `${CLAUDE_SKILL_DIR}/../../../SKILL.md` first. That file is the canonical skill entrypoint and contains the core workflow.
-2. Read supporting files only as needed. This list mirrors the canonical `SKILL.md` reference
-   list in the same order; `scripts/validate_repo.py` fails if the two drift apart.
+2. Read supporting files only as needed. This list forwards every `docs/` and `skill/` file the
+   canonical `SKILL.md` names; `examples/` and `scripts/` are opened from there when needed.
    - `${CLAUDE_SKILL_DIR}/../../../skill/modes.md`
    - `${CLAUDE_SKILL_DIR}/../../../skill/templates.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/workflow.md`
@@ -44,7 +44,6 @@ When invoked:
    - `${CLAUDE_SKILL_DIR}/../../../docs/visual-review-fixtures.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/rendered-output-qa.md`
    - `${CLAUDE_SKILL_DIR}/../../../docs/self-review.md`
-   - `${CLAUDE_SKILL_DIR}/../../../docs/commands.md`
 3. If `$ARGUMENTS` begins with `--judge`, strip that flag from the design task and apply `${CLAUDE_SKILL_DIR}/../../../docs/judged-mode.md`. Prefer the companion `mobile-design-judge` agent for the independent judge pass when available.
 4. Apply the workflow to the current request.
 
