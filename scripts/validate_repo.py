@@ -212,6 +212,24 @@ QUALITY_TARGET_SHAPE = (
 DIMENSION_READ_SHAPE = r"Dimension read:[^\n]*[1-5][^\n]*[1-5]"
 # Labelling only the rejects leaves the third candidate slot unverifiable.
 COMMITTED_DIRECTION_SHAPE = r"Direction:[^\n]*\(from:[^)\n]+\)"
+# SKILL.md, Mode 6: a decision carries the alternative the input describes, or is labelled a
+# default. Requiring the alternative on every decision demanded invented design history
+# whenever the input names none, which is what live acceptance of 1.37.0 hit.
+KEY_DECISION_SHAPE = r"alternative considered:|(?:^|[\u2014\u2013*_(:]\s*)default\b(?=\s*[:.)*(\u2014\u2013,]|\s*$)"
+
+
+def label_shape(name: str) -> str:
+    """A field label as live output writes it.
+
+    `Name:`, `**Name**:`, `**Name:**`, a short qualifier (`**Attention path**, in order:`),
+    or a bare `- **Name**` item whose content is the list nested under it. Punctuation is
+    not the contract, the field is: a colon-only pattern failed a live iPad spec whose
+    attention path and production checks were both present and complete.
+    """
+    return (
+        rf"(?m)\b{name}\**(?:\s*[,(][^:\n]{{0,40}})?\s*:"
+        rf"|^[ \t]*(?:[-*+]|\d+[.)])\s+\**{name}\**[ \t]*$"
+    )
 
 MODE_REQUIREMENTS = {
     "Generate mobile screen concept": {
@@ -235,6 +253,10 @@ MODE_REQUIREMENTS = {
             (
                 "Alternatives considered",
                 {
+                    # Each rejected direction carries `from:` (SKILL.md step 5.5). Other
+                    # items in the section, such as which catalog entries were discarded and
+                    # why, are step 5.5's own narration and are not held to this shape.
+                    "select": r"\bfrom:",
                     # A direction-level alternative names token consequences, which are
                     # inherently numeric or named. Shape, not phrasing.
                     "pattern": r"\d|`[^`]+`",
@@ -250,9 +272,9 @@ MODE_REQUIREMENTS = {
             ("Design quality calibration", "Signature move:", 12),
         ],
         "must_contain": [
-            ("Design quality calibration", r"Attention path\**\s*:"),
-            ("Design quality calibration", r"Composition and spacing\**\s*:"),
-            ("Design quality calibration", r"Production checks\**\s*:"),
+            ("Design quality calibration", label_shape("Attention path")),
+            ("Design quality calibration", label_shape("Composition and spacing")),
+            ("Design quality calibration", label_shape("Production checks")),
             # `Signature move:` must carry a real statement, not a label. Shape, not vocabulary.
             ("Design quality calibration", SIGNATURE_MOVE_SHAPE),
         ],
@@ -303,8 +325,8 @@ MODE_REQUIREMENTS = {
         "must_contain": [
             ("Spacing and layout notes", r"\b\d+\s?(dp|pt|sp|px)\b|space-\d+"),
             ("Typography rules", r"\b\d+\s?(sp|pt|px)\b|body|title|label|caption"),
-            ("Design quality requirements", r"Attention path\**\s*:"),
-            ("Design quality requirements", r"Production checks\**\s*:"),
+            ("Design quality requirements", label_shape("Attention path")),
+            ("Design quality requirements", label_shape("Production checks")),
             ("Design quality requirements", SIGNATURE_MOVE_SHAPE),
         ],
         # Printed only when useful (SKILL.md: the rubric is applied internally for generated
@@ -384,11 +406,13 @@ MODE_REQUIREMENTS = {
             (
                 "Key design decisions",
                 {
-                    "pattern": r"alternative considered:",
+                    "pattern": KEY_DECISION_SHAPE,
                     "min_bullets": 2,
                     "tail_after": r"alternative considered:",
                     "tail_label": "alternative considered:",
                     "min_tail_words": 10,
+                    # A decision labelled a default has no alternative to describe.
+                    "tail_optional": True,
                 },
             ),
         ],
@@ -408,7 +432,7 @@ MODE_REQUIREMENTS = {
         ],
         "accessibility_sections": ["Accessibility and usability considerations"],
         "must_contain": [
-            ("Key design decisions", r"alternative considered:"),
+            ("Key design decisions", KEY_DECISION_SHAPE),
             ("Design quality rationale", r"mechanism:"),
             ("Design quality rationale", SIGNATURE_MOVE_SHAPE),
         ],
@@ -2698,9 +2722,18 @@ def omission_named(section: str, assumptions: str) -> bool:
 
 
 def primary_device_class(value: str) -> str:
-    """`Tablet (iPad), with a phone fallback` is a tablet; the class is the first word."""
-    match = re.match(r"[^A-Za-z]*([A-Za-z]+)", value)
-    return match.group(1).lower() if match else ""
+    """The first device class the value names.
+
+    `Tablet (iPad), with a phone fallback` is a tablet, and `Assumed phone (compact width)`,
+    the form the template itself offers, is a phone. Reading the first word instead turned
+    that template value into the class `assumed` and failed a live phone-only flow.
+    """
+    match = re.search(r"\b(phone|tablet|foldable|adaptive|ipad)\b", value, re.IGNORECASE)
+    if match:
+        found = match.group(1).lower()
+        return "tablet" if found == "ipad" else found
+    first = re.match(r"[^A-Za-z]*([A-Za-z]+)", value)
+    return first.group(1).lower() if first else ""
 
 
 def check_response(response: str, mode: str, label: str) -> list[str]:
@@ -2800,15 +2833,22 @@ def check_response(response: str, mode: str, label: str) -> list[str]:
         if body is None:
             continue
         bullets = response_item_blocks(body)
-        matching = [b for b in bullets if re.search(spec["pattern"], b, re.IGNORECASE)]
+        selector = spec.get("select", spec["pattern"])
+        matching = [b for b in bullets if re.search(selector, b, re.IGNORECASE)]
         if len(matching) < spec["min_bullets"]:
             errors.append(
                 f"{label}: `## {section}` needs at least "
-                f"{spec['min_bullets']} bullets matching /{spec['pattern']}/; "
+                f"{spec['min_bullets']} bullets matching /{selector}/; "
                 f"found {len(matching)}"
             )
         for bullet in matching:
+            if "select" in spec and not re.search(spec["pattern"], bullet, re.IGNORECASE):
+                errors.append(
+                    f"{label}: `## {section}` item does not match /{spec['pattern']}/: {bullet[:70]}"
+                )
             tail = re.split(spec["tail_after"], bullet, maxsplit=1, flags=re.IGNORECASE)
+            if len(tail) == 1 and spec.get("tail_optional"):
+                continue
             words = len(tail[-1].split()) if len(tail) > 1 else 0
             if words < spec["min_tail_words"]:
                 errors.append(
@@ -2891,6 +2931,7 @@ def validate_response_checker_follows_skill() -> None:
         return re.sub(r"^Device class:.*$", f"Device class: {value}", response, count=1, flags=re.MULTILINE)
 
     errors: list[str] = []
+    handoff, handoff_mode = example("examples/rationale-handoff.md")
     flow, flow_mode = example("examples/design-flow.md")
     spec, spec_mode = example("examples/ui-spec.md")
     review, review_mode = example("examples/review-screen.md")
@@ -2912,6 +2953,19 @@ def validate_response_checker_follows_skill() -> None:
                .replace("\n## Next actions\n- ", "\n## Next actions\n1. ", 1), concept_mode),
         "a generated artifact without the optional score lines (SKILL.md: target exposed only when useful)":
             (re.sub(r"(?m)^- (Dimension read|Quality target|Direction):.*\n", "", concept), concept_mode),
+        # The four below are live 1.37.0 acceptance shapes the checker rejected wrongly.
+        "the template's own `Assumed phone` device class":
+            (device(concept, "Assumed phone (compact width) — a reversible default"), concept_mode),
+        "a qualified label and a bare label item with nested content":
+            (concept.replace("- Attention path:\n", "- **Attention path**, in order:\n", 1)
+                    .replace("- Production checks:\n", "- **Production checks**\n", 1), concept_mode),
+        "step 5.5's discard narration as an item in Alternatives considered":
+            (concept.replace("## Alternatives considered\n",
+                             "## Alternatives considered\n- How these were drawn: 2 entries were discarded for this "
+                             "domain, and the survivor furthest from the baseline was taken.\n", 1), concept_mode),
+        "Mode 6 decisions labelled Default where the input names no alternative":
+            (re.sub(r"— alternative considered: [^—\n]+— chosen because",
+                    "— *Default (the input names no alternative).* It holds because", handoff), handoff_mode),
     }
     for case, (response, mode) in accept.items():
         problems = check_response(response, mode, "probe")
@@ -2925,6 +2979,9 @@ def validate_response_checker_follows_skill() -> None:
             (device(concept, "Adaptive (phone through tablet, one layout per width class)"), concept_mode),
         "a printed Quality target with no blocker clause":
             (re.sub(r"(?m)^- Quality target:.*$", "- Quality target: 3/5", concept), concept_mode),
+        "Mode 6 decisions with neither an alternative nor a Default label":
+            (re.sub(r"— alternative considered: [^—\n]+— chosen because", "— this matters because", handoff),
+             handoff_mode),
     }
     for case, (response, mode) in reject.items():
         if not check_response(response, mode, "probe"):

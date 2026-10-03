@@ -68,7 +68,7 @@ At least one of:
 - Are empty/loading/error states included?
 - Are touch and readability implications addressed?
 - Are visual hierarchy, composition, density, and production checks calibrated?
-- Does the `Quality target` line name the dimension blocking the next level, rather than printing a bare number?
+- If a `Quality target` line is printed (the user asked for a score, or the response is judged), does it name the dimension blocking the next level, rather than printing a bare number?
 - Does `Signature move` name an owned asset as a token with repeat locations, or honestly record the screen as inert?
 - Are the two alternatives structurally different from the chosen layout, and is the mechanism that kills each one named?
 - Are platform differences called out if relevant?
@@ -192,7 +192,7 @@ At least one of:
 - If device class is not phone, does `Adaptive behavior` name the breakpoint, canonical layout, collapse rule, detail-pane empty state, and what survives a multitasking resize?
 - Are accessibility requirements concrete?
 - Are visual hierarchy, spacing, typography, color/state, and production quality requirements concrete?
-- Does the `Quality target` line name the dimension blocking the next level, rather than printing a bare number?
+- If a `Quality target` line is printed (the user asked for a score, or the response is judged), does it name the dimension blocking the next level, rather than printing a bare number?
 - Does `Key decision tradeoffs` state what was given up for each contested choice, not only what was chosen?
 - Are unknown details labeled as assumptions?
 
@@ -411,7 +411,7 @@ At least one of:
 - Does it connect choices to user goals and context?
 - Does it show platform alignment?
 - Does it explain how visual hierarchy, composition, density, and brand expression support the design objective?
-- Does the rationale state the quality target or current score using the 1-5 rubric?
+- If the user asked for a quality score or the response is judged, does the rationale state it using the 1-5 rubric? Otherwise the derivation stays internal and no score is printed.
 - Does it cover edge states and implementation concerns?
 - Does it avoid invented evidence?
 - Does it separate known facts from recommendations?

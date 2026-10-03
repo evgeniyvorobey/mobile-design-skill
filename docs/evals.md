@@ -261,13 +261,13 @@ Use [`design-quality-rubric.md`](design-quality-rubric.md) for the design-qualit
 
 Structural/content evals answer "does the response satisfy the skill contract?" The design-quality rubric answers "how strong is the design artifact itself?"
 
-For generated concepts, UI specs, typography systems, and handoff:
+For generated concepts, UI specs, typography systems, and handoff — the read and the target are printed only when a score was asked for or the response is judged; when they are absent, these items apply to the derivation behind the response:
 
-- [ ] The score is derived from a visible dimension read, not asserted. (Identical scores across unrelated artifacts are **not** evidence of retrieval — this scale returns the same band to a design and a deliberately worse twin, 12 paired scorings of 12, and concentrates by output mode. See `design-quality-rubric.md`.)
-- [ ] The `Quality target` line names the dimension blocking the next level and what would lift it, rather than printing a bare number — or, at the top band, says that nothing blocks it instead of manufacturing a blocker.
+- [ ] A printed score is derived from a visible dimension read, not asserted. (Identical scores across unrelated artifacts are **not** evidence of retrieval — this scale returns the same band to a design and a deliberately worse twin, 12 paired scorings of 12, and concentrates by output mode. See `design-quality-rubric.md`.)
+- [ ] A printed `Quality target` line names the dimension blocking the next level and what would lift it, rather than printing a bare number — or, at the top band, says that nothing blocks it instead of manufacturing a blocker.
 - [ ] Every dimension whose failed boundary question the available input could answer was lifted and re-derived; every dimension left where it is has its missing input named. A band is reported at whatever the artifact states, including a low one.
 - [ ] The output does not average away a serious flaw such as missing states, weak accessibility behavior, or platform flattening.
-- [ ] The dimension read spans more than one band, or the response says what made every dimension agree.
+- [ ] A printed dimension read spans more than one band, or the response says what made every dimension agree.
 
 For reviews:
 

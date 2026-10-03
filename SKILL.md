@@ -248,7 +248,7 @@ Five constraints keep this from becoming theatre:
 
 `docs/inspiration-sources.md` is a **required load** for this step, not an optional one: D2 and D3 cannot be selected without it. Its generative direction method is the long form of this step when the request explicitly asks for fresh direction or references.
 
-For Mode 6 the direction already exists — name the direction the delivered design embodies and the alternatives its authors rejected only where the input supports that. Do not invent rejected alternatives the user never described.
+For Mode 6 the direction already exists — name the direction the delivered design embodies and the alternatives its authors rejected only where the input supports that. Do not invent rejected alternatives the user never described. When the input supplies no design to describe — no frames, no change list — the direction is the one these notes recommend: say so and mark it `from: baseline`. Alternatives these notes weighed may then be named under `alternative considered:`, as the notes' own reasoning, never as the team's history.
 
 When the input genuinely supports only one direction (spec completion, an extension bound to an existing design system), state that in one line under `Assumptions`, naming the omitted `Alternatives considered` (or `Key decision tradeoffs`) section, instead of inventing two throwaway rejects.
 

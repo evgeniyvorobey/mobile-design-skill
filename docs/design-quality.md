@@ -229,7 +229,7 @@ Use this structure:
 
 ```md
 ## Design quality calibration
-- Quality target: [derived]/5 — median of the assessable dimensions {[dimension]: [n], ...}; [outlying dimension] sits at [n]; blocked from [next]/5 by [that dimension] until [named input or fix]
+- Quality target (only when the user asked for a quality score or the response is judged): [derived]/5 — median of the assessable dimensions {[dimension]: [n], ...}; [outlying dimension] sits at [n]; blocked from [next]/5 by [that dimension] until [named input or fix]
 - Attention path:
 - Composition and spacing:
 - Typography:
@@ -239,7 +239,7 @@ Use this structure:
 - Production checks:
 ```
 
-The `Quality target` line always names the dimension holding the score back and what would lift it. A bare number is a default, not a score.
+The score is derived internally either way; print the `Quality target` line only when the user asked for a quality score or the response is judged (`--judge`). When it is printed it names the dimension holding the score back and what would lift it. A bare number is a default, not a score.
 
 `Signature move` names the one owned asset or justified signature moment the screen carries, as a token plus where it repeats — or states plainly that the screen is inert and what it would take to change that. It is the field that answers the inert-screen test below; leaving it as an adjective fails.
 
@@ -247,7 +247,7 @@ For short responses, compress it:
 
 ```md
 ## Design quality calibration
-- Quality target: [1-5]/5 — [short reason]; blocked from [next level] by [dimension] until [input or fix]
+- Quality target (only when asked for or judged): [1-5]/5 — [short reason]; blocked from [next level] by [dimension] until [input or fix]
 - Prioritize [first thing] visually through [size/position/contrast].
 - Use [spacing/type/color rule] to make [relationship/state] clear.
 - Signature move: [owned asset as a token] repeated at [locations] — or: none, this screen is inert because [reason].

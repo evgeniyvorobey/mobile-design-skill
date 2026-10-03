@@ -474,15 +474,15 @@ Assumptions:
 [users and context]
 
 ## Key design decisions
-- [decision] — alternative considered: [alternative] — chosen because [reason tied to user goal, task, platform, accessibility, or implementation]
-- [decision] — alternative considered: [alternative] — chosen because [reason]
+- [decision] — alternative considered: [an alternative the input describes; when these notes recommend the design, one they weighed, never attributed to the team] — chosen because [reason tied to user goal, task, platform, accessibility, or implementation]
+- [decision] — Default: the input names no alternative — [why it holds]
 
 ## Pattern choices and why
 - [pattern] over [alternative pattern] because [reason]
 - [pattern] over [alternative pattern] because [reason]
 
 ## Design quality rationale
-- Direction: [the direction the delivered design embodies] (from: the supplied design or brief) — name rejected alternatives only where the input describes them; never invent design history
+- Direction: [the direction the delivered design embodies] (from: the supplied design or brief; `baseline` when no design was supplied and these notes recommend one) — name rejected alternatives only where the input describes them; never invent design history
 - (Optional — print the next two lines only when the user asked for a quality score or the response is judged; otherwise keep the derivation internal.)
 - Dimension read: [dimension] [n], [dimension] [n], ... (mark `n/v` where the evidence channel cannot carry the question). Median of the assessable = [n].
 - Quality target: [derived]/5 — [below the top band: blocked from [next]/5 by [outlying dimension] until [named input or fix] | at the top band: nothing blocks 5/5 — [the resilience the bands record]]
