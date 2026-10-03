@@ -140,18 +140,9 @@ This layer interprets the source hierarchy above into practical quality checks. 
 
 ---
 
-## Clarification policy layer
+## Clarification
 
-Clarification behavior is defined separately in [`clarification-policy.md`](clarification-policy.md).
-
-Use it when task inputs are underspecified, risky, or precision-sensitive. This layer decides whether to:
-
-- proceed with minimal labeled assumptions
-- ask one to three blocking questions
-- offer a provisional fast path
-- move uncertainty to `Unresolved assumptions`, `Open questions`, or `Next actions`
-
-The policy protects both speed and accuracy. It prevents the skill from blocking useful output with nonessential questions, and it prevents overconfident recommendations when missing context would materially change the design.
+`SKILL.md` section 2 holds the whole rule: decide what a good product would do, list the few assumptions that would change the design, and ask, at most three questions, only when no sensible default exists and the answer would change the whole design.
 
 ---
 

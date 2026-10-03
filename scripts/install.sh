@@ -294,11 +294,11 @@ case "$METHOD" in
         cp "$REPO_ROOT/SKILL.md" "$TARGET_DIR/SKILL.md.canonical"
         cp -R "$REPO_ROOT/skill/." "$TARGET_DIR/skill/"
         cp -R "$REPO_ROOT/docs/." "$TARGET_DIR/docs/"
-        # SKILL.md and docs/evals.md reference examples/ in twenty-plus places; without
-        # this the copy install degrades silently instead of failing.
+        # docs/ references examples/ throughout (rubric fixtures, calibration material);
+        # without this the copy install degrades silently instead of failing.
         cp -R "$REPO_ROOT/examples/." "$TARGET_DIR/examples/"
-        # SKILL.md names run_rubric_judge.py, run_generation_eval.py and run_paired_eval.py.
-        # Without scripts/ those three references dangle in every copy install, and the
+        # docs/ names run_rubric_judge.py, run_paired_eval.py and run_baseline_gate.py.
+        # Without scripts/ those references dangle in every copy install, and the
         # calibration harnesses cannot be run from an installed skill at all.
         cp -R "$REPO_ROOT/scripts/." "$TARGET_DIR/scripts/"
         if [[ -f "$SOURCE_WRAPPER/logo.svg" ]]; then

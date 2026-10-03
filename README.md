@@ -32,7 +32,7 @@ Current version: **1.38.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/ve
   - [Claude API (TypeScript)](#claude-api-typescript)
   - [Cursor and other IDEs](#cursor-and-other-ides)
 - [Usage](#usage)
-- [Supported modes](#supported-modes)
+- [What you can ask for](#what-you-can-ask-for)
 - [Architecture](#architecture)
 - [Updating](#updating)
 - [Uninstalling](#uninstalling)
@@ -208,34 +208,7 @@ If your Codex setup supports skill registries, register:
 - **metadata**: `skill/metadata.yaml`
 - **UI descriptor**: `agents/openai.yaml`
 
-Keep these files loaded alongside the active prompt for full skill behavior:
-
-- `skill/modes.md`
-- `skill/templates.md`
-- `docs/workflow.md`
-- `docs/clarification-policy.md`
-- `docs/judged-mode.md`
-- `docs/principles.md`
-- `docs/guardrails.md`
-- `docs/sources.md`
-- `docs/quality-bars.md`
-- `docs/motion-system.md`
-- `docs/context-defaults.md`
-- `docs/heuristics.md`
-- `docs/patterns-catalog.md`
-- `docs/adaptive-layout.md`
-- `docs/design-quality.md`
-- `docs/design-quality-rubric.md`
-- `docs/golden-examples.md`
-- `docs/synthetic-case-studies.md`
-- `docs/domain-packs/index.md`
-- `docs/weaknesses.md`
-- `docs/inspiration-sources.md`
-- `docs/visual-benchmark-playbooks.md`
-- `docs/benchmark-report-format.md`
-- `docs/visual-review-fixtures.md`
-- `docs/rendered-output-qa.md`
-- `docs/self-review.md`
+Keep one more file loaded alongside the active prompt: `skill/platform.md`, the dated platform facts `SKILL.md` tells the model to read. Everything under `docs/` is loaded only when a user asks for what it covers; `SKILL.md` section 6 lists those files.
 
 ---
 
@@ -255,26 +228,14 @@ from pathlib import Path
 SKILL_ROOT = Path("mobile-design-skill")
 system_prompt = (SKILL_ROOT / "SKILL.md").read_text()
 
-# Optionally inline the expanded reference set for deeper behavior:
-for ref in ["skill/modes.md", "skill/templates.md", "docs/workflow.md",
-            "docs/clarification-policy.md", "docs/judged-mode.md",
-            "docs/principles.md", "docs/guardrails.md",
-            "docs/sources.md", "docs/quality-bars.md", "docs/motion-system.md",
-            "docs/context-defaults.md", "docs/heuristics.md",
-            "docs/patterns-catalog.md", "docs/adaptive-layout.md",
-            "docs/design-quality.md",
-            "docs/design-quality-rubric.md", "docs/golden-examples.md",
-            "docs/synthetic-case-studies.md", "docs/domain-packs/index.md",
-            "docs/weaknesses.md", "docs/inspiration-sources.md",
-            "docs/visual-benchmark-playbooks.md", "docs/benchmark-report-format.md",
-            "docs/visual-review-fixtures.md", "docs/rendered-output-qa.md",
-            "docs/self-review.md"]:
-    system_prompt += f"\n\n# {ref}\n\n" + (SKILL_ROOT / ref).read_text()
+# SKILL.md tells the model to read skill/platform.md for platform facts; with no
+# file access, inline it. Nothing else is needed for an ordinary request.
+system_prompt += "\n\n# skill/platform.md\n\n" + (SKILL_ROOT / "skill/platform.md").read_text()
 
 client = anthropic.Anthropic()
 response = client.messages.create(
-    model="claude-opus-4-7",
-    max_tokens=4000,
+    model="claude-opus-5-5",
+    max_tokens=16000,
     system=system_prompt,
     messages=[{
         "role": "user",
@@ -289,8 +250,8 @@ For production, use prompt caching on the system prompt (it rarely changes):
 
 ```python
 response = client.messages.create(
-    model="claude-opus-4-7",
-    max_tokens=4000,
+    model="claude-opus-5-5",
+    max_tokens=16000,
     system=[{
         "type": "text",
         "text": system_prompt,
@@ -317,42 +278,15 @@ import { join } from "node:path";
 const SKILL_ROOT = "./mobile-design-skill";
 const read = (p: string) => readFileSync(join(SKILL_ROOT, p), "utf8");
 
-let systemPrompt = read("SKILL.md");
-for (const ref of [
-  "skill/modes.md",
-  "skill/templates.md",
-  "docs/workflow.md",
-  "docs/clarification-policy.md",
-  "docs/judged-mode.md",
-  "docs/principles.md",
-  "docs/guardrails.md",
-  "docs/sources.md",
-  "docs/quality-bars.md",
-  "docs/context-defaults.md",
-  "docs/heuristics.md",
-  "docs/patterns-catalog.md",
-  "docs/adaptive-layout.md",
-  "docs/design-quality.md",
-  "docs/design-quality-rubric.md",
-  "docs/golden-examples.md",
-  "docs/synthetic-case-studies.md",
-  "docs/domain-packs/index.md",
-  "docs/weaknesses.md",
-  "docs/inspiration-sources.md",
-  "docs/visual-benchmark-playbooks.md",
-  "docs/benchmark-report-format.md",
-  "docs/visual-review-fixtures.md",
-  "docs/rendered-output-qa.md",
-  "docs/self-review.md",
-]) {
-  systemPrompt += `\n\n# ${ref}\n\n` + read(ref);
-}
+// SKILL.md tells the model to read skill/platform.md for platform facts; with no
+// file access, inline it. Nothing else is needed for an ordinary request.
+const systemPrompt = read("SKILL.md") + "\n\n# skill/platform.md\n\n" + read("skill/platform.md");
 
 const client = new Anthropic();
 
 const response = await client.messages.create({
-  model: "claude-opus-4-7",
-  max_tokens: 4000,
+  model: "claude-opus-5-5",
+  max_tokens: 16000,
   system: [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
   messages: [{
     role: "user",
@@ -427,9 +361,9 @@ Constraints: accessibility-sensitive, high trust, existing design system, dense 
 
 ### Minimal context is fine
 
-If the task description is short, the skill will state its assumptions, narrow the scope, and surface the information it needs next. See [`examples/anti-patterns.md`](examples/anti-patterns.md) for how it handles underspecified input.
+If the task description is short, the skill does not ask a questionnaire. It decides what a good product would do, designs to that, and lists at the end the few assumptions that would change the design if they are wrong. It asks, at most three questions, only when no sensible default exists and the answer would change the whole design.
 
-If missing information would materially change the recommendation, the skill asks up to three blocking clarifying questions and offers a fast path when a provisional draft is still useful. See [`docs/clarification-policy.md`](docs/clarification-policy.md) and [`examples/clarification-policy.md`](examples/clarification-policy.md).
+A short request gets an answer sized to it: the design at the level asked for, about two thousand words, with an offer of what can be added next. Ask for a spec or a handoff when you want implementation depth.
 
 ### Judged mode
 
@@ -443,22 +377,22 @@ The skill drafts privately, asks an independent judge agent when the host suppor
 
 ---
 
-## Supported modes
+## What you can ask for
 
-Every request is classified into exactly one primary mode:
+The skill no longer classifies a request into a mode or prints a mode label. These are the kinds of work it is written for, and what each answer leads with.
 
-| # | Mode | Use when |
-|---|------|----------|
-| 1 | **Generate mobile screen concept** | You need a first-pass concept with structure, hierarchy, components, and states. |
-| 2 | **Design mobile user flow** | You need ordered steps, decision points, back-navigation logic, and recovery paths. |
-| 3 | **Create platform-aware UI spec** | You need an implementation-ready structure with states, behaviors, spacing, typography. |
-| 4 | **Review screen for usability/accessibility** | You have a screen and need critique with severity-tiered issues and fixes. Sub-cases D1–D4 handle visual vs description-only vs problem-statement vs context-change reviews. |
-| 5 | **Create typography and spacing system** | You need type roles, size hierarchy, line-height, spacing scale, density rules, touch implications. |
-| 6 | **Prepare design rationale / handoff** | You need a rationale and handoff package with decisions, tradeoffs, validation plan. |
+| Ask for | The answer leads with |
+|---|---|
+| **A screen concept** | The screen's job, the two or three decisions that set it apart, and a text mockup with real content |
+| **A user flow** | The map of steps and branches, then each step with its copy, Back behaviour and recovery |
+| **A UI spec** | The decisions it rests on, wireframes, components with sizes and behaviour, a state table, tokens, acceptance checks |
+| **A review** | What the material lets it judge, what already works, findings in order of impact as cause and fix, a before and after mockup |
+| **A type and spacing system** | The rules behind the numbers, named typefaces, tokens per context of use mapped to platform text styles |
+| **Rationale and handoff** | What changed and why, proposed behaviour where the design is silent, anatomy, states, data, QA checklist |
 
-Full mode definitions, required/optional inputs, validation checklists, and fallback behavior: [`skill/modes.md`](skill/modes.md).
+Anything else (paywall architecture, notification strategy, information architecture, a teardown) is answered as what it is.
 
-Output skeletons per mode: [`skill/templates.md`](skill/templates.md).
+On request only, and loaded only then: several visual directions or references ([`docs/inspiration-sources.md`](docs/inspiration-sources.md)), a 1-5 score ([`docs/design-quality-rubric.md`](docs/design-quality-rubric.md)), an independent judge pass ([`docs/judged-mode.md`](docs/judged-mode.md)), a benchmark of references ([`docs/benchmark-report-format.md`](docs/benchmark-report-format.md)), and QA of a built screen ([`docs/rendered-output-qa.md`](docs/rendered-output-qa.md)).
 
 ---
 
@@ -466,7 +400,7 @@ Output skeletons per mode: [`skill/templates.md`](skill/templates.md).
 
 ```text
 mobile-design-skill/
-├── SKILL.md                              Canonical entrypoint (Codex + Claude API)
+├── SKILL.md                              Canonical entrypoint: the whole default behaviour, about 120 lines
 ├── README.md                             This file
 ├── CHANGELOG.md                          Release history (semver)
 ├── LICENSE                               MIT
@@ -489,26 +423,19 @@ mobile-design-skill/
 ├── scripts/
 │   ├── install.sh                        Install script (live link or copy)
 │   ├── bump_version.py                   Version bumper (synchronizes all version references)
-│   ├── validate_repo.py                  Repository structure, docs hygiene, link, and example-response validator
+│   ├── validate_repo.py                  Repository structure, docs hygiene and link validator
 │   ├── validate_release.py               Release validation and version/tag sanity checks
 │   ├── verify_install.py                 Installs into a throwaway dir and checks every reference resolves
 │   ├── rubric_judge_oracle_agent.py      Deterministic stdin/stdout agent for judge-command CI self-tests
 │   ├── paired_eval_oracle_agent.py       Deterministic stand-in judge that proves the paired-eval adapter
-│   ├── generation_oracle_agent.py        Deterministic stand-in generator that proves the generation-eval adapter
 │   ├── run_paired_eval.py                Forced-choice paired comparison of two arms, with a mandatory null-pair control
 │   ├── run_baseline_gate.py              Release gate: the skill against the same model with no skill
-│   ├── run_generation_eval.py            Scores what the skill generates against the committed-example contract
-│   ├── run_diversity_eval.py             Decision-vector spread across generated responses — measures sameness
 │   └── run_rubric_judge.py               Provider-agnostic LLM-as-judge runner and external-agent adapter
 ├── skill/
-│   ├── modes.md                          Per-mode inputs, outputs, validation, fallback
-│   ├── templates.md                      Output skeletons for each mode
-│   ├── usage.md                          Usage guide
+│   ├── platform.md                       Dated platform facts, the one file SKILL.md has the model read
 │   └── metadata.yaml                     Machine-readable skill metadata
 ├── docs/
-│   ├── workflow.md                       11-step internal workflow
-│   ├── clarification-policy.md           Ask-vs-assume rules for underspecified input
-│   ├── judged-mode.md                    /mobile-design-skill --judge orchestration rules
+│   ├── judged-mode.md                    /mobile-design-skill --judge orchestration rules (on request)
 │   ├── principles.md                     11 design principles
 │   ├── guardrails.md                     Hard constraints (do not invent, do not claim compliance, etc.)
 │   ├── sources.md                        Source hierarchy (Apple HIG, Material 3, WCAG, ISO, GOV.UK)
@@ -539,21 +466,12 @@ mobile-design-skill/
 │   ├── visual-benchmark-playbooks.md     Mobbin, Page Flows, Apple Design Awards, Awwwards benchmark playbooks
 │   ├── llm-judge-runner.md               JSONL contract for semantic rubric judge runs
 │   ├── release-automation.md             Release validation workflow and local command
-│   ├── self-review.md                    Mandatory pre-response quality pass
-│   ├── evals.md                          Structural + content + fail-condition evaluation criteria
+│   ├── evals.md                          What the repository evaluates, and with which instrument
 │   ├── versioning.md                     Semver policy
 │   ├── commands.md                       Invocation reference
 │   └── github-publishing.md              Publishing kit
 └── examples/
-    ├── generate-screen.md                Worked example for Mode 1
-    ├── clarification-policy.md           Ask-vs-assume examples for blocking and non-blocking gaps
-    ├── design-flow.md                    Worked example for Mode 2
-    ├── ui-spec.md                        Worked example for Mode 3
-    ├── review-screen.md                  Worked example for Mode 4
-    ├── typography-spacing.md             Worked example for Mode 5
-    ├── rationale-handoff.md              Worked example for Mode 6
     ├── rubric-before-after.md            2/5 → 4/5 rubric upgrade example
-    ├── anti-patterns.md                  Bad/Good pairs — how the skill should behave under ambiguous input
     ├── benchmark-report.md               Synthetic benchmark report example
     ├── case-studies/                     Synthetic bad-to-good calibration cases
     │   ├── fintech-account-overview.md
@@ -597,8 +515,7 @@ mobile-design-skill/
         ├── rubric-score-3-visual-rules-state-gap.json  Rubric fixture: visual rules stated, states missing
         ├── rubric-score-4.json                       Rubric fixture: strong and shippable
         ├── rubric-score-5.json                       Rubric fixture: excellent and resilient
-        ├── generation-prompts.json                   Prompt pack for the generation eval
-        ├── diversity-fixtures.json                   Uniform/varied corpora the diversity self-test must separate
+        ├── generation-prompts.json                   Ten ordinary requests: the second half of the gate's extended set
         ├── paired-comparison-fixtures.json           Separating, null, and broken-control arms for the paired eval
         ├── baseline-gate-briefs.json                 Brief sets for the release gate (skill versus no skill)
         └── baseline-gate-heldout.json                Sealed held-out briefs for the release gate
@@ -658,34 +575,28 @@ rm -rf ~/mobile-design-skill
 
 ## Customization
 
-Fork the repository, edit the files that govern skill behavior, and run the install script against your fork. Files most commonly customized:
+Fork the repository, edit, and run the install script against your fork.
 
-- [`docs/context-defaults.md`](docs/context-defaults.md) — add domain-specific defaults for your product
-- [`docs/clarification-policy.md`](docs/clarification-policy.md) — tune when the skill asks questions vs proceeds with assumptions
-- [`docs/judged-mode.md`](docs/judged-mode.md) — tune `/mobile-design-skill --judge` orchestration and fallback behavior
-- [`docs/quality-bars.md`](docs/quality-bars.md) — tighten numeric thresholds for your design system
-- [`docs/design-quality.md`](docs/design-quality.md) — tune design-quality calibration for hierarchy, rhythm, visual craft, and production readiness
-- [`docs/design-quality-rubric.md`](docs/design-quality-rubric.md) — tune 1-5 design-quality scoring, caps, and improvement ladder
-- [`docs/paired-comparison.md`](docs/paired-comparison.md) — compare two arms of output; the pre/post instrument for an instruction-text change, and the release gate against no skill
-- [`docs/golden-examples.md`](docs/golden-examples.md) — tune compact taste and domain calibration examples
-- [`docs/synthetic-case-studies.md`](docs/synthetic-case-studies.md) — tune synthetic bad-to-good calibration cases
-- [`docs/domain-packs/index.md`](docs/domain-packs/index.md) — tune domain-specific mobile playbooks
-- [`docs/benchmark-report-format.md`](docs/benchmark-report-format.md) — tune benchmark report structure for 3-5 references
-- [`docs/visual-review-fixtures.md`](docs/visual-review-fixtures.md) — tune text-only review calibration fixtures
-- [`docs/rendered-output-qa.md`](docs/rendered-output-qa.md) — tune optional post-implementation QA workflow
-- [`docs/weaknesses.md`](docs/weaknesses.md) — tune known weakness patterns and prevention checks for recurring output regressions
-- [`docs/llm-judge-runner.md`](docs/llm-judge-runner.md) — tune semantic judge runner contract and pass criteria
-- [`docs/patterns-catalog.md`](docs/patterns-catalog.md) — add patterns unique to your product area
-- [`docs/adaptive-layout.md`](docs/adaptive-layout.md) — tune width classes, canonical layouts, and the device-class signal list
-- [`docs/inspiration-sources.md`](docs/inspiration-sources.md) — tune visual inspiration, production reference, and moodboard sources
-- [`docs/visual-benchmark-playbooks.md`](docs/visual-benchmark-playbooks.md) — tune source-specific benchmark checklists
-- [`skill/templates.md`](skill/templates.md) — adjust output structure for your team's handoff format
-- [`docs/guardrails.md`](docs/guardrails.md) — add organization-specific constraints
+What the model reads for an ordinary request, and therefore what changes its answers:
+
+- [`SKILL.md`](SKILL.md): the whole default behaviour. Add your product's rules here, in as few words as you can
+- [`skill/platform.md`](skill/platform.md): dated platform facts. Add the facts of your own design system or minimum OS versions
+
+What it reads only on request:
+
+- [`docs/inspiration-sources.md`](docs/inspiration-sources.md) and [`docs/visual-benchmark-playbooks.md`](docs/visual-benchmark-playbooks.md): visual directions, references and benchmark checklists
+- [`docs/design-quality-rubric.md`](docs/design-quality-rubric.md) and [`docs/judged-mode.md`](docs/judged-mode.md): the 1-5 score and the `--judge` pass
+- [`docs/benchmark-report-format.md`](docs/benchmark-report-format.md) and [`docs/rendered-output-qa.md`](docs/rendered-output-qa.md): benchmark reports and QA of a built screen
+- [`docs/quality-bars.md`](docs/quality-bars.md), [`docs/patterns-catalog.md`](docs/patterns-catalog.md) and [`docs/motion-system.md`](docs/motion-system.md): the long form of the thresholds, pattern decision tables and named motion curves
+
+The reference library behind those, which nothing loads by default: [`docs/adaptive-layout.md`](docs/adaptive-layout.md), [`docs/context-defaults.md`](docs/context-defaults.md), [`docs/design-quality.md`](docs/design-quality.md), [`docs/golden-examples.md`](docs/golden-examples.md), [`docs/synthetic-case-studies.md`](docs/synthetic-case-studies.md), [`docs/domain-packs/index.md`](docs/domain-packs/index.md), [`docs/visual-review-fixtures.md`](docs/visual-review-fixtures.md), [`docs/weaknesses.md`](docs/weaknesses.md), [`docs/guardrails.md`](docs/guardrails.md), [`docs/llm-judge-runner.md`](docs/llm-judge-runner.md).
+
+A change to `SKILL.md` or `skill/platform.md` changes what the skill produces. Judge it with the release gate in [`docs/paired-comparison.md`](docs/paired-comparison.md), not with the validators below: they check that files and links are in order and say nothing about whether an answer is good.
 
 After editing:
 
 ```bash
-python3 scripts/validate_repo.py             # check structure, docs hygiene, links, and example outputs
+python3 scripts/validate_repo.py             # check structure, docs hygiene and links
 python3 scripts/validate_release.py          # run deterministic release checks
 python3 scripts/bump_version.py minor        # bump version
 # write the CHANGELOG entry, then rename `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD`
@@ -700,7 +611,7 @@ This project uses [Semantic Versioning 2.0.0](https://semver.org/) with policy a
 
 | Bump | Reason |
 |------|--------|
-| MAJOR | Breaking contract change (mode removed, output format changes, SKILL.md schema breaks) |
+| MAJOR | Breaking contract change (what the default answer contains, the invocation syntax, the SKILL.md schema) |
 | MINOR | Additive enhancement (new guardrail, new document, new sub-case, new quality bar) |
 | PATCH | Non-behavioral fix (typo, link repair, script fix, docs polish) |
 
@@ -712,10 +623,10 @@ Version is stored in `skill/metadata.yaml` (canonical), mirrored into `SKILL.md`
 
 Contributions are welcome via pull request. Before submitting:
 
-1. Run `python3 scripts/validate_repo.py` — must print `[OK] Repository structure, documentation hygiene, relative links, and example responses are valid.`
+1. Run `python3 scripts/validate_repo.py` — must print `[OK] Repository structure, documentation hygiene and relative links are valid.`
 2. Run `python3 scripts/validate_release.py` before tagging a release.
-3. If you added a new document under `docs/`, add it to `REQUIRED_FILES` in `scripts/validate_repo.py` and to the skill's SKILL.md reference list when it affects runtime behavior.
-4. If you changed the mode set or output contract, bump MAJOR.
+3. If you added a new document under `docs/`, add it to `REQUIRED_FILES` in `scripts/validate_repo.py`, and either offer it on request in `SKILL.md` section 6 or list it in `SKILL_ENTRYPOINT_DOC_EXCLUSIONS` with the reason the model does not load it.
+4. If you changed what the model reads at runtime (`SKILL.md`, `skill/platform.md`, or a document `SKILL.md` points to), run the release gate and record its result in the CHANGELOG entry.
 5. If you added a new capability, bump MINOR and fill in the CHANGELOG.
 6. If you only touched docs or scripts, bump PATCH.
 7. Keep PRs focused — one logical change per PR.
@@ -744,7 +655,7 @@ The PDF itself is not bundled; the normalized public URLs and grouped source map
 
 ### Screenshots
 
-Screenshots are intentionally not bundled. The repository uses worked examples instead — each of the six modes has a corresponding file in [`examples/`](examples). These double as regression targets.
+Screenshots are intentionally not bundled. [`examples/`](examples) holds calibration material for the rubric and the judge, not sample answers: the 1.x worked examples followed an output format the skill no longer has, and were removed with it.
 
 ---
 

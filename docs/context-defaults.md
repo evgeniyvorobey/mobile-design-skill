@@ -2,7 +2,7 @@
 
 A generic mobile design is a mediocre mobile design. The right defaults for a banking app are wrong for a kids' game; the right defaults for power users are wrong for older adults.
 
-This document defines the defaults the skill applies when it detects a specific context, so the output is tuned to that context from the first pass instead of needing to be corrected after the fact.
+This document lists defaults for a specific audience, domain, platform or use context. Since 2.0 it is reference material: it is not loaded for an ordinary request, and is reached from the rubric and the pattern catalogue when a score or a pattern decision needs it.
 
 Use these defaults as starting points, not as rigid rules. When the user's stated constraint contradicts a default, the user's constraint wins — but the conflict must be surfaced, not silently resolved.
 
@@ -12,10 +12,10 @@ All numeric thresholds cross-reference `docs/quality-bars.md`, which defines the
 
 ## How to use this document
 
-1. During Step 2 (Identify context) of the workflow, extract the context signals from the input.
+1. Read the context signals in the request.
 2. Look up the defaults for each signal below.
 3. When signals conflict (for example, "enterprise" + "older adults"), apply the stricter default.
-4. State in `Assumptions` which context defaults were applied, so the user can correct the classification if wrong.
+4. Where a default changed the design, say so in the list of assumptions, so the reader can correct the classification if it is wrong.
 
 ---
 

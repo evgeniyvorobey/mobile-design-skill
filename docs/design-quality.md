@@ -1,6 +1,8 @@
 # Design Quality Calibration
 
-This document defines the skill's design-quality layer: the part that turns a structurally correct mobile design into a clearer, more polished, more production-ready design proposal.
+This document is the calibration vocabulary behind the rubric's dimensions: what attention path, composition, typography craft, colour and state, interaction polish and production readiness mean in checkable terms.
+
+Since 2.0 it is not loaded for an ordinary request, and an ordinary answer prints none of the blocks below. It is read when a score is asked for, in judged mode, and by people calibrating the rubric.
 
 Use `docs/design-quality-rubric.md` when this qualitative calibration needs a 1-5 score, target level, cap, or improvement ladder.
 
@@ -223,9 +225,7 @@ These operationalize "creative / distinctive / memorable / premium" as checkable
 
 ## Design quality calibration section
 
-When the mode produces or packages a design artifact, include a concise quality calibration section.
-
-Use this structure:
+When a score was asked for or the response is judged, the reasoning behind the score can be laid out in this structure:
 
 ```md
 ## Design quality calibration
@@ -239,7 +239,7 @@ Use this structure:
 - Production checks:
 ```
 
-The score is derived internally either way; print the `Quality target` line only when the user asked for a quality score or the response is judged (`--judge`). When it is printed it names the dimension holding the score back and what would lift it. A bare number is a default, not a score.
+Print the `Quality target` line only when the user asked for a quality score or the response is judged (`--judge`). When it is printed it names the dimension holding the score back and what would lift it. A bare number is a default, not a score.
 
 `Signature move` names the one owned asset or justified signature moment the screen carries, as a token plus where it repeats — or states plainly that the screen is inert and what it would take to change that. It is the field that answers the inert-screen test below; leaving it as an adjective fails.
 
@@ -258,29 +258,29 @@ Do not add this section as a decorative lecture. It should contain decisions the
 
 ---
 
-## Mode guidance
+## Guidance by kind of request
 
-### Mode A: Screen concept
+### Screen concept
 
 Use design quality calibration to describe the visual hierarchy, density, and visual language of the proposed screen.
 
-### Mode B: User flow
+### User flow
 
 Use design quality calibration only when screen-to-screen pacing, progress feedback, or transition polish materially affects the flow.
 
-### Mode C: UI spec
+### UI spec
 
 Use design quality calibration as concrete implementation requirements: token values, type roles, color/state rules, layout rhythm, and QA checks.
 
-### Mode D: Review
+### Review
 
 Assess visual design quality only to the extent supported by the input. If no visual is provided, review structure and mark visual quality as unverifiable.
 
-### Mode E: Typography and spacing system
+### Typography and spacing system
 
 Use design quality calibration to define rhythm, density presets, role limits, and large-text behavior.
 
-### Mode F: Rationale / handoff
+### Rationale / handoff
 
 Use design quality calibration to explain why the final direction feels appropriate for the product context and how engineering should preserve it.
 

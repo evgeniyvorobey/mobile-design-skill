@@ -1,12 +1,27 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
 version: 1.38.0
-status: production-ready
+status: maintained
 owner: repository-maintained
 entrypoint: SKILL.md
 description: >
   A reusable AI skill for designing, reviewing, structuring, and justifying
   mobile UI/UX decisions for iOS, Android, and cross-platform products.
+runtime:
+  always_read:
+    - SKILL.md
+  read_when_the_entrypoint_says:
+    - skill/platform.md
+  read_only_on_request:
+    - docs/inspiration-sources.md
+    - docs/design-quality-rubric.md
+    - docs/judged-mode.md
+    - docs/benchmark-report-format.md
+    - docs/visual-benchmark-playbooks.md
+    - docs/rendered-output-qa.md
+    - docs/quality-bars.md
+    - docs/patterns-catalog.md
+    - docs/motion-system.md
 compatible_with:
   - claude-code
   - codex
@@ -18,28 +33,22 @@ domain:
     - accessibility
     - design-systems
     - ux-review
-modes:
+request_kinds:
+  # What the skill is written for. It does not classify a request into one of these or print a label.
   - id: generate-screen
-    title: Generate mobile screen concept
+    title: Screen concept
   - id: design-flow
-    title: Design mobile user flow
+    title: User flow
   - id: ui-spec
-    title: Create platform-aware UI spec
+    title: Platform-aware UI spec
   - id: review-screen
-    title: Review screen for usability/accessibility
-    sub_cases:
-      - id: D1
-        title: Review with visual design provided
-      - id: D2
-        title: Review with text description only
-      - id: D3
-        title: Review with problem statement
-      - id: D4
-        title: Review with context change
+    title: Review for usability and accessibility
   - id: typography-spacing
-    title: Create typography and spacing system
+    title: Typography and spacing system
   - id: rationale-handoff
-    title: Prepare design rationale / handoff
+    title: Design rationale and handoff
+  - id: other
+    title: Anything else, answered as what it is
 accepted_inputs:
   - app idea
   - feature description
@@ -57,58 +66,36 @@ platforms:
   - ios
   - android
   - cross-platform
-response_contract:
-  classify_mode_first: true
-  choose_exactly_one_primary_mode: true
-  determine_platform_scope: true
-  determine_device_class: true
-  apply_clarification_policy: true
-  support_judged_mode_flag: true
-  require_minimal_labeled_assumptions: true
-  ask_only_blocking_clarifying_questions: true
+default_answer:
+  classifies_request_into_a_mode: false
+  prints_mode_or_scope_labels: false
+  prints_scores_unasked: false
+  opens_with: the job, the decisions that set the design apart, then a mockup, a step map or the verdict
+  sized_to_the_request: true
+  decides_instead_of_handing_back: true
+  assumptions: one short list of those that would change the design
+  asks_only_when: no sensible default exists and the answer would change the whole design
   max_clarifying_questions: 3
+  reads_once_for_contradictions_before_sending: true
+  optional_bolder_variant_after_the_committed_design: true
   include_accessibility_by_default: true
   include_platform_notes_when_relevant: true
-  distinguish_facts_from_recommendations: true
-  separate_inspiration_from_evidence: true
-  apply_domain_packs_when_relevant: true
-  support_benchmark_report_format: true
-  support_optional_rendered_output_qa: true
+  support_judged_mode_flag: true
 guardrails:
   - do not invent official platform rules
-  - do not invent research findings or usability test results
+  - do not invent research findings, usage numbers, measured values or test results
   - do not claim accessibility compliance unless explicitly verified
+  - do not state details of the user's existing product that were not given
   - do not treat inspiration sources as evidence for usability accessibility platform correctness or compliance
-  - do not give aesthetic advice without usability reasoning
-  - do not ignore typography spacing navigation or touch behavior
+  - do not hand decisions back as open questions or placeholders
   - do not blur ios and android when conventions differ
-  - do not invent missing flows or states unless labeled as assumptions
+  - do not state a platform rule without being sure of it for the named os version
 source_priority:
   - official platform guidance and standards
   - accessibility and usability standards
   - public-sector and enterprise-grade design systems
   - established research and case-study sources
   - workflow and tooling references
-clarification_policy:
-  role: decide when to ask clarifying questions vs proceed with assumptions
-  max_questions: 3
-  ask_when_missing_info_changes:
-    - platform behavior
-    - primary user task
-    - safety accessibility or compliance risk
-    - regulated domain state handling
-    - visual evidence for visual review
-    - production implementation behavior
-  proceed_with_assumptions_when:
-    - conservative cross-platform default is safe
-    - general audience default is safe
-    - brand direction is not central to the task
-    - policy can be labeled as assumption
-    - review can be limited to structure and behavior
-  response_sections_when_blocking:
-    - Clarifying questions
-    - Why this blocks
-    - Fast path
 judged_mode:
   trigger: "/mobile-design-skill --judge"
   role: optional interactive orchestration for higher-confidence outputs
@@ -119,7 +106,7 @@ judged_mode:
   score_is_derived_not_targeted: true
   revision_rule: revise when the judge's dimension read shows a boundary question the available input can answer
 design_quality:
-  role: visual hierarchy composition density typography color motion brand and production-readiness calibration
+  role: calibration vocabulary behind the rubric, loaded only when a score is asked for
   dimensions:
     - attention path and hierarchy
     - composition and spacing
@@ -131,13 +118,14 @@ design_quality:
     - production readiness
     - distinctiveness and owned assets
 design_quality_rubric:
-  role: 1-5 scoring system for raising proposed design quality and reviewing existing design quality
+  role: 1-5 scoring system, applied only when the user asks for a score or runs judged mode
+  on_request_only: true
   score_is_median_of_assessable_dimension_bands: true
   band_is_consecutive_boundary_questions_answered_yes: true
   caps_clamp_the_artifact_score_never_a_dimension_band: true
   quality_target_names_blocking_dimension: true
-  expose_review_score: true
-  expose_generated_target_when_useful: true
+  expose_review_score: only when asked
+  expose_generated_target: only when asked
   eval_pack:
     before_after_example: examples/rubric-before-after.md
     golden_examples_index: docs/golden-examples.md
@@ -189,6 +177,7 @@ design_quality_rubric:
   unverifiable_dimensions_excluded_from_median: true
 adaptive_layout:
   role: tablet, foldable, and adaptive layout layer beyond phone-first design
+  runtime_facts: skill/platform.md
   documentation: docs/adaptive-layout.md
   device_classes:
     - phone
@@ -198,12 +187,13 @@ adaptive_layout:
   width_classes:
     compact: "< 600dp"
     medium: "600-839dp"
-    expanded: ">= 840dp"
+    expanded: "840-1199dp"
+    large: "1200-1599dp"
+    extra_large: ">= 1600dp"
   canonical_layouts:
     - list-detail
     - supporting pane
     - feed
-  device_class_is_trigger_not_precedence_rank: true
 llm_judge_runner:
   role: LLM-agnostic semantic rubric calibration runner with external-agent command support
   script: scripts/run_rubric_judge.py
@@ -227,7 +217,7 @@ llm_judge_runner:
     - rationale
     - improvement_suggestions
 weakness_prevention:
-  role: internal failure-mode preflight for preventing shallow or misleading design output
+  role: failure-pattern catalogue (docs/weaknesses.md), a reference for reviewing answers; not loaded by default
   severity_levels:
     - P0 harmful or misleading
     - P1 product-breaking
@@ -247,7 +237,7 @@ weakness_prevention:
     - weak handoff and buildability
     - overlong process theater
 inspiration_sources:
-  role: non-authoritative visual inspiration and production reference layer
+  role: non-authoritative visual inspiration and production reference layer, loaded only on request
   benchmark_playbooks: docs/visual-benchmark-playbooks.md
   benchmark_report_format: docs/benchmark-report-format.md
   benchmark_report_example: examples/benchmark-report.md
@@ -267,7 +257,7 @@ inspiration_sources:
     - Pinterest
     - Figma Community
 domain_packs:
-  role: synthetic domain-aware mobile design playbooks
+  role: synthetic domain-aware mobile design playbooks; reference library, not loaded by default
   index: docs/domain-packs/index.md
   packs:
     fintech: docs/domain-packs/fintech.md
@@ -282,7 +272,7 @@ domain_packs:
     - no business metric claims
     - confirm regulated requirements with qualified owners
 visual_review_fixtures:
-  role: synthetic Figma-like text fixtures for Mode D review calibration
+  role: synthetic Figma-like text fixtures for review calibration
   index: docs/visual-review-fixtures.md
   fixtures:
     - examples/visual-review-fixtures/fintech-dashboard-dense-summary.md
@@ -312,10 +302,23 @@ release_automation:
   script: scripts/validate_release.py
   checks:
     - repository validation
+    - install verification
+    - paired comparison and baseline gate self-tests
     - rubric judge dry-run
     - judge parser self-test
     - external command oracle self-test
     - version and tag sanity
+evaluation:
+  release_gate:
+    question: is the skill's answer at least as good as the same model's answer with no skill, with no more errors
+    script: scripts/run_baseline_gate.py
+    documentation: docs/paired-comparison.md
+    brief_sets: examples/evals/baseline-gate-briefs.json
+    sealed_held_out_set: examples/evals/baseline-gate-heldout.json
+    needs_a_model: true
+  paired_comparison:
+    script: scripts/run_paired_eval.py
+    null_control_required: true
 primary_sources:
   - Apple Human Interface Guidelines
   - Material Design 3
@@ -340,25 +343,18 @@ tags:
   - design-system
   - typography
   - handoff
-quality_bar:
-  concise_operational_guidance: true
-  implementation_ready_outputs: true
-  structured_responses: true
-  evidence_first_reasoning: true
-  mandatory_self_review: true
+properties:
+  default_answer_carries_no_process_scaffolding: true
+  decisions_made_not_handed_back: true
+  answer_sized_to_the_request: true
+  dated_platform_facts: true
+  consistency_read_before_sending: true
   concrete_numeric_thresholds: true
-  design_quality_calibration: true
-  design_quality_rubric_1_to_5: true
+  judged_mode_flag: true
+  design_quality_rubric_1_to_5_on_request: true
   design_quality_rubric_eval_pack: true
   golden_examples: true
   llm_as_judge_runner: true
-  judged_mode_flag: true
-  clarification_policy: true
-  known_weakness_preflight: true
-  design_reasoning_with_alternatives: true
-  context_aware_defaults: true
-  heuristic_grounded_reasoning: true
-  pattern_catalog_grounded: true
   inspiration_sources_separated_from_evidence: true
   visual_benchmark_playbooks: true
   benchmark_report_format: true
@@ -367,3 +363,4 @@ quality_bar:
   visual_review_fixtures: true
   rendered_output_qa: true
   release_validation: true
+  release_gate_against_no_skill: true

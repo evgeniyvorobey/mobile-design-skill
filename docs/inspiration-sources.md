@@ -95,21 +95,29 @@ The tiers above are a *retrieval* layer — places to see what exists. These are
 | Shopify Polaris | Stated reasoning behind dense/admin patterns | Assuming Polaris reasoning transfers to your platform |
 | Smashing Magazine; A List Apart | Technique deep-dives and durable craft principles | Authoritative standards (defer to WCAG/HIG/Material) |
 
-### How step 5.5 samples this catalog
+### How to build directions from this catalog
 
-`SKILL.md` step 5.5 draws **two of its three candidate directions from the two catalogs below** — one compositional school, one point-of-view product. This is the mechanism that stops the option set collapsing to the model's modal answer for a surface: a free-generated candidate set is unimodal, a sampled one is not.
+Through 1.x every generated answer built three directions and printed the two it rejected. That step is gone from the default answer: it made designs thinner and answers longer. It runs now only when the user asks for several directions, for references, or for a more distinctive look.
 
-The selection rule, restated here because this is the file the step loads:
+When they do, build three directions, and draw two of them from the catalogs below, not from memory. A free-generated set of options collapses to the same answer every time; a sampled one does not.
+
+| | Direction | Source |
+|---|---|---|
+| D1 | The conventional baseline | what the platform and the product category imply for this surface |
+| D2 | A compositional school | one named entry from the schools below |
+| D3 | A point-of-view product | one named entry from the products below |
 
 1. Discard entries whose `Do NOT use for` line disqualifies them for the domain, audience, and use context at hand.
-2. From the survivors, pick the entry whose token consequences differ **most** from the conventional baseline — not the first that fits.
-3. Carry the entry's name into the output as `from:` provenance.
+2. From the survivors, pick the entry whose token consequences differ **most** from the conventional baseline, not the first that fits.
+3. Give each direction as one thesis line plus its token consequences: base unit and scale ratio, type role split, colour-construction rule, one composition move, and a motion signature with its duration band, a named curve from `docs/motion-system.md` and a reduced-motion fallback. Directions must differ in at least two of those fields.
+4. Say which catalog entry each direction came from, so the reader can see that a school and a product were both considered.
+5. Recommend one, and say what decides it for this product. The directions differ in look and composition only: the screen's job, its actions and its states stay as the committed design has them.
 
-**Asset classes**, for the divergence rule on the committed direction's owned asset: colour, geometry/shape, type treatment, motion signature, layout structure, illustration/mascot. Three answers reaching for a layout-structure meter under three names is one retrieved asset, not three owned ones.
+**Asset classes**, for a direction's owned asset: colour, geometry/shape, type treatment, motion signature, layout structure, illustration/mascot. Three directions reaching for a layout-structure meter under three names are one retrieved asset, not three owned ones.
 
 ### Editorial / typographic / compositional schools (range beyond platform defaults)
 
-These are the direction vocabulary for step 5.5 in `SKILL.md`. Each entry carries **token consequences**, because a direction that exists only as a school name produces three drafts that differ in adjectives and not in output.
+These are the vocabulary for the directions described above. Each entry carries **token consequences**, because a direction that exists only as a school name produces three drafts that differ in adjectives and not in output.
 
 **These token sets are this skill's translation into mobile product terms, not a historical claim about the school.** They are directional defaults: a starting point to differentiate three candidate directions, always overridden by a design system the user supplied, and always re-checked against the evidence hierarchy (contrast, text scaling, touch targets, platform fit) before anything ships.
 
@@ -238,7 +246,7 @@ When inspiration is useful, keep it separate from UX rationale:
 - Do not use these for: accessibility proof, platform requirements, compliance claims
 ```
 
-Do not overfit the user's design to a gallery trend. Use references to widen options, then choose using the skill's normal workflow: task clarity, context, platform conventions, accessibility, quality bars, pattern matrices, and implementation constraints.
+Do not overfit the user's design to a gallery trend. Use references to widen options, then choose on task clarity, context, platform conventions, accessibility, quality bars, pattern matrices, and implementation constraints.
 
 Use [`benchmark-report-format.md`](benchmark-report-format.md) when the task needs a structured 3-5 reference comparison. It keeps benchmark observations separate from proof and translates references into tokens, components, states, and QA checks.
 
@@ -248,7 +256,7 @@ Use [`benchmark-report-format.md`](benchmark-report-format.md) when the task nee
 
 When the user wants a fresh direction (not just references), derive one instead of retrieving a gallery. Run this only AFTER the design is grounded in the evidence hierarchy; it widens options, it does not replace grounding.
 
-This is the long form of step 5.5 in `SKILL.md`. That step is mandatory for every generated artifact and names three directions; this method is what you run when the request explicitly asks for a fresh direction, references, or exploration and three is not enough breadth.
+This is the longer method, for a request that explicitly asks for a fresh direction or for exploration, where the three directions above are not enough breadth.
 
 1. Reframe the job (JTBD): "When [situation], I want to [motivation], so I can [outcome]."
 2. Open the question (How Might We): 2–3 HMW questions from the job.
@@ -257,7 +265,7 @@ This is the long form of step 5.5 in `SKILL.md`. That step is mandatory for ever
 5. Transform a baseline (SCAMPER): Substitute, Combine, Adapt, Modify, Put-to-other-use, Eliminate, Reverse.
 6. Cross-industry analogy: borrow a *mechanism* from a non-competitor domain, never its surface.
 7. Converge on 2–3 directions, each named as a short thesis (not a moodboard).
-8. Translate to mechanism (mandatory): use the same token fields as step 5.5 — base unit and scale ratio, type role split, colour-construction rule, one composition move, motion signature with its band and reduced-motion fallback — plus a density choice with a reason and state coverage.
+8. Translate to mechanism (mandatory): use the same token fields as the directions above — base unit and scale ratio, type role split, colour-construction rule, one composition move, motion signature with its band and reduced-motion fallback — plus a density choice with a reason and state coverage.
 9. Re-check against the evidence hierarchy (contrast, text scaling, touch targets, navigation recovery, platform fit).
 
 A direction is not "done" until it exists as tokens, components, and states — never as adjectives.

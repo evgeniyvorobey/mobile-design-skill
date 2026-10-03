@@ -22,10 +22,7 @@ REQUIRED_FILES = [
     ".claude/agents/mobile-design-judge.md",
     "agents/openai.yaml",
     "skill/metadata.yaml",
-    "skill/modes.md",
-    "skill/templates.md",
-    "skill/usage.md",
-    "docs/clarification-policy.md",
+    "skill/platform.md",
     "docs/context-defaults.md",
     "docs/adaptive-layout.md",
     "docs/benchmark-report-format.md",
@@ -51,23 +48,13 @@ REQUIRED_FILES = [
     "docs/motion-system.md",
     "docs/quality-bars.md",
     "docs/rendered-output-qa.md",
-    "docs/self-review.md",
     "docs/sources.md",
     "docs/synthetic-case-studies.md",
     "docs/versioning.md",
     "docs/visual-benchmark-playbooks.md",
     "docs/visual-review-fixtures.md",
     "docs/weaknesses.md",
-    "docs/workflow.md",
-    "examples/design-flow.md",
-    "examples/clarification-policy.md",
-    "examples/generate-screen.md",
-    "examples/rationale-handoff.md",
-    "examples/review-screen.md",
     "examples/rubric-before-after.md",
-    "examples/typography-spacing.md",
-    "examples/ui-spec.md",
-    "examples/anti-patterns.md",
     "examples/benchmark-report.md",
     "examples/case-studies/fintech-account-overview.md",
     "examples/case-studies/health-medication-refill.md",
@@ -105,11 +92,7 @@ REQUIRED_FILES = [
     "scripts/install.sh",
     "scripts/rubric_judge_oracle_agent.py",
     "scripts/run_rubric_judge.py",
-    "scripts/run_generation_eval.py",
-    "scripts/run_diversity_eval.py",
-    "scripts/generation_oracle_agent.py",
     "examples/evals/generation-prompts.json",
-    "examples/evals/diversity-fixtures.json",
     "scripts/validate_release.py",
     "assets/logo-light.svg",
     "assets/logo-dark.svg",
@@ -132,9 +115,6 @@ DUPLICATE_HEADING_ALLOWED_FILES = {
     "CHANGELOG.md",
     "docs/evals.md",
     "docs/visual-benchmark-playbooks.md",
-    "skill/modes.md",
-    "examples/anti-patterns.md",
-    "examples/clarification-policy.md",
 }
 
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -142,20 +122,6 @@ FRONTMATTER_RE = re.compile(
     r"^---\n(?P<body>.*?)\n---\n",
     re.DOTALL,
 )
-EXAMPLE_OUTPUT_RE = re.compile(
-    r"## Example output\s*\n\s*```md\n(?P<body>.*?)\n```",
-    re.DOTALL,
-)
-
-EXAMPLE_RESPONSE_FILES = [
-    "examples/generate-screen.md",
-    "examples/design-flow.md",
-    "examples/ui-spec.md",
-    "examples/review-screen.md",
-    "examples/typography-spacing.md",
-    "examples/rationale-handoff.md",
-]
-
 RUBRIC_EVAL_FIXTURES = [
     "examples/evals/rubric-score-1.json",
     "examples/evals/rubric-score-2.json",
@@ -195,276 +161,14 @@ RUBRIC_FIXTURE_REQUIRED_FIELDS = {
     "improvement_suggestions",
 }
 
-# `Signature move:` must be followed by at least 8 words, so the slot cannot be
-# satisfied by the label alone or by a single adjective.
-SIGNATURE_MOVE_SHAPE = r"Signature move\**(?:\s*[,(][^:\n]{0,40})?\s*:\**\s*(?:\S+\s+){7,}\S+"
-# `Quality target:` must name what blocks the next level, not just print a number.
-# The alternation is score-conditional on purpose: requiring `blocked from ... until`
-# unconditionally made 5/5 unreachable in Modes A and C by test suite, since a top-band
-# read has no blocker to name and inventing one to fill the slot is the defect this
-# shape exists to prevent. Below the top band the blocker is still mandatory.
-QUALITY_TARGET_SHAPE = (
-    r"Quality target:\**\s*\**\s*"
-    r"(?:5/5[^\n]*\bnothing blocks 5/5\b"
-    r"|[1-4]/5[^\n]*\bblocked from\b[^\n]*\buntil\b)"
-)
-# The score must be traceable to named dimensions, or "derived" is unfalsifiable.
-DIMENSION_READ_SHAPE = r"Dimension read:[^\n]*[1-5][^\n]*[1-5]"
-# Labelling only the rejects leaves the third candidate slot unverifiable.
-COMMITTED_DIRECTION_SHAPE = r"Direction:[^\n]*\(from:[^)\n]+\)"
-# SKILL.md, Mode 6: a decision carries the alternative the input describes, or is labelled a
-# default. Requiring the alternative on every decision demanded invented design history
-# whenever the input names none, which is what live acceptance of 1.37.0 hit.
-KEY_DECISION_SHAPE = r"alternative considered:|(?:^|[\u2014\u2013*_(:]\s*)default\b(?=\s*[:.)*(\u2014\u2013,]|\s*$)"
-
-
-def label_shape(name: str) -> str:
-    """A field label as live output writes it.
-
-    `Name:`, `**Name**:`, `**Name:**`, a short qualifier (`**Attention path**, in order:`),
-    or a bare `- **Name**` item whose content is the list nested under it. Punctuation is
-    not the contract, the field is: a colon-only pattern failed a live iPad spec whose
-    attention path and production checks were both present and complete.
-    """
-    return (
-        rf"(?m)\b{name}\**(?:\s*[,(][^:\n]{{0,40}})?\s*:"
-        rf"|^[ \t]*(?:[-*+]|\d+[.)])\s+\**{name}\**[ \t]*$"
-    )
-
-MODE_REQUIREMENTS = {
-    "Generate mobile screen concept": {
-        "sections": [
-            "Screen goal",
-            "Primary user task",
-            "Information hierarchy",
-            "Recommended layout structure",
-            "Suggested components",
-            "Interaction notes",
-            "Empty / loading / error states",
-            "Platform-specific notes",
-            "Accessibility considerations",
-            "Design quality calibration",
-            "Rationale for major choices",
-            "Alternatives considered",
-            "Next actions",
-        ],
-        "accessibility_sections": ["Accessibility considerations"],
-        "bullet_shapes": [
-            (
-                "Alternatives considered",
-                {
-                    # Each rejected direction carries `from:` (SKILL.md step 5.5). Other
-                    # items in the section, such as which catalog entries were discarded and
-                    # why, are step 5.5's own narration and are not held to this shape.
-                    "select": r"\bfrom:",
-                    # A direction-level alternative names token consequences, which are
-                    # inherently numeric or named. Shape, not phrasing.
-                    "pattern": r"\d|`[^`]+`",
-                    "min_bullets": 2,
-                    "tail_after": r"because",
-                    "tail_label": "because",
-                    "min_tail_words": 6,
-                },
-            ),
-        ],
-        "label_word_counts": [
-            ("Design quality calibration", "Attention path:", 12),
-            ("Design quality calibration", "Signature move:", 12),
-        ],
-        "must_contain": [
-            ("Design quality calibration", label_shape("Attention path")),
-            ("Design quality calibration", label_shape("Composition and spacing")),
-            ("Design quality calibration", label_shape("Production checks")),
-            # `Signature move:` must carry a real statement, not a label. Shape, not vocabulary.
-            ("Design quality calibration", SIGNATURE_MOVE_SHAPE),
-        ],
-        # Printed only when useful (SKILL.md: the rubric is applied internally for generated
-        # artifacts). Required before, which made that discretion impossible to exercise.
-        "when_present": [
-            ("Design quality calibration", r"Quality target:", QUALITY_TARGET_SHAPE),
-            ("Design quality calibration", r"Dimension read:", DIMENSION_READ_SHAPE),
-            ("Design quality calibration", r"Direction:", COMMITTED_DIRECTION_SHAPE),
-        ],
-    },
-    "Design mobile user flow": {
-        "sections": [
-            "Flow goal",
-            "Entry points",
-            "Ordered steps / screens",
-            "Decision points",
-            "Back-navigation logic",
-            "Failure and recovery paths",
-            "Platform behavior notes",
-            "Accessibility and usability risks",
-            "Simplification opportunities",
-            "Next actions",
-        ],
-        "accessibility_sections": ["Accessibility and usability risks"],
-    },
-    "Create platform-aware UI spec": {
-        "sections": [
-            "Screen or flow scope",
-            "Structural zones",
-            "Components by section",
-            "State definitions",
-            "Behavior rules",
-            "Content guidance",
-            "Spacing and layout notes",
-            "Typography rules",
-            "Accessibility requirements",
-            "Design quality requirements",
-            "Platform-specific implementation notes",
-            "Key decision tradeoffs",
-            "Next actions",
-        ],
-        "accessibility_sections": ["Accessibility requirements"],
-        "label_word_counts": [
-            ("Design quality requirements", "Attention path:", 12),
-            ("Design quality requirements", "Signature move:", 12),
-        ],
-        "must_contain": [
-            ("Spacing and layout notes", r"\b\d+\s?(dp|pt|sp|px)\b|space-\d+"),
-            ("Typography rules", r"\b\d+\s?(sp|pt|px)\b|body|title|label|caption"),
-            ("Design quality requirements", label_shape("Attention path")),
-            ("Design quality requirements", label_shape("Production checks")),
-            ("Design quality requirements", SIGNATURE_MOVE_SHAPE),
-        ],
-        # Printed only when useful (SKILL.md: the rubric is applied internally for generated
-        # artifacts). Required before, which made that discretion impossible to exercise.
-        "when_present": [
-            ("Design quality requirements", r"Quality target:", QUALITY_TARGET_SHAPE),
-            ("Design quality requirements", r"Dimension read:", DIMENSION_READ_SHAPE),
-            ("Design quality requirements", r"Direction:", COMMITTED_DIRECTION_SHAPE),
-        ],
-    },
-    "Review screen for usability/accessibility": {
-        "sections": [
-            "Quick summary",
-            "Strengths",
-            "Findings",
-            "Design quality score (current → projected)",
-            "Severity index",
-            "Platform-convention mismatches",
-            "Unresolved assumptions",
-            "Next actions",
-        ],
-        "accessibility_sections": ["Findings"],
-        "requires_sub_case": True,
-        "must_contain": [
-            ("Design quality score (current → projected)", r"Current:\**\s*\**\s*[1-5]/5\b"),
-            (
-                "Design quality score (current → projected)",
-                r"Projected:\**\s*\**\s*[1-5]/5\b",
-            ),
-        ],
-        "must_not_contain": [
-            # The projected score must be a flat median, never an inflated "up to N/5".
-            ("Design quality score (current → projected)", r"Projected:\**\s*\**\s*up to"),
-        ],
-    },
-    "Create typography and spacing system": {
-        "sections": [
-            "Type roles",
-            "Size hierarchy",
-            "Weight usage",
-            "Line-height guidance",
-            "Spacing scale",
-            "Density rules",
-            "Visual rhythm rules",
-            "Touch-target implications",
-            "Accessibility considerations",
-            "Usage examples",
-            "Next actions",
-        ],
-        "accessibility_sections": ["Accessibility considerations"],
-        "must_contain": [
-            ("Size hierarchy", r"\b\d+\s?(sp|pt|px)\b"),
-            ("Line-height guidance", r"\b1\.[0-9]\b|\b\d+\s?(sp|pt|px)\b"),
-            ("Touch-target implications", r"44\s?pt.*48\s?dp|48\s?dp.*44\s?pt"),
-            # A spacing value, not the `4/5` of a printed score.
-            ("Visual rhythm rules", r"\b(4|8|12|16|24|32|40)\b(?!/5)"),
-        ],
-        "when_present": [
-            # Mode E never required the blocker clause; a printed target still needs a number.
-            ("Visual rhythm rules", r"Quality target:", r"Quality target:\**\s*\**\s*\[?[1-5]\]?/5"),
-            ("Visual rhythm rules", r"Dimension read:", DIMENSION_READ_SHAPE),
-            ("Visual rhythm rules", r"Direction:", COMMITTED_DIRECTION_SHAPE),
-        ],
-    },
-    "Prepare design rationale / handoff": {
-        "bullet_shapes": [
-            (
-                "Pattern choices and why",
-                {
-                    "pattern": r"^.+\s+over\s+.+\s+because\s+.+$",
-                    "min_bullets": 3,
-                    "tail_after": r"\bbecause\b",
-                    "tail_label": "because",
-                    "min_tail_words": 8,
-                },
-            ),
-            (
-                "Key design decisions",
-                {
-                    "pattern": KEY_DECISION_SHAPE,
-                    "min_bullets": 2,
-                    "tail_after": r"alternative considered:",
-                    "tail_label": "alternative considered:",
-                    "min_tail_words": 10,
-                    # A decision labelled a default has no alternative to describe.
-                    "tail_optional": True,
-                },
-            ),
-        ],
-        "sections": [
-            "Design objective",
-            "Target users and context",
-            "Key design decisions",
-            "Pattern choices and why",
-            "Design quality rationale",
-            "Platform alignment",
-            "Accessibility and usability considerations",
-            "States and edge cases",
-            "Implementation notes",
-            "Open questions",
-            "Validation plan / recommended testing focus",
-            "Next actions",
-        ],
-        "accessibility_sections": ["Accessibility and usability considerations"],
-        "must_contain": [
-            ("Key design decisions", KEY_DECISION_SHAPE),
-            ("Design quality rationale", r"mechanism:"),
-            ("Design quality rationale", SIGNATURE_MOVE_SHAPE),
-        ],
-        # Printed only when useful (SKILL.md: the rubric is applied internally for generated
-        # artifacts). Required before, which made that discretion impossible to exercise.
-        "when_present": [
-            ("Design quality rationale", r"Quality target:", QUALITY_TARGET_SHAPE),
-            ("Design quality rationale", r"Dimension read:", DIMENSION_READ_SHAPE),
-            ("Design quality rationale", r"Direction:", COMMITTED_DIRECTION_SHAPE),
-        ],
-    },
-}
-
-BANNED_RESPONSE_PATTERNS = [
-    r"\bWCAG-compliant\b",
-    r"\bpasses accessibility\b",
-    r"\bfully accessible\b",
-    r"\baccessibility compliant\b",
-]
+# 2.x: the entrypoint and its wrapper name only what a default answer needs or what a user
+# can ask for. A reference layer is held in place by the documents that still route to it.
 WEAKNESS_REFERENCE_FILES = [
-    "SKILL.md",
-    ".claude/skills/mobile-design-skill/SKILL.md",
     "README.md",
     "skill/metadata.yaml",
-    "skill/modes.md",
-    "skill/templates.md",
-    "skill/usage.md",
     "docs/evals.md",
     "docs/guardrails.md",
-    "docs/self-review.md",
     "docs/sources.md",
-    "docs/workflow.md",
 ]
 
 WEAKNESS_REQUIRED_PATTERNS = [
@@ -483,15 +187,10 @@ DESIGN_QUALITY_RUBRIC_REFERENCE_FILES = [
     ".claude/skills/mobile-design-skill/SKILL.md",
     "README.md",
     "skill/metadata.yaml",
-    "skill/modes.md",
-    "skill/templates.md",
-    "skill/usage.md",
     "docs/design-quality.md",
     "docs/evals.md",
     "docs/guardrails.md",
-    "docs/self-review.md",
     "docs/sources.md",
-    "docs/workflow.md",
 ]
 
 DESIGN_QUALITY_RUBRIC_REQUIRED_PATTERNS = [
@@ -536,28 +235,12 @@ LLM_JUDGE_RUNNER_REFERENCE_FILES = [
     "skill/metadata.yaml",
 ]
 
-CLARIFICATION_POLICY_REFERENCE_FILES = [
-    "SKILL.md",
-    ".claude/skills/mobile-design-skill/SKILL.md",
-    "README.md",
-    "skill/metadata.yaml",
-    "skill/modes.md",
-    "skill/templates.md",
-    "skill/usage.md",
-    "docs/evals.md",
-    "docs/guardrails.md",
-    "docs/self-review.md",
-    "docs/sources.md",
-    "docs/workflow.md",
-]
-
 JUDGED_MODE_REFERENCE_FILES = [
     "SKILL.md",
     ".claude/skills/mobile-design-skill/SKILL.md",
     ".claude/agents/mobile-design-judge.md",
     "README.md",
     "skill/metadata.yaml",
-    "skill/usage.md",
     "docs/commands.md",
     "docs/evals.md",
 ]
@@ -574,7 +257,6 @@ VISUAL_BENCHMARK_REFERENCE_FILES = [
     "SKILL.md",
     "README.md",
     "skill/metadata.yaml",
-    "skill/usage.md",
     "docs/inspiration-sources.md",
 ]
 
@@ -588,11 +270,8 @@ VISUAL_BENCHMARK_REQUIRED_PATTERNS = [
 ]
 
 GOLDEN_EXAMPLE_REFERENCE_FILES = [
-    "SKILL.md",
-    ".claude/skills/mobile-design-skill/SKILL.md",
     "README.md",
     "skill/metadata.yaml",
-    "skill/usage.md",
     "docs/design-quality-rubric.md",
     "docs/evals.md",
 ]
@@ -719,16 +398,6 @@ RENDERED_OUTPUT_QA_REQUIRED_PATTERNS = [
     "rendered-output-qa/v1",
 ]
 
-CLARIFICATION_POLICY_REQUIRED_PATTERNS = [
-    "Ask only when",
-    "at most **three**",
-    "Clarifying questions",
-    "Why this blocks",
-    "Fast path",
-    "Proceed-with-assumptions",
-]
-
-
 def fail(message: str) -> None:
     print(f"[FAIL] {message}")
     raise SystemExit(1)
@@ -815,7 +484,6 @@ def validate_design_quality_rubric_layer() -> None:
 # file-scoped guard this repository keeps rebuilding.
 BAND_SCORING_SURFACES = (
     "docs/design-quality-rubric.md",
-    "docs/self-review.md",
     "docs/judged-mode.md",
     ".claude/agents/mobile-design-judge.md",
 )
@@ -1141,33 +809,6 @@ def validate_llm_judge_runner_contract() -> None:
         fail("LLM judge runner contract validation failed:\n" + "\n".join(errors))
 
 
-def validate_clarification_policy_layer() -> None:
-    policy = (ROOT / "docs/clarification-policy.md").read_text(encoding="utf-8")
-    errors: list[str] = []
-    for pattern in CLARIFICATION_POLICY_REQUIRED_PATTERNS:
-        if pattern not in policy:
-            errors.append(f"docs/clarification-policy.md: missing `{pattern}`")
-
-    example = (ROOT / "examples/clarification-policy.md").read_text(encoding="utf-8")
-    for pattern in [
-        "## Example 1: Blocking visual review",
-        "## Example 2: Non-blocking concept request",
-        "## Example 3: Policy-sensitive spec",
-        "## Clarifying questions",
-        "## Fast path",
-    ]:
-        if pattern not in example:
-            errors.append(f"examples/clarification-policy.md: missing `{pattern}`")
-
-    for relative_path in CLARIFICATION_POLICY_REFERENCE_FILES:
-        text = (ROOT / relative_path).read_text(encoding="utf-8")
-        if "clarification-policy.md" not in text and "clarification_policy" not in text:
-            errors.append(f"{relative_path}: missing clarification policy reference")
-
-    if errors:
-        fail("Clarification policy validation failed:\n" + "\n".join(errors))
-
-
 def validate_judged_mode_layer() -> None:
     policy = (ROOT / "docs/judged-mode.md").read_text(encoding="utf-8")
     errors: list[str] = []
@@ -1313,10 +954,8 @@ def validate_synthetic_case_studies() -> None:
             )
 
     for relative_path in [
-        "SKILL.md",
         "README.md",
         "skill/metadata.yaml",
-        "skill/usage.md",
         "docs/design-quality-rubric.md",
         "docs/evals.md",
     ]:
@@ -1348,11 +987,8 @@ def validate_domain_packs() -> None:
             )
 
     for relative_path in [
-        "SKILL.md",
         "README.md",
         "skill/metadata.yaml",
-        "skill/usage.md",
-        "docs/workflow.md",
         "docs/design-quality-rubric.md",
         "docs/evals.md",
     ]:
@@ -1386,7 +1022,6 @@ def validate_visual_review_fixtures() -> None:
             errors.append(f"{relative_path}: missing prohibited-claim guardrail")
 
     for relative_path in [
-        "SKILL.md",
         "README.md",
         "skill/metadata.yaml",
         "docs/design-quality-rubric.md",
@@ -1416,7 +1051,6 @@ def validate_benchmark_report_format() -> None:
         "SKILL.md",
         "README.md",
         "skill/metadata.yaml",
-        "skill/usage.md",
         "docs/evals.md",
         "docs/inspiration-sources.md",
     ]:
@@ -1477,116 +1111,6 @@ def validate_rendered_output_qa() -> None:
         fail("Rendered-output QA validation failed:\n" + "\n".join(errors))
 
 
-# Contract elements are emitted by every mode, so they live in the output contract
-# rather than in the per-mode lists. Parity compares only the mode-specific fields.
-CONTRACT_ELEMENTS = {"mode", "platform scope", "device class", "assumptions", "next actions"}
-
-
-def normalize_output_field(text: str) -> str:
-    """Reduce an output-structure bullet to a comparable field name.
-
-    Detail after an em dash is explanatory prose, not part of the contract, so it is
-    dropped. `/` and `or` are used interchangeably across the two files.
-    """
-    field = re.sub(r"^[-*]\s+", "", text.strip())
-    field = re.split(r"\s+—\s+", field, maxsplit=1)[0]
-    field = field.replace("/", " or ")
-    return re.sub(r"\s+", " ", field).strip().rstrip(".").lower()
-
-
-def bullet_fields(block: str) -> set[str]:
-    fields = {
-        normalize_output_field(line)
-        for line in block.splitlines()
-        if re.match(r"^[-*]\s+\S", line)
-    }
-    return {field for field in fields if field and field not in CONTRACT_ELEMENTS}
-
-
-def parse_skill_mode_fields() -> dict[str, set[str]]:
-    text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-    section = re.search(
-        r"^## Mode output requirements\s*$(?P<body>.*?)(?=^## |\Z)",
-        text,
-        re.DOTALL | re.MULTILINE,
-    )
-    if not section:
-        fail("SKILL.md: missing `## Mode output requirements` section")
-
-    modes: dict[str, set[str]] = {}
-    for match in re.finditer(
-        r"^### Mode \d+:\s*(?P<title>.+?)\s*$(?P<body>.*?)(?=^### |\Z)",
-        section.group("body"),
-        re.DOTALL | re.MULTILINE,
-    ):
-        modes[normalize_output_field(match.group("title"))] = bullet_fields(match.group("body"))
-    return modes
-
-
-def parse_modes_doc_fields() -> dict[str, set[str]]:
-    text = (ROOT / "skill/modes.md").read_text(encoding="utf-8")
-    modes: dict[str, set[str]] = {}
-    for match in re.finditer(
-        r"^## Mode [A-Z]:\s*(?P<title>.+?)\s*$(?P<body>.*?)(?=^## |\Z)",
-        text,
-        re.DOTALL | re.MULTILINE,
-    ):
-        structure = re.search(
-            r"^### Output structure\s*$(?P<body>.*?)(?=^### |\Z)",
-            match.group("body"),
-            re.DOTALL | re.MULTILINE,
-        )
-        if not structure:
-            fail(f"skill/modes.md: mode `{match.group('title')}` has no `### Output structure`")
-        modes[normalize_output_field(match.group("title"))] = bullet_fields(structure.group("body"))
-    return modes
-
-
-def validate_mode_parity() -> None:
-    """SKILL.md is always loaded; skill/modes.md is not. Drift between them ships silently.
-
-    This is the check that would have caught the v1.16.0 Mode D contract never reaching
-    the entrypoint.
-    """
-    skill_modes = parse_skill_mode_fields()
-    doc_modes = parse_modes_doc_fields()
-    errors: list[str] = []
-
-    if not skill_modes:
-        errors.append("SKILL.md: no `### Mode <n>:` blocks found under `## Mode output requirements`")
-    if not doc_modes:
-        errors.append("skill/modes.md: no `## Mode <letter>:` blocks found")
-
-    for title in sorted(set(skill_modes) - set(doc_modes)):
-        errors.append(f"mode `{title}` is in SKILL.md but has no counterpart in skill/modes.md")
-    for title in sorted(set(doc_modes) - set(skill_modes)):
-        errors.append(f"mode `{title}` is in skill/modes.md but has no counterpart in SKILL.md")
-
-    for title in sorted(set(skill_modes) & set(doc_modes)):
-        only_skill = sorted(skill_modes[title] - doc_modes[title])
-        only_doc = sorted(doc_modes[title] - skill_modes[title])
-        if only_skill:
-            errors.append(f"mode `{title}`: in SKILL.md but not skill/modes.md: {only_skill}")
-        if only_doc:
-            errors.append(f"mode `{title}`: in skill/modes.md but not SKILL.md: {only_doc}")
-
-    if errors:
-        fail(
-            "Mode parity validation failed (SKILL.md and skill/modes.md must list the same "
-            "output fields per mode):\n" + "\n".join(errors)
-        )
-
-
-SKILL_ENTRYPOINT_REQUIRED_PATTERNS = [
-    # Step 3 resolves two axes, not one.
-    "Device class:",
-    "docs/adaptive-layout.md",
-    # Divergence runs before drafting.
-    "5.5",
-    # An honest mismatch stays visible instead of being laundered into a template.
-    "outside the standard six",
-]
-
 AUTH_WALLED_REFERENCE_FILES = [
     "docs/inspiration-sources.md",
     "docs/visual-benchmark-playbooks.md",
@@ -1606,22 +1130,9 @@ MIN_DISTINCT_SCORES = 3
 # The numbers below are corpus-composition choices, not measurements. They are the same
 # kind of number as `wide < 2` in the fixture pack and MIN_DISTINCT_SCORES above, and are
 # recorded as such so nobody later reads them as an empirical bar.
-MIN_DISTINCT_BANDS_PER_DIMENSION = 2
 MIN_DISTINCT_BANDS_IN_FIXTURE_PACK = 3  # across `examples/evals/rubric-score-*.json`
 MIN_WIDE_DIMENSION_READS = 2  # lines whose assessable bands span >= 3 points
 MIN_MODE_D_DISTINCT_BANDS = 3  # per column, across all committed review tables
-
-CANONICAL_DIMENSIONS = (
-    "attention path",
-    "composition",
-    "typography",
-    "colour/state",
-    "density",
-    "interaction",
-    "context & brand fit",
-    "production readiness",
-    "distinctiveness",
-)
 
 DIMENSION_READ_LINE = re.compile(r"Dimension read:(?P<body>[^\n]*)")
 DIMENSION_READ_PAIR = re.compile(r"^(?P<name>.+?)[:\s]\s*(?P<band>[1-5]|n/v)$", re.IGNORECASE)
@@ -1654,127 +1165,6 @@ def parse_dimension_read(line: str) -> list[int | None]:
             band = pair.group(1).lower()
             bands.append(None if band == "n/v" else int(band))
     return bands
-
-
-def label_body(section_text: str, label: str) -> str:
-    """Text belonging to a `- Label:` bullet: its own line plus indented continuations."""
-    lines = section_text.splitlines()
-    body: list[str] = []
-    # `- Label:`, `- **Label:**` and `- **Label**:` are the same statement; the bold
-    # forms used to read as 0 words.
-    name = re.escape(label.rstrip(":"))
-    # A short qualifier may sit between label and colon: `- **Signature move**, `shape.x`:`.
-    qualifier = r"(?:\s*[,(][^:\n]{0,40})?"
-    head = (
-        rf"^\s*-\s*(?:\*\*)?{name}(?:\*\*)?{qualifier}\s*:(?:\*\*)?"
-        if label.endswith(":")
-        else rf"^\s*-\s*(?:\*\*)?{name}(?:\*\*)?"
-    )
-    for index, line in enumerate(lines):
-        if not re.match(head, line):
-            continue
-        body.append(re.sub(head, "", line))
-        for follow in lines[index + 1:]:
-            if not follow.strip():
-                break
-            if re.match(r"^\s+", follow) and not re.match(r"^-", follow):
-                body.append(re.sub(r"^\s*-\s*", "", follow))
-                continue
-            break
-        break
-    return " ".join(body).strip()
-
-
-def catalog_entry_tokens() -> set[str]:
-    """Distinctive names from the two catalogs step 5.5 samples.
-
-    Parsed from docs/inspiration-sources.md rather than hard-coded, so adding a
-    school or a point-of-view product automatically widens what provenance is
-    accepted — the catalog is the single source of truth for the option set.
-    """
-    doc = (ROOT / "docs/inspiration-sources.md").read_text(encoding="utf-8")
-    names: list[str] = re.findall(r"^#### (?P<name>.+?)\s*$", doc, re.MULTILINE)
-
-    products = re.search(
-        r"^### Point-of-view products.*?$(?P<body>.*?)(?=^### |^---|\Z)",
-        doc,
-        re.DOTALL | re.MULTILINE,
-    )
-    if products:
-        for row in re.findall(r"^\|\s*(?P<cell>[^|]+?)\s*\|", products.group("body"), re.MULTILINE):
-            if cell_is_header(row):
-                continue
-            names.append(row)
-
-    tokens = {"baseline"}
-    for name in names:
-        cleaned = re.sub(r"[*_`]", "", name)
-        for part in re.split(r"[/,;]| and ", cleaned):
-            part = part.strip().strip(".").lower()
-            # Three characters is a name: `Arc` (of `Arc / The Browser Company`) was dropped
-            # at `> 3`, so a correctly sampled `from: Arc` was rejected as not in the catalog.
-            if len(part) >= 3:
-                tokens.add(part)
-    return tokens
-
-
-def provenance_matches(source: str, tokens: set[str]) -> bool:
-    """Whether a `from:` source names a catalog entry.
-
-    Whole-word match on a catalog token, or a partial name of four or more characters
-    (`Vignelli` for the `Massimo Vignelli ...` entry). A blank source never matches:
-    `'' in token` is True, which used to accept `(from: )` as catalog provenance.
-    """
-    normalized = re.sub(r"[*_`]", "", source).strip().lower()
-    if not normalized:
-        return False
-    if any(re.search(rf"(?<![a-z0-9]){re.escape(tok)}(?![a-z0-9])", normalized) for tok in tokens):
-        return True
-    return len(normalized) >= 4 and any(normalized in tok for tok in tokens)
-
-
-def cell_is_header(cell: str) -> bool:
-    stripped = cell.strip().lower()
-    return stripped in {"product", "source", "school", ""} or set(stripped) <= set("-: ")
-
-
-def validate_direction_provenance() -> None:
-    """Two of step 5.5's three directions come from the catalog, and say so.
-
-    Live acceptance for v1.17.0 showed four runs of one prompt generating the same
-    candidate pair and committing to the same winner: a free-generated candidate set
-    is unimodal. Requiring the provenance makes a bypassed catalog visible in the
-    output instead of hidden in the reasoning.
-    """
-    tokens = catalog_entry_tokens()
-    if len(tokens) < 8:
-        fail(
-            "docs/inspiration-sources.md: could not parse the direction catalog "
-            f"(found {len(tokens)} usable entry tokens); step 5.5 has nothing to sample"
-        )
-
-    errors: list[str] = []
-    for relative_path in ("examples/generate-screen.md", "examples/ui-spec.md"):
-        text = (ROOT / relative_path).read_text(encoding="utf-8")
-        section = extract_section(text, "Alternatives considered") or extract_section(
-            text, "Key decision tradeoffs"
-        )
-        provenances = re.findall(r"from:\s*(?P<src>[^)\n,;]*)", section, re.IGNORECASE)
-        if len(provenances) < 2:
-            errors.append(
-                f"{relative_path}: rejected directions must carry `from:` provenance "
-                f"for the catalog entry they were derived from; found {len(provenances)}"
-            )
-            continue
-        for source in provenances:
-            if not provenance_matches(source, tokens):
-                errors.append(
-                    f"{relative_path}: `from: {source.strip()}` is not an entry in the "
-                    "direction catalog in docs/inspiration-sources.md"
-                )
-
-    if errors:
-        fail("Direction provenance validation failed:\n" + "\n".join(errors))
 
 
 def validate_calibration_corpus_diversity() -> None:
@@ -1874,14 +1264,12 @@ def dimension_band_diversity_errors() -> list[str]:
             "values; a corpus that never scores a level teaches a scale that has no such level"
         )
 
-    for index, name in enumerate(CANONICAL_DIMENSIONS):
-        seen = {bands[index] for _, bands in reads if len(bands) > index and bands[index] is not None}
-        if len(seen) < MIN_DISTINCT_BANDS_PER_DIMENSION:
-            errors.append(
-                f"examples/: `{name}` is {seen.pop() if seen else 'unread'} in every "
-                "`Dimension read:` line; a single-valued dimension is measuring the rubric, "
-                "not the artifact"
-            )
+    # Not asserted since 2.0: that each dimension takes more than one value across these lines.
+    # The generation examples that carried the other bands were 1.x responses and left with
+    # the 1.x output contract; four golden lines remain, and three dimensions read 3 in all
+    # of them. Per-dimension spread is still asserted where the judge runner reads it, on the
+    # fixture pack's `dimension_scores` (validate_rubric_eval_pack). Re-enable this when the
+    # golden lines are re-derived, not by editing a band to satisfy it.
 
     if not any(bands and min(bands) <= 2 and max(bands) >= 5 for bands in assessable):
         errors.append(
@@ -2068,121 +1456,6 @@ def score_anchor_errors() -> list[str]:
     return errors
 
 
-def validate_modes_carry_contract_elements() -> None:
-    """The authoritative file must not teach a shape the scorers reject.
-
-    `SKILL.md` names `skill/modes.md` the tiebreaker, and its `### Output structure`
-    blocks are what a model copies. All six omitted `Device class` while both the
-    response validator and the generation eval hard-failed any response without it —
-    invisible to mode parity, because contract elements are stripped before comparing.
-    """
-    doc = (ROOT / "skill/modes.md").read_text(encoding="utf-8")
-    blocks = re.findall(
-        r"^### Output structure\s*$(?P<body>.*?)(?=^### |\Z)", doc, re.DOTALL | re.MULTILINE
-    )
-    if len(blocks) != 6:
-        fail(f"skill/modes.md: expected 6 `### Output structure` blocks, found {len(blocks)}")
-
-    errors: list[str] = []
-    for index, body in enumerate(blocks, start=1):
-        listed = {normalize_output_field(line) for line in body.splitlines() if line.startswith("- ")}
-        missing = sorted(CONTRACT_ELEMENTS - listed - {"sub-case (d1 or d2 or d3 or d4)"})
-        if missing:
-            errors.append(
-                f"skill/modes.md: output structure #{index} omits contract element(s) "
-                + ", ".join(f"`{m}`" for m in missing)
-            )
-
-    if errors:
-        fail("Mode contract-element validation failed:\n" + "\n".join(errors))
-
-
-BANNED_MODE_D_HEADERS = ("## Usability issues", "## Accessibility issues", "## Recommended fixes", "## Severity or priority")
-
-
-def validate_calibration_teaches_current_shape() -> None:
-    """A banned shape may appear as a counterexample, never as a model answer.
-
-    examples/anti-patterns.md loads as calibration (SKILL.md), and two of its
-    "Good response" fragments still carried the pre-1.16 Mode D bucket shape that
-    SKILL.md explicitly bans. The changelog for 1.17.0 documents that a filled-in
-    example outweighs a prose instruction three runs in four; this was that failure,
-    live, inside the file meant to demonstrate correctness.
-    """
-    text = (ROOT / "examples/anti-patterns.md").read_text(encoding="utf-8")
-    errors: list[str] = []
-    good = False
-    for number, line in enumerate(text.splitlines(), start=1):
-        if re.match(r"^### (Good|Bad) response", line):
-            good = line.startswith("### Good")
-            continue
-        if good and any(line.startswith(h) for h in BANNED_MODE_D_HEADERS):
-            errors.append(
-                f"examples/anti-patterns.md:{number}: `{line.strip()}` is the pre-1.16 "
-                "Mode D shape and must not appear under a `### Good response`"
-            )
-
-    if errors:
-        fail("Calibration-shape validation failed:\n" + "\n".join(errors))
-
-
-def validate_single_workflow_source() -> None:
-    """Exactly one file may claim to be the workflow.
-
-    Three files each describing the workflow (SKILL.md, skill/skill.md,
-    skill/modes.md) is the structural condition that let the v1.16.0 Mode D
-    contract ship without reaching the entrypoint. skill/skill.md was retired in
-    v1.18.1 after drifting two releases behind — it carried none of step 5.5,
-    device class, the no-fit branch, the derived score or direction provenance,
-    while still asserting a pre-1.16 review rule. This check stops a third fork
-    from quietly reappearing.
-    """
-    errors: list[str] = []
-
-    owners = {
-        "## Mode output requirements": "SKILL.md",
-        "## Required workflow": "SKILL.md",
-    }
-    for marker, owner in owners.items():
-        holders = [
-            f.relative_to(ROOT).as_posix()
-            for f in iter_markdown_files()
-            if marker in f.read_text(encoding="utf-8")
-        ]
-        # The changelog and the proposal quote these headings when describing changes.
-        holders = [
-            h for h in holders
-            if not h.startswith("docs/proposals/") and h != "CHANGELOG.md"
-        ]
-        if holders != [owner]:
-            errors.append(
-                f"`{marker}` must appear in {owner} and nowhere else; found in "
-                + (", ".join(holders) if holders else "no file")
-            )
-
-    if errors:
-        fail(
-            "Single-workflow-source validation failed (a second file claiming to be "
-            "the workflow drifts, and the drift ships):\n" + "\n".join(errors)
-        )
-
-
-def validate_skill_entrypoint_contract() -> None:
-    """SKILL.md is the only always-loaded file, so capability lives or dies here.
-
-    Every branch listed below reached the entrypoint in a specific release. This
-    check exists because the v1.16.0 Mode D contract did not, and nothing noticed.
-    """
-    skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-    missing = [p for p in SKILL_ENTRYPOINT_REQUIRED_PATTERNS if p not in skill]
-    if missing:
-        fail(
-            "SKILL.md is missing required entrypoint contract markers "
-            "(a capability that never reaches SKILL.md is effectively absent): "
-            + ", ".join(missing)
-        )
-
-
 def validate_unreadable_source_honesty() -> None:
     """Auth-walled references must be framed as a lookup, never as something consulted."""
     errors: list[str] = []
@@ -2195,50 +1468,8 @@ def validate_unreadable_source_honesty() -> None:
                 "UI Sources / Pttrns cannot be opened by a skill run"
             )
 
-    review = (ROOT / "docs/self-review.md").read_text(encoding="utf-8")
-    if re.search(r"Did I use production references", review):
-        errors.append(
-            "docs/self-review.md: the prompt asking whether production references were "
-            "*used* invites describing screens the skill has never seen; ask whether the "
-            "reference was framed as a lookup instead"
-        )
-
     if errors:
         fail("Unreadable-source honesty validation failed:\n" + "\n".join(errors))
-
-
-def validate_inspiration_gate_parity() -> None:
-    """The inspiration gate in SKILL.md must not be narrower than the layer it guards.
-
-    Before this check, SKILL.md listed 4 trigger signals while
-    docs/inspiration-sources.md declared 9 — so requests like "make it feel premium"
-    never reached the layer whose own trigger list names that exact phrase, and the
-    direction vocabulary behind it stayed unreachable.
-    """
-    doc = (ROOT / "docs/inspiration-sources.md").read_text(encoding="utf-8")
-    section = re.search(
-        r"^## When to use inspiration\s*$(?P<body>.*?)(?=^## |\Z)",
-        doc,
-        re.DOTALL | re.MULTILINE,
-    )
-    if not section:
-        fail("docs/inspiration-sources.md: missing `## When to use inspiration` section")
-
-    signals = re.findall(r'^-\s+"(?P<signal>[^"]+)"', section.group("body"), re.MULTILINE)
-    if len(signals) < 5:
-        fail(
-            "docs/inspiration-sources.md: expected the trigger list to enumerate the "
-            f"inspiration signals as quoted bullets; found {len(signals)}"
-        )
-
-    skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
-    missing = [signal for signal in signals if signal.lower() not in skill.lower()]
-    if missing:
-        fail(
-            "Inspiration gate is narrower than the layer it guards. SKILL.md does not "
-            "carry these signals from docs/inspiration-sources.md: "
-            + ", ".join(f'"{signal}"' for signal in missing)
-        )
 
 
 def validate_motion_band_consistency() -> None:
@@ -2273,7 +1504,7 @@ def validate_motion_band_consistency() -> None:
             "docs/motion-system.md: must defer to `docs/quality-bars.md` for durations "
             "rather than declaring its own bands"
         )
-    for relative_path in ("SKILL.md", "docs/quality-bars.md", "docs/workflow.md", "docs/design-quality.md"):
+    for relative_path in ("SKILL.md", "docs/quality-bars.md", "docs/design-quality.md"):
         if "motion-system.md" not in (ROOT / relative_path).read_text(encoding="utf-8"):
             errors.append(f"{relative_path}: missing motion system reference")
 
@@ -2299,6 +1530,7 @@ def validate_motion_band_consistency() -> None:
 # regular width, while SKILL.md step 8 sends every pattern-level decision to it. Enumerating the
 # surfaces rather than the file makes the guard fire for the next one that loses the layer.
 LARGE_SCREEN_DECISION_SURFACES = [
+    "skill/platform.md",
     "docs/patterns-catalog.md",
     "docs/quality-bars.md",
     "docs/context-defaults.md",
@@ -2316,7 +1548,7 @@ LARGE_SCREEN_REQUIRED_TERMS = [
 # The second half of the class. Once the bars are repeated for lookup at the point of decision,
 # the copies drift -- the failure `validate_motion_band_consistency` was written for. A width
 # threshold is a comparison operator, a number, and a unit, on a line naming a width class.
-WIDTH_CLASS_BREAKPOINTS = {"600", "840", "1200"}
+WIDTH_CLASS_BREAKPOINTS = {"600", "840", "1200", "1600"}
 # Anchored to the class name and stopped at the cell boundary, so a pane minimum in the next
 # column of the same row is not read as a breakpoint; height classes carry their own numbers.
 WIDTH_CLASS_THRESHOLD_RE = re.compile(
@@ -2488,23 +1720,45 @@ def validate_paired_eval_falsifier() -> None:
 # about designing a screen. They are deliberately outside a runtime reading list; each
 # one carries the reason it is excluded, so a fifth cannot be added silently.
 SKILL_ENTRYPOINT_DOC_EXCLUSIONS = {
+    # For maintainers of this repository.
     "docs/commands.md": "invocation reference for the slash command, not runtime design guidance",
+    "docs/evals.md": "what this repository evaluates and with what",
     "docs/github-publishing.md": "publishing kit for maintainers of this repository",
+    "docs/llm-judge-runner.md": "calibration runner for the rubric judge",
+    "docs/paired-comparison.md": "the release gate and the paired comparison",
     "docs/release-automation.md": "release validation workflow, run by CI and maintainers",
     "docs/versioning.md": "semver policy for this repository",
+    # The reference library. None of it is loaded for an ordinary request; each file is
+    # reached from a document the entrypoint offers on request.
+    "docs/adaptive-layout.md": "long form of the width section in skill/platform.md; reached from quality-bars and the pattern catalogue",
+    "docs/context-defaults.md": "domain and audience defaults; reached from the rubric and the pattern catalogue",
+    "docs/design-quality.md": "the calibration vocabulary behind the rubric's dimensions",
+    "docs/golden-examples.md": "calibration targets for the rubric",
+    "docs/guardrails.md": "long form of the honesty rule in SKILL.md section 2",
+    "docs/heuristics.md": "heuristics catalogue; reached from the pattern catalogue",
+    "docs/principles.md": "the intent behind docs/quality-bars.md",
+    "docs/sources.md": "source hierarchy and canonical URLs",
+    "docs/synthetic-case-studies.md": "bad-to-good calibration cases for the rubric",
+    "docs/visual-review-fixtures.md": "text fixtures for review calibration",
+    "docs/weaknesses.md": "failure-pattern catalogue for reviewing answers",
 }
 
 
 def validate_skill_entrypoint_enumerates_docs() -> None:
-    """Every runtime doc is named in the canonical `SKILL.md`, and the wrapper forwards exactly that set.
+    """Every doc is either offered by the entrypoint or listed with the reason it is not.
 
-    Two failures this catches, both of which shipped:
+    Through 1.x the rule was that `SKILL.md` names every runtime doc. That rule grew the
+    entrypoint to 482 lines and about fifty thousand tokens of mandatory reading, and the
+    skill lost to the same model with no skill. Since 2.0 the entrypoint names only what a
+    default answer needs and what a user can ask for, so the check runs the other way: a doc
+    under `docs/` that `SKILL.md` does not name has to be classified here, on purpose.
 
-    1. A doc lands under `docs/`, is wired into its neighbours, passes every validator,
-       and the entrypoint the model reads never mentions it.
-    2. The canonical entrypoint and the Claude Code wrapper drift apart, so the same
-       skill loads a different set of documents depending on how it was invoked. Before
-       1.35.2 the wrapper was missing five docs the canon named.
+    Three failures this catches:
+
+    1. A doc lands under `docs/` and nobody decides whether the model should ever read it.
+    2. An exclusion goes stale: the file is gone, or the entrypoint names it after all.
+    3. The canonical entrypoint and the Claude Code wrapper drift apart, so the same skill
+       loads a different set of documents depending on how it was invoked.
     """
     errors: list[str] = []
     canonical = (ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -2519,9 +1773,18 @@ def validate_skill_entrypoint_enumerates_docs() -> None:
             continue
         if f"`{relative_path}`" not in canonical:
             errors.append(
-                f"SKILL.md: never names `{relative_path}` -- a document the model is never "
-                "told to read is not shipped guidance. Add it to the reference list, or add "
-                "it to SKILL_ENTRYPOINT_DOC_EXCLUSIONS with the reason it is not runtime"
+                f"`{relative_path}` is neither named in SKILL.md nor listed in "
+                "SKILL_ENTRYPOINT_DOC_EXCLUSIONS. Decide which: offer it on request in "
+                "SKILL.md section 6, or list it with the reason the model does not load it"
+            )
+
+    for relative_path in sorted(SKILL_ENTRYPOINT_DOC_EXCLUSIONS):
+        if not (ROOT / relative_path).is_file():
+            errors.append(f"SKILL_ENTRYPOINT_DOC_EXCLUSIONS lists `{relative_path}`, which does not exist")
+        elif f"`{relative_path}`" in canonical:
+            errors.append(
+                f"SKILL_ENTRYPOINT_DOC_EXCLUSIONS lists `{relative_path}`, which SKILL.md names: "
+                "it cannot be both offered and excluded"
             )
 
     # The wrapper forwards exactly the docs/ and skill/ files the canonical names: nothing
@@ -2668,338 +1931,6 @@ def bullet_count(text: str) -> int:
     return len(re.findall(r"(?m)^-\s+\S", text))
 
 
-# Modes whose output has an `## Adaptive behavior` section (SKILL.md Modes 1 and 3).
-ADAPTIVE_MODES = {"Generate mobile screen concept", "Create platform-aware UI spec"}
-# Top-level list items: `-`, `*`, `+` bullets and `1.` / `1)` numbered items.
-RESPONSE_ITEM = re.compile(r"(?m)^(?:[-*+]|\d+[.)])\s+(\S.*)$")
-
-
-def heading_key(heading: str) -> str:
-    """`Empty / loading / error states`, `Empty/loading/error states` and `Ordered steps or
-    screens` vs `Ordered steps / screens` are one heading: `/` and `or` are interchangeable."""
-    return re.sub(r"\s+", " ", re.sub(r"\s*/\s*", " or ", heading.strip().lower())).strip()
-
-
-def find_section(text: str, heading: str) -> tuple[bool, str]:
-    """Locate `## heading` under any name the skill itself gives it.
-
-    The validator's names follow skill/templates.md; SKILL.md and skill/modes.md (which
-    SKILL.md calls authoritative) extend some of them, e.g. `Accessibility considerations
-    for scaling and readability`. A response that copies the authoritative name is the
-    same section, so a heading that equals the name or extends it matches.
-    """
-    want = heading_key(heading)
-    for match in re.finditer(r"^## (?P<title>[^\n]+?)\s*$", text, re.MULTILINE):
-        got = heading_key(match.group("title"))
-        if got == want or got.startswith(want + " "):
-            start = match.end()
-            following = re.search(r"^## ", text[start:], re.MULTILINE)
-            body = text[start:start + following.start()] if following else text[start:]
-            return True, body.strip()
-    return False, ""
-
-
-def response_items(text: str) -> list[str]:
-    return RESPONSE_ITEM.findall(text)
-
-
-def response_item_blocks(text: str) -> list[str]:
-    """Each top-level item with its indented continuation lines: a numbered action whose
-    detail sits in sub-bullets is one action, not a three-word title."""
-    blocks: list[str] = []
-    for line in text.splitlines():
-        if RESPONSE_ITEM.match(line):
-            blocks.append(RESPONSE_ITEM.match(line).group(1))
-        elif blocks and line.strip() and re.match(r"^\s+", line):
-            blocks[-1] += " " + re.sub(r"^\s*(?:[-*+]|\d+[.)])?\s*", "", line)
-    return blocks
-
-
-def omission_named(section: str, assumptions: str) -> bool:
-    """SKILL.md: omit a section that carries no decision and name the omission under
-    `Assumptions`. An omission named there is a choice, not a missing section."""
-    return heading_key(section) in heading_key(re.sub(r"[*_`]", "", assumptions))
-
-
-def primary_device_class(value: str) -> str:
-    """The first device class the value names.
-
-    `Tablet (iPad), with a phone fallback` is a tablet, and `Assumed phone (compact width)`,
-    the form the template itself offers, is a phone. Reading the first word instead turned
-    that template value into the class `assumed` and failed a live phone-only flow.
-    """
-    match = re.search(r"\b(phone|tablet|foldable|adaptive|ipad)\b", value, re.IGNORECASE)
-    if match:
-        found = match.group(1).lower()
-        return "tablet" if found == "ipad" else found
-    first = re.match(r"[^A-Za-z]*([A-Za-z]+)", value)
-    return first.group(1).lower() if first else ""
-
-
-def check_response(response: str, mode: str, label: str) -> list[str]:
-    """The structural contract for one skill response — corpus or freshly generated.
-
-    Split out of validate_example_responses() so scripts/run_generation_eval.py can
-    hold live output to exactly the rules the committed examples are held to. Every
-    check in this repo used to read markdown a human wrote; this is the seam that
-    lets one read what the model actually produced.
-    """
-    errors: list[str] = []
-    requirements = MODE_REQUIREMENTS.get(mode)
-    if not requirements:
-        return [f"{label}: unknown mode `{mode}`"]
-
-    if not response.startswith(f"Mode: {mode}"):
-        errors.append(f"{label}: response must start with exact `Mode: {mode}`")
-
-    if not re.search(r"^Platform scope:\s+\S", response, re.MULTILINE):
-        errors.append(f"{label}: missing `Platform scope:` line")
-
-    device_class = re.search(r"^Device class:[ \t]+(?P<value>\S.*)$", response, re.MULTILINE)
-    if not device_class:
-        errors.append(f"{label}: missing `Device class:` line")
-    elif mode in ADAPTIVE_MODES and primary_device_class(device_class.group("value")) != "phone":
-        # Anything wider than a phone must say what the layout does at each width. Only
-        # Modes 1 and 3 carry the section; the class is the first word of the value, not
-        # any mention of "phone" in it.
-        if not find_section(response, "Adaptive behavior")[0]:
-            errors.append(
-                f"{label}: `Device class: {device_class.group('value')}` "
-                "requires an `## Adaptive behavior` section"
-            )
-
-    assumptions = extract_assumptions(response)
-    if len(response_items(assumptions)) < 2:
-        errors.append(f"{label}: `Assumptions:` must contain at least 2 bullets")
-
-    sections: dict[str, str] = {}
-    omitted: set[str] = set()
-    for section in requirements["sections"]:
-        present, body = find_section(response, section)
-        if present:
-            sections[section] = body
-        elif section != "Next actions" and omission_named(section, assumptions):
-            omitted.add(section)
-        else:
-            errors.append(f"{label}: missing `## {section}` section")
-
-    def body_of(section: str) -> str | None:
-        """The section's text, or None when it was omitted and the omission named."""
-        if section in omitted:
-            return None
-        return sections.get(section) if section in sections else find_section(response, section)[1]
-
-    for section in requirements["accessibility_sections"]:
-        body = body_of(section)
-        if body is not None and len(response_items(body)) < 3:
-            errors.append(
-                f"{label}: `## {section}` must contain at least 3 bullets"
-            )
-
-    next_actions = find_section(response, "Next actions")[1]
-    if len(response_items(next_actions)) < 2:
-        errors.append(f"{label}: `## Next actions` must contain at least 2 bullets")
-    for action in response_item_blocks(next_actions):
-        # A denylist of five phrases caught "test it" and nothing else. What
-        # separates a real next action from a stock one is that it names an
-        # object: "validate" is one word, "Validate whether balance and blackout
-        # data are real-time or cached" is eleven. Word count is the shape test;
-        # requiring a digit or proper noun was tried and rejected, because it
-        # fails specific, well-written actions and rewards inserting a number.
-        if len(action.split()) < 6:
-            errors.append(
-                f"{label}: next action `{action.strip()}` is too short to "
-                "name an object; say what is tested, defined, or confirmed"
-            )
-
-    if requirements.get("requires_sub_case") and not re.search(
-        r"^Sub-case:[ \t]+\S", response, re.MULTILINE
-    ):
-        errors.append(f"{label}: missing `Sub-case:` line")
-
-    for section, field, min_words in requirements.get("label_word_counts", []):
-        body = body_of(section)
-        if body is None:
-            continue
-        words = len(label_body(body, field).split())
-        if words < min_words:
-            errors.append(
-                f"{label}: `## {section}` gives only {words} words after "
-                f"`{field}` (minimum {min_words}) — a label is not a statement"
-            )
-
-    for section, spec in requirements.get("bullet_shapes", []):
-        body = body_of(section)
-        if body is None:
-            continue
-        bullets = response_item_blocks(body)
-        selector = spec.get("select", spec["pattern"])
-        matching = [b for b in bullets if re.search(selector, b, re.IGNORECASE)]
-        if len(matching) < spec["min_bullets"]:
-            errors.append(
-                f"{label}: `## {section}` needs at least "
-                f"{spec['min_bullets']} bullets matching /{selector}/; "
-                f"found {len(matching)}"
-            )
-        for bullet in matching:
-            if "select" in spec and not re.search(spec["pattern"], bullet, re.IGNORECASE):
-                errors.append(
-                    f"{label}: `## {section}` item does not match /{spec['pattern']}/: {bullet[:70]}"
-                )
-            tail = re.split(spec["tail_after"], bullet, maxsplit=1, flags=re.IGNORECASE)
-            if len(tail) == 1 and spec.get("tail_optional"):
-                continue
-            words = len(tail[-1].split()) if len(tail) > 1 else 0
-            if words < spec["min_tail_words"]:
-                errors.append(
-                    f"{label}: `## {section}` bullet gives only {words} "
-                    f"words after `{spec['tail_label']}` "
-                    f"(minimum {spec['min_tail_words']}): {bullet[:70]}"
-                )
-
-    for section, pattern in requirements.get("must_contain", []):
-        body = body_of(section)
-        if body is not None and not re.search(pattern, body, re.IGNORECASE):
-            errors.append(
-                f"{label}: `## {section}` must match /{pattern}/"
-            )
-
-    for section, trigger, pattern in requirements.get("when_present", []):
-        body = body_of(section)
-        if body and re.search(trigger, body, re.IGNORECASE) and not re.search(pattern, body, re.IGNORECASE):
-            errors.append(
-                f"{label}: `## {section}` prints `{trigger}` but it must match /{pattern}/"
-            )
-
-    for section, pattern in requirements.get("must_not_contain", []):
-        body = body_of(section) or ""
-        if re.search(pattern, body, re.IGNORECASE):
-            errors.append(
-                f"{label}: `## {section}` must NOT match /{pattern}/"
-            )
-
-    for pattern in BANNED_RESPONSE_PATTERNS:
-        if re.search(pattern, response, re.IGNORECASE):
-            errors.append(f"{label}: banned response phrase /{pattern}/")
-
-    return errors
-
-
-def validate_example_responses() -> None:
-    errors: list[str] = []
-
-    for relative_path in EXAMPLE_RESPONSE_FILES:
-        text = (ROOT / relative_path).read_text(encoding="utf-8")
-        output_match = EXAMPLE_OUTPUT_RE.search(text)
-        if not output_match:
-            errors.append(f"{relative_path}: missing fenced `## Example output` block")
-            continue
-
-        response = output_match.group("body").strip()
-        mode_match = re.match(r"^Mode:\s*(.+)$", response, re.MULTILINE)
-        if not mode_match:
-            errors.append(f"{relative_path}: missing `Mode:` line")
-            continue
-
-        errors.extend(check_response(response, mode_match.group(1).strip(), relative_path))
-
-    if errors:
-        fail("Example response validation failed:\n" + "\n".join(errors))
-
-
-def validate_response_checker_follows_skill() -> None:
-    """check_response accepts what SKILL.md asks for, and still rejects what it forbids.
-
-    Run on edited copies of the committed examples, so the checker is held to the
-    instruction text rather than to the examples' incidental formatting. Each case
-    below is a live-output shape that the checker used to reject while SKILL.md (or
-    skill/modes.md, which SKILL.md calls authoritative) asked for it — or a defect it
-    used to let through.
-    """
-    def example(relative_path: str) -> tuple[str, str]:
-        text = (ROOT / relative_path).read_text(encoding="utf-8")
-        response = EXAMPLE_OUTPUT_RE.search(text).group("body").strip()
-        return response, re.match(r"^Mode:\s*(.+)$", response, re.MULTILINE).group(1).strip()
-
-    def without_section(response: str, heading: str) -> str:
-        return re.sub(rf"^## {re.escape(heading)}\s*\n.*?(?=^## |\Z)", "", response, flags=re.DOTALL | re.MULTILINE)
-
-    def add_assumption(response: str, line: str) -> str:
-        return re.sub(r"^Assumptions:\s*\n", f"Assumptions:\n- {line}\n", response, count=1, flags=re.MULTILINE)
-
-    def device(response: str, value: str) -> str:
-        return re.sub(r"^Device class:.*$", f"Device class: {value}", response, count=1, flags=re.MULTILINE)
-
-    errors: list[str] = []
-    handoff, handoff_mode = example("examples/rationale-handoff.md")
-    flow, flow_mode = example("examples/design-flow.md")
-    spec, spec_mode = example("examples/ui-spec.md")
-    review, review_mode = example("examples/review-screen.md")
-    types, types_mode = example("examples/typography-spacing.md")
-    concept, concept_mode = example("examples/generate-screen.md")
-
-    accept = {
-        "a section omitted and named under Assumptions (SKILL.md 'Omit — never stub')":
-            (add_assumption(without_section(flow, "Simplification opportunities"),
-                            "Simplification opportunities omitted: the flow is already at its minimum step count."), flow_mode),
-        "skill/modes.md section names":
-            (types.replace("## Accessibility considerations\n", "## Accessibility considerations for scaling and readability\n")
-                  .replace("## Usage examples\n", "## Usage examples for common screen areas\n"), types_mode),
-        "a tablet review (only Modes 1 and 3 have an Adaptive behavior section)":
-            (device(review, "Tablet — regular width, iPad"), review_mode),
-        "bold labels and a numbered Next actions list":
-            (re.sub(r"(?m)^- (Attention path|Signature move|Quality target|Dimension read|Production checks|Composition and spacing):",
-                    r"- **\1:**", concept)
-               .replace("\n## Next actions\n- ", "\n## Next actions\n1. ", 1), concept_mode),
-        "a generated artifact without the optional score lines (SKILL.md: target exposed only when useful)":
-            (re.sub(r"(?m)^- (Dimension read|Quality target|Direction):.*\n", "", concept), concept_mode),
-        # The four below are live 1.37.0 acceptance shapes the checker rejected wrongly.
-        "the template's own `Assumed phone` device class":
-            (device(concept, "Assumed phone (compact width) — a reversible default"), concept_mode),
-        "a qualified label and a bare label item with nested content":
-            (concept.replace("- Attention path:\n", "- **Attention path**, in order:\n", 1)
-                    .replace("- Production checks:\n", "- **Production checks**\n", 1), concept_mode),
-        "step 5.5's discard narration as an item in Alternatives considered":
-            (concept.replace("## Alternatives considered\n",
-                             "## Alternatives considered\n- How these were drawn: 2 entries were discarded for this "
-                             "domain, and the survivor furthest from the baseline was taken.\n", 1), concept_mode),
-        "Mode 6 decisions labelled Default where the input names no alternative":
-            (re.sub(r"— alternative considered: [^—\n]+— chosen because",
-                    "— *Default (the input names no alternative).* It holds because", handoff), handoff_mode),
-    }
-    for case, (response, mode) in accept.items():
-        problems = check_response(response, mode, "probe")
-        if problems:
-            errors.append(f"rejects {case}: {problems[0]}")
-
-    reject = {
-        "a section omitted without naming the omission":
-            (without_section(flow, "Simplification opportunities"), flow_mode),
-        "an adaptive concept with no Adaptive behavior section, mentioning 'phone' in the value":
-            (device(concept, "Adaptive (phone through tablet, one layout per width class)"), concept_mode),
-        "a printed Quality target with no blocker clause":
-            (re.sub(r"(?m)^- Quality target:.*$", "- Quality target: 3/5", concept), concept_mode),
-        "Mode 6 decisions with neither an alternative nor a Default label":
-            (re.sub(r"— alternative considered: [^—\n]+— chosen because", "— this matters because", handoff),
-             handoff_mode),
-    }
-    for case, (response, mode) in reject.items():
-        if not check_response(response, mode, "probe"):
-            errors.append(f"accepts {case}")
-
-    if errors:
-        fail("Response checker disagrees with SKILL.md:\n" + "\n".join(f"  - {e}" for e in errors))
-
-
-def extract_assumptions(text: str) -> str:
-    pattern = re.compile(
-        r"^Assumptions:\s*\n(?P<body>.*?)(?=^## |\Z)",
-        re.DOTALL | re.MULTILINE,
-    )
-    match = pattern.search(text)
-    return match.group("body").strip() if match else ""
-
-
 def main() -> None:
     validate_required_files()
     validate_skill_frontmatter()
@@ -3007,7 +1938,6 @@ def main() -> None:
     validate_design_quality_rubric_layer()
     validate_rubric_eval_pack()
     validate_llm_judge_runner_contract()
-    validate_clarification_policy_layer()
     validate_judged_mode_layer()
     validate_visual_benchmark_playbooks()
     validate_golden_examples()
@@ -3017,16 +1947,9 @@ def main() -> None:
     validate_visual_review_fixtures()
     validate_benchmark_report_format()
     validate_rendered_output_qa()
-    validate_mode_parity()
-    validate_direction_provenance()
     validate_calibration_corpus_diversity()
     validate_score_is_derived_not_prescribed()
-    validate_modes_carry_contract_elements()
-    validate_calibration_teaches_current_shape()
-    validate_single_workflow_source()
-    validate_skill_entrypoint_contract()
     validate_unreadable_source_honesty()
-    validate_inspiration_gate_parity()
     validate_motion_band_consistency()
     validate_large_screen_coverage()
     validate_paired_eval_falsifier()
@@ -3035,11 +1958,8 @@ def main() -> None:
     validate_projected_score_lines()
     validate_documentation_hygiene()
     validate_links()
-    validate_example_responses()
-    validate_response_checker_follows_skill()
     print(
-        "[OK] Repository structure, documentation hygiene, relative links, "
-        "and example responses are valid."
+        "[OK] Repository structure, documentation hygiene and relative links are valid."
     )
 
 

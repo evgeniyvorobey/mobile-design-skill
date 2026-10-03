@@ -5,7 +5,7 @@ This skill supports two invocation styles, depending on the host:
 - in Claude Code: invoke it directly with `/mobile-design-skill`
 - in Codex: use the installed skill normally via `Use the mobile-design-skill...` or `$mobile-design-skill`, depending on your Codex surface
 
-The six operating modes below behave like reusable commands once the skill is active.
+The six kinds of request below behave like reusable commands once the skill is active.
 
 ---
 
@@ -80,14 +80,9 @@ So this repository is packaged to support both products, but the invocation UX i
 
 ## Important note
 
-The skill classifies every request into exactly one primary mode.
+Since 2.0 the skill does not classify a request into a mode or print a mode label. Describe the task and it answers what was asked.
 
-That means you can use it in two ways:
-
-1. ask explicitly for the mode you want
-2. describe the task and let the skill classify it automatically
-
-For public documentation, it is usually better to show explicit mode phrasing because it is easier for first-time users to understand.
+The headings below are the kinds of request it is written for, with phrasing that works. A short request gets an answer sized to it, about two thousand words; ask for a spec or a handoff when you want implementation depth.
 
 Use `--judge` for higher-confidence outputs when the extra latency of an independent judge pass is acceptable.
 
@@ -316,9 +311,9 @@ The skill works best when your prompt includes:
 - constraints
 - existing wireframe or screen summary if available
 
-If some of that is missing, the skill will proceed with minimal labeled assumptions.
+If some of that is missing, the skill decides what a good product would do and says which assumptions would change the design.
 
-If the missing information would materially change the recommendation, the skill follows `docs/clarification-policy.md`: it asks at most three blocking clarifying questions, explains why they matter, and offers a fast path when a provisional draft is still useful.
+If the missing information would change the whole design and no sensible default exists, the skill asks at most three questions and says what it would do by default. That is rare: its normal behaviour is to decide, and to list the few assumptions that would change the design.
 
 ---
 

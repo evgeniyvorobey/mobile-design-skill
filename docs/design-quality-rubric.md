@@ -1,6 +1,6 @@
 # Design Quality Rubric
 
-This document turns design quality into a 1-5 scoring system. Use it to raise the quality of proposed designs, not only to critique existing ones.
+This document turns design quality into a 1-5 scoring system. Since 2.0 it is loaded only when the user asks for a score or rating, or runs judged mode (`--judge`): an ordinary answer carries no score.
 
 **What the number records, measured.** Every boundary question here asks what an artifact *states*. Held against six designs and six twins made deliberately worse without changing a value, deleting a statement or breaking a bar, this scale returned the **identical band 12 paired scorings out of 12** — while showing 17% jitter on unchanged text, so it moves, just not with quality. **A band is not a verdict on which of two designs is better.** For that question use `docs/paired-comparison.md`, which separated the same twelve pairs 12 of 12. The two are complements: this scale says what an artifact has decided and where it sits; that one says which of two is the better screen.
 
@@ -23,7 +23,7 @@ The rubric complements:
 
 ## When to score
 
-Score design quality when the response:
+Only when a score was asked for or the response is judged. Then score design quality when the response:
 
 - proposes a screen concept
 - creates a UI spec
@@ -31,7 +31,7 @@ Score design quality when the response:
 - creates a typography and spacing system
 - prepares a rationale or handoff
 
-Mode B user flows normally do not need a visual quality score unless screen pacing, progress feedback, or transition quality materially affects the flow.
+User flows normally do not need a visual quality score unless screen pacing, progress feedback, or transition quality materially affects the flow.
 
 ---
 
@@ -155,7 +155,7 @@ Ask which one applies with: *would a fuller instance of this same evidence type 
 
 ### Reading a screen instead of a document
 
-The questions ask what the artifact *states*. A screenshot or a screen description states things by showing them, so in Mode D read "is X stated" as "can X be determined from the evidence in front of you". A screenshot showing one contrast pair answers the default-appearance question yes and leaves the dark-appearance question `n/v`.
+The questions ask what the artifact *states*. A screenshot or a screen description states things by showing them, so in a review read "is X stated" as "can X be determined from the evidence in front of you". A screenshot showing one contrast pair answers the default-appearance question yes and leaves the dark-appearance question `n/v`.
 
 ---
 
@@ -167,7 +167,7 @@ The questions ask what the artifact *states*. A screenshot or a screen descripti
 - Any P1 weakness caps score at **2/5** until fixed.
 - Missing empty/loading/error states where relevant caps generated concepts and UI specs at **3/5**.
 - Unsupported accessibility compliance claims make the response **Fail**.
-- Visual assertions from text-only review input cap Mode D score confidence; label the score as provisional or restrict it to structural quality.
+- Visual assertions from text-only review input cap a review's score confidence; label the score as provisional or restrict it to structural quality.
 - Aesthetic-only recommendations cap the design-quality score at **2/5** until translated into task, accessibility, or implementation mechanisms.
 - Platform flattening in materially different iOS/Android behavior caps cross-platform outputs at **3/5**.
 - **Contradicted value:** a stated value or pattern choice that contradicts a bar in `docs/quality-bars.md`, a Use-when / Avoid-when rule in `docs/patterns-catalog.md`, a curve semantic in `docs/motion-system.md`, or the resolved default in `docs/context-defaults.md` caps the artifact at **3/5**. Two or more such contradictions, or any one against a touch-target, contrast, or state-coverage bar, cap it at **2/5**. **A stated reason does not lift this cap** — an artifact that fails this way almost always carries one, and that is exactly what makes a wrong value read as a decided one. The only exit is a deviation the *user's input* requires, named together with the input that requires it. Every band in the table above records what the artifact **states**; this cap is the one place the derivation asks whether what it states is **right**, and it exists because a wrong value gets built while an absent one gets a question.
@@ -257,7 +257,7 @@ For broader synthetic calibration, use `docs/synthetic-case-studies.md` and `exa
 
 For domain-aware calibration, use `docs/domain-packs/index.md` and `docs/domain-packs/`. Domain packs raise quality by improving hierarchy, state coverage, trust language, and handoff checks for fintech, health, SaaS, marketplace, social, and education. They do not prove compliance or business impact.
 
-For review calibration, use `docs/visual-review-fixtures.md` and `examples/visual-review-fixtures/` to test whether Mode D reviews avoid unsupported visual claims from text-only evidence.
+For review calibration, use `docs/visual-review-fixtures.md` and `examples/visual-review-fixtures/` to test whether reviews avoid unsupported visual claims from text-only evidence.
 
 For implemented UI, use `docs/rendered-output-qa.md` and `examples/rendered-output-qa/` as an optional post-design QA layer. Rendered overlap, clipping, overflow, or state failures can cap an otherwise strong written design until fixed.
 

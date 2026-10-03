@@ -256,24 +256,6 @@ def run_release_checks() -> None:
         [sys.executable, "scripts/verify_install.py"],
     )
     run_step(
-        "Diversity metric self-test",
-        [sys.executable, "scripts/run_diversity_eval.py", "--self-test"],
-    )
-    run_step(
-        "Generation eval prompt pack",
-        [sys.executable, "scripts/run_generation_eval.py", "--dry-run"],
-    )
-    run_step(
-        "Generation eval oracle replay",
-        [
-            sys.executable,
-            "scripts/run_generation_eval.py",
-            "--replayable-only",
-            "--generate-command",
-            f"{shlex.quote(sys.executable)} scripts/generation_oracle_agent.py",
-        ],
-    )
-    run_step(
         "Paired comparison self-test",
         [sys.executable, "scripts/run_paired_eval.py", "--self-test"],
     )

@@ -12,8 +12,8 @@ The skill follows [Semantic Versioning 2.0.0](https://semver.org/) with adjustme
 
 Bump when any of the following changes in a way that breaks existing integrations:
 
-- Mode set (adding, removing, renaming a primary mode)
-- Output contract (required sections, field names, section order)
+- What the default answer contains or leaves out (2.0 removed the mode label, the header block and the unasked score)
+- What the entrypoint has the model read by default
 - `SKILL.md` frontmatter schema (`name`, `description`, or new required keys)
 - `skill/metadata.yaml` schema
 - Directory layout that external tools rely on
@@ -26,7 +26,7 @@ Bump when:
 
 - A new guardrail, principle, or quality bar is added
 - A new document is added under `docs/` that other parts of the skill reference
-- A new sub-case within an existing mode (for example, Mode D1–D4)
+- A new kind of request the entrypoint describes
 - A new optional field in a template
 - Source hierarchy is extended with a new family
 - Evals criteria are extended

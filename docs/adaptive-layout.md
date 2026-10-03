@@ -1,6 +1,6 @@
 # Adaptive Layout (device class beyond the phone)
 
-This document is the skill's tablet, foldable, and adaptive-layout layer. Load it from step 3 of the workflow whenever the resolved device class is anything other than phone-only.
+This document is the long form of the skill's tablet, foldable, and adaptive-layout guidance. What the model reads by default is the width section of `skill/platform.md`; come here when a tablet, foldable or adaptive design needs more than that section gives.
 
 Platform scope answers *which OS*. Device class answers *how much width the layout gets and what input is available*. They are independent axes: an iOS tablet and an Android tablet share more layout structure with each other than either shares with its own phone.
 
@@ -12,7 +12,7 @@ This document holds the dated platform baseline, the width classes, the canonica
 
 ## Platform baseline (verified 2026-10-02)
 
-The platform facts this layer depends on, and the date they were last checked against Apple's and Google's documentation. Anything after that date is unverified; name the version a recommendation assumes when it changes the answer (guardrail 16). Where an older line elsewhere in the skill disagrees with this section, this section wins until it is re-verified.
+The platform facts this layer depends on, and the date they were last checked against Apple's and Google's documentation. `skill/platform.md` carries the same facts for the model's default reading and was re-checked on 2026-10-03; where the two disagree, `skill/platform.md` wins. Anything after that date is unverified; name the version a recommendation assumes when it changes the answer (guardrail 16). Where an older line elsewhere in the skill disagrees with this section, this section wins until it is re-verified.
 
 - **iOS and iPadOS 26–27 (Liquid Glass).** System bars float above content on Liquid Glass. On iPhone the tab bar sits at the bottom and can minimise as the user scrolls; on iPad the system tab bar sits near the top and can convert to a sidebar. Apple has no navigation rail. iPadOS 26 made app windows freely resizable, and from iPadOS 27 `UIRequiresFullScreen` no longer opts an app out of resizing (TN3192), so an iPad app must work at any width.
 - **iPhone Duo.** Apple's first foldable iPhone; its HIG page ("Designing for iPhone Duo", added 2026-09-09) covers device poses, layouts across the folded and unfolded displays, and toolbars and tab bars on the vertical axis, and steers design toward size classes rather than specific poses. The device ships 2026-10-23. Pose-level values were not verified here: read them from the HIG page before pinning any.

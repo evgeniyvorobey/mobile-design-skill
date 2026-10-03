@@ -10,7 +10,7 @@ The fixtures do not contain screenshots, real products, real brands, or copied U
 - translate findings into specific fixes instead of vague taste feedback
 - apply the 1-5 design-quality rubric with an appropriate confidence qualifier
 
-Use these fixtures when evaluating Mode D: `Review screen for usability/accessibility`.
+Use these fixtures when evaluating reviews of a screen for usability and accessibility.
 
 ## Fixture Type
 

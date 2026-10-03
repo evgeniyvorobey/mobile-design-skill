@@ -6,7 +6,7 @@ This is a decision reference, not a tutorial. For every common mobile pattern, i
 - **Avoid when** — concrete criteria that make this the wrong choice.
 - **Trade-offs** — what this choice buys and what it costs.
 - **Variants / platform notes** — how iOS and Android differ in the default implementation.
-- **Red flag** — what misuse looks like (used as a violation check in Mode D reviews).
+- **Red flag** — what misuse looks like (used as a violation check in reviews).
 
 When a pattern has close siblings (sheet vs modal vs full-screen; list vs grid; inline edit vs dedicated screen), the entry is structured as a **decision matrix** so the skill can pick, not enumerate.
 
@@ -20,15 +20,14 @@ Patterns here cross-reference:
 
 ## How to use this document
 
-During generation (Mode A, C, F):
+When designing:
 
 1. Identify the design problem (navigate between sections, reveal secondary info, collect an input, confirm an action, etc.).
 2. Find the matching category below.
 3. Use the decision matrix to pick a pattern, honoring the active context (`context-defaults.md`).
-4. Cite the pattern choice with its reason in the `Pattern choices and why` block.
-5. Name the losing alternative in `Alternatives considered`.
+4. Give the reason next to the choice, in a clause. Name the losing alternative only when the reader is likely to ask why it was not used.
 
-During review (Mode D):
+When reviewing:
 
 1. Identify which pattern the design uses.
 2. Check it against the **Use when / Avoid when** rules.
@@ -388,7 +387,7 @@ When no pattern fits cleanly: prefer the simplest pattern that solves the task, 
 
 **Single flat form** is acceptable only for 5 or fewer fields.
 
-**Red flag**: 15-field flat form with no grouping (see `examples/anti-patterns.md`).
+**Red flag**: 15-field flat form with no grouping.
 
 **Heuristic**: Miller's Law, Gestalt (proximity, common region).
 

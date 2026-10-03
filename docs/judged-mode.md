@@ -28,11 +28,11 @@ The runner remains useful for CI, fixtures, and external command validation. Jud
 
 ## Workflow
 
-1. Strip the `--judge` flag from the task before mode classification.
-2. Run the normal mobile-design-skill workflow and draft the response privately.
+1. Strip the `--judge` flag from the task.
+2. Draft the answer the way `SKILL.md` describes, privately.
 3. Build a judge packet containing:
-   - selected mode
-   - platform scope
+   - the kind of request (screen concept, flow, spec, review, type system, handoff, or other)
+   - platform and device
    - user prompt
    - assumptions
    - draft response
@@ -84,7 +84,7 @@ The judge pass is LLM-agnostic. It may run in Claude Code, Codex, another hosted
 If a separate judge agent is not available in the host environment:
 
 - do not ask the user to run a script manually
-- run the normal internal rubric self-review
+- score the draft yourself against the rubric's boundary questions
 - label the final `Judge summary` as `Single-agent fallback`
 - keep the response useful instead of blocking
 

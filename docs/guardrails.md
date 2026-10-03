@@ -1,6 +1,6 @@
 # Guardrails
 
-These guardrails are mandatory for the skill.
+These are the skill's hard constraints in their long form. The model reads the short form, `SKILL.md` section 2 and section 4; this document is the reference behind it and is not loaded for an ordinary request. Where the two differ, `SKILL.md` wins.
 
 ---
 
@@ -138,19 +138,18 @@ Do not create fake unification when platform behavior is materially different.
 
 ---
 
-## 9. Do not invent components, flows, or states without labeling assumptions
+## 9. Do not present an invented fact as given
 
-If something is unknown:
-- say it is assumed
-- keep the assumption minimal
-- avoid inventing downstream logic as fact
+Proposing is the work. The features, product rules, states, copy and sample data a design proposes are design decisions, and the skill is expected to make them and commit to them. Through 1.x this guardrail told the model not to invent components, flows or states, and the result was thinner designs than the same model produced with no skill.
+
+What is never invented is a fact: a research finding, a usage number, a measured value, a platform rule, a compliance status, or a detail of the user's existing product that the request did not give.
 
 Bad:
-- inventing MFA, search filters, permission flows, or moderation states without noting assumptions
+- "Users abandon this step 40% of the time" with no source
+- describing the user's current app as having a screen they never mentioned
 
 Better:
-- `Assumption: authentication is already complete before this screen.`
-- `Assumption: error state includes inline validation and a retry action.`
+- designing the confirmation step the flow needs, and listing "payments are recorded here, not processed" among the assumptions that would change the design
 
 ---
 
@@ -170,29 +169,15 @@ Do not bury the answer inside a lecture about design thinking just because the i
 
 ---
 
-## 11. Always separate fact from recommendation
+## 11. Keep fact and proposal apart
 
-Useful phrasing:
-- `Known from input:`
-- `Assumption:`
-- `Recommendation:`
-- `Cannot verify from provided information:`
-
-This keeps outputs honest and reusable.
+A reader must be able to tell what was given, what is proposed, and what cannot be judged from the material. Do it in the sentence, not with a prefix on every line: mark a proposed behaviour "(proposed)" in a handoff, say once what a description alone cannot show in a review, and keep the assumptions that would change the design in one short list.
 
 ---
 
-## 12. Always include practical next actions
+## 12. Do not hand decisions back
 
-End every output with practical next steps such as:
-- refine missing states
-- verify with platform-specific QA
-- run usability testing
-- convert to tokens
-- align with engineering constraints
-- validate with accessibility settings and assistive technology
-
-Do not end with empty inspiration.
+Do not end on a list of things for the reader to decide. Where something needs the owner's yes or no, give the recommended answer and design to it. Close with one line offering what can be added next, not with generic steps such as "run usability testing" or "align with engineering".
 
 ---
 
@@ -245,7 +230,6 @@ Do not:
 - block a provisional draft when a safe assumption would work
 
 Better:
-- apply `docs/clarification-policy.md`
 - proceed with the smallest labeled assumption when the gap is not blocking
 - ask one to three high-impact questions when the gap changes the design decision
 - offer a fast path when the user can accept a provisional draft

@@ -2,24 +2,22 @@
 
 This document names the predictable weaknesses of the skill and turns them into prevention checks.
 
-It is not a public apology section. It is an internal calibration layer used before drafting, during self-review, and when adding evals. The goal is to catch weak output before it reaches the user.
+It is not a public apology section. Since 2.0 it is a reference for reviewing answers: when reading the release gate's output, when judging in judged mode, and when deciding what `SKILL.md` should say. It is not loaded for an ordinary request.
 
 ---
 
 ## How to use this file
 
-Before drafting a response:
+When reviewing an answer:
 
 1. Identify the 1-3 weakness patterns the task is most likely to trigger.
-2. Add the corresponding prevention checks to the draft plan.
-3. If the draft resembles any failure signal below, revise the root decision, not only the wording.
+2. Look for their failure signals in the answer.
+3. If the answer resembles one, the fix is in the root decision, not only in the wording.
 
 During maintenance:
 
 - Add a new weakness here when a field failure appears more than once.
-- Add the matching self-review prompt in `docs/self-review.md`.
-- Add a structural or content eval in `docs/evals.md` when the weakness can be checked reliably.
-- Add a Bad / Good pair to `examples/anti-patterns.md` when the weakness is easy to demonstrate.
+- Note in `docs/evals.md` what a reviewer of gate answers should look for, when the weakness shows up there.
 
 ---
 
@@ -177,7 +175,7 @@ Prevention:
 ### 10. Visual overclaim in reviews
 
 Trigger:
-- Mode D with text description only or incomplete visual evidence
+- A review from a text description only, or from incomplete visual evidence
 
 Failure signals:
 - review asserts spacing, visual weight, contrast, balance, color, or touch size from text alone

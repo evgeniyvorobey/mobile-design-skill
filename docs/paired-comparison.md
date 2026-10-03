@@ -25,7 +25,7 @@ python3 scripts/run_paired_eval.py --arm-a A.jsonl --arm-b B.jsonl --nulls N.jso
 python3 scripts/run_paired_eval.py --arm-a A.jsonl --arm-b B.jsonl --nulls N.jsonl --verdicts v.jsonl
 ```
 
-Arm files carry one `{"id", "response"}` object per line, the same shape `run_generation_eval.py` consumes. The null file carries a **cosmetic rewrite** of each of a subset of arm-A responses.
+Arm files carry one `{"id", "response"}` object per line. The null file carries a **cosmetic rewrite** of each of a subset of arm-A responses.
 
 ## The two refusals, and why they are in the tool
 

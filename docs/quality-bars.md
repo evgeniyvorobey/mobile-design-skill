@@ -4,7 +4,7 @@ This document defines concrete numeric thresholds the skill must meet. Principle
 
 Every bar is marked **floor** or **default** where the distinction has ever been disputed. A **floor** is a value nothing may sit under, whatever component it is; a **default** is what to use unless a platform component or a stated context legitimately differs. Reading a default as a floor flags correct work — measured at three of six correct decisions wrongly flagged before these annotations existed — and reading a floor as a default ships a defect.
 
-Use these values as defaults in every mode output. When deviating from a bar, state the reason explicitly — and note that stating it keeps the artifact honest without making the value right: the contradicted-value cap in `docs/design-quality-rubric.md` still applies unless the user's own input requires the deviation.
+These are floors and defaults to check a design against once it exists. They are not a starting point: a design assembled from minimums is generic. When deviating from a bar, state the reason explicitly — and note that stating it keeps the artifact honest without making the value right: the contradicted-value cap in `docs/design-quality-rubric.md` still applies unless the user's own input requires the deviation.
 
 Bars are drawn from Apple Human Interface Guidelines, Material Design 3, WCAG 2.2, W3C mobile guidance, and established typography research. Where guidance differs between iOS and Android, both thresholds are listed.
 
@@ -230,7 +230,7 @@ Geometric alignment and optical alignment disagree, and the eye follows the seco
 
 - Dense layouts are appropriate for comparison, scanning, and reference tasks.
 - Sparse layouts are appropriate for focus, confidence, and low cognitive load.
-- Density is a function of task, not aesthetic; see anti-pattern 4 in `examples/anti-patterns.md`.
+- Density is a function of task, not aesthetic.
 
 ---
 
@@ -401,10 +401,10 @@ Wider screens get **more columns or wider margins, never longer lines**. A singl
 
 ## How to apply these bars
 
-1. When generating a design (Mode A, C, E), use these values as defaults unless the user has provided stronger constraints.
-2. When reviewing a design (Mode D), compare observed values against these bars; flag any deviation without a stated reason as an issue.
-3. When writing a rationale or spec (Mode C, F), cite the specific bar a decision respects or deviates from.
-4. When self-reviewing (step 10 in the workflow), confirm at least that touch targets, contrast, line-heights, and state coverage are addressed against these bars.
+1. Design first. Then check the design against these values, and use them as defaults where the request gives no stronger constraint.
+2. In a review, compare observed values against these bars; flag any deviation without a stated reason as an issue.
+3. In a spec or a rationale, cite the specific bar a decision respects or deviates from.
+4. Before sending, confirm at least that touch targets, contrast, line-heights and state coverage meet these bars, and that every threshold the answer sets for itself is met by the values it chose.
 
 ---
 

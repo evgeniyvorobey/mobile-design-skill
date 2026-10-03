@@ -38,21 +38,6 @@ jobs:
       - name: Self-test judge command adapter (oracle, not a quality check)
         run: python3 scripts/run_rubric_judge.py --judge-command "python3 scripts/rubric_judge_oracle_agent.py"
 
-      # Replays committed examples through the generation-eval scorer. Proves the
-      # stdin/stdout adapter and that the scorer accepts known-good output. No model
-      # runs here, so this is NOT evidence about generated design quality.
-      - name: Self-test generation eval (oracle replay, not a quality check)
-        run: python3 scripts/run_generation_eval.py --replayable-only --generate-command "python3 scripts/generation_oracle_agent.py"
-
-      - name: Validate generation prompt pack
-        run: python3 scripts/run_generation_eval.py --dry-run
-
-      # Asserts the diversity metric SEPARATES a deliberately uniform corpus from a
-      # varied one, and that the extractor reads a real committed response. Unlike an
-      # oracle replay this can fail when the measurement stops discriminating.
-      - name: Self-test diversity metric (discriminating, still not a model run)
-        run: python3 scripts/run_diversity_eval.py --self-test
-
       # The only thing this harness is for is REFUSING to report a contrast whose own
       # null control failed. Reading the source for two constants cannot see a refusal
       # that has been widened into a no-op; running it can.

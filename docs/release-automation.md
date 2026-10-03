@@ -8,8 +8,6 @@ The release validator is deterministic and does not require network access, mode
 
 - Repository validation through [`scripts/validate_repo.py`](../scripts/validate_repo.py).
 - Install verification through [`scripts/verify_install.py`](../scripts/verify_install.py): both install methods are performed into a throwaway directory and every path either wrapper names is resolved against what was actually installed.
-- Diversity metric self-test through [`scripts/run_diversity_eval.py`](../scripts/run_diversity_eval.py).
-- Generation eval prompt pack and oracle replay through [`scripts/run_generation_eval.py`](../scripts/run_generation_eval.py) and [`scripts/generation_oracle_agent.py`](../scripts/generation_oracle_agent.py).
 - Paired comparison self-test and judge adapter through [`scripts/run_paired_eval.py`](../scripts/run_paired_eval.py) and [`scripts/paired_eval_oracle_agent.py`](../scripts/paired_eval_oracle_agent.py).
 - Baseline gate self-test through [`scripts/run_baseline_gate.py`](../scripts/run_baseline_gate.py): the release rule passes, fails and refuses as specified. The gate itself — the skill against the same model with no skill — needs a model and is a maintainer step; see [`paired-comparison.md`](paired-comparison.md).
 - Rubric judge fixture dry-run through [`scripts/run_rubric_judge.py`](../scripts/run_rubric_judge.py).

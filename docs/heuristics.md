@@ -4,7 +4,7 @@ This document maps established usability and cognitive heuristics to concrete mo
 
 - **What**: the heuristic in one sentence.
 - **Mobile application**: specific decisions it drives on phones and tablets.
-- **Red flag**: what a design violation looks like, so the skill can catch it in Mode D reviews and prevent it in generation modes.
+- **Red flag**: what a design violation looks like, so a review can catch it and a design can avoid it.
 - **Source**: where the heuristic comes from.
 
 Heuristics are rules of thumb, not laws. Apply them with context in mind (`docs/context-defaults.md`), not as rigid checklists. When two heuristics conflict, the design decision must name both and say which one wins and why.
@@ -304,7 +304,7 @@ Heuristics are rules of thumb, not laws. Apply them with context in mind (`docs/
 
 ## Nielsen's 10 Usability Heuristics (mobile adaptation)
 
-Each of Nielsen's heuristics, adapted for mobile. Use during Mode D reviews and as a check during generation.
+Each of Nielsen's heuristics, adapted for mobile. Use in reviews and as a check while designing.
 
 1. **Visibility of system status**: Users should always know what's happening. On mobile: show sync state, loading, offline, background-activity indicators. Do not let the user guess.
 2. **Match between system and real world**: Language and concepts match the user's mental model, not internal system terminology. On mobile: plain language; no "record" where the user would say "item".
@@ -449,9 +449,9 @@ So "lifts cap: P1" on a severity-3/4 finding and the Nielsen number describe the
 
 ## How to apply heuristics
 
-### During generation (Mode A, B, C, E, F)
+### When designing
 
-When producing a design or spec, check each major decision against the heuristics above:
+Check each major decision against the heuristics above:
 
 - Is the primary action placed per Fitts and thumb zone?
 - Is choice bounded per Hick and chunked per Miller?
@@ -461,11 +461,11 @@ When producing a design or spec, check each major decision against the heuristic
 - Is extraneous cognitive load minimized (Cognitive Load Theory)?
 - For forms, are labels, required marking, and error prevention handled (Wroblewski)?
 
-Cite the relevant heuristic in the `Rationale for major choices` or `Pattern choices and why` block when it is the primary driver of a decision.
+A heuristic is a reason to check a decision. It is never, by itself, a reason to remove something people need: simplicity means fewer steps to done, not fewer things on the screen (`SKILL.md` section 1). And a reason belongs next to the decision it explains, in a clause, not in a separate section that cites laws by name.
 
-### During review (Mode D)
+### When reviewing
 
-Use the Red Flag items above as a concrete violation checklist. Every red flag maps to a heuristic and should be cited in the review output with the heuristic name, not as a vague "this feels off".
+Use the Red Flag items above as a concrete violation checklist. Every red flag maps to a heuristic, which is the reason to give in place of a vague "this feels off".
 
 For each finding, name the violated principle (including Cognitive Load Theory for clutter and Wroblewski for forms) and rate severity on the Nielsen 0–4 scale by user impact.
 

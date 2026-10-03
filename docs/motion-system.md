@@ -2,7 +2,7 @@
 
 `docs/quality-bars.md` owns the **durations** and the 400 ms ceiling. This document answers the three questions that file does not: **which curve**, **which spring**, and **how a duration changes with travel distance and item count**.
 
-Load it from step 5.5 when committing a motion signature, and from step 9 when checking motion against the bars. Nothing here raises a duration band; a curve is a shape, not a licence for a longer animation.
+Load it when a design commits to a named transition, and when checking motion against the bars. Nothing here raises a duration band; a curve is a shape, not a licence for a longer animation.
 
 Every token name and numeric constant below is **library- and OS-version-bound** (guardrail 16). Name the version a recommendation assumes when it materially changes the answer, and verify a token exists in the version the project ships before stating it does.
 
