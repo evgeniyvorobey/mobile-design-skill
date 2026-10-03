@@ -99,6 +99,7 @@ Before tagging a release:
 - [ ] `scripts/validate_repo.py` passes
 - [ ] `scripts/validate_release.py --tag-or-ref vX.Y.Z` passes before tagging
 - [ ] Examples regenerated against the new version if they reference version-bound behavior
+- [ ] If the release changes what the model reads at runtime: `scripts/run_baseline_gate.py` run against the candidate, and its result recorded in the CHANGELOG entry (see `docs/paired-comparison.md`)
 - [ ] Evals reviewed against the new version's structural checks if the output contract changed
 - [ ] No uncommitted changes outside the bump diff
 

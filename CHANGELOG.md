@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.38.0] - 2026-10-03
+
+**The release gate now exists, and v1.37.0 does not clear it: 0 pairs to the skill, 6 to no skill, 2 tied.** The comparison this repository went twenty releases without — the skill against the same model with no skill — is now a repeatable maintainer step with a rule, a brief pack and a sealed held-out set. Its first run measures v1.37.0 on the eight briefs v1.36.0 lost 0 of 8.
+
+### Measured
+- **v1.37.0 against no skill, 8 briefs × 2 orders: pairs 0 skill / 6 baseline / 2 tied; skill share 0.125 against a minimum of 0.5.** Two-sided sign test over pairs, p = 0.031. The control held: three cosmetic nulls drew "no meaningful difference" in 6 of 6 judgements and two format nulls in 4 of 4. At v1.36.0 the same briefs went 0 / 8 / 0. The two ties are the review and the handoff; the six generative briefs were lost in both orders.
+- **The error half of the rule passes**: 2 medium-or-high errors in the skill arm against 5 in the baseline arm, in a blind audit of all 16 documents; no high-severity error in either.
+- **Usefulness stays 16 of 16 to the baseline.** Judges cite the skill answer's process scaffolding, rejected directions, placeholders and decisions handed back as open questions, against a baseline that opens with the screen's job and a mockup and commits.
+- **Every deciding difference is again the screen's primary job**, and in all six the baseline designs more of the product: acting on a debt where it is shown, the next departure the rider can reach, a size exchange inside a return, a timer that takes over the screen when it ends, replies and reactions in a chat, long-form text set for reading.
+- **What v1.37.0 did change**: median generation time 22.8 minutes against about 46; median answer about 3,285 words against about 4,830; no output-limit hit against 6 of 8; no unasked self-score in 8 of 8.
+- Design, predictions (six of seven held) and limits are in `docs/proposals/skill-vs-baseline.md`. The baseline arm was reused from 2026-10-01, not regenerated. Raw data is not committed.
+
+### Added
+- **`scripts/run_baseline_gate.py`**: exports the two generation requests per brief (load the skill, or answer as you normally would), the judge requests and a blind error audit of both arms under opaque ids, and applies the rule — control readable, skill share at least 0.5 with ties counted half, and no more medium-or-high errors than the baseline. Pair building, counterbalancing and the null control are imported from `run_paired_eval.py`, not copied. A failed control exits 2: unreadable, not failed.
+- **`examples/evals/baseline-gate-briefs.json`**: the `core` working set (the eight briefs of 2026-10-01) and the `extended` set (core plus the ten generation prompts).
+- **`examples/evals/baseline-gate-heldout.json`**: eight held-out briefs written by an independent agent and committed sealed. The maintainer has not read them; the pack records their sha-256 and the script refuses a sealed file that no longer matches.
+- **The gate's self-test runs in CI and in `validate_release.py`**: nine rule cases (a win, a loss, a draw, all ties, a failed control, the error rule, low-severity errors, an unaudited document) plus checks that no request leaks an arm, that an open set never opens the sealed file, and that an edited sealed file is refused. Twelve mutations of the script were each caught.
+- `docs/proposals/skill-vs-baseline.md`: both measurements, the staged plan adopted after the first, and what the second implies for its order.
+
+### Changed
+- `docs/paired-comparison.md` gains the gate's rule, brief sets and procedure. `docs/versioning.md`, `docs/release-automation.md` and `docs/evals.md` point at it: a release that changes what the model reads at runtime runs the gate and records the result, and while the gate is red a release ships only if it does not lower the share on the same brief set.
+
+### Not changed
+- **No design guidance.** `SKILL.md`, `skill/` and the examples are identical to v1.37.0 apart from the version line. `docs/evals.md` and `docs/paired-comparison.md`, which the model may load, gain maintainer text about the gate. The measurement above was taken on the v1.37.0 tree.
+- **The gate is red.** This release ships as the instrument, not as an improvement.
+
 ## [1.37.0] - 2026-10-03
 
 **The skill was measured against no skill for the first time, and lost all eight briefs. A max-effort review of what it ships then found fifteen confirmed defects; this release fixes them and has not been re-measured.** On 2026-10-01 the same model answered eight fresh briefs — all six modes, plus an Android tablet and foldable spec — once following `SKILL.md` and once with no skill, judged blind in both presentation orders with `run_paired_eval.py`.

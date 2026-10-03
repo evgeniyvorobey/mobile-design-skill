@@ -496,5 +496,11 @@ python3 scripts/run_paired_eval.py --arm-a before.jsonl --arm-b after.jsonl \
     --nulls cosmetic-rewrites.jsonl --verdicts tmp/verdicts.jsonl
 ```
 
+When the question is whether the skill beats the same model with **no skill**, use `../scripts/run_baseline_gate.py`: the same instrument with a brief pack, a blind error audit and a release rule on top. The procedure and the rule are in [`paired-comparison.md`](paired-comparison.md).
+
+```bash
+python3 scripts/run_baseline_gate.py --self-test
+```
+
 **Null pairs are required, not optional.** A judge handed two documents will find a winner; a run without cosmetic-rewrite pairs cannot see that happening, and the harness refuses to report one. A run whose judge names an agreed winner on more than a third of its null pairs is reported as unreadable and exits non-zero.
 

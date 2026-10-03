@@ -59,6 +59,11 @@ jobs:
       - name: Self-test paired comparison (must refuse a failed control)
         run: python3 scripts/run_paired_eval.py --self-test
 
+      # The release rule for skill-versus-no-skill: must pass a win, fail a loss, and refuse
+      # a failed control or an unaudited arm. The gate itself needs a model and runs by hand.
+      - name: Self-test baseline gate (the rule, not a model run)
+        run: python3 scripts/run_baseline_gate.py --self-test
+
       # The stdin/stdout contract for an external paired judge. Proves the adapter,
       # NOT that any model prefers the better design.
       - name: Self-test paired comparison judge adapter (oracle, not a quality check)

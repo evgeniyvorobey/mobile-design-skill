@@ -1,0 +1,49 @@
+{
+  "schema": "baseline-gate-briefs/v1",
+  "notes": "Briefs for scripts/run_baseline_gate.py, which asks one question: does the skill beat the same model with no skill? `core` is the working set — the eight ordinary briefs of the first such comparison (2026-10-01), which the skill lost 0 of 8. They have been read while fixing the skill, so a win on them is not held-out evidence. `extended` adds every prompt of examples/evals/generation-prompts.json by reference. The held-out set lives sealed in examples/evals/baseline-gate-heldout.json and is opened only for a release decision.",
+  "core": [
+    {
+      "id": "B1",
+      "mode": "Generate mobile screen concept",
+      "prompt": "Design the home screen for an iPhone app that helps roommates split shared bills and see who owes what."
+    },
+    {
+      "id": "B2",
+      "mode": "Generate mobile screen concept",
+      "prompt": "Design the main screen of a public transit app that shows departures from nearby stops in real time."
+    },
+    {
+      "id": "B3",
+      "mode": "Design mobile user flow",
+      "prompt": "Map the flow for returning an item in a clothing shopping app, from order history to the drop-off confirmation. The app is on iOS and Android."
+    },
+    {
+      "id": "B4",
+      "mode": "Create platform-aware UI spec",
+      "prompt": "Write a UI spec for the recipe detail screen of a cooking app, including a step-by-step cooking mode for when the phone is propped up on the counter and the user's hands are messy."
+    },
+    {
+      "id": "B5",
+      "mode": "Create platform-aware UI spec",
+      "prompt": "Create a UI spec for the conversation list and thread view of a team chat app on Android tablets and foldables."
+    },
+    {
+      "id": "B6",
+      "mode": "Review screen for usability/accessibility",
+      "prompt": "Review this iOS sign-up screen for usability and accessibility. From top to bottom: the app logo; five text fields (Full name, Email, Phone, Password, Confirm password); the password rules in light grey 11 pt text under the Password field; a 'Sign up' button that stays disabled until every field is valid; then, below the fold, 'Continue with Apple' and 'Continue with Google' buttons. No screenshot is available."
+    },
+    {
+      "id": "B7",
+      "mode": "Create typography and spacing system",
+      "prompt": "Create a typography and spacing system for a news app on iOS and Android that has both a dense headline feed and long-form article pages."
+    },
+    {
+      "id": "B8",
+      "mode": "Prepare design rationale / handoff",
+      "prompt": "Write the design rationale and developer handoff notes for our redesigned thermostat screen in a smart-home app (iOS and Android). The new design: a large circular dial to set the target temperature, with the current temperature shown inside it; mode chips (Heat, Cool, Auto, Off) under the dial; a schedule card below that; and the old 'Advanced' overflow menu is removed - its settings now live in a separate settings screen."
+    }
+  ],
+  "extended_from": "examples/evals/generation-prompts.json",
+  "held_out_file": "examples/evals/baseline-gate-heldout.json",
+  "held_out_sha256": "184dee97e2b8345c9f8c7c310b87314d15529cab31cf847db19ca9355a1a855a"
+}

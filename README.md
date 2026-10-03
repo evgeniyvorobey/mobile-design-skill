@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.37.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-1.38.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,7 +16,7 @@ A production-ready reusable AI skill that helps generate, review, structure, and
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.37.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **1.38.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -496,6 +496,7 @@ mobile-design-skill/
 │   ├── paired_eval_oracle_agent.py       Deterministic stand-in judge that proves the paired-eval adapter
 │   ├── generation_oracle_agent.py        Deterministic stand-in generator that proves the generation-eval adapter
 │   ├── run_paired_eval.py                Forced-choice paired comparison of two arms, with a mandatory null-pair control
+│   ├── run_baseline_gate.py              Release gate: the skill against the same model with no skill
 │   ├── run_generation_eval.py            Scores what the skill generates against the committed-example contract
 │   ├── run_diversity_eval.py             Decision-vector spread across generated responses — measures sameness
 │   └── run_rubric_judge.py               Provider-agnostic LLM-as-judge runner and external-agent adapter
@@ -598,7 +599,9 @@ mobile-design-skill/
         ├── rubric-score-5.json                       Rubric fixture: excellent and resilient
         ├── generation-prompts.json                   Prompt pack for the generation eval
         ├── diversity-fixtures.json                   Uniform/varied corpora the diversity self-test must separate
-        └── paired-comparison-fixtures.json           Separating, null, and broken-control arms for the paired eval
+        ├── paired-comparison-fixtures.json           Separating, null, and broken-control arms for the paired eval
+        ├── baseline-gate-briefs.json                 Brief sets for the release gate (skill versus no skill)
+        └── baseline-gate-heldout.json                Sealed held-out briefs for the release gate
 ```
 
 ---
@@ -663,7 +666,7 @@ Fork the repository, edit the files that govern skill behavior, and run the inst
 - [`docs/quality-bars.md`](docs/quality-bars.md) — tighten numeric thresholds for your design system
 - [`docs/design-quality.md`](docs/design-quality.md) — tune design-quality calibration for hierarchy, rhythm, visual craft, and production readiness
 - [`docs/design-quality-rubric.md`](docs/design-quality-rubric.md) — tune 1-5 design-quality scoring, caps, and improvement ladder
-- [`docs/paired-comparison.md`](docs/paired-comparison.md) — compare two arms of output; the pre/post instrument for an instruction-text change
+- [`docs/paired-comparison.md`](docs/paired-comparison.md) — compare two arms of output; the pre/post instrument for an instruction-text change, and the release gate against no skill
 - [`docs/golden-examples.md`](docs/golden-examples.md) — tune compact taste and domain calibration examples
 - [`docs/synthetic-case-studies.md`](docs/synthetic-case-studies.md) — tune synthetic bad-to-good calibration cases
 - [`docs/domain-packs/index.md`](docs/domain-packs/index.md) — tune domain-specific mobile playbooks

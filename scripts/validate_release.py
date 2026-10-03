@@ -289,6 +289,10 @@ def run_release_checks() -> None:
         ],
     )
     run_step(
+        "Baseline gate self-test",
+        [sys.executable, "scripts/run_baseline_gate.py", "--self-test"],
+    )
+    run_step(
         "Rubric judge dry-run",
         [sys.executable, "scripts/run_rubric_judge.py", "--dry-run"],
     )

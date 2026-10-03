@@ -45,6 +45,43 @@ A null must be a **cosmetic rewrite, not identical text**, and it must **not be 
 
 Hold the rewrite to: every `## ` heading identical and in order, the numeric-token multiset identical, the length deliberately varied as above (never matched), and no decision, order, pattern, role assignment or state behaviour changed. The harness refuses a null whose text is identical to its original.
 
+## The release gate: skill versus no skill
+
+Every comparison above sets the skill against itself. The first comparison with the same model and **no skill**, on 2026-10-01, went to the baseline on 8 briefs of 8 (two-sided sign test over briefs, p = 0.0078), with three cosmetic nulls and two format nulls holding. `scripts/run_baseline_gate.py` makes that comparison repeatable and reads a rule off it. All three parts are required:
+
+1. **The null control is readable.** If it is not, the run is unreadable (exit 2): neither a pass nor a fail.
+2. **Skill share is at least 0.5**, where share = (pairs won + half the pairs tied) / pairs. A draw passes, because the claim under test is "not worse than no skill".
+3. **The skill arm carries no more medium-or-high errors than the baseline arm**, in a blind error audit of both.
+
+**When it runs.** Before tagging a release that changes what the model reads at runtime: `SKILL.md`, `skill/`, `docs/` outside `docs/proposals/`, or the committed examples. The result goes in that release's CHANGELOG entry either way. While the gate is red, a release ships only if it does not lower the share on the same brief set, and says the gate is red; red is a state the repository is in, not one to hide. The gate needs a model, so it is a maintainer step. CI runs `--self-test`, which proves the rule passes, fails and refuses as specified.
+
+**Brief sets** (`examples/evals/baseline-gate-briefs.json`):
+
+- `core` is the eight briefs of the 2026-10-01 run. It is the working set: those briefs have been read while fixing the skill, so a win on them is not held-out evidence.
+- `extended` is core plus the ten prompts of `generation-prompts.json`, for a core result that sits inside the noise.
+- `held-out` is eight briefs written by an independent agent and committed sealed in `examples/evals/baseline-gate-heldout.json`. Do not read them while tuning. Open them for a release decision that claims the skill now beats no skill, and once a held-out run has informed a change, write a new sealed set.
+
+**Procedure.**
+
+```
+python3 scripts/run_baseline_gate.py --set core --export-requests requests.jsonl
+python3 scripts/run_baseline_gate.py --arm-skill S.jsonl --arm-baseline B.jsonl \
+    --export-audit-requests audit.jsonl
+python3 scripts/run_baseline_gate.py --arm-skill S.jsonl --arm-baseline B.jsonl --nulls N.jsonl \
+    --export-judge-requests judge.jsonl
+python3 scripts/run_baseline_gate.py --arm-skill S.jsonl --arm-baseline B.jsonl --nulls N.jsonl \
+    --verdicts verdicts.jsonl --errors errors.jsonl
+```
+
+- Freeze the tree the skill arm reads — a `git worktree` at the candidate commit — and write the predictions and the decision rule down before any generator starts.
+- One generator per request. Both arms get the same framing and differ in one instruction: load the skill, or answer as you normally would. The baseline arm reads no file.
+- The baseline arm does not depend on the skill, so its responses may be reused across candidate versions within one model version. Regenerate them when the model changes, and say which was done.
+- Nulls are cosmetic rewrites of skill-arm responses, built as the section above says: at least three, at least one for every three briefs, lengths varied.
+- One judge per judge request and one auditor per small group of audit requests. Both see opaque ids and neutral file names; a judge request carries the brief, and the audit mixes the two arms.
+- Record the cost beside the verdict: minutes and tokens per skill generation, and output-limit hits. A skill that draws while taking three times as long has not earned its place.
+
+**What it does not show.** A run is 8 to 18 briefs, one draw per cell. Judges, generators, rewriters and auditors share a model family. Documents are judged, not screens. And a same-model baseline says nothing about a weaker model, where a skill may be worth more.
+
 ## What it cannot do
 
 - **It reads a document describing a screen, not a screen.** Nothing here escapes that channel; only a rendered artifact would.
