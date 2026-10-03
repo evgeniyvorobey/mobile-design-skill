@@ -82,7 +82,7 @@ When no pattern fits cleanly: prefer the simplest pattern that solves the task, 
 
 **iOS**: left-edge swipe + top-left chevron. Both must return to the previous meaningful screen and preserve the current screen's state until confirmed discard.
 
-**Android**: system back button, gesture back (Android 10+), and in-app back affordance must all behave consistently. Predictive back (Android 13+) should be supported.
+**Android**: system back button, gesture back (Android 10+), and in-app back affordance must all behave consistently. Predictive back is on by default for apps targeting API 36 (Android 16): `onBackPressed` is no longer called, so intercept back with the back callbacks.
 
 **Cross-platform rule**: unsaved changes must prompt or auto-save, never silently discard. Back from a detail view returns to the list with scroll position preserved.
 
@@ -740,7 +740,7 @@ Component and API names in the large-screen rows are library- and OS-version-bou
 
 Every entry above was written for one pane at compact width. This section chooses between their large-screen siblings. `docs/adaptive-layout.md` holds the width classes, the canonical layouts, and the multitasking rules; `docs/quality-bars.md` holds the numbers. This section is the choosing.
 
-Width, not the device, drives every matrix here — compact < 600 dp, medium 600–839 dp, expanded ≥ 840 dp — and a tablet in Slide Over is a compact surface. So every choice below has to answer two questions: what it is at regular width, and what it becomes when the width drops.
+Width, not the device, drives every matrix here — compact < 600 dp, medium 600–839 dp, expanded 840–1199 dp, large 1200–1599 dp, extra-large ≥ 1600 dp — and a tablet in Slide Over is a compact surface. So every choice below has to answer two questions: what it is at regular width, and what it becomes when the width drops.
 
 ### List-detail vs stacked navigation vs feed
 

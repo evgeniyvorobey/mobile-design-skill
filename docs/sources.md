@@ -342,8 +342,8 @@ These are the normalized public links maintainers can cite, verify, or review wh
 - [Apple HIG: Layout](https://developer.apple.com/design/human-interface-guidelines/layout)
 - [Apple HIG: Multitasking](https://developer.apple.com/design/human-interface-guidelines/multitasking)
 - [Apple HIG: Split views](https://developer.apple.com/design/human-interface-guidelines/split-views)
-- [Material 3: Applying layout / window size classes](https://m3.material.io/foundations/layout/applying-layout/window-size-classes)
-- [Material 3: Canonical layouts](https://m3.material.io/foundations/layout/canonical-layouts/overview)
+- [Material 3: Applying layout / window size classes](https://m3.material.io/foundations/layout/breakpoints/overview)
+- [Material 3: Canonical layouts](https://m3.material.io/foundations/layout/canonical-examples/overview)
 - [Android: Use window size classes](https://developer.android.com/develop/ui/compose/layouts/adaptive/use-window-size-classes)
 - [Android: Large screen app quality](https://developer.android.com/docs/quality-guidelines/large-screen-app-quality)
 

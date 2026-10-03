@@ -235,7 +235,7 @@ Signals: "streaming", "music", "video", "gaming", "reading".
 | FAB | For a single primary action on content-heavy screens |
 | Destructive actions | Confirm via Material dialog; red text for destructive item |
 | Pull-to-refresh | Standard for list data |
-| Predictive back | Support the gesture (Android 13+) |
+| Predictive back | On by default at target API 36 (Android 16); handle back with the back callbacks, not `onBackPressed` |
 | Themed icons | Provide monochrome adaptive icon asset |
 | Dark theme | Respect system; use Material tonal colors |
 
@@ -257,7 +257,7 @@ Signals: "iPad", "iPadOS", "tablet", "Android tablet", "Chromebook", "large scre
 
 | Variable | Default |
 |----------|---------|
-| Width classes | Compact < 600 dp / medium 600–839 dp / expanded ≥ 840 dp — design against the class, never the device model |
+| Width classes | Compact < 600 dp / medium 600–839 dp / expanded 840–1199 dp / large 1200–1599 dp / extra-large ≥ 1600 dp — design against the class, never the device model |
 | Layout | List-detail once the window clears ~700 pt (list 320–400 pt, detail ≥ 320 pt); one pane below that |
 | Primary navigation | Android: navigation bar at compact / navigation rail (96 dp) at medium / expanded navigation rail (220–360 dp) at expanded; Material 3 Expressive retires the drawer. iPadOS: the system tab bar near the top, convertible to a sidebar; iPadOS has no rail |
 | Screen margin | 16 pt compact / 24 pt medium / 24–32 pt expanded |

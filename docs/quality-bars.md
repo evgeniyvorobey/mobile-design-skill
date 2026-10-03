@@ -352,7 +352,7 @@ Every screen or spec covering interactive content must address:
 - Top app bar height (Material 3): 64dp small, 112dp medium, 152dp large. 56dp is the Material 2 bar.
 - Navigation bar: 64dp, the Material 3 Expressive flexible bar; 80dp is the earlier, taller variant.
 - Edge-to-edge content must handle the system bars correctly with `WindowInsets`. Apps targeting Android 16 (API 36) cannot opt out of edge-to-edge.
-- FAB size: 56dp standard, 40dp small (Material 2 called it mini), 96dp large. The extended FAB is 56dp tall.
+- FAB size (Material 3 Expressive): 56dp, 80dp medium, 96dp large. The 40dp small FAB is a baseline variant that is no longer recommended. Extended FAB: 56dp small, 80dp medium, 96dp large.
 
 ---
 
@@ -366,9 +366,11 @@ Apply these whenever the resolved device class is anything other than phone-only
 |-------|-------|-------|
 | Compact | < 600 dp (iOS: compact size class) | 1 |
 | Medium | 600–839 dp | 1, or 2 if the detail pane stays ≥ 320 dp |
-| Expanded | ≥ 840 dp | 2, plus a supporting pane above ~1200 dp |
+| Expanded | 840–1199 dp | 2 |
+| Large | 1200–1599 dp | 2; a third supporting pane only when every pane keeps its minimum width |
+| Extra-large | ≥ 1600 dp | 2 or 3 |
 
-The 600 / 840 dp values are Android's official window size class breakpoints. iPadOS Slide Over and narrow Split View return a tablet to **compact** width at runtime, so a compact layout is never optional on tablet.
+The 600 / 840 dp values are Android's official window size class breakpoints; 1200 and 1600 dp add the large and extra-large classes (Jetpack WindowManager 1.5.0). Material 3 recommends two panes through large and suggests three only at extra-large. iPadOS Slide Over and narrow Split View return a tablet to **compact** width at runtime, so a compact layout is never optional on tablet.
 
 ### Pane and column sizes
 

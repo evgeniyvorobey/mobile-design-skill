@@ -53,9 +53,11 @@ Design against width, not against a device name. A device name is unstable — a
 |-------|-------|---------|--------------------|
 | Compact | < 600 dp / compact size class | phones; iPad in Slide Over or narrow Split View; unfolded-inner-display-off | One pane. Everything the phone layout already does. |
 | Medium | 600–839 dp | small tablets, large phones in landscape, foldables unfolded, half-screen Split View | One pane with more generous margins, or a two-pane layout only if the detail pane stays ≥ 320 dp |
-| Expanded | ≥ 840 dp | tablets in landscape, desktop-class windows | Two panes as the default; a third supporting pane above ~1200 dp |
+| Expanded | 840–1199 dp | tablets in landscape | Two panes as the default |
+| Large | 1200–1599 dp | large tablets, desktop-class windows | Two panes; a third supporting pane only when every pane keeps its minimum width |
+| Extra-large | ≥ 1600 dp | external displays, maximised desktop windows | Two panes, or three |
 
-The 600 / 840 dp breakpoints and the compact/medium/expanded naming are Android's official window size classes; Apple expresses the same distinction as compact vs regular size classes. Height classes exist too (compact < 480 dp), and matter mainly for sheets, keyboards, and full-screen media.
+The 600 / 840 dp breakpoints and the compact/medium/expanded naming are Android's official window size classes, and 1200 / 1600 dp add large and extra-large (Jetpack WindowManager 1.5.0; opt-in in Compose `material3-adaptive` 1.2.0). Material 3 recommends two panes through large and suggests three only at extra-large; Apple expresses the same distinction as compact vs regular size classes. Height classes exist too (compact < 480 dp), and matter mainly for sheets, keyboards, and full-screen media.
 
 **Never map a layout to a device model.** Map it to a width class, then state what happens at each class the product supports.
 
@@ -153,8 +155,8 @@ State this explicitly in output so a tablet layout is not read as an accessibili
 - [Apple HIG: Split views](https://developer.apple.com/design/human-interface-guidelines/split-views)
 - [Apple HIG: Tab bars](https://developer.apple.com/design/human-interface-guidelines/tab-bars)
 - [Apple TN3192: Migrating from the deprecated UIRequiresFullScreen key](https://developer.apple.com/documentation/technotes/tn3192-migrating-your-app-from-the-deprecated-uirequiresfullscreen-key)
-- [Material 3: Applying layout](https://m3.material.io/foundations/layout/applying-layout/window-size-classes)
-- [Material 3: Canonical layouts](https://m3.material.io/foundations/layout/canonical-layouts/overview)
+- [Material 3: Applying layout](https://m3.material.io/foundations/layout/breakpoints/overview)
+- [Material 3: Canonical layouts](https://m3.material.io/foundations/layout/canonical-examples/overview)
 - [Android: Support different screen sizes / window size classes](https://developer.android.com/develop/ui/compose/layouts/adaptive/use-window-size-classes)
 - [Android: Large screen app quality guidelines](https://developer.android.com/docs/quality-guidelines/large-screen-app-quality)
 - [Android 16 behavior changes](https://developer.android.com/about/versions/16/behavior-changes-16)
