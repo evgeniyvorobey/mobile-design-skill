@@ -6,17 +6,19 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-1.38.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-2.0.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
 # Mobile App Design Skill
 
-A production-ready reusable AI skill that helps generate, review, structure, and justify mobile UI/UX design decisions for iOS, Android, and cross-platform products.
+A short set of instructions for mobile UI/UX design work on iOS, Android, and cross-platform products: screen concepts, flows, UI specs, reviews, type and spacing systems, rationale and handoff.
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-Current version: **1.38.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+**What it is measured to do.** Against the same model with no skill, on eight ordinary briefs judged blind in both orders (2026-10-03, Opus 5.5): designs that are indistinguishable from the model's own (2 pairs to the skill, 2 to no skill, 4 tied), in documents with fewer errors (2 medium against 4, 4 in total against 15). It takes about 1.85 times as long to answer. That is a pass of the release gate at its minimum, on a working set, and not a claim that the skill beats the model. Version 1.36 lost all eight of the same pairs, and 1.37 lost six and tied two. The record is in [`docs/proposals/skill-vs-baseline.md`](docs/proposals/skill-vs-baseline.md).
+
+Current version: **2.0.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -65,34 +67,19 @@ That's it. The rest of this README covers other integration paths and what the s
 
 ## What this skill does
 
-This skill enforces a practical framework for mobile design decisions. It is built for product work, not decorative advice.
+The entrypoint is [`SKILL.md`](SKILL.md), about 120 lines, plus one page of dated platform facts. It prescribes no output format. It changes how the model answers in five ways:
 
-It is structured around:
+- **Job first.** Before any layout: who opens this, at what moment, to get which one to three things done. Then six tests that the primary job is finished on the screen and not only reported: act where it is shown, show the answer and not its inputs, design the peak moment, follow the fork, design the whole product and not its outline, give each use its own treatment.
+- **Decide everything.** Structure, behaviour, exact copy, sizes, colours as values, typefaces by name, and the product rules the request left open. No placeholders and no decisions handed back as open questions. Proposals are the work; facts (research results, platform rules, compliance, your existing product) are never invented.
+- **Sized to the request.** A short request gets the design at the level it asked for, about two thousand words, opening with the two or three decisions that set it apart and a mockup with real content. No mode labels, no scores nobody asked for, no account of process.
+- **Floors and facts, checked after the design exists.** States and failure paths, accessibility minimums, and platform facts from [`skill/platform.md`](skill/platform.md): Liquid Glass, Material 3 Expressive, Android 16, width classes, foldables, each with the date it was checked.
+- **One read for contradictions before sending.** A number that differs between the mockup and the table, a rule its own example breaks. This is the most common defect of a long design answer, and where the measured difference in errors comes from.
 
-- **Six primary modes** — every request is classified into exactly one: screen concept, user flow, platform-aware UI spec, usability/accessibility review, typography/spacing system, or handoff rationale.
-- **Clarification policy** — asks only blocking questions, otherwise proceeds with minimal labeled assumptions.
-- **Judged mode** — `/mobile-design-skill --judge` drafts, runs an independent rubric judge pass when the host supports subagents, revises if needed, and returns a compact score summary.
-- **Guardrails** — no invented platform rules, no fabricated research findings, no aesthetic-only advice without usability reasoning.
-- **Quality bars** — concrete numeric thresholds (touch 44pt iOS / 48dp Android, WCAG 2.2 AA contrast, line-height 1.4–1.6, motion 200–300ms).
-- **Design quality calibration** — visual hierarchy, composition, density, typography craft, color semantics, motion/feedback, brand expression, and production-readiness checks.
-- **Design quality rubric** — 1–5 scoring derived from the assessable dimensions for generated artifacts, and a current → projected score in reviews.
-- **Rubric eval pack** — score-calibrated fixtures for `1/5` through `5/5` plus a before/after upgrade example.
-- **LLM-as-judge runner** — LLM-agnostic JSONL runner with an external-agent command adapter for semantic rubric calibration.
-- **Visual benchmark playbooks** — source-specific checklists for Mobbin, Page Flows, Apple Design Awards, and Awwwards that keep inspiration separate from evidence.
-- **Golden examples** — compact taste and domain calibration examples for premium UI, enterprise SaaS, fintech, health, onboarding, settings, checkout, and tablet list-detail.
-- **Synthetic case studies** — 12 bad-to-good calibration cases that show weak vs strong mobile design responses without real products or screenshots.
-- **Visual review fixtures** — Figma-like text descriptions with expected critique and prohibited overclaims for Mode D review calibration.
-- **Benchmark report format** — a compact structure for turning 3-5 references into borrow / do-not-copy / token-component-state guidance.
-- **Domain packs** — mini-playbooks for fintech, health, SaaS, marketplace, social, and education.
-- **Rendered-output QA workflow** — optional post-implementation QA guidance for checking mobile viewports, overlap, clipping, tap-target risk, contrast hints, and state behavior when a rendered artifact exists.
-- **Known weakness prevention** — internal failure-mode preflight for generic output, first-idea bias, evidence overreach, platform flattening, happy-path-only design, and weak handoff.
-- **Context-aware defaults** — adjusts output for audience (older adults, children, power users), domain (finance, health, government, enterprise, social), platform, and use-context (one-handed, outdoor, in-vehicle, emergency).
-- **Heuristic grounding** — decisions cite Fitts, Hick, Jakob, Zeigarnik, Gestalt, Nielsen rather than being presented as preference.
-- **Pattern catalog** — decision matrices for navigation, overlays, lists, pickers, feedback surfaces, forms, search, and authentication. No inventing novel patterns where established ones fit.
-- **Inspiration layer** — Mobbin, Page Flows, UI Sources, Pttrns, Screenlane, Apple Design Awards, Awwwards, Behance, Dribbble, Pinterest, and Figma Community are available for visual inspiration and benchmarking, but kept separate from UX/accessibility evidence.
-- **Mandatory self-review** — the skill runs a silent quality pass before returning any response.
+Loaded only when you ask for it: several visual directions drawn from a catalogue of schools and products, a 1-5 design-quality score with its rubric, an independent judge pass (`--judge`), benchmark reports, and QA of a built screen. Behind those sits a reference library (pattern decision tables, numeric bars, heuristics, domain playbooks, calibration examples) that nothing loads by default.
 
-See [`docs/`](docs) for the full framework.
+What changed from 1.x: the six modes, the output contract, the mandatory three directions, the self-scores and the long mandatory self-review are gone from the default answer. They made answers thinner and longer than the model's own.
+
+See [`docs/`](docs) for the reference library and [`docs/evals.md`](docs/evals.md) for how the skill is evaluated.
 
 ---
 

@@ -2,6 +2,51 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2026-10-03
+
+**The skill clears the gate for the first time, at the minimum: 2 pairs to the skill, 2 to no skill, 4 tied, with 2 medium errors against 4.** It gets there by being rebuilt from how the same model answers with no skill. `SKILL.md` goes from 482 lines to 123, the six modes, the output contract, the three mandatory directions and the long self-review leave the default answer, and what the model reads for an ordinary request drops from 16-26 files to two. This is not a win over the model: ten of sixteen judgements found no meaningful difference, and answers take 1.85 times as long.
+
+### Measured
+- **v2.0 against no skill, 8 core briefs x 2 orders: pairs 2 skill / 2 baseline / 4 tied; skill share 0.50 against a minimum of 0.50.** Judgements 4 / 2 / 10 no difference; two-sided sign test over pairs p = 1.0, no leader. At v1.37.0 the same briefs went 0 / 6 / 2, and at v1.36.0 0 / 8 / 0. The control held: three cosmetic nulls, rewritten from 6% shorter to 40% longer, drew "no meaningful difference" in 6 of 6 judgements.
+- **The error half of the rule passes with room: 2 medium-or-high errors in the skill arm against 4 in the baseline arm**, and 4 errors of any severity against 15, in a blind audit of all 16 documents. No high-severity error in either arm. Nine of the baseline's fifteen sit in one spec, and thirteen of fifteen are internal contradictions.
+- **The two pairs the skill won were decided by a product decision in both orders.** In the returns flow, the gap between handing the parcel over and the carrier's scan has a state of its own. In the tablet chat spec, the list stays beside the open conversation from 600 dp, where the baseline stays single-pane until 744 dp and so misses unfolded foldables.
+- **The two it lost were decided in one order each.** The transit board's headline number changes meaning on a coarse location fix. The news type system's densest feed row is 86 pt where the baseline's is 64 pt.
+- **Usefulness: 6 judgements to the skill, 9 to the baseline, 1 no difference**, where v1.37.0 had 0 of 16. The nine have two causes. The skill went past the brief on short requests (a pay sheet on a home-screen request, a follow-and-alert card on a departures board). And it was thinner than the job on a review, a type system and a handoff, where the baseline caught more platform traps, settled wide screens and dark text colours, and gave build-level handoff detail.
+- **Cost.** Median generation 31.4 minutes (16.6 to 43.4) against about 17 with no skill and 22.8 at v1.37.0. Median answer length 0.86 times the baseline's. Each generation reads 2 files. Time does not track length or the number of edits; the one run that checked for contradictions before writing its file took 16.6 minutes. **The plan's bound of 1.5 times the baseline's time is missed.**
+- **A pilot came first and changed the text.** The first draft (`b60d228`) on the six generative briefs: pairs 2 / 2 / 2, but answers 1.58 times as long as the baseline's and 38.7 minutes each, and all seven usefulness judgements that went to the baseline gave one reason, the same design in half the reading. The pilot's decision rule had no cost condition; the text was revised for length anyway and the deviation is recorded. The gate measured the second draft (`de517da`) with fresh generations.
+- Eight of ten pre-registered predictions held. The two that missed: usefulness to the skill or no difference in 8 of 16 (7), and a median time of 25.5 minutes or less (31.4).
+- Design, per-brief table and limits are in `docs/proposals/skill-vs-baseline.md`, sections 6 to 8. The baseline arm was reused from 2026-10-01 and audited again. Raw data is not committed.
+
+### Changed
+- **`SKILL.md` is rewritten.** It prescribes no output format. It asks for the moment and the jobs before any layout; six tests that the primary job is finished on the screen (act where it is shown, show the answer and not its inputs, design the peak moment, follow the fork, design the whole product and not its outline, give each use its own treatment); every decision made and none handed back as an open question, with proposals kept apart from facts; an answer sized to the request; states, accessibility minimums and platform facts as a check once the design exists; and one read for contradictions before sending.
+- **The default answer carries no mode label, no `Platform scope` or `Device class` header, no score, no provenance and no list of rejected directions.** One optional "bolder variant worth testing" may follow the committed design.
+- **Scores, directions, the judge and benchmarks are on request only.** The 1-5 rubric, judged mode, inspiration sources, benchmark reports and rendered QA load when a user asks for what they cover. The three-direction method that was step 5.5 now lives in `docs/inspiration-sources.md`.
+- **The rest of `docs/` is a reference library that nothing loads by default.** `validate_skill_entrypoint_enumerates_docs()` runs the other way round: a document `SKILL.md` does not name has to be listed with the reason the model does not load it, and a stale exclusion fails. The Claude Code wrapper forwards exactly the files the entrypoint names.
+- `docs/evals.md` is rewritten around the three instruments that remain: the release gate, the paired comparison and the rubric. `docs/guardrails.md` guardrail 9 now forbids presenting an invented fact as given and says that proposing features, rules and copy is the work; guardrail 12 forbids handing decisions back.
+- `skill/metadata.yaml` describes the default answer and the runtime file set instead of the mode list and the response contract. `README.md` leads with what the skill is measured to do.
+
+### Added
+- **`skill/platform.md`**: the dated platform facts in one page, checked against Apple's and Google's documentation on 2026-10-02 and 2026-10-03. Liquid Glass and system bars, iPad windows, iPhone Duo, login services, Android 16, predictive back, Material 3 Expressive navigation, FAB sizes and motion, foldable postures, and width classes with navigation by width on both platforms.
+
+### Fixed
+- **Material 3 Expressive FAB sizes.** `docs/quality-bars.md` listed a 40 dp small FAB as current; a blind audit of v1.37.0 output caught the skill repeating it. The sizes are 56, 80 and 96 dp, and the 40 dp FAB is a baseline variant that is no longer recommended.
+- **Width classes** gain large (1200 to 1599 dp) and extra-large (1600 dp and wider) in `docs/quality-bars.md`, `docs/adaptive-layout.md`, `docs/context-defaults.md` and `docs/patterns-catalog.md`. Material 3 recommends two panes through large and three only at extra-large; the earlier text put a third pane from about 1200 dp.
+- **Predictive back** was described as an optional gesture from Android 13. At target API 36 it is on by default and `onBackPressed` is not called.
+- Two dead `m3.material.io` links in `docs/sources.md` and `docs/adaptive-layout.md`.
+
+### Removed
+- `docs/workflow.md`, `docs/self-review.md`, `docs/clarification-policy.md`, `skill/modes.md`, `skill/templates.md` and `skill/usage.md`: the 1.x workflow, contract, templates and mandatory self-review.
+- The six 1.x worked examples, `examples/anti-patterns.md` and `examples/clarification-policy.md`: answers in a format the skill no longer produces.
+- `scripts/run_generation_eval.py` with its oracle, and `scripts/run_diversity_eval.py` with its fixtures: both scored the 1.x contract.
+- Ten validators whose subject is gone, among them mode parity, the entrypoint contract markers and the example-response checker with its tests. `validate_repo.py` goes from 3,052 lines to 1,972 and from 36 validators to 26.
+- One check is relaxed, not removed, and says so in the code: that each rubric dimension takes more than one value across the calibration corpus's `Dimension read:` lines. Three of the lines that carried the other bands were in the removed examples. The same property is still asserted on the fixture pack.
+
+### Not measured
+- **Whether it generalises.** The six tests in `SKILL.md` and its sizing rule were both derived from judges' notes on these same eight briefs. The sealed held-out set was not opened. A held-out run is the next measurement, and nothing stronger than "at least as good on the working set, with fewer errors" is claimed until it has run.
+- **The on-request documents.** No brief in the gate asks for directions, a score, a judge pass or a benchmark, so `docs/inspiration-sources.md`, the rubric and judged mode were edited and not exercised.
+- **Weaker models.** Every run is Opus 5.5 against itself. A skill that only ties a frontier model may still be worth more to Sonnet or Haiku, and that has never been run.
+- The released `SKILL.md` and `skill/platform.md` are identical to the measured commit apart from the version line.
+
 ## [1.38.0] - 2026-10-03
 
 **The release gate now exists, and v1.37.0 does not clear it: 0 pairs to the skill, 6 to no skill, 2 tied.** The comparison this repository went twenty releases without — the skill against the same model with no skill — is now a repeatable maintainer step with a rule, a brief pack and a sealed held-out set. Its first run measures v1.37.0 on the eight briefs v1.36.0 lost 0 of 8.
