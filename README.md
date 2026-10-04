@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.1.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-2.2.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -18,14 +18,14 @@ Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skil
 
 **What it is measured to do.** Against the same model (Opus 5.5), judged blind in both orders, every arm generated in one batch. The record is in [`docs/proposals/skill-vs-baseline.md`](docs/proposals/skill-vs-baseline.md).
 
-- **Against no skill, on sixteen briefs nobody had read** (2026-10-04, effort `xhigh`): all 16 pairs to the skill. No medium or high error in the skill's sixteen answers against 2 with no skill, and 7 errors of any severity against 10. The skill's answers are 2.9 times as long (3,700 words against 1,300) and take 3.3 times as long, 11.7 minutes against 3.6. A comparison across that much length is not controlled for depth; the next one is.
-- **Against no skill plus one sentence asking for a thorough, decided answer, on the same briefs, at about equal length**: 14 pairs to the skill, none to the sentence, 2 tied (both reviews). No medium or high error against 5, and 7 errors of any severity against 30. The skill takes 1.9 times as long as the sentence, 11.7 minutes against 6.2.
-- **A caveat on the error count.** Three of the skill's seven low errors are the same defect, a screen locked to portrait, and other auditors rated that defect medium in each of the other two arms. Rated alike everywhere, the count against no skill would be 3 against 2 or 0 against 1.
-- **What this does not cover.** One draw per brief. Judges, auditors and the writers of the briefs are the same model family as the skill's author. Effort `xhigh` only: at `max` the previous text (2.0.0) tied the same one-sentence request, 3 / 2 / 3 on eight briefs, and this text has not been run there. Nothing is measured on a weaker model.
+- **Against no skill, on sixteen briefs nobody had read** (2026-10-04, effort `xhigh`): 15 pairs to the skill, none to no skill, 1 tied. One medium error in the skill's sixteen answers against 3 with no skill, when a screen locked to one orientation is counted as a medium error in either arm; as the auditors rated them, 1 against 1. The skill's answers are 3.2 times as long (3,400 words against 1,100) and take 4.5 times as long, 11.7 minutes against 2.6. A comparison across that much length is not controlled for depth; the next one is.
+- **Against no skill plus one sentence asking for a thorough, decided answer, at about equal length** (the previous text, 2.1.0, on sixteen other unread briefs the same day): 14 pairs to the skill, none to the sentence, 2 tied (both reviews). No medium or high error against 5, and 7 errors of any severity against 30. The skill took 1.9 times as long as the sentence, 11.7 minutes against 6.2. The current text has not been set against the sentence.
+- **What 2.2.0 adds: one sentence against locking a screen to one orientation.** No answer written with it locks a phone to portrait; 4 of 16 written with 2.1.0 and 2 of 16 written with no skill do. The auditors reported one of those six locks themselves; the others are counted from the text by a rule fixed before the run. Set against 2.1.0 directly on the same briefs, the designs are not told apart: 5 pairs to 2.2.0, 7 to 2.1.0, 4 tied.
+- **What this does not cover.** One draw per brief. Judges, auditors and the writers of the briefs are the same model family as the skill's author. Effort `xhigh` only: at `max` an earlier text (2.0.0) tied the same one-sentence request, 3 / 2 / 3 on eight briefs, and no later text has been run there. Nothing is measured on a weaker model.
 
 Earlier results, and the time figure corrected in 2.0.1, are in [`CHANGELOG.md`](CHANGELOG.md).
 
-Current version: **2.1.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **2.2.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -87,6 +87,8 @@ Loaded only when you ask for it: several visual directions drawn from a catalogu
 What changed from 1.x: the six modes, the output contract, the mandatory three directions, the self-scores and the long mandatory self-review are gone from the default answer. They made answers thinner and longer than the model's own.
 
 What changed from 2.0: the lists of what each kind of request needs, most of the lists of floors, the rule sizing the answer to the request and the rule for asking questions are gone, and the text is 1,570 words where it was 2,367. Set against 2.0.0 directly on sixteen working briefs, the shorter text took 11 pairs to 2 with 3 tied, at the same cost.
+
+What changed from 2.1: one sentence in the accessibility floor, against locking a screen to portrait or landscape unless the task cannot be done in the other orientation. The text is 1,614 words.
 
 See [`docs/`](docs) for the reference library and [`docs/evals.md`](docs/evals.md) for how the skill is evaluated.
 
@@ -514,7 +516,8 @@ mobile-design-skill/
         ├── generation-prompts.json                   Ten ordinary requests: the second half of the gate's extended set
         ├── paired-comparison-fixtures.json           Separating, null, and broken-control arms for the paired eval
         ├── baseline-gate-briefs.json                 Brief sets for the release gate (skill versus no skill)
-        ├── baseline-gate-heldout.json                Sixteen held-out briefs for the release gate, opened on 2026-10-04
+        ├── baseline-gate-heldout.json                Sixteen held-out briefs for the release gate, T01 to T16, opened on 2026-10-04 by the 2.2.0 run
+        ├── baseline-gate-heldout-2026-10-04.json     The sixteen held-out briefs S01 to S16, opened on 2026-10-04 by the 2.1.0 run
         └── baseline-gate-heldout-2026-10-03.json     The eight held-out briefs opened on 2026-10-03
 ```
 

@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2026-10-04
+
+**One sentence is added: do not lock a screen to one orientation unless the task cannot be done in the other. On sixteen new briefs nobody had read, no answer written with it locks a phone to portrait, where four of sixteen written with 2.1.0 and two of sixteen written with no skill do.** The gate is green, 15 pairs to the skill, none to no skill, 1 tied. Set against 2.1.0 directly the two texts are not told apart: 5 pairs to the new text, 7 to 2.1.0, 4 tied. The sentence removes a defect; it does not make the designs better.
+
+### Measured
+- **Against no skill: pairs 15 skill / 0 no skill / 1 tied, share 0.97** (2026-10-04, effort `xhigh`, sixteen sealed briefs T01 to T16, three arms generated in one batch). Judgements 30 / 0 / 2; two-sided sign test over pairs p = 0.00006. The tie is a review. Six cosmetic nulls, rewritten from 8% shorter to 40% longer, drew "no meaningful difference" in 12 judgements of 12. Usefulness 31 / 1 / 0. `run_baseline_gate.py` prints PASS. Length is not controlled here: 3,417 words at the median against 1,059.
+- **Errors were read through a severity table fixed before the run.** In the 2.1.0 run different auditors rated one defect, a screen locked to portrait, low in one arm and medium in another, and the error half of the gate turned on it. This time an orientation lock with no essential reason is one medium error in any arm, counted from the text and not from the auditors, and a cap on text scaling is medium in any arm. After the table: medium-or-high errors 1 for the skill against 3 for no skill, and 6 errors of any severity against 8. As the auditors rated them: 1 against 1, and 6 against 6. The gate is green on both readings. No high error in any arm. No auditor reported a cap on text scaling.
+- **Orientation locks: new text 0 answers of 16, 2.1.0 4 of 16, no skill 2 of 16.** Fourteen of the sixteen new-text answers say outright that nothing is locked; the other two are the reviews. If the two texts locked equally often, 0 against 4 would come up about one run in twenty. A probe before the run, on the five opened briefs where a lock had appeared, went the same way: 0 of 5 against 3 of 5.
+- **The auditors reported one of the six locks.** The other five rest on the rule written before the run: a lock whose stated reason is accidental rotation still counts. Four of those five are on two briefs where the phone lies flat, a compression metronome and an interview recorder, and four different auditors read them and reported nothing. The gate does not depend on them.
+- **Against 2.1.0, same briefs: 5 / 7 / 4**, judgements 11 / 12 / 9, sign test p = 0.77, inside the range registered as "not told apart from a tie" (two draws of unchanged text have differed by one or two pairs). Usefulness 8 / 12 / 12. No judge named orientation as what decided a pair. Length 3,417 words against 3,729; median generation 11.7 minutes against 11.1, about 71 thousand output tokens against 65 thousand.
+- **Cost against no skill: 11.7 minutes against 2.6, 4.5 times.** The skill's own time is what it was for 2.1.0 (11.7); the no-skill arm was faster in this batch (2.6 minutes against 3.6) and shorter (1,059 words against 1,258).
+- **The new text's one medium error is a platform fact the file does not carry**: a queued request "goes even if the app is closed", where on iOS a background transfer survives suspension and not a force quit from the app switcher.
+- All ten pre-registered predictions held, among them a green gate at 60%.
+- **Not measured**: the one-sentence request on these briefs; effort `max`; a weaker model. One draw per brief. Judges, auditors, rewriters and the two agents that wrote and checked the sealed set are the same model family as the author of the change. The lock marks are the author's, made without the arm by a written rule; one lock was missed in marking and caught by an auditor, and a search of all 48 answers afterwards found no other.
+- Design, per-brief table, deviations and limits are in `docs/proposals/skill-vs-baseline.md`, sections 16 and 17. Raw data is not committed.
+
+### Added
+- **`SKILL.md`, section 3, Accessibility**: "Do not lock a screen to portrait or to landscape unless the task cannot be done in the other orientation; a one-handed grip and accidental rotation are not such reasons, because the system's rotation lock already covers them. Where you do lock, say why." It is the only change to what the model reads: 1,614 words where there were 1,570. `skill/platform.md` is unchanged.
+
+### Changed
+- **The sealed set is replaced again.** `examples/evals/baseline-gate-heldout.json` holds sixteen briefs, T01 to T16, written by an independent agent that read only the existing briefs, checked by a second agent (which changed none), and read by no person before the run. This release's run opened them, so they are a working set now and the next held-out claim needs a new one. S01 to S16, opened by the 2.1.0 run, move to `baseline-gate-heldout-2026-10-04.json` and stay usable as an open set.
+- `docs/paired-comparison.md`: a defect that recurs across arms gets one severity, written into the pre-registration before the run, and an orientation lock is counted from the text.
+- `README.md` leads with this run.
+
 ## [2.1.0] - 2026-10-04
 
 **The entrypoint is a third shorter, and on sixteen briefs nobody had read it took every pair from the same model with no skill and fourteen of sixteen from a one-sentence request of the same depth.** `SKILL.md` goes from 2,367 words to 1,570: section 1 is kept word for word, the lists of what each kind of request needs and most of the floors are cut, and three things that measuring the cut showed to be missing are put back or added. It costs more than the sentence it beats: 1.9 times its time.

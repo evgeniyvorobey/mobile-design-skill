@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 2.1.0
+version: 2.2.0
 ---
 
 # Mobile Design Skill
@@ -50,7 +50,7 @@ Leave out labels that classify the request and any preamble of process, any scor
 Check these once the design exists. They are floors, not sections to write: put into the answer only what is specific to this design.
 
 - **States.** Every screen has its first use and empty state, loading, an error with a way forward, offline, and the extremes of real content. Every action that can fail says what is kept and how to retry. Every step of a flow says what Back does and what survives a call, a killed app or a rotation.
-- **Accessibility.** Hit areas of at least 44 × 44 pt on iOS and 48 × 48 dp on Android. Text contrast of at least 4.5:1, and 3:1 for large text and for meaningful graphics; when you give colours, compute the ratio. Text scales through the accessibility sizes on iOS and to 200% on Android, with no fixed-height box around it. Never colour alone, and every gesture has a visible path that is not a gesture. Do not claim compliance; say what has to be tested on a device.
+- **Accessibility.** Hit areas of at least 44 × 44 pt on iOS and 48 × 48 dp on Android. Text contrast of at least 4.5:1, and 3:1 for large text and for meaningful graphics; when you give colours, compute the ratio. Text scales through the accessibility sizes on iOS and to 200% on Android, with no fixed-height box around it. Do not lock a screen to portrait or to landscape unless the task cannot be done in the other orientation; a one-handed grip and accidental rotation are not such reasons, because the system's rotation lock already covers them. Where you do lock, say why. Never colour alone, and every gesture has a visible path that is not a gesture. Do not claim compliance; say what has to be tested on a device.
 - **Platform.** Read `skill/platform.md` before you specify system bars, navigation, platform components and their sizes, back behaviour, a custom gesture, a permission request, location, or anything for tablets, foldables and resizable windows. It is dated. Both platforms changed in 2025 and 2026 (Liquid Glass, Material 3 Expressive, Android 16), and what you remember may be a version behind. Design for the platform and device the request names; if it names none, design for a phone and say which platform's units you used. Never state a platform rule you are not sure of for the OS version you name.
 
 ## 4. Keep it consistent
