@@ -58,8 +58,8 @@ Every comparison above sets the skill against itself. The first comparison with 
 **Brief sets** (`examples/evals/baseline-gate-briefs.json`):
 
 - `core` is the eight briefs of the 2026-10-01 run. It is the working set: those briefs have been read while fixing the skill, so a win on them is not held-out evidence.
-- `extended` is core plus the ten prompts of `generation-prompts.json`, for a core result that sits inside the noise.
-- `held-out` is eight briefs written by an independent agent and committed sealed in `examples/evals/baseline-gate-heldout.json`. Do not read them while tuning. Open them for a release decision that claims the skill now beats no skill, and once a held-out run has informed a change, write a new sealed set.
+- `extended` is core plus the ten prompts of `generation-prompts.json`, for a core result that sits inside the noise. Two draws of unchanged text differ by one or two pairs, so a change expected to move that much needs sixteen briefs or more, not eight.
+- `held-out` is eight briefs written by an independent agent and committed sealed in `examples/evals/baseline-gate-heldout.json`. Do not read them while tuning. Open them for a release decision that claims the skill now beats no skill, and once a held-out run has informed a change, write a new sealed set. The committed set was opened on 2026-10-03 and has informed two candidates since; it is now a working set, and the next held-out claim needs a new one.
 
 **Procedure.**
 
@@ -75,7 +75,7 @@ python3 scripts/run_baseline_gate.py --arm-skill S.jsonl --arm-baseline B.jsonl 
 
 - Freeze the tree the skill arm reads — a `git worktree` at the candidate commit — and write the predictions and the decision rule down before any generator starts.
 - One generator per request. Both arms get the same framing and differ in one instruction: load the skill, or answer as you normally would. The baseline arm reads no file.
-- The baseline arm does not depend on the skill, so its responses may be reused across candidate versions within one model version. Regenerate them when the model changes, and say which was done.
+- Generate both arms in one batch and at one effort level, and write the effort level into the pre-registration. Do not reuse a baseline arm from another day: on 2026-10-03 the same model with no skill answered the same briefs at 0.36 to 0.44 of the length it wrote on 2026-10-01, and two runs that had reused the older arm reported a length and a time ratio that a same-batch run did not reproduce. Subagents inherit the session's effort level, and a result at one level does not carry to another: the same skill tied a one-sentence request at `max` and led it at `xhigh`, on two different days.
 - Nulls are cosmetic rewrites of skill-arm responses, built as the section above says: at least three, at least one for every three briefs, lengths varied.
 - One judge per judge request and one auditor per small group of audit requests. Both see opaque ids and neutral file names; a judge request carries the brief, and the audit mixes the two arms.
 - Record the cost beside the verdict: minutes and tokens per skill generation, and output-limit hits. A skill that draws while taking three times as long has not earned its place.

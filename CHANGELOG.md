@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2026-10-04
+
+**The record catches up with four measurements made after 2.0.0, and the README's time figure is corrected. No instruction text changes: `SKILL.md` and `skill/platform.md` are the files of 2.0.0 with a new version number.**
+
+### Fixed
+- **The README said the skill takes "about 1.85 times as long to answer". Generated in one batch it takes 3.2 times as long as no skill at effort `max`.** The 1.85 and the "0.86 times the length" in the 2.0.0 entry below set skill answers of 2026-10-03 against no-skill answers of 2026-10-01. On 2026-10-03 the same model with no skill wrote 0.36 to 0.44 of what it had written two days earlier on the same briefs (6,143 words down to 2,268; 5,354 down to 2,371). The skill's own length did not move (2,788 and 2,806 words).
+
+### Measured
+- **v2.0.0 on the sealed held-out set, both arms in one batch, effort `max`: pairs 6 skill / 1 no skill / 1 tied, share 0.81.** Sign test p = 0.125, so a lead and not an established win. Nulls 6 of 6 "no difference". No medium or high error in either arm; 0 errors of any severity against 3. Usefulness 12 / 4 / 0. Every pair the skill won was decided by a behaviour the six tests ask for, on briefs they were not derived from. It lost the type system, on the tightest row. Median time 34.3 minutes against 10.7; median length 2,806 words against 1,492. The lead is confounded with depth: the null control covers length gaps to +41% and the arms differ by 1.65 to 3.3 times.
+- **A v2.1 candidate that capped screen concepts and flows at 1,500 words was rejected.** Against no skill 4 / 0 / 4, but one medium error against none, so the gate is red; against v2.0.0 directly 1 / 3 / 4; time 10% lower against a threshold of 20%. Shorter answers did not shorten the reasoning, and for a screen concept readers preferred the fuller answer in 4 judgements of 4.
+- **v2.0.0 against no skill plus one sentence asking for a thorough, decided answer, effort `max`: 3 / 2 / 3, a tie.** The sentence took 15.6 minutes and 79 thousand output tokens against the skill's 34.3 and 188 thousand. The skill won both screen concepts and the handoff in both orders and lost the type system in both; its documents had 1 low error against 6.
+- **The same question at effort `xhigh`, sixteen briefs, three arms in one batch (2026-10-04): v2.0.0 against the sentence 11 / 1 / 4** (p = 0.006). Median time 10.6 minutes against 7.7. v2.0.0 was not audited in this run. The tie at `max` and the lead at `xhigh` were measured on different days.
+- **An unreleased lean candidate (section 1 kept verbatim, the per-kind lists and most floors cut, 1,440 words against 2,367) led the sentence 12 / 2 / 2 and led v2.0.0 11 / 2 / 3 at the same cost** (10.9 minutes against 10.6). It is not released: 4 medium errors against the sentence's 3 (7 errors of any severity against 28), three of them platform facts `skill/platform.md` does not carry, and it lost the type system to both opponents after the cut removed the type-system line. The gate against plain no skill was not run at this effort for either text.
+- Design, tables, deviations and limits are in `docs/proposals/skill-vs-baseline.md`, sections 9 to 13. Raw data is not committed.
+
+### Changed
+- **`docs/paired-comparison.md`: both arms are generated in one batch at one effort level, and the effort level is pre-registered.** The rule that allowed reusing the baseline arm within one model version is gone. The committed held-out set is marked as opened. A change expected to move one or two pairs is measured on sixteen briefs or more.
+- `README.md` leads with the held-out result and both results against a one-sentence request, with the effort level of each.
+
 ## [2.0.0] - 2026-10-03
 
 **The skill clears the gate for the first time, at the minimum: 2 pairs to the skill, 2 to no skill, 4 tied, with 2 medium errors against 4.** It gets there by being rebuilt from how the same model answers with no skill. `SKILL.md` goes from 482 lines to 123, the six modes, the output contract, the three mandatory directions and the long self-review leave the default answer, and what the model reads for an ordinary request drops from 16-26 files to two. This is not a win over the model: ten of sixteen judgements found no meaningful difference, and answers take 1.85 times as long.

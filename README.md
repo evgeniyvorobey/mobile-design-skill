@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.0.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-2.0.1-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,9 +16,15 @@ A short set of instructions for mobile UI/UX design work on iOS, Android, and cr
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-**What it is measured to do.** Against the same model with no skill, on eight ordinary briefs judged blind in both orders (2026-10-03, Opus 5.5): designs that are indistinguishable from the model's own (2 pairs to the skill, 2 to no skill, 4 tied), in documents with fewer errors (2 medium against 4, 4 in total against 15). It takes about 1.85 times as long to answer. That is a pass of the release gate at its minimum, on a working set, and not a claim that the skill beats the model. Version 1.36 lost all eight of the same pairs, and 1.37 lost six and tied two. The record is in [`docs/proposals/skill-vs-baseline.md`](docs/proposals/skill-vs-baseline.md).
+**What it is measured to do.** Against the same model (Opus 5.5), judged blind in both orders. The record is in [`docs/proposals/skill-vs-baseline.md`](docs/proposals/skill-vs-baseline.md).
 
-Current version: **2.0.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+- **Against no skill, on eight briefs it was not tuned on** (2026-10-03, effort `max`, both arms generated together): 6 pairs to the skill, 1 to no skill, 1 tied, with no medium or high error in either arm. That is a lead, not an established win (p = 0.125). The skill's answers were about twice as long and took 3.2 times as long, 34 minutes against 11.
+- **Against no skill plus one sentence asking for a thorough, decided answer**, the outcome depends on the effort level: a tie at `max` (3 / 2 / 3 on eight briefs, at 2.2 times the sentence's time) and a lead at `xhigh` (11 / 1 / 4 on sixteen briefs, at 1.4 times its time, 11 minutes against 8). The two were measured on different days, so effort and day are not separated.
+- **On the eight working briefs** (skill answers of 2026-10-03 against no-skill answers of 2026-10-01): 2 pairs to the skill, 2 to no skill, 4 tied, with 2 medium errors against 4. Version 1.36 lost all eight of the same pairs, and 1.37 lost six and tied two.
+
+Until 2.0.1 this paragraph said the skill takes "about 1.85 times as long to answer". That figure set skill answers against no-skill answers written two days earlier, when the same model wrote twice as much, and it was wrong.
+
+Current version: **2.0.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
