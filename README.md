@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.0.1-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-2.1.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -16,15 +16,16 @@ A short set of instructions for mobile UI/UX design work on iOS, Android, and cr
 
 Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skill, and as a system prompt for direct Claude API or any LLM integration.
 
-**What it is measured to do.** Against the same model (Opus 5.5), judged blind in both orders. The record is in [`docs/proposals/skill-vs-baseline.md`](docs/proposals/skill-vs-baseline.md).
+**What it is measured to do.** Against the same model (Opus 5.5), judged blind in both orders, every arm generated in one batch. The record is in [`docs/proposals/skill-vs-baseline.md`](docs/proposals/skill-vs-baseline.md).
 
-- **Against no skill, on eight briefs it was not tuned on** (2026-10-03, effort `max`, both arms generated together): 6 pairs to the skill, 1 to no skill, 1 tied, with no medium or high error in either arm. That is a lead, not an established win (p = 0.125). The skill's answers were about twice as long and took 3.2 times as long, 34 minutes against 11.
-- **Against no skill plus one sentence asking for a thorough, decided answer**, the outcome depends on the effort level: a tie at `max` (3 / 2 / 3 on eight briefs, at 2.2 times the sentence's time) and a lead at `xhigh` (11 / 1 / 4 on sixteen briefs, at 1.4 times its time, 11 minutes against 8). The two were measured on different days, so effort and day are not separated.
-- **On the eight working briefs** (skill answers of 2026-10-03 against no-skill answers of 2026-10-01): 2 pairs to the skill, 2 to no skill, 4 tied, with 2 medium errors against 4. Version 1.36 lost all eight of the same pairs, and 1.37 lost six and tied two.
+- **Against no skill, on sixteen briefs nobody had read** (2026-10-04, effort `xhigh`): all 16 pairs to the skill. No medium or high error in the skill's sixteen answers against 2 with no skill, and 7 errors of any severity against 10. The skill's answers are 2.9 times as long (3,700 words against 1,300) and take 3.3 times as long, 11.7 minutes against 3.6. A comparison across that much length is not controlled for depth; the next one is.
+- **Against no skill plus one sentence asking for a thorough, decided answer, on the same briefs, at about equal length**: 14 pairs to the skill, none to the sentence, 2 tied (both reviews). No medium or high error against 5, and 7 errors of any severity against 30. The skill takes 1.9 times as long as the sentence, 11.7 minutes against 6.2.
+- **A caveat on the error count.** Three of the skill's seven low errors are the same defect, a screen locked to portrait, and other auditors rated that defect medium in each of the other two arms. Rated alike everywhere, the count against no skill would be 3 against 2 or 0 against 1.
+- **What this does not cover.** One draw per brief. Judges, auditors and the writers of the briefs are the same model family as the skill's author. Effort `xhigh` only: at `max` the previous text (2.0.0) tied the same one-sentence request, 3 / 2 / 3 on eight briefs, and this text has not been run there. Nothing is measured on a weaker model.
 
-Until 2.0.1 this paragraph said the skill takes "about 1.85 times as long to answer". That figure set skill answers against no-skill answers written two days earlier, when the same model wrote twice as much, and it was wrong.
+Earlier results, and the time figure corrected in 2.0.1, are in [`CHANGELOG.md`](CHANGELOG.md).
 
-Current version: **2.0.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **2.1.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -73,17 +74,19 @@ That's it. The rest of this README covers other integration paths and what the s
 
 ## What this skill does
 
-The entrypoint is [`SKILL.md`](SKILL.md), about 120 lines, plus one page of dated platform facts. It prescribes no output format. It changes how the model answers in five ways:
+The entrypoint is [`SKILL.md`](SKILL.md), about 70 lines, plus one page of dated platform facts. It prescribes no output format. It changes how the model answers in five ways:
 
 - **Job first.** Before any layout: who opens this, at what moment, to get which one to three things done. Then six tests that the primary job is finished on the screen and not only reported: act where it is shown, show the answer and not its inputs, design the peak moment, follow the fork, design the whole product and not its outline, give each use its own treatment.
 - **Decide everything.** Structure, behaviour, exact copy, sizes, colours as values, typefaces by name, and the product rules the request left open. No placeholders and no decisions handed back as open questions. Proposals are the work; facts (research results, platform rules, compliance, your existing product) are never invented.
-- **Sized to the request.** A short request gets the design at the level it asked for, about two thousand words, opening with the two or three decisions that set it apart and a mockup with real content. No mode labels, no scores nobody asked for, no account of process.
-- **Floors and facts, checked after the design exists.** States and failure paths, accessibility minimums, and platform facts from [`skill/platform.md`](skill/platform.md): Liquid Glass, Material 3 Expressive, Android 16, width classes, foldables, each with the date it was checked.
-- **One read for contradictions before sending.** A number that differs between the mockup and the table, a rule its own example breaks. This is the most common defect of a long design answer, and where the measured difference in errors comes from.
+- **Thorough, to build from.** The answer covers the states and the edge cases and leaves no open questions, around three thousand words for a screen, a flow, a spec or a system. It opens with the two or three decisions that set the design apart and a mockup with real content. No mode labels, no scores nobody asked for, no account of process.
+- **Floors and facts, checked after the design exists.** States and failure paths, accessibility minimums, and platform facts from [`skill/platform.md`](skill/platform.md): Liquid Glass, Material 3 Expressive, Android 16, width classes, foldables, the iOS 26 back swipe, the screen before a permission alert, the accuracy of approximate location, each with the date it was checked.
+- **One read for contradictions before sending.** A number that differs between the mockup and the table, a rule its own example breaks, an "always" or a "never" that the design itself breaks. This is the most common defect of a long design answer, and where the measured difference in errors comes from.
 
 Loaded only when you ask for it: several visual directions drawn from a catalogue of schools and products, a 1-5 design-quality score with its rubric, an independent judge pass (`--judge`), benchmark reports, and QA of a built screen. Behind those sits a reference library (pattern decision tables, numeric bars, heuristics, domain playbooks, calibration examples) that nothing loads by default.
 
 What changed from 1.x: the six modes, the output contract, the mandatory three directions, the self-scores and the long mandatory self-review are gone from the default answer. They made answers thinner and longer than the model's own.
+
+What changed from 2.0: the lists of what each kind of request needs, most of the lists of floors, the rule sizing the answer to the request and the rule for asking questions are gone, and the text is 1,570 words where it was 2,367. Set against 2.0.0 directly on sixteen working briefs, the shorter text took 11 pairs to 2 with 3 tied, at the same cost.
 
 See [`docs/`](docs) for the reference library and [`docs/evals.md`](docs/evals.md) for how the skill is evaluated.
 
@@ -201,7 +204,7 @@ If your Codex setup supports skill registries, register:
 - **metadata**: `skill/metadata.yaml`
 - **UI descriptor**: `agents/openai.yaml`
 
-Keep one more file loaded alongside the active prompt: `skill/platform.md`, the dated platform facts `SKILL.md` tells the model to read. Everything under `docs/` is loaded only when a user asks for what it covers; `SKILL.md` section 6 lists those files.
+Keep one more file loaded alongside the active prompt: `skill/platform.md`, the dated platform facts `SKILL.md` tells the model to read. Everything under `docs/` is loaded only when a user asks for what it covers; `SKILL.md` section 5 lists those files.
 
 ---
 
@@ -354,9 +357,9 @@ Constraints: accessibility-sensitive, high trust, existing design system, dense 
 
 ### Minimal context is fine
 
-If the task description is short, the skill does not ask a questionnaire. It decides what a good product would do, designs to that, and lists at the end the few assumptions that would change the design if they are wrong. It asks, at most three questions, only when no sensible default exists and the answer would change the whole design.
+If the task description is short, the skill does not ask a questionnaire. It decides what a good product would do and designs to that. Where something needs your yes or no, it gives its recommended answer and designs to it, and if the request can be read two ways it says in the first lines which reading it took.
 
-A short request gets an answer sized to it: the design at the level asked for, about two thousand words, with an offer of what can be added next. Ask for a spec or a handoff when you want implementation depth.
+The answer is thorough by default, around three thousand words for a screen, a flow, a spec or a system. Say so when you want something shorter.
 
 ### Judged mode
 
@@ -393,7 +396,7 @@ On request only, and loaded only then: several visual directions or references (
 
 ```text
 mobile-design-skill/
-├── SKILL.md                              Canonical entrypoint: the whole default behaviour, about 120 lines
+├── SKILL.md                              Canonical entrypoint: the whole default behaviour, about 70 lines
 ├── README.md                             This file
 ├── CHANGELOG.md                          Release history (semver)
 ├── LICENSE                               MIT
@@ -511,7 +514,8 @@ mobile-design-skill/
         ├── generation-prompts.json                   Ten ordinary requests: the second half of the gate's extended set
         ├── paired-comparison-fixtures.json           Separating, null, and broken-control arms for the paired eval
         ├── baseline-gate-briefs.json                 Brief sets for the release gate (skill versus no skill)
-        └── baseline-gate-heldout.json                Sealed held-out briefs for the release gate
+        ├── baseline-gate-heldout.json                Sixteen held-out briefs for the release gate, opened on 2026-10-04
+        └── baseline-gate-heldout-2026-10-03.json     The eight held-out briefs opened on 2026-10-03
 ```
 
 ---
@@ -618,7 +622,7 @@ Contributions are welcome via pull request. Before submitting:
 
 1. Run `python3 scripts/validate_repo.py` — must print `[OK] Repository structure, documentation hygiene and relative links are valid.`
 2. Run `python3 scripts/validate_release.py` before tagging a release.
-3. If you added a new document under `docs/`, add it to `REQUIRED_FILES` in `scripts/validate_repo.py`, and either offer it on request in `SKILL.md` section 6 or list it in `SKILL_ENTRYPOINT_DOC_EXCLUSIONS` with the reason the model does not load it.
+3. If you added a new document under `docs/`, add it to `REQUIRED_FILES` in `scripts/validate_repo.py`, and either offer it on request in `SKILL.md` section 5 or list it in `SKILL_ENTRYPOINT_DOC_EXCLUSIONS` with the reason the model does not load it.
 4. If you changed what the model reads at runtime (`SKILL.md`, `skill/platform.md`, or a document `SKILL.md` points to), run the release gate and record its result in the CHANGELOG entry.
 5. If you added a new capability, bump MINOR and fill in the CHANGELOG.
 6. If you only touched docs or scripts, bump PATCH.

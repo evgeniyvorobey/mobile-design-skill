@@ -1,6 +1,6 @@
 # Platform facts
 
-Checked against Apple's and Google's documentation on 2026-10-02 and 2026-10-03. These are the facts that changed recently or are often remembered a version behind. For the versions named here, this file wins over memory. For anything not listed, use what you know and name the OS version when the answer depends on it.
+Checked against Apple's and Google's documentation between 2026-10-02 and 2026-10-04. These are the facts that changed recently or are often remembered a version behind. For the versions named here, this file wins over memory. For anything not listed, use what you know and name the OS version when the answer depends on it.
 
 ## iOS and iPadOS 26 and 27
 
@@ -10,6 +10,9 @@ Checked against Apple's and Google's documentation on 2026-10-02 and 2026-10-03.
 - **iPad windows.** Since iPadOS 26 app windows resize freely, and from iPadOS 27 `UIRequiresFullScreen` no longer opts an app out (TN3192). An iPad app has to work at any width, including compact.
 - **iPhone Duo**, Apple's foldable iPhone (HIG page "Designing for iPhone Duo", added 2026-09-09). Do not design per pose. A compact-width layout for the outer display and a regular-width layout for the inner display are the basis for every pose. Keep function and state identical across the two displays and show one more level of hierarchy inside where it fits: a split view expands inside and collapses to one pane outside. Keep layouts clear of the outer camera, the inner camera when it is active, and the fold when the device is half open. Bars move to the side on the outer display and on the inner display in landscape. The page gives no point values for poses, so do not pin any.
 - **Bottom edge.** Keep custom controls and custom gestures out of the bottom safe-area inset, where the home indicator's system swipes win.
+- **Back swipe.** Since iOS 26 a pushed screen also goes back on a horizontal swipe that starts anywhere in its content, not only at the leading edge (`UINavigationController.interactiveContentPopGestureRecognizer`). Keeping a custom horizontal drag (a dial, a carousel, a swiped row) away from the edge does not avoid the conflict: say which gesture wins.
+- **Before a permission alert.** A custom screen shown before a system permission alert has one button, titled like "Continue" or "Next", and that button opens the alert. It has no second action and no way to close, cancel or skip the alert, unless a legal consent needs one (HIG, Privacy). An alternative to granting, such as search in place of location, belongs on the screen before it or after the person has answered the alert.
+- **Approximate location.** With Precise Location off, the position is usually within 1 to 20 km of the real one and updates at most a few times an hour (`kCLLocationAccuracyReduced`). It finds the city, not the street: do not centre a street-level map on it or rank "nearest" from it.
 - **Login.** An app that offers a third-party or social login also offers an equivalent that limits data to name and email, lets the person keep their email private, and does not track for advertising without consent (App Review Guideline 4.8, revised January 2024). Sign in with Apple meets it and is no longer the only way.
 - **Type.** Map every text role to a Dynamic Type style. A custom face takes the style's scaling and supplies its own tracking.
 
@@ -19,6 +22,7 @@ Checked against Apple's and Google's documentation on 2026-10-02 and 2026-10-03.
 - **Edge-to-edge** has no opt-out. Handle the system bar insets.
 - **Large screens.** On a display whose smallest width is at least 600 dp, the system ignores orientation, resizability and aspect-ratio restrictions (games are exempt), and Android 17 removes the developer opt-out.
 - **Predictive back.** For an app targeting API 36 the animations are on by default, `onBackPressed` is not called and `KEYCODE_BACK` is not dispatched. Intercept Back with the back callbacks (`OnBackPressedCallback`, or `BackHandler` and `PredictiveBackHandler` in Compose), including for an unsaved-changes prompt.
+- **Approximate location.** Since Android 12 a person can grant approximate location only, whatever the app asks for. It is accurate to about 3 km², where precise is usually within about 50 m (`ACCESS_COARSE_LOCATION`, `ACCESS_FINE_LOCATION`). Design the approximate case: it does not find a street or the nearest stop.
 - **Windows.** Desktop windowing joins split-screen and freeform windows. Any of them can hand the app a compact width at any moment.
 - **Navigation (Material 3 Expressive, May 2025).** The navigation drawer is deprecated in favour of the expanded navigation rail (220 to 360 dp). The collapsed rail is 96 dp. The navigation bar is 64 dp. Top app bars are 64 dp small, 112 dp medium and 152 dp large.
 - **FAB (Material 3 Expressive).** 56 dp, medium 80 dp, large 96 dp. The 40 dp small FAB survives only as a baseline variant and is no longer recommended. Extended FAB: small 56 dp, medium 80 dp, large 96 dp.

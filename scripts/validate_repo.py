@@ -1775,7 +1775,7 @@ def validate_skill_entrypoint_enumerates_docs() -> None:
             errors.append(
                 f"`{relative_path}` is neither named in SKILL.md nor listed in "
                 "SKILL_ENTRYPOINT_DOC_EXCLUSIONS. Decide which: offer it on request in "
-                "SKILL.md section 6, or list it with the reason the model does not load it"
+                "SKILL.md section 5, or list it with the reason the model does not load it"
             )
 
     for relative_path in sorted(SKILL_ENTRYPOINT_DOC_EXCLUSIONS):

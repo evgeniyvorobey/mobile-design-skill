@@ -192,8 +192,12 @@ def load_briefs(set_name: str) -> list[dict[str, str]]:
 
 def all_prompts() -> dict[str, str]:
     """Brief text by id, for the sets that are open. Held-out briefs join only when present
-    in the arms, so scoring a core run never opens the sealed file."""
-    return {brief["id"]: brief["prompt"] for brief in load_briefs("extended")}
+    in the arms, so scoring a core run never opens the sealed file. A held-out set that was
+    opened and then replaced is an open working set: its file is named in the pack."""
+    prompts = {brief["id"]: brief["prompt"] for brief in load_briefs("extended")}
+    for name in read_json(BRIEF_PACK).get("opened_held_out_files", []):
+        prompts.update({brief["id"]: brief["prompt"] for brief in read_json(ROOT / name)["briefs"]})
+    return prompts
 
 
 def prompts_for(ids: set[str]) -> dict[str, str]:
@@ -488,7 +492,8 @@ def self_test() -> None:
         # And it stays what it was: an edited sealed file is refused, not loaded.
         sealed = ROOT / read_json(original)["held_out_file"]
         tampered = ROOT / "examples/evals/.baseline-gate-self-test-heldout.json"
-        tampered.write_text(sealed.read_text(encoding="utf-8").replace("H1", "H9", 1), encoding="utf-8")
+        # Any changed byte is an edit; the ids of the sealed set are not this test's business.
+        tampered.write_text(sealed.read_text(encoding="utf-8") + "\n", encoding="utf-8")
         pack["held_out_file"] = "examples/evals/.baseline-gate-self-test-heldout.json"
         BRIEF_PACK.write_text(json.dumps(pack), encoding="utf-8")
         with contextlib.redirect_stderr(io.StringIO()):

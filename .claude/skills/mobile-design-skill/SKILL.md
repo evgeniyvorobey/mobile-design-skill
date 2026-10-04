@@ -3,7 +3,7 @@ name: mobile-design-skill
 description: Generate, review, and structure mobile UI/UX decisions for iOS, Android, and cross-platform products. Use when you want to invoke the mobile design workflow directly in Claude Code with /mobile-design-skill.
 argument-hint: "[--judge] [task / screen / flow]"
 disable-model-invocation: true
-version: 2.0.1
+version: 2.1.0
 ---
 
 # Mobile Design Skill
@@ -16,7 +16,7 @@ When invoked:
 2. The canonical file names its other files by repository-relative path. They resolve here:
    - Read when the canonical file says to, which is for almost every design request:
      - `${CLAUDE_SKILL_DIR}/../../../skill/platform.md`
-   - Read only when the user asks for what the file covers (canonical section 6):
+   - Read only when the user asks for what the file covers (canonical section 5):
      - `${CLAUDE_SKILL_DIR}/../../../docs/inspiration-sources.md`
      - `${CLAUDE_SKILL_DIR}/../../../docs/design-quality-rubric.md`
      - `${CLAUDE_SKILL_DIR}/../../../docs/judged-mode.md`

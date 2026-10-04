@@ -82,7 +82,7 @@ So this repository is packaged to support both products, but the invocation UX i
 
 Since 2.0 the skill does not classify a request into a mode or print a mode label. Describe the task and it answers what was asked.
 
-The headings below are the kinds of request it is written for, with phrasing that works. A short request gets an answer sized to it, about two thousand words; ask for a spec or a handoff when you want implementation depth.
+The headings below are the kinds of request it is written for, with phrasing that works. Every request gets a thorough answer to build from, around three thousand words for a screen, a flow, a spec or a system, with the states and the edge cases covered; say so when you want something shorter.
 
 Use `--judge` for higher-confidence outputs when the extra latency of an independent judge pass is acceptable.
 
@@ -311,9 +311,7 @@ The skill works best when your prompt includes:
 - constraints
 - existing wireframe or screen summary if available
 
-If some of that is missing, the skill decides what a good product would do and says which assumptions would change the design.
-
-If the missing information would change the whole design and no sensible default exists, the skill asks at most three questions and says what it would do by default. That is rare: its normal behaviour is to decide, and to list the few assumptions that would change the design.
+If some of that is missing, the skill decides what a good product would do and designs to it. Where something needs the owner's yes or no, it gives its recommended answer and designs to that. If the request can be read two ways, it says in the first lines which reading it took.
 
 ---
 

@@ -1,6 +1,6 @@
 name: mobile-design-skill
 title: Mobile App Design Skill
-version: 2.0.1
+version: 2.1.0
 status: maintained
 owner: repository-maintained
 entrypoint: SKILL.md
@@ -71,11 +71,10 @@ default_answer:
   prints_mode_or_scope_labels: false
   prints_scores_unasked: false
   opens_with: the job, the decisions that set the design apart, then a mockup, a step map or the verdict
-  sized_to_the_request: true
+  thorough_by_default: true
+  length: around 3,000 words for a screen, a flow, a spec or a system; a review as long as its findings
   decides_instead_of_handing_back: true
-  assumptions: one short list of those that would change the design
-  asks_only_when: no sensible default exists and the answer would change the whole design
-  max_clarifying_questions: 3
+  says_which_reading_it_took_when_the_request_has_two: true
   reads_once_for_contradictions_before_sending: true
   optional_bolder_variant_after_the_committed_design: true
   include_accessibility_by_default: true
@@ -346,7 +345,7 @@ tags:
 properties:
   default_answer_carries_no_process_scaffolding: true
   decisions_made_not_handed_back: true
-  answer_sized_to_the_request: true
+  thorough_answer_to_build_from: true
   dated_platform_facts: true
   consistency_read_before_sending: true
   concrete_numeric_thresholds: true

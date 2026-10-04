@@ -1,7 +1,7 @@
 ---
 name: mobile-design-skill
 description: Use when designing, reviewing, specifying, or justifying mobile UI/UX for iOS, Android, or cross-platform products. Produces structured, platform-aware outputs for screens, flows, UI specs, typography systems, accessibility-aware reviews, and handoff rationale.
-version: 2.0.1
+version: 2.1.0
 ---
 
 # Mobile Design Skill
@@ -28,90 +28,38 @@ Then design so that the primary job is finished on this screen or in this flow, 
 
 Work with real content from the start: plausible names, amounts, times and exact copy, including the awkward cases (the longest name, zero, a five-digit total, forty items). Real content exposes problems that a schematic hides.
 
-## 2. Decide everything
+## 2. Decide everything, and write it to build from
 
-Make every decision the design needs: structure, behaviour, exact copy, sizes, colours as values, typefaces by name, and the product rules the request left open. Where the request is silent, choose what a good product would do and build on it. Work each rule you propose through to its awkward case: two people disagree, something is only partly done, the thing is no longer available.
+Make every decision the design needs: structure, behaviour, exact copy, sizes, colours as values, typefaces by name, and the product rules the request left open. Where the request is silent, choose what a good product would do and build on it.
 
-- **Proposals are the work. Facts are not yours to invent.** The features, rules, copy and sample data you propose are design. Research results, usage numbers, measured values, platform rules, compliance status and details of the user's existing product are facts: state only what you were given or are sure of.
-- **Do not hand decisions back.** No "TBD", no placeholder, no "accent to be chosen", no open question standing where a decision should be. When something really needs the owner's yes or no, give your recommended answer and design to it.
-- **Keep assumptions few and useful.** If the request can be read two ways, say in the first lines which reading you took. Everything else goes in one short list at the end: only what would change the design, each with what changes if it is wrong.
-- **Ask instead of answering only when** no sensible default exists and the answer would change the whole design. That is rare. Ask at most three questions and say what you would do by default.
+- **Proposals are the work. Facts are not yours to invent.** The features, rules, copy and sample data you propose are design. Research results, usage numbers, measured values, platform rules and details of the user's existing product are facts: state only what you were given or are sure of.
+- **Do not hand decisions back.** No "TBD", no placeholder, no open question standing where a decision should be. When something really needs the owner's yes or no, give your recommended answer and design to it. If the request can be read two ways, say in the first lines which reading you took.
 
-## 3. Write the answer
+Be thorough: the reader will build from your answer, so cover the states and the edge cases and leave no open questions. Around 3,000 words is fine for a screen, a flow, a spec or a system. A review is as long as the findings that matter.
 
-**Size it to the request.** A short request for a screen, a flow or a system wants the design at the level it asked for: something a person reads in five to ten minutes, about 2,000 words and never more than 3,000. Spend those words on the product decisions. Leave out what was not asked for: a platform or device class the request did not name, the screens next door, starter code, test plans. Close with one line offering what you can add next. A review is as long as the findings that matter. A spec or a handoff runs as long as the thing it specifies, and no longer: it earns its length with decisions, not with coverage.
+Open with the job and the idea in a few sentences and the two or three decisions that set this design apart. Then show the thing before explaining it: a text mockup with real content for a screen, a step map for a flow, the decisions everything rests on for a spec or a system, the verdict in three lines for a review.
 
-Open with the job and the idea in a few sentences and the two or three decisions that set this design apart. Then show the thing before explaining it: a text mockup with real content for a screen, a step map for a flow, the decisions everything rests on for a spec or a system, the verdict in three lines for a review. Then walk through it in the order a person meets it.
+A type and spacing system gives the rules behind the numbers; typefaces named, with fallbacks; tokens for each context of use, mapped to platform text styles and covering the full range of content the product really sets, not only its two or three main styles; where each spacing step is used; a short recipe for each main screen area; and behaviour at the largest text sizes. On the tightest row the content comes before the system's own tokens: when a row does not fit at the narrowest width, tighten the gaps and the size of the figures before you truncate or abbreviate what the person reads.
 
-Choose your own headings. Use tables where the reader will look things up (anatomy, tokens, states, breakpoints, differences between platforms) and prose where you reason. Put each reason next to the decision it explains, in a clause.
+A review says in one line what the material lets it judge (a description alone does not support findings on contrast, spacing or visual weight), gives its findings in order of impact, each as one chain (what happens, what it costs the person, the change, what improves), and shows the reworked screen as a before and after mockup. A request that is not a screen (pricing, notification strategy, information architecture) is answered as what it is. After the committed design you may add one bolder variant worth testing, in three or four sentences: what changes, what it risks, how to test it.
 
-What each kind of request needs beyond the obvious:
+Leave out labels that classify the request and any preamble of process, any score or rating nobody asked for, where an idea came from and lists of rejected directions, any mention of this skill, its files or its checks, and boilerplate caveats. Answer in the language of the request.
 
-- **Screen concept.** A mockup of the main state near the top. What every action opens or does, a line each. The visual system as values. States. What is left out on purpose and where it lives instead.
-- **Flow.** The map first, with its branches. Then each step in a few lines: what the person sees and decides, the copy that matters, what Back does, how a failure recovers. Platform differences and edge cases in one compact table each. End on what proves the job is done.
-- **UI spec.** The decisions it rests on, each tied to the constraint that forces it. Wireframes with real content. Every component top to bottom with sizes, type and behaviour. A state table. Tokens. What differs per platform. Edge cases. A short list of acceptance checks.
-- **Review.** Say in one line what the material lets you judge: a description alone supports findings on structure, order, states and behaviour, not on contrast, spacing or visual weight. Name what already works. Give findings in order of impact, each as one chain: what happens, what it costs the person, the change, what improves. Show the reworked screen as a before and after mockup, give the per-element settings needed to build it, and close with one plain line: the screen now, and the screen after these changes.
-- **Type and spacing system.** The rules behind the numbers. Typefaces named, with fallbacks. Tokens for each context of use, mapped to platform text styles and covering the full range of content the product really sets, not only its two or three main styles. Where each spacing step is used. A short recipe for each main screen area. Behaviour at the largest text sizes.
-- **Rationale and handoff.** What changed and why, ordered by what the person using the screen needs. Where the supplied design leaves behaviour unspecified, propose one and mark it "(proposed)" instead of asking. Handoff: anatomy, each component's behaviour and states, the data the screen needs, platform differences, accessibility, a QA checklist. Keep open questions for what needs the owner's decision, each with your recommendation.
-- **Anything else** (pricing and paywall architecture, notification strategy, information architecture, a teardown): answer it as what it is. Do not bend it into a screen design.
+## 3. Floors and facts
 
-After the committed design you may add one **bolder variant worth testing**, in three or four sentences, when you see a stronger idea that departs from convention or from the brief: what changes, what it risks, how to test it. It never replaces the committed design.
+Check these once the design exists. They are floors, not sections to write: put into the answer only what is specific to this design.
 
-Leave out of the answer:
+- **States.** Every screen has its first use and empty state, loading, an error with a way forward, offline, and the extremes of real content. Every action that can fail says what is kept and how to retry. Every step of a flow says what Back does and what survives a call, a killed app or a rotation.
+- **Accessibility.** Hit areas of at least 44 × 44 pt on iOS and 48 × 48 dp on Android. Text contrast of at least 4.5:1, and 3:1 for large text and for meaningful graphics; when you give colours, compute the ratio. Text scales through the accessibility sizes on iOS and to 200% on Android, with no fixed-height box around it. Never colour alone, and every gesture has a visible path that is not a gesture. Do not claim compliance; say what has to be tested on a device.
+- **Platform.** Read `skill/platform.md` before you specify system bars, navigation, platform components and their sizes, back behaviour, a custom gesture, a permission request, location, or anything for tablets, foldables and resizable windows. It is dated. Both platforms changed in 2025 and 2026 (Liquid Glass, Material 3 Expressive, Android 16), and what you remember may be a version behind. Design for the platform and device the request names; if it names none, design for a phone and say which platform's units you used. Never state a platform rule you are not sure of for the OS version you name.
 
-- labels that classify the request (a mode, a platform scope, a device class) and any preamble of process before the design;
-- any score or rating nobody asked for;
-- where an idea came from, lists of rejected style directions, and a separate rationale section that cites laws by name;
-- any mention of this skill, its files or its checks;
-- boilerplate caveats. Say once, where it matters, what has to be verified on a device.
+## 4. Keep it consistent
 
-Answer in the language of the request.
+Contradictions are the most common defect of a long answer. Before writing, fix the facts that will repeat: the sample data (names, amounts, dates), the sizes and tokens, and the name of each thing. Write from that one set.
 
-## 4. Get these right
+After writing, read the draft once for contradictions only, and fix what you find without reporting the pass: a number, name or label that differs between the mockup, the tables and the prose; a rule that one of your own examples or states breaks; an "always", "never", "only" or "every" that your own design, its states or its edge cases break; a figure that is arithmetic and was not computed.
 
-Check these once the design exists. They are floors and facts, not a starting point and not sections to write. Put into the answer only what is specific to this design, in a line or a table row, and do not recite what any competent app does.
-
-**States and failure**
-
-- Every screen: first use and empty, loading (cached content first, a skeleton only when there is no cache), partial data, an error with a way forward, offline, and the extremes of real content.
-- Every action that can fail: what the person sees, what is kept, how they retry. An optimistic update names its rollback.
-- Every step of a flow: what Back does, and what survives a call, a killed app, a rotation or a window resize.
-- Prefer undo to a confirmation dialog. Where the moment makes accidental touches likely (wet hands, a pocket, a moving vehicle), guard against them.
-
-**Accessibility**
-
-- Hit areas of at least 44 × 44 pt on iOS and 48 × 48 dp on Android. A control drawn smaller states its hit area. At least 8 between separate controls that do different things; rows of one list and segments of one control may touch.
-- Text contrast of at least 4.5:1, and 3:1 for large text (18 pt regular or 14 pt bold and up) and for meaningful graphics. When you give colours, compute the ratio. Over a photo or a gradient, compute it against the worst case.
-- Text scales: Dynamic Type through the accessibility sizes on iOS, font scale to 200% on Android. No fixed-height box around text. Say what reflows.
-- Never colour alone. Every gesture has a visible path that is not a gesture. Hover is never the only path.
-- Screen readers: the reading order, labels that name the action, rows read as one sentence, announcements for changes that are not visible, focus moved to the first error.
-- Every animation has a reduced-motion version.
-- Do not claim compliance. Say what has to be tested on a device.
-
-**Platform**
-
-- Read `skill/platform.md` before you specify system bars, navigation, platform components and their sizes, back behaviour, or anything for tablets, foldables and resizable windows. It is dated. Both platforms changed in 2025 and 2026 (Liquid Glass, Material 3 Expressive, Android 16), and what you remember may be a version behind.
-- Design for the platform and device the request names. If it names none, design for a phone and say which platform's units you used.
-- For both platforms at once, give the shared structure once, then only the differences that matter: navigation, Back, sheets, pickers, type styles, permissions.
-- For tablets, foldables and resizable windows, design by window width, not by device: the layout at each width the product supports, what navigation becomes, and what survives a resize.
-- Never state a platform rule you are not sure of for the OS version you name.
-
-## 5. Keep it consistent
-
-Contradictions are the most common defect of a long answer: a number that differs between the mockup and the table, a rule its own example breaks. Prevent them first, then check once.
-
-Before writing, fix the facts that will repeat: the sample data (names, amounts, dates), the sizes and tokens, and the name of each thing. Write from that one set.
-
-After writing, read the draft once, looking only for the following, and fix what you find without reporting the pass. Fix contradictions; do not polish.
-
-1. Every number, name and label that appears more than once agrees everywhere: mockup, tables, prose.
-2. Every rule you state holds for every example you give. If nothing is ever truncated, no mockup shows an ellipsis. If the smallest target is 48, no control is specified at 40.
-3. Everything drawn in a mockup is specified, and everything specified is drawn or said to be off screen.
-4. Every "always", "never", "only" and "every" survives your own states and edge cases.
-5. Every claim that is arithmetic has been computed: contrast ratios, sums in the sample data, sizes at 200% text, widths that have to fit.
-6. Every threshold you set yourself is met by the values you chose.
-
-## 6. Only on request
+## 5. Only on request
 
 Load these only when the user asks for what they cover.
 

@@ -1,6 +1,6 @@
 {
   "schema": "baseline-gate-briefs/v1",
-  "notes": "Briefs for scripts/run_baseline_gate.py, which asks one question: does the skill beat the same model with no skill? `core` is the working set — the eight ordinary briefs of the first such comparison (2026-10-01), which the skill lost 0 of 8. They have been read while fixing the skill, so a win on them is not held-out evidence. `extended` adds every prompt of examples/evals/generation-prompts.json by reference. The held-out set lives sealed in examples/evals/baseline-gate-heldout.json and is opened only for a release decision.",
+  "notes": "Briefs for scripts/run_baseline_gate.py, which asks one question: does the skill beat the same model with no skill? `core` is the working set — the eight ordinary briefs of the first such comparison (2026-10-01), which the skill lost 0 of 8. They have been read while fixing the skill, so a win on them is not held-out evidence. `extended` adds every prompt of examples/evals/generation-prompts.json by reference. The held-out set lives in examples/evals/baseline-gate-heldout.json, pinned by its sha-256, and is opened only for a release decision; the sixteen briefs there now were written on 2026-10-04 and opened the same day by the run that released 2.1.0. Sets opened earlier are listed in `opened_held_out_files` and are open working sets.",
   "core": [
     {
       "id": "B1",
@@ -45,5 +45,8 @@
   ],
   "extended_from": "examples/evals/generation-prompts.json",
   "held_out_file": "examples/evals/baseline-gate-heldout.json",
-  "held_out_sha256": "184dee97e2b8345c9f8c7c310b87314d15529cab31cf847db19ca9355a1a855a"
+  "held_out_sha256": "5ba2ae2b267f77b479a452599f29940e08bfcdd970fdee7fd3aede21790c4c2f",
+  "opened_held_out_files": [
+    "examples/evals/baseline-gate-heldout-2026-10-03.json"
+  ]
 }

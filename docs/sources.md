@@ -142,7 +142,7 @@ This layer interprets the source hierarchy above into practical quality checks. 
 
 ## Clarification
 
-`SKILL.md` section 2 holds the whole rule: decide what a good product would do, list the few assumptions that would change the design, and ask, at most three questions, only when no sensible default exists and the answer would change the whole design.
+`SKILL.md` section 2 holds the whole rule: decide what a good product would do and build on it; where something needs the owner's yes or no, give the recommended answer and design to it; if the request can be read two ways, say in the first lines which reading was taken. Since 2.1.0 the entrypoint has no rule for asking questions.
 
 ---
 

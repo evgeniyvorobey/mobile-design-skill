@@ -1,6 +1,6 @@
 # Guardrails
 
-These are the skill's hard constraints in their long form. The model reads the short form, `SKILL.md` section 2 and section 4; this document is the reference behind it and is not loaded for an ordinary request. Where the two differ, `SKILL.md` wins.
+These are the skill's hard constraints in their long form. The model reads the short form, `SKILL.md` section 2 and section 3; this document is the reference behind it and is not loaded for an ordinary request. Where the two differ, `SKILL.md` wins.
 
 ---
 
