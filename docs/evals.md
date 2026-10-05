@@ -77,7 +77,7 @@ python3 scripts/run_baseline_gate.py --self-test
 
 Use [`design-quality-rubric.md`](design-quality-rubric.md) for the design-quality score.
 
-Structural/content evals answer "does the response satisfy the skill contract?" The design-quality rubric answers "how strong is the design artifact itself?"
+The design-quality rubric answers "how strong is the design artifact itself?"
 
 For generated concepts, UI specs, typography systems, and handoff — the read and the target are printed only when a score was asked for or the response is judged; when they are absent, these items apply to the derivation behind the response:
 
@@ -87,9 +87,9 @@ For generated concepts, UI specs, typography systems, and handoff — the read a
 - [ ] The output does not average away a serious flaw such as missing states, weak accessibility behavior, or platform flattening.
 - [ ] A printed dimension read spans more than one band, or the response says what made every dimension agree.
 
-For reviews:
+For reviews, only when a score was asked for or the response is judged; a review carries no score otherwise:
 
-- [ ] `Design quality score (current → projected)` includes both a current score and a projected score, each on its own `Current:` / `Projected:` line. Both are medians of the assessable dimensions, lowered by the critical-dimension step and clamped by caps (rubric, Final scoring method) — the current over the bands as found, the projected over the bands once the fixes land — and plain numbers, not "up to"; any higher post-visual-pass figure is confined to a `Ceiling note`.
+- [ ] The score includes both a current score and a projected score, each on its own `Current:` / `Projected:` line. Both are medians of the assessable dimensions, lowered by the critical-dimension step and clamped by caps (rubric, Final scoring method) — the current over the bands as found, the projected over the bands once the fixes land — and plain numbers, not "up to"; any higher post-visual-pass figure is confined to a `Ceiling note`.
 - [ ] The projection is conditional (IF fixes land AND assumptions hold) and capped at 4/5 unless resilience is named; a P0/Fail is not projected up to a number.
 - [ ] Text-only reviews label both scores as structural/provisional, and visual dimensions are not projected upward.
 - [ ] The per-dimension table carries all nine rubric dimensions, distinctiveness included, and the score rationale references the concrete ones it moves.

@@ -118,7 +118,7 @@ What the skill returns:
 - interaction notes
 - empty/loading/error states
 - accessibility considerations
-- rationale and next actions
+- rationale
 
 ---
 
@@ -213,16 +213,14 @@ Screen description:
 Constraints: enterprise app, high density, many older users
 ```
 
-What the skill returns (the authoritative section list is the Mode 4 entry of the mode output requirements in `SKILL.md`):
-- sub-case (D1–D4: what the evidence lets the review claim)
-- quick summary
-- strengths
-- findings, one causal chain each: lens, observation, violated principle, user consequence, change, predicted effect, severity (Nielsen 0–4), and the design-quality dimension it moves
-- design quality score, current → projected, with a per-dimension table
-- severity index
-- bold move, only when its trigger is met
-- platform-convention mismatches
-- unresolved assumptions
+What the skill returns:
+- the verdict in three lines
+- one line on what the material lets the review judge; a description alone does not support findings on contrast, spacing or visual weight
+- findings in order of impact, each as one chain: what happens, what it costs the person, the change, what improves
+- the reworked screen as a before and after mockup
+- optionally, after the reworked screen, one bolder variant worth testing: what changes, what it risks, how to test it
+
+A review is as long as the findings that matter. It carries no label that classifies the request and no score or rating. Ask for a score and the skill adds one from [`design-quality-rubric.md`](design-quality-rubric.md).
 
 ---
 
@@ -294,7 +292,7 @@ What the skill returns:
 - accessibility and usability considerations
 - states and edge cases
 - implementation notes
-- open questions
+- a recommended answer for anything that needs the owner's yes or no
 - validation plan
 
 ---

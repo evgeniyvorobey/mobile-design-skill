@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.1] - 2026-10-06
+
+**The command reference described the 1.x review, with its sub-case label, its score table and its severity index, as what a review returns. It now describes the review `SKILL.md` asks for. No instruction text changes: `SKILL.md` and `skill/platform.md` are the files of 2.2.0 with a new version number, and no document `SKILL.md` names is touched.**
+
+### Fixed
+- **`docs/commands.md`, the review block.** It cited "the Mode 4 entry of the mode output requirements in `SKILL.md`", which has not existed since 2.0.0, and listed a sub-case (D1 to D4), a quick summary, strengths, findings with a Nielsen 0 to 4 severity and a design-quality dimension, a design quality score with a per-dimension table, a severity index, platform-convention mismatches and unresolved assumptions. `SKILL.md` section 2 asks for none of these and says to leave out labels that classify the request and any score nobody asked for. The block now lists what section 2 lists: the verdict in three lines, one line on what the material lets the review judge, findings in order of impact as one chain each, the reworked screen as a before and after mockup, and the optional bolder variant. It says a score comes only when asked for. Found by an automated review of a repository that embeds 2.2.0 as a copy.
+- **`docs/commands.md`, two more 1.x items.** The screen-concept list ended with "next actions", a section the answer has not had since 2.0.0. The handoff list carried "open questions", which section 2 forbids where a decision should stand; it now says a recommended answer for anything that needs the owner's yes or no.
+- **`docs/evals.md`.** The review checklist required a `Design quality score (current → projected)` section with no condition. It now applies only when a score was asked for or the response is judged. A sentence that set "structural/content evals" and "the skill contract" beside the rubric is cut: the document's own opening says there is nothing structural left to check.
+- **`docs/visual-review-fixtures.md`.** The pass criteria told a review to begin with a `Mode:` line and to include an `Unresolved assumptions` section. Both are replaced by what section 2 asks for, and a note says that each fixture's `Example output` is a 1.x answer that keeps its header lines and its score.
+- `README.md`: the versioning table said "new sub-case" where `docs/versioning.md` says a new kind of request.
+
+### Not changed
+- What the model reads. `SKILL.md`, `skill/platform.md` and the nine documents section 5 names are the files of 2.2.0, so the release gate was not run. `docs/evals.md` supplies fail conditions to the judge packet in judged mode; a judged answer always carries a score, so the edit there changes no condition for it.
+- The calibration answers under `examples/`. They keep the 1.x header lines (`Mode:`, `Platform scope:`, `Device class:`, `Next actions:`) and section lists, and the validators read them in that shape.
+
+### Still open
+- **1.x review vocabulary in two documents `SKILL.md` names.** `docs/design-quality-rubric.md` says "D2/D3" for a text-only review, and no file defines D1 to D4 any more; it also names `Assumptions` and `Unresolved assumptions` as sections and speaks of "the mode" and "its own output contract". `docs/inspiration-sources.md` uses D1, D2 and D3 for three directions and, once, "D1 input" in the old sense. A change to either is a change to what the model reads on request, which this release does not make.
+- **The same vocabulary in the reference library**: `docs/weaknesses.md` (a "Mode risk map" over modes A to F, D1 to D4, `Next actions`), `docs/heuristics.md` ("Severity index"), `docs/domain-packs/index.md` (`Unresolved assumptions` or `Open questions`) and `docs/versioning.md` (a template field, "the output contract").
+
 ## [2.2.0] - 2026-10-04
 
 **One sentence is added: do not lock a screen to one orientation unless the task cannot be done in the other. On sixteen new briefs nobody had read, no answer written with it locks a phone to portrait, where four of sixteen written with 2.1.0 and two of sixteen written with no skill do.** The gate is green, 15 pairs to the skill, none to no skill, 1 tied. Set against 2.1.0 directly the two texts are not told apart: 5 pairs to the new text, 7 to 2.1.0, 4 tied. The sentence removes a defect; it does not make the designs better.

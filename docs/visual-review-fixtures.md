@@ -69,14 +69,15 @@ Every fixture uses this structure:
 
 A good review should:
 
-- begin with `Mode: Review screen for usability/accessibility`
-- state that the review is based on a text description, not a screenshot
+- state in one line that the review is based on a text description, not a screenshot
 - include at least one real strength
 - separate high-risk issues from craft issues
-- include `Unresolved assumptions` for visual details not provided
+- name the visual details the description does not give, and make no finding that depends on them
 - recommend concrete fixes that can be implemented
 - use severity consistently
-- include a provisional current design-quality score when scoring is requested or expected
+- include a provisional current design-quality score only when a score is asked for
+
+The `Example output` in each fixture was written under the 1.x contract and still opens with its header lines (`Mode:`, `Platform scope:`, `Sub-case:`) and carries a score. Read it for the findings and the evidence limits. A 2.x review carries no such labels, and no score unless one is asked for (`SKILL.md`, section 2).
 
 ## Fail Criteria
 

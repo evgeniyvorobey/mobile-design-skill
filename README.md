@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.2.0-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-2.2.1-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -25,7 +25,7 @@ Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skil
 
 Earlier results, and the time figure corrected in 2.0.1, are in [`CHANGELOG.md`](CHANGELOG.md).
 
-Current version: **2.2.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **2.2.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -612,7 +612,7 @@ This project uses [Semantic Versioning 2.0.0](https://semver.org/) with policy a
 | Bump | Reason |
 |------|--------|
 | MAJOR | Breaking contract change (what the default answer contains, the invocation syntax, the SKILL.md schema) |
-| MINOR | Additive enhancement (new guardrail, new document, new sub-case, new quality bar) |
+| MINOR | Additive enhancement (new guardrail, new document, new kind of request, new quality bar) |
 | PATCH | Non-behavioral fix (typo, link repair, script fix, docs polish) |
 
 Version is stored in `skill/metadata.yaml` (canonical), mirrored into `SKILL.md` frontmatters and the README badge. Use `scripts/bump_version.py` to keep them in sync.
