@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.1] - 2026-10-22
+
+**The Resizing line in `skill/platform.md` now names where an iPhone app's window changes size: in iPhone Mirroring on a Mac and on iPhone Duo. Two answers written with 2.3.0 had read "on iPhone or iPad" as "on any iPhone".** No other text the model reads changes.
+
+### Fixed
+- **`skill/platform.md`, Resizing.** Two sentences are added before the TN3192 sentence: on iPhone, Apple names two resizable environments, iPhone Mirroring on a Mac with macOS 27, where people resize the window freely, and iPhone Duo, where an app built with the iOS 27 SDK or later changes size as the device folds and unfolds; in both an iPhone app can have any combination of size classes, and an iPhone-only app on iPad resizes like an iPad app. Sources, read on 2026-10-22: WWDC26 session "Modernize your UIKit app" and the developer page "iPhone Duo: Prepare". TN3192 says the `UIRequiresFullScreen` change applies "on both iPhone and iPad" and names no place; no Apple source says that a standard iPhone display resizes an app's window. The file is 1,745 words where it was 1,670.
+- Why: in the 2.3.0 gate one answer said "from iOS 27 apps built with the iOS 27 SDK resize on iPhone too" (an auditor marked it low), and in the probe for the top-bar sentence one said "From iOS 27 a window can have any width, on any iPhone".
+
+### Measured
+- **A probe, not the gate.** One answer each on two briefs the 2.3.0 gate opened, U06 (a review of an iPhone screen) and U02 (a trip screen for iPhone and iPhone Duo), against four checks written before reading (`.gate-runs/2026-10-22-resizing/`, not committed). Neither says a window resizes on any iPhone; the U06 answer names exactly the two places, the U02 answer ties any window width to iPhone Mirroring; neither has a wrong resizing fact; the U02 answer keeps the bar column on the camera side, the top bar above the fold in inner portrait and the iOS 27.1 SDK for vertical bars.
+- **The release gate was not run.** `docs/versioning.md` asks for it when what the model reads changes; the maintainer chose to release on the probe. The last gate measured 2.3.0 before its top-bar sentence (8 / 0 / 0 against no skill).
+
 ## [2.3.0] - 2026-10-22
 
 **`skill/platform.md` now carries what Apple has published about iPhone Duo, which goes on sale on 2026-10-23: the outer display's shape, where the fold runs in each orientation, where the bars go and on which side, that the inner display ignores an app's supported orientations, how an app that is not adapted looks by SDK, and how to place controls when the device is half open. Four other platform facts are brought up to date. On eight new briefs nobody had read, four of them on iPhone Duo or an Android foldable, the skill wins every pair against the same model with no skill.** `SKILL.md` is unchanged apart from its version number.
