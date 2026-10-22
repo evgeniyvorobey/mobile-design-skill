@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.2.1-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-2.3.0-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -25,7 +25,7 @@ Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skil
 
 Earlier results, and the time figure corrected in 2.0.1, are in [`CHANGELOG.md`](CHANGELOG.md).
 
-Current version: **2.2.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **2.3.0** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
@@ -516,7 +516,8 @@ mobile-design-skill/
         ├── generation-prompts.json                   Ten ordinary requests: the second half of the gate's extended set
         ├── paired-comparison-fixtures.json           Separating, null, and broken-control arms for the paired eval
         ├── baseline-gate-briefs.json                 Brief sets for the release gate (skill versus no skill)
-        ├── baseline-gate-heldout.json                Sixteen held-out briefs for the release gate, T01 to T16, opened on 2026-10-04 by the 2.2.0 run
+        ├── baseline-gate-heldout.json                Eight held-out briefs for the release gate, U01 to U08, opened on 2026-10-22 by the 2.3.0 run
+        ├── baseline-gate-heldout-2026-10-04-t.json   The sixteen held-out briefs T01 to T16, opened on 2026-10-04 by the 2.2.0 run
         ├── baseline-gate-heldout-2026-10-04.json     The sixteen held-out briefs S01 to S16, opened on 2026-10-04 by the 2.1.0 run
         └── baseline-gate-heldout-2026-10-03.json     The eight held-out briefs opened on 2026-10-03
 ```
