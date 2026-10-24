@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.4.0] - 2026-10-24
+
+**`skill/platform.md` gets an iPhone Duo section with the rules a design needs before an app is adapted: which bars move to the side column (only those of system navigation containers), the size classes of each display, Split View and a pinned Picture in Picture video as window sizes, how system sheets, alerts and menus behave, and how custom views keep controls off the fold (reserved regions, arrangement views). The iOS section gains four general rules: the tab bar stays visible within a section, navigation and modal tasks belong in system containers, colour on Liquid Glass, and Increase Contrast values for custom colours.** `SKILL.md` is unchanged apart from its version number.
+
+### Added
+- **`skill/platform.md`, section "iPhone Duo"**, checked on 2026-10-24 against the HIG page "Designing for iPhone Duo", the developer article "Preparing your app for iPhone Duo", the developer page "iPhone Duo: Prepare", the UIKit references `UIView.ReservedRegion` and `UIArrangementViewController`, and the tech talks "Design for iPhone Duo", "Prepare your app for iPhone Duo", "Raise the bar with iPhone Duo", "Strike a pose with adaptive layouts on iPhone Duo" and "Leverage multiple displays and scenes on iPhone Duo" (transcripts read in full). It replaces the 2.3.x iPhone Duo bullet and keeps every fact of it. New in it:
+  - Size classes: the outer display is compact width, with regular height in portrait and compact height in landscape; the inner display is regular in both dimensions and both orientations; the outer display honours supported orientations.
+  - Size class, not pose: choose the layout from the size class and the container's shape, never from device, orientation, screen or known sizes; regular width does not mean iPad; write sizes as rules of the container, with full-screen numbers only as examples; three structures for the inner display instead of a stretched phone layout; tabletop as the one pose worth its own layout.
+  - Window sizes: every app takes part in Split View on the inner display (50/50, each app's column on its outer edge); a pinned Picture in Picture video shortens the window; iPhone Mirroring resizes it freely. That a Split View half reports compact width is stated as an expectation to check, because no source says it.
+  - Bars: only bars owned by system navigation containers move into the column, an app-drawn bar or header stays put; the order in the column; symbol items go vertical, title-only items, segmented controls and custom views stay horizontal; overflow and visibility priority; which bar compresses first; a Live Activity takes room in the column; Reduce Transparency gives the bar a background; full width for an immersive screen without bars.
+  - Sheets, alerts and menus: a system sheet's toolbar goes vertical outside and stays horizontal and centred inside; system presentations move off the fold when half open, app-drawn ones do not.
+  - The fold: custom views take it from the reserved regions (a division, active only while half open, readable while inactive) rather than the middle of the window; arrangement views (split, overlay) for two related views; scrolling content stays put; small adjustments; even grid columns; an alert moves to the trailing side in the book pose.
+  - Edges and media: asymmetric safe areas and margins; `UIBackgroundExtensionView` for a hero under the column; concentric corners; and what to check in Device Hub.
+- **`skill/platform.md`, iOS section**: "System containers" (navigation in the navigation bar with symbol-and-title items, modal tasks in system sheets and alerts; an app-drawn bar or sheet loses their behaviour, including the iPhone Duo column and fold avoidance; a custom Back or Close matches the system one, HIG Toolbars) and "Colour variants" (light, dark and Increase Contrast values for every custom colour, HIG Color).
+- **`docs/sources.md`**: the Apple pages and tech talks above.
+
+### Changed
+- **`skill/platform.md`, iPhone tab bar**: it stays visible as people move within a section; only a modal view covers it (HIG, Tab bars).
+- **`skill/platform.md`, Liquid Glass**: text and symbols on small glass elements take system label colours, which follow the glass between its light and dark look; brand colour for one emphasised element (HIG, Color and Materials).
+- **`skill/platform.md`, Type**: at large text sizes, controls side by side stack when their labels no longer fit (HIG, Typography).
+- **`docs/adaptive-layout.md`**: its iPhone Duo line said pose-level values were not verified; it now sends the reader to the section in `skill/platform.md`, and the multitasking list names Split View and the pinned video on iPhone Duo.
+- The file is 2,652 words where it was 1,745; the iPhone Duo section is about 1,100 of them. It stays in `skill/platform.md` because integrations load that file next to `SKILL.md` and nothing else (`README.md`, Install, the Claude API examples).
+
+### Measured
+- **Why.** A redesign of an existing app for iPhone Duo, made with 2.3.1, was audited against the Apple sources above: 4 decisions conflicted with them (a custom header that never reaches the column, a tab bar hidden on pushed screens, a layout table per pose with fixed numbers, custom sheets and a keypad placed by the middle of the window), 7 held with conditions, 6 cases were never checked (Split View, a pinned video, a modal sheet's real size). One conflict, the table per pose, came from applying 2.3.1 rather than from its text, which already said not to design per pose; the new section says how to write sizes instead. Each of the 27 audit items now maps to a sentence of `skill/platform.md`.
+- **The release gate was not run.** `docs/versioning.md` asks for it when what the model reads changes. No answer was generated with this text.
+
+### Still open
+- **Length.** `skill/platform.md` grows by half for requests that never name iPhone Duo. A split into a file read only for the device would need a second file in every integration.
+- **The Split View size class** on iPhone Duo is an expectation until measured.
+
 ## [2.3.1] - 2026-10-22
 
 **The Resizing line in `skill/platform.md` now names where an iPhone app's window changes size: in iPhone Mirroring on a Mac and on iPhone Duo. Two answers written with 2.3.0 had read "on iPhone or iPad" as "on any iPhone".** No other text the model reads changes.
