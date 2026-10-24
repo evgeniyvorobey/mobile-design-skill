@@ -12,7 +12,7 @@ This document holds the dated platform baseline, the width classes, the canonica
 
 ## Platform baseline (verified 2026-10-02)
 
-The platform facts this layer depends on, and the date they were last checked against Apple's and Google's documentation. `skill/platform.md` carries the same facts for the model's default reading and was re-checked on 2026-10-24; where the two disagree, `skill/platform.md` wins. Anything after that date is unverified; name the version a recommendation assumes when it changes the answer (guardrail 16). Where an older line elsewhere in the skill disagrees with this section, this section wins until it is re-verified.
+The platform facts this layer depends on, and the date they were last checked against Apple's and Google's documentation. `skill/platform.md` carries the same facts for the model's default reading and was last checked between 2026-10-02 and 2026-10-24; where the two disagree, `skill/platform.md` wins. Anything after that date is unverified; name the version a recommendation assumes when it changes the answer (guardrail 16). Where an older line elsewhere in the skill disagrees with this section, this section wins until it is re-verified.
 
 - **iOS and iPadOS 26–27 (Liquid Glass).** System bars float above content on Liquid Glass. On iPhone the tab bar sits at the bottom and can minimise as the user scrolls; on iPad the system tab bar sits near the top and can convert to a sidebar. Apple has no navigation rail. iPadOS 26 made app windows freely resizable, and from iPadOS 27 `UIRequiresFullScreen` no longer opts an app out of resizing (TN3192), so an iPad app must work at any width.
 - **iPhone Duo.** Apple's first foldable iPhone, on sale from 2026-10-23. Its rules (size classes of each display, the bar column, which bars and sheets move, the fold through reserved regions and arrangement views, Split View) live in the iPhone Duo section of `skill/platform.md`, checked on 2026-10-24; read them there rather than from this summary.
@@ -51,8 +51,8 @@ Design against width, not against a device name. A device name is unstable — a
 
 | Class | Width | Typical | Layout consequence |
 |-------|-------|---------|--------------------|
-| Compact | < 600 dp / compact size class | phones; iPad in Slide Over or narrow Split View; unfolded-inner-display-off | One pane. Everything the phone layout already does. |
-| Medium | 600–839 dp | small tablets, large phones in landscape, foldables unfolded, half-screen Split View | One pane with more generous margins, or a two-pane layout only if the detail pane stays ≥ 320 dp |
+| Compact | < 600 dp / compact size class | phones; iPad in Slide Over or narrow Split View; a foldable's outer display | One pane. Everything the phone layout already does. |
+| Medium | 600–839 dp | small tablets, large phones in landscape, foldables unfolded, half-screen split-screen on an Android tablet | One pane with more generous margins, or a two-pane layout only if the detail pane stays ≥ 320 dp |
 | Expanded | 840–1199 dp | tablets in landscape | Two panes as the default |
 | Large | 1200–1599 dp | large tablets, desktop-class windows | Two panes; a third supporting pane only when every pane keeps its minimum width |
 | Extra-large | ≥ 1600 dp | external displays, maximised desktop windows | Two panes, or three |
@@ -100,7 +100,7 @@ A tablet layout is never guaranteed the full screen.
 
 - **iPadOS**: resizable windows (iPadOS 26), Slide Over, and Stage Manager can hand the app any width at any time, including compact, and from iPadOS 27 an app cannot opt out of resizing. Slide Over in particular returns a regular-width app to compact width mid-session.
 - **Android**: split-screen, freeform windows, and desktop windowing do the same, and from Android 16 a large screen ignores orientation and resizability locks; foldables add posture changes (tabletop, book) as the device folds.
-- **Foldable iPhone**: iPhone Duo brings the fold to iOS. Design for the size class each pose produces, not for the pose; every app also takes part in Split View on the inner display, and a pinned Picture in Picture video makes the window shorter (`skill/platform.md`, iPhone Duo).
+- **Foldable iPhone**: iPhone Duo; see the iPhone Duo section of `skill/platform.md`.
 - **Resize without state loss** is the hard requirement. Scroll position, selection, in-progress input, and open sheets survive a width change, or the layout is broken regardless of how it looks at rest.
 - Configuration changes are frequent, not exceptional. Design for the transition, not only for the two end states.
 
