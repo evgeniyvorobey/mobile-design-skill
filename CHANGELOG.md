@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [2.4.0] - 2026-10-24
+## [2.4.0] - 2026-10-25
 
 **`skill/platform.md` gets an iPhone Duo section with the rules a design needs before an existing app is adapted: the size classes of each display, layout by size class and container rather than by pose, Split View and a pinned Picture in Picture video as window sizes, which bars move to the side column (only those of system navigation containers) and which bar items stay horizontal, how system sheets, alerts and menus behave, and how custom views keep controls off the fold (reserved regions, arrangement views). The iOS section gains rules for the tab bar (visible as people navigate; a mini player is its bottom accessory), system containers, colour and glass, Increase Contrast values and controls that stack at large text.** `SKILL.md` changes in one phrase: its pointer to `skill/platform.md` names iPhone Duo among foldables.
 
@@ -37,11 +37,12 @@ All notable changes to this project will be documented in this file.
 
 ### Measured
 - **Why.** A redesign of an existing app for iPhone Duo, made with 2.3.1, was audited on 2026-10-24 against the Apple sources above: of 27 items, 4 decisions conflicted with them (a custom header that never reaches the column, a tab bar hidden on pushed screens, a layout table per pose with fixed numbers, custom sheets and a keypad placed by the middle of the window), 7 held with conditions (among them a modal sheet's real size), 6 cases were never checked (among them Split View, a pinned video and a Live Activity in the column), and 10 held. One conflict, the table per pose, came from applying 2.3.1 rather than from its text, which already said not to design per pose. Each conflict, condition and unchecked case now maps to a sentence of `skill/platform.md`. The audit (TTA-110) is not committed.
-- **The release gate was not run, and no answer was generated with this text.** `docs/versioning.md` asks for the gate before tagging a release that changes what the model reads. Tagging waits for the gate, a probe recorded like 2.3.1's, or the maintainer's recorded decision to release without one.
+- **The release gate was not run; the maintainer decided on 2026-10-25 to release without it.** `docs/versioning.md` asks for the gate before tagging a release that changes what the model reads; this entry records the decision that replaces it. No probe was run either.
+- **One use before release, not a measurement.** On 2026-10-25 the candidate was applied to one real brief, the iPhone Duo adaptation decisions for six screens of an existing app (TTA-110): none of its rules conflicted with the Apple sources above, and it was silent in nine places that a maintainer noted for 2.4.x. One brief, one draw, no comparison arm, no judge.
 
 ### Still open
 - **Length.** `skill/platform.md` is 81% longer than in 2.3.1 for requests that never name iPhone Duo. A split into a file read only for the device would need a second file in every integration.
-- **Two facts no source gives**: the size class of a Split View half, and where the tab bar's bottom accessory sits beside the vertical column. The file names both as checks in Device Hub.
+- **Two facts no source gives**: the size class of a Split View half, and where the tab bar's bottom accessory sits beside the vertical column. The file names both as checks in Device Hub. A simulator probe on 2026-10-25 (TTA-110) measured a Split View half as compact width, regular height, 469 pt wide; the file does not carry that yet.
 
 ## [2.3.1] - 2026-10-22
 
