@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img alt="version" src="https://img.shields.io/badge/version-2.4.1-blue">
+  <img alt="version" src="https://img.shields.io/badge/version-2.4.2-blue">
   <img alt="license" src="https://img.shields.io/badge/license-MIT-green">
 </p>
 
@@ -25,7 +25,7 @@ Works as a Claude Code skill (native slash invocation), as a Codex / OpenAI skil
 
 Earlier results, and the time figure corrected in 2.0.1, are in [`CHANGELOG.md`](CHANGELOG.md).
 
-Current version: **2.4.1** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
+Current version: **2.4.2** — see [`CHANGELOG.md`](CHANGELOG.md) and [`docs/versioning.md`](docs/versioning.md).
 
 ---
 
