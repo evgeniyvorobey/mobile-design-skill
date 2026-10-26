@@ -340,6 +340,8 @@ These are the normalized public links maintainers can cite, verify, or review wh
 - [Apple: iPhone Duo: Prepare](https://developer.apple.com/iphone-duo/prepare/)
 - [Apple UIKit: UIView.ReservedRegion](https://developer.apple.com/documentation/uikit/uiview/reservedregion)
 - [Apple UIKit: UIArrangementViewController](https://developer.apple.com/documentation/uikit/uiarrangementviewcontroller)
+- [Apple UIKit: UIViewController.preferredVerticalBarBehavior](https://developer.apple.com/documentation/uikit/uiviewcontroller/preferredverticalbarbehavior) (iOS 27.1; when to turn the vertical bar off and what changes when it is off)
+- [Apple SwiftUI: toolbarVerticalBehavior(_:)](https://developer.apple.com/documentation/swiftui/view/toolbarverticalbehavior(_:)) (iOS 27.1; the same rule for SwiftUI)
 - Apple tech talks on iPhone Duo: [Design for iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111466), [Prepare your app for iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111461), [Raise the bar with iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111462), [Strike a pose with adaptive layouts on iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111463), [Leverage multiple displays and scenes on iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111464)
 - [Material 3: Applying layout / window size classes](https://m3.material.io/foundations/layout/breakpoints/overview)
 - [Material 3: Canonical layouts](https://m3.material.io/foundations/layout/canonical-examples/overview)

@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.4.1] - 2026-10-26
+
+**The iPhone Duo sheet rule in `skill/platform.md` said that a sheet with its vertical bar turned off "stops short of the camera while the status bar moves", which reads as if the system still keeps the sheet off the camera. Apple's API references describe the result differently: the bar items go to horizontal bars, the status bar changes axis and the vertical bar's safe-area inset is removed. The rule now says when to turn the bar off, what changes when it is off, and that the sheet's controls keep clear of the camera by the design, not by the system.** No other text the model reads changes, apart from the date of the check and one item in the list of checks.
+
+### Fixed
+- **`skill/platform.md`, iPhone Duo, "Sheets, alerts and menus".** The old clause came from the tech talk "Design for iPhone Duo", which says that with the bar disabled "sheets stop just short of the front-facing camera and the status bar repositions itself". The UIKit reference `UIViewController.preferredVerticalBarBehavior` and the SwiftUI reference `toolbarVerticalBehavior(_:)` (iOS 27.1, read on 2026-10-26) say: disable the vertical bar only for UIs better served by horizontal bars, such as a full-screen video player with toolbar controls or a non-scrolling layout like a calculator; treat it as a stable choice, not changed as people navigate or toggled with a view's state; use the visibility APIs to hide bars rather than change the layout; and when the setting changes, content reflows to or from the horizontal bars while the status bar changes axis and the vertical bar's leading or trailing safe-area inset is added or removed. Neither reference says where the sheet's edge then sits. The developer article "Preparing your app for iPhone Duo" says that on the outer display sheets present bars vertically by default and names both APIs to disable it. The bullet now:
+  - keeps the sheet full of controls whose bar holds one item, such as Close, as a case for turning the bar off (tech talks "Design for iPhone Duo" and "Raise the bar with iPhone Duo") and adds the references' two cases and their stability rule;
+  - says what changes when the bar is off, in the references' terms;
+  - gives both accounts of the sheet's edge and asks that the sheet's controls keep clear of the camera and the status bar, checked in Device Hub.
+  The other facts of the bullet are unchanged: outside, a sheet's toolbar goes in the column by default; inside, a sheet sits centred with horizontal bars and one placed on the right gets a vertical bar; half open, system presentations move off the fold and app-drawn ones do not.
+- **`skill/platform.md`, iPhone Duo, "Checks"**: a sheet with its vertical bar turned off, against the camera and the status bar, joins what to check in Device Hub.
+- **`skill/platform.md` and `docs/adaptive-layout.md`**: the date range of the check, now 2026-10-02 to 2026-10-26. The file is 3,303 words where it was 3,166.
+- **`docs/sources.md`**: the UIKit and SwiftUI references above.
+- Why: on 2026-10-26, while the system sheets of an app's iPhone Duo adaptation were decided (TTA-110), a check against the UIKit reference found that the 2.4.0 clause does not match it; a paywall frame had been drawn from the clause. A developer forum thread (Apple Developer Forums, thread 847278, a user report, not documentation) describes a `UISheetPresentationController` sheet with the bar disabled as covering the whole area up to the right edge, where its content might overlap the status icons and the camera.
+
+### Not measured
+- **The release gate was not run, and no probe either.** `docs/versioning.md` asks for the gate when what the model reads changes; 2.3.1 replaced it with a probe and 2.4.0 with a recorded decision of the maintainer. This entry records neither yet.
+- **Where a sheet's edge sits with the bar turned off** was not checked in Device Hub or on a device. The design talk and the forum report disagree; the bullet asks for the check instead of choosing one.
+
 ## [2.4.0] - 2026-10-25
 
 **`skill/platform.md` gets an iPhone Duo section with the rules a design needs before an existing app is adapted: the size classes of each display, layout by size class and container rather than by pose, Split View and a pinned Picture in Picture video as window sizes, which bars move to the side column (only those of system navigation containers) and which bar items stay horizontal, how system sheets, alerts and menus behave, and how custom views keep controls off the fold (reserved regions, arrangement views). The iOS section gains rules for the tab bar (visible as people navigate; a mini player is its bottom accessory), system containers, colour and glass, Increase Contrast values and controls that stack at large text.** `SKILL.md` changes in one phrase: its pointer to `skill/platform.md` names iPhone Duo among foldables.
